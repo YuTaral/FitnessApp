@@ -1,0 +1,164 @@
+package com.example.fitnessapp.utils
+
+import android.content.Context
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
+import android.widget.Toast
+import com.example.fitnessapp.R
+import com.example.fitnessapp.models.ExerciseModel
+import com.google.android.material.snackbar.BaseTransientBottomBar
+import com.google.android.material.snackbar.Snackbar
+import com.google.gson.Gson
+
+/** Object to hold common methods */
+object Utils {
+
+    /** Email validation
+     * @param target the email to check
+     */
+    fun isValidEmail(target: CharSequence?): Boolean {
+        return !target.isNullOrBlank() && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches()
+    }
+
+    /** Show a snack-bar message
+     * @param msgId the message id
+     * @param duration duration - short / long, long by default
+     */
+    fun showMessage(msgId: Int, duration: Int = BaseTransientBottomBar.LENGTH_LONG) {
+        showMessage(getActivity().getText(msgId).toString(), duration)
+    }
+
+    /** Show a snack-bar message
+     * @param message the message to show
+     * @param duration duration - short / long, long by default
+     */
+    fun showMessage(message: String, duration: Int = BaseTransientBottomBar.LENGTH_LONG) {
+        Snackbar.make(StateEngine.activeActivity.findViewById(R.id.user_message), message, duration)
+                .setBackgroundTint(getActivity().getColor(R.color.snackbarGreyColor))
+                .setTextMaxLines(3)
+                .show()
+    }
+
+    /** Show a toast message
+     * @param msgId the message id
+     * @param duration duration - short / long, long by default
+     */
+    fun showToast(msgId: Int, duration: Int = BaseTransientBottomBar.LENGTH_LONG) {
+        showToast(getActivity().getText(msgId).toString(), duration)
+    }
+
+    /** Show a snack-bar message
+    * @param message the message to show
+    * @param duration duration - short / long, long by default
+    * */
+    private fun showToast(message: String, duration: Int = Toast.LENGTH_LONG) {
+        Toast.makeText(getActivity(), message, duration).show()
+    }
+
+    /** Called when network error occurred when processing request
+     * @param t error
+     */
+    fun onNetworkFailure(t: Throwable) {
+        // Show the error
+        if (t.message.toString().isEmpty()) {
+            showMessage(R.string.error_msg_unexpected)
+        } else {
+           showMessage(t.message.toString())
+        }
+    }
+
+    /** Checks whether the value is ResponseCode.Success
+     * @param value the value to check
+     */
+    fun isSuccessRespCode(value:Int ): Boolean {
+        return value == Constants.ResponseCode.SUCCESS.ordinal
+    }
+
+    /** Returns the current activity when context is needed */
+    fun getActivity(): Context {
+        return StateEngine.activeActivity
+    }
+
+    /** Validate the data in the dialog when save is clicked
+     * @param name the name input view
+     * @param sets the set input view
+     * @param reps the reps input view
+     * @param weight the weight input view
+     */
+     fun validateExercise(name: EditText, sets: EditText, reps: EditText, weight: EditText): ExerciseModel? {
+        val exerciseName = name.text.toString()
+
+        // Validate Name
+        if (exerciseName.isEmpty()) {
+            validationFailed(name, R.string.error_msg_enter_ex_name)
+            return null
+        }
+
+        // Validate Sets
+        if (sets.text.toString().isEmpty()) {
+            validationFailed(sets, R.string.error_msg_enter_sets)
+            return null
+        }
+
+        val exerciseSets = sets.text.toString().toInt()
+        if (exerciseSets <= 0) {
+            validationFailed(sets, R.string.error_msg_enter_sets)
+            return null
+        }
+
+        // Validate reps
+        if (reps.text.toString().isEmpty()) {
+            validationFailed(reps, R.string.error_msg_enter_reps)
+            return null
+        }
+
+        val setReps = reps.text.toString().toInt()
+        if (setReps <= 0) {
+            validationFailed(reps, R.string.error_msg_enter_reps)
+            return null
+        }
+
+        // Validate weight
+        val exerciseWeight = if (weight.text.toString().isNotEmpty()) {
+            weight.text.toString().toDouble()
+        } else {
+            0.0
+        }
+
+        if (exerciseWeight < 0) {
+            validationFailed(weight, R.string.error_msg_enter_weight)
+            return null
+        }
+
+        // Validation passed
+        return ExerciseModel(exerciseName, exerciseSets, setReps, exerciseWeight)
+    }
+
+    /** Validation failed - focus the field and open the keyboard
+     * @param input the invalid input view
+     * @param errorMsgId the id of the error message
+     */
+     private fun validationFailed(input: EditText, errorMsgId: Int) {
+        openKeyboardOnInput(input)
+        showToast(errorMsgId)
+    }
+
+    /** Focuses the field and opens the keyboard
+     * @param input the input view
+     */
+    fun openKeyboardOnInput(input: EditText) {
+        val imm = getActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+
+        // Request focus and open keyboard
+        input.requestFocus()
+        imm.showSoftInput(input, InputMethodManager.SHOW_IMPLICIT)
+    }
+
+    /** JSON serializes an object using Gson and returns it
+     * @param obj the object to serialize
+     */
+    fun serializeObject(obj: Any): String {
+        val gson = Gson()
+        return gson.toJson(obj)
+    }
+}
