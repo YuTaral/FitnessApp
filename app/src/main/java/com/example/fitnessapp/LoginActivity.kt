@@ -27,7 +27,7 @@ class LoginActivity : ComponentActivity() {
         findViewById<Button>(R.id.register_btn).setOnClickListener { register() }
         findViewById<Button>(R.id.login_btn).setOnClickListener{ login() }
 
-//        autoLogin()
+        autoLogin()
     }
 
     /** Display Register page */
@@ -111,7 +111,8 @@ class LoginActivity : ComponentActivity() {
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
                 finish()
-            })
+            }
+        )
     }
 
     fun autoLogin() {

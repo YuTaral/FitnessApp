@@ -7,7 +7,7 @@ object Constants {
     /** Enum to hold all response codes defined server-side */
     enum class ResponseCode {
         SUCCESS,
-        FAIL,
+        BAD_REQUEST,
         UNEXPECTED_ERROR
     }
 

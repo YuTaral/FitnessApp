@@ -53,5 +53,7 @@
     <string name="exercise_updated">Exercise updated</string>
     <string name="exercise_deleted">Exercise deleted</string>
     <string name="completed_lbl">Completed</string>
+    <string name="latest_workouts_lbl">Latest Workouts</string>
+    <string name="workout_summary_lbl">Summary: %.2f kgs, %d reps</string>
 
 </resources>

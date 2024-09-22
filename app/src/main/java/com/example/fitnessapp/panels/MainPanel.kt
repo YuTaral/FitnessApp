@@ -3,45 +3,51 @@ package com.example.fitnessapp.panels
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.fitnessapp.R
+import com.example.fitnessapp.adapters.WorkoutRecyclerAdapter
+import com.example.fitnessapp.models.WorkoutModel
+import com.example.fitnessapp.network.APIService
+import com.example.fitnessapp.network.NetworkManager
+import com.example.fitnessapp.utils.StateEngine
 import com.example.fitnessapp.utils.Utils
 
 
 /** Class to hold the logic for the Main Panel */
 class MainPanel(root: ViewGroup) {
     private val panel: View
-    private val dateValue: TextView
-    private val previousBtn: Button
-    private val nextBtn: Button
+    private val workoutsRecycler: RecyclerView
 
     init {
         panel = LayoutInflater.from(Utils.getActivity()).inflate(R.layout.main_panel, root, false)
 
         // Find the views in the panel
-        previousBtn = panel.findViewById(R.id.prev_btn)
-        nextBtn = panel.findViewById(R.id.next_btn)
-        dateValue = panel.findViewById(R.id.date_lbl)
+        workoutsRecycler = panel.findViewById(R.id.workouts_recycler)
 
-        // Set default value to Today
-        dateValue.text = Utils.getActivity().getText(R.string.today_lbl)
-
-        // Add click listeners
-        previousBtn.setOnClickListener { onPreviousClicked() }
-        nextBtn.setOnClickListener { onNextClicked() }
+        populatePanel()
 
         // Add the panel to the root view
         root.addView(panel)
     }
 
-    /** Handles Previous button clicked */
-    private fun onPreviousClicked() {
-        dateValue.text = Utils.getActivity().getText(R.string.yesterday_lbl)
+    /** Populates the data in the panel with the latest workouts */
+    private fun populatePanel() {
+        if (workoutsRecycler.adapter == null) {
+            NetworkManager.sendRequest(
+                APIService.instance.getWorkouts(StateEngine.user.id),
+                onSuccessCallback = { response ->
+                    workoutsRecycler.layoutManager = LinearLayoutManager(Utils.getActivity())
+
+                    val workouts : MutableList<WorkoutModel> = mutableListOf()
+                    for (w : String in response.returnData) {
+                        workouts.add(WorkoutModel(w))
+                    }
+
+                    workoutsRecycler.adapter = WorkoutRecyclerAdapter(workouts)
+                }
+            )
+        }
     }
 
-    /** Handles Next button clicked */
-    private fun onNextClicked() {
-        dateValue.text = Utils.getActivity().getText(R.string.tomorrow_lbl)
-    }
 }
