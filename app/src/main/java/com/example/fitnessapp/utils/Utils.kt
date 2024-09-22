@@ -87,46 +87,23 @@ object Utils {
      */
      fun validateExercise(name: EditText, sets: EditText, reps: EditText, weight: EditText): ExerciseModel? {
         val exerciseName = name.text.toString()
+        var exerciseSets = 0
+        var setReps = 0
+        var exerciseWeight = 0.0
+
+        if (sets.text.toString().isNotEmpty()) {
+            exerciseSets = sets.text.toString().toInt()
+        }
+        if (reps.text.toString().isNotEmpty()) {
+            setReps = reps.text.toString().toInt()
+        }
+        if (weight.text.toString().isNotEmpty()) {
+            exerciseWeight = weight.text.toString().toDouble()
+        }
 
         // Validate Name
         if (exerciseName.isEmpty()) {
             validationFailed(name, R.string.error_msg_enter_ex_name)
-            return null
-        }
-
-        // Validate Sets
-        if (sets.text.toString().isEmpty()) {
-            validationFailed(sets, R.string.error_msg_enter_sets)
-            return null
-        }
-
-        val exerciseSets = sets.text.toString().toInt()
-        if (exerciseSets <= 0) {
-            validationFailed(sets, R.string.error_msg_enter_sets)
-            return null
-        }
-
-        // Validate reps
-        if (reps.text.toString().isEmpty()) {
-            validationFailed(reps, R.string.error_msg_enter_reps)
-            return null
-        }
-
-        val setReps = reps.text.toString().toInt()
-        if (setReps <= 0) {
-            validationFailed(reps, R.string.error_msg_enter_reps)
-            return null
-        }
-
-        // Validate weight
-        val exerciseWeight = if (weight.text.toString().isNotEmpty()) {
-            weight.text.toString().toDouble()
-        } else {
-            0.0
-        }
-
-        if (exerciseWeight < 0) {
-            validationFailed(weight, R.string.error_msg_enter_weight)
             return null
         }
 

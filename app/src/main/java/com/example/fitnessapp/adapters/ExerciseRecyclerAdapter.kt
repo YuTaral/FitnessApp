@@ -17,13 +17,13 @@ import com.example.fitnessapp.models.SetModel
 import com.example.fitnessapp.utils.Utils
 
 /** Recycler adapter to control the data (exercises) shown for each workout */
-class ExerciseRecyclerAdapter(data: List<ExerciseModel>, onSave: (ExerciseModel) -> Unit) : RecyclerView.Adapter<ExerciseRecyclerAdapter.ExerciseItem>() {
+class ExerciseRecyclerAdapter(data: List<ExerciseModel>, onSuccessChange: () -> Unit) : RecyclerView.Adapter<ExerciseRecyclerAdapter.ExerciseItem>() {
     private var exercises: MutableList<ExerciseModel> = mutableListOf()
-    private var onSaveCallback: (ExerciseModel) -> Unit
+    private var onSuccessChangeCallback: () -> Unit
 
     init {
         exercises.addAll(data)
-        onSaveCallback = onSave
+        onSuccessChangeCallback = onSuccessChange
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExerciseItem {
@@ -36,16 +36,7 @@ class ExerciseRecyclerAdapter(data: List<ExerciseModel>, onSave: (ExerciseModel)
     }
 
     override fun onBindViewHolder(holder: ExerciseItem, position: Int) {
-        holder.bind(exercises[position], onSaveCallback)
-    }
-
-    /** Add the exercise to the list of exercises
-     * @param exercise the exercise to add
-     */
-    @SuppressLint("NotifyDataSetChanged")
-    fun addExercise(exercise: ExerciseModel) {
-        exercises.add(exercise)
-        notifyDataSetChanged()
+        holder.bind(exercises[position], onSuccessChangeCallback)
     }
 
     /** Updates the data
@@ -68,9 +59,9 @@ class ExerciseRecyclerAdapter(data: List<ExerciseModel>, onSave: (ExerciseModel)
 
         /** Set the data for each exercise and adds click listener to expand / collapse the exercise
          * @param item the exercise
-         * @param onSaveCallback the callback to execute when save button is clicked in dialog Edit Exercise
+         * @param onSuccessChangeCallback the callback to execute when exercise has been modified successfully
          */
-        fun bind(item: ExerciseModel, onSaveCallback: (ExerciseModel) -> Unit) {
+        fun bind(item: ExerciseModel, onSuccessChangeCallback: () -> Unit) {
             // Set the exercise data
             exerciseName.text = item.name
 
@@ -79,11 +70,7 @@ class ExerciseRecyclerAdapter(data: List<ExerciseModel>, onSave: (ExerciseModel)
 
             // Add Edit click listener
             editBtn.setOnClickListener {
-                EditExerciseDialog.showDialog(item,
-                    onSave = {
-                        exercise -> run { onSaveCallback(exercise)
-                    }
-                })
+                EditExerciseDialog.showDialog(item, onSuccessChange = { onSuccessChangeCallback() })
             }
 
             // Add expand mechanism

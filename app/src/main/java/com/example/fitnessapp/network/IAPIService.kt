@@ -20,4 +20,7 @@ interface IAPIService {
 
     @POST("workout/update-exercise")
     fun updateExercise(@Body params: Map<String, String>): Call<CustomResponse>
+
+    @POST("workout/delete-exercise")
+    fun deleteExercise(@Body params: Long): Call<CustomResponse>
 }

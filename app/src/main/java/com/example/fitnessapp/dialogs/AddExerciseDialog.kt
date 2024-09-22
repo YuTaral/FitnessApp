@@ -47,7 +47,8 @@ class AddExerciseDialog {
             // Override the positive button click listener to prevent it from closing the dialog
             alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
                 // Validate
-                val exercise = Utils.validateExercise(name, sets, reps, weight) ?: return@setOnClickListener
+                val exercise = Utils.validateExercise(name, sets, reps, weight)
+                    ?: return@setOnClickListener
 
                 // Add the exercise
                 alertDialog.dismiss()

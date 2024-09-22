@@ -47,9 +47,11 @@
     <string name="reps_number_lbl">Reps</string>
     <string name="weight_kg_lbl">Weight (kg)</string>
     <string name="add_set_btn">Add Set</string>
+    <string name="delete_btn">Delete</string>
     <string name="error_msg_enter_workout_name">Please enter workout name first</string>
     <string name="workout_saved">Workout saved</string>
     <string name="exercise_updated">Exercise updated</string>
+    <string name="exercise_deleted">Exercise deleted</string>
     <string name="completed_lbl">Completed</string>
 
 </resources>

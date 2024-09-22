@@ -12,16 +12,18 @@ import androidx.appcompat.app.AlertDialog
 import com.example.fitnessapp.R
 import com.example.fitnessapp.models.ExerciseModel
 import com.example.fitnessapp.models.SetModel
+import com.example.fitnessapp.models.WorkoutModel
+import com.example.fitnessapp.network.APIService
+import com.example.fitnessapp.network.NetworkManager
+import com.example.fitnessapp.utils.StateEngine
 import com.example.fitnessapp.utils.Utils
 
 /** Edit Exercise dialog to hold the logic to edit exercise */
 class EditExerciseDialog {
 
     companion object {
-        /** Show the dialog
-         * @param onSave callback to execute on Save button click
-         */
-        fun showDialog(exercise: ExerciseModel, onSave: (ExerciseModel) -> Unit) {
+        /** Show the dialog */
+        fun showDialog(exercise: ExerciseModel, onSuccessChange: () -> Unit) {
             // Inflate the dialog layout
             val inflater = LayoutInflater.from(Utils.getActivity())
             val dialogView = inflater.inflate(R.layout.edit_exercise_dialog, null)
@@ -32,6 +34,7 @@ class EditExerciseDialog {
             val setsContainer = dialogView.findViewById<LinearLayout>(R.id.set_items_container)
             val addSetBtn = dialogView.findViewById<Button>(R.id.add_set_btn)
             val saveBtn = dialogView.findViewById<Button>(R.id.save_btn)
+            val deleteBtn = dialogView.findViewById<Button>(R.id.delete_btn)
 
             // Create the dialog
             val dialogBuilder = AlertDialog.Builder(Utils.getActivity())
@@ -52,6 +55,7 @@ class EditExerciseDialog {
             val alertDialog = dialogBuilder.create()
             alertDialog.show()
 
+            // Add click listener for the Save button
             saveBtn.setOnClickListener {
                 // Validate exercise name
                 if (name.text.isEmpty()) {
@@ -62,7 +66,13 @@ class EditExerciseDialog {
 
                 // Validation passed create the updated exercise and execute the callback
                 alertDialog.dismiss()
-                onSave(ExerciseModel(exercise.id, name.text.toString(), getSets(setsContainer)))
+                saveChanges(ExerciseModel(exercise.id, name.text.toString(), getSets(setsContainer)), onSuccessChange)
+            }
+
+            // Add click listener for the Delete button
+            deleteBtn.setOnClickListener {
+                alertDialog.dismiss()
+                deleteExercise(exercise.id, onSuccessChange)
             }
 
             // Add click listener for the close button
@@ -131,6 +141,40 @@ class EditExerciseDialog {
             }
 
             return sets
+        }
+
+        /** Executes Edit Exercise Dialog button Save clicked to send a request and update the exercise
+         * @param exercise - the updated exercise
+         * @param onSuccessChange - callback to be executed if changes were successfully
+         */
+        private fun saveChanges(exercise: ExerciseModel, onSuccessChange: () -> Unit) {
+            if (StateEngine.workout != null) {
+                val params = mapOf("exercise" to Utils.serializeObject(exercise), "workoutId" to StateEngine.workout!!.id.toString())
+
+                NetworkManager.sendRequest(
+                    APIService.instance.updateExercise(params),
+                    onSuccessCallback = { response ->
+                        StateEngine.workout = WorkoutModel(response.returnData.first())
+                        onSuccessChange()
+                        Utils.showToast(R.string.exercise_updated)
+                })
+            }
+        }
+
+        /** Executes Edit Exercise Dialog button Delete clicked to send a request and delete the exercise
+         * @param exerciseId - the exercise id
+         * @param onSuccessChange - callback to be executed if changes were successfully
+         */
+        private fun deleteExercise(exerciseId: Long, onSuccessChange: () -> Unit) {
+            if (StateEngine.workout != null) {
+                NetworkManager.sendRequest(
+                    APIService.instance.deleteExercise(exerciseId),
+                    onSuccessCallback = { response ->
+                        StateEngine.workout = WorkoutModel(response.returnData.first())
+                        onSuccessChange()
+                        Utils.showToast(R.string.exercise_deleted)
+                })
+            }
         }
     }
 }

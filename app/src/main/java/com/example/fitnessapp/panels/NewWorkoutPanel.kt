@@ -59,8 +59,7 @@ class NewWorkoutPanel(root: ViewGroup) {
 
         if (exerciseRecycler.adapter == null) {
             exerciseRecycler.layoutManager = LinearLayoutManager(Utils.getActivity())
-            exerciseRecycler.adapter = ExerciseRecyclerAdapter(listOf(),
-                onSave = { exercise -> run { editDialogOnSave(exercise) } })
+            exerciseRecycler.adapter = ExerciseRecyclerAdapter(listOf(), onSuccessChange = { populatePanel() })
         }
 
         if (StateEngine.workout != null) {
@@ -99,22 +98,6 @@ class NewWorkoutPanel(root: ViewGroup) {
                     StateEngine.workout = WorkoutModel(response.returnData.first())
                     populatePanel()
                     Utils.showToast(R.string.workout_saved)
-                })
-        }
-    }
-
-    /** Executes Edit Exercise Dialog button Save clicked to send a request and update the exercise
-     * @param exercise - the updated exercise
-     */
-    private fun editDialogOnSave(exercise: ExerciseModel) {
-        if (StateEngine.workout != null) {
-            val params = mapOf("exercise" to Utils.serializeObject(exercise), "workoutId" to StateEngine.workout!!.id.toString())
-
-            NetworkManager.sendRequest(APIService.instance.updateExercise(params),
-                onSuccessCallback = { response ->
-                    StateEngine.workout = WorkoutModel(response.returnData.first())
-                    populatePanel()
-                    Utils.showToast(R.string.exercise_updated)
                 })
         }
     }
