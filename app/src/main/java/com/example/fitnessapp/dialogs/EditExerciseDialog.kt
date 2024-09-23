@@ -25,7 +25,7 @@ class EditExerciseDialog {
         /** Show the dialog */
         fun showDialog(exercise: ExerciseModel, onSuccessChange: () -> Unit) {
             // Inflate the dialog layout
-            val inflater = LayoutInflater.from(Utils.getActivity())
+            val inflater = LayoutInflater.from(Utils.getContext())
             val dialogView = inflater.inflate(R.layout.edit_exercise_dialog, null)
 
             // Find the views
@@ -37,7 +37,7 @@ class EditExerciseDialog {
             val deleteBtn = dialogView.findViewById<Button>(R.id.delete_btn)
 
             // Create the dialog
-            val dialogBuilder = AlertDialog.Builder(Utils.getActivity())
+            val dialogBuilder = AlertDialog.Builder(Utils.getContext())
             dialogBuilder.setView(dialogView).setCancelable(false)
 
             // Populate the data
@@ -87,7 +87,7 @@ class EditExerciseDialog {
          */
         @SuppressLint("InflateParams", "SetTextI18n")
         private fun addSetToContainer(set: SetModel, setsContainer: LinearLayout) {
-            val inflatableView: View = LayoutInflater.from(Utils.getActivity())
+            val inflatableView: View = LayoutInflater.from(Utils.getContext())
                 .inflate(R.layout.inflatable_edit_set, null)
 
             inflatableView.findViewById<CheckBox>(R.id.completed).isChecked = set.completed
@@ -154,9 +154,10 @@ class EditExerciseDialog {
                 NetworkManager.sendRequest(
                     APIService.instance.updateExercise(params),
                     onSuccessCallback = { response ->
+                        Utils.showToast(R.string.exercise_updated)
                         StateEngine.workout = WorkoutModel(response.returnData.first())
                         onSuccessChange()
-                        Utils.showToast(R.string.exercise_updated)
+                        StateEngine.refreshWorkouts = true
                 })
             }
         }
@@ -170,9 +171,10 @@ class EditExerciseDialog {
                 NetworkManager.sendRequest(
                     APIService.instance.deleteExercise(exerciseId),
                     onSuccessCallback = { response ->
+                        Utils.showToast(R.string.exercise_deleted)
                         StateEngine.workout = WorkoutModel(response.returnData.first())
                         onSuccessChange()
-                        Utils.showToast(R.string.exercise_deleted)
+                        StateEngine.refreshWorkouts = true
                 })
             }
         }

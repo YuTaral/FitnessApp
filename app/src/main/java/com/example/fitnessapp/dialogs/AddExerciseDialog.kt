@@ -19,7 +19,7 @@ class AddExerciseDialog {
          */
         fun showDialog(onSave: (ExerciseModel) -> Unit) {
             // Inflate the dialog layout
-            val inflater = LayoutInflater.from(Utils.getActivity())
+            val inflater = LayoutInflater.from(Utils.getContext())
             val dialogView = inflater.inflate(R.layout.add_exercise_dialog, null)
 
             // Find the views
@@ -30,9 +30,9 @@ class AddExerciseDialog {
             val weight = dialogView.findViewById<EditText>(R.id.exercise_weight)
 
             // Create the dialog
-            val dialogBuilder = AlertDialog.Builder(Utils.getActivity())
+            val dialogBuilder = AlertDialog.Builder(Utils.getContext())
             dialogBuilder.setView(dialogView)
-                         .setPositiveButton(Utils.getActivity().getText(R.string.save_btn), null)
+                         .setPositiveButton(Utils.getContext().getText(R.string.save_btn), null)
                          .setCancelable(false)
 
             // Show the dialog

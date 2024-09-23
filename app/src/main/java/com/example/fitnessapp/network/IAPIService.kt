@@ -28,4 +28,7 @@ interface IAPIService {
 
     @GET("workout/get-workouts")
     fun getWorkouts(@Query("userId") userId: String): Call<CustomResponse>
+
+    @GET("workout/get-workout")
+    fun getWorkout(@Query("workoutId") workoutId: String): Call<CustomResponse>
 }

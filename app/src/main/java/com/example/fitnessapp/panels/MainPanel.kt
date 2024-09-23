@@ -20,7 +20,7 @@ class MainPanel(root: ViewGroup) {
     private val workoutsRecycler: RecyclerView
 
     init {
-        panel = LayoutInflater.from(Utils.getActivity()).inflate(R.layout.main_panel, root, false)
+        panel = LayoutInflater.from(Utils.getContext()).inflate(R.layout.main_panel, root, false)
 
         // Find the views in the panel
         workoutsRecycler = panel.findViewById(R.id.workouts_recycler)
@@ -32,22 +32,24 @@ class MainPanel(root: ViewGroup) {
     }
 
     /** Populates the data in the panel with the latest workouts */
-    private fun populatePanel() {
-        if (workoutsRecycler.adapter == null) {
-            NetworkManager.sendRequest(
-                APIService.instance.getWorkouts(StateEngine.user.id),
-                onSuccessCallback = { response ->
-                    workoutsRecycler.layoutManager = LinearLayoutManager(Utils.getActivity())
+     fun populatePanel() {
+        NetworkManager.sendRequest(
+            APIService.instance.getWorkouts(StateEngine.user.id),
+            onSuccessCallback = { response ->
+                workoutsRecycler.layoutManager = LinearLayoutManager(Utils.getContext())
 
-                    val workouts : MutableList<WorkoutModel> = mutableListOf()
-                    for (w : String in response.returnData) {
-                        workouts.add(WorkoutModel(w))
-                    }
-
-                    workoutsRecycler.adapter = WorkoutRecyclerAdapter(workouts)
+                val workouts : MutableList<WorkoutModel> = mutableListOf()
+                for (w : String in response.returnData) {
+                    workouts.add(WorkoutModel(w))
                 }
-            )
-        }
-    }
 
+                workoutsRecycler.adapter = WorkoutRecyclerAdapter(workouts) { workout ->
+                    Utils.getActivity().selectWorkout(workout)
+                }
+
+                // The most recent data with workouts is now displayed
+                StateEngine.refreshWorkouts = false
+            }
+        )
+    }
 }

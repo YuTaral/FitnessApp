@@ -18,7 +18,7 @@ import com.example.fitnessapp.utils.StateEngine
 import com.example.fitnessapp.utils.Utils
 
 /** Class to hold the logic for the New Workout Panel */
-class NewWorkoutPanel(root: ViewGroup) {
+class SelectedWorkoutPanel(root: ViewGroup) {
     private val panel: View
     private val workoutName: EditText
     private val exerciseRecycler: RecyclerView
@@ -26,15 +26,12 @@ class NewWorkoutPanel(root: ViewGroup) {
 
     init {
         // Inflate the panel
-        panel = LayoutInflater.from(Utils.getActivity()).inflate(R.layout.add_workout_panel, root, false)
+        panel = LayoutInflater.from(Utils.getContext()).inflate(R.layout.selected_workout_panel, root, false)
 
         // Find the views
         workoutName = panel.findViewById(R.id.workout_name_txt)
         exerciseRecycler = panel.findViewById(R.id.exercises_recycler)
         newExerciseBtn = panel.findViewById(R.id.add_exercise_btn)
-
-        // Populate the data
-        populatePanel()
 
         // Set the click listeners
         newExerciseBtn.setOnClickListener {
@@ -52,13 +49,13 @@ class NewWorkoutPanel(root: ViewGroup) {
     }
 
     /** Populates the data in the panel with the current workout */
-    private fun populatePanel() {
+    fun populatePanel() {
         if (StateEngine.workout != null) {
             workoutName.setText(StateEngine.workout!!.name)
         }
 
         if (exerciseRecycler.adapter == null) {
-            exerciseRecycler.layoutManager = LinearLayoutManager(Utils.getActivity())
+            exerciseRecycler.layoutManager = LinearLayoutManager(Utils.getContext())
             exerciseRecycler.adapter = ExerciseRecyclerAdapter(listOf(), onSuccessChange = { populatePanel() })
         }
 
@@ -100,6 +97,8 @@ class NewWorkoutPanel(root: ViewGroup) {
                     Utils.showToast(R.string.workout_saved)
                 })
         }
+
+        StateEngine.refreshWorkouts = true
     }
 
     /** Return the exercises recycler adapter */

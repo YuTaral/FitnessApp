@@ -15,11 +15,13 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 /** Recycler adapter to control the workouts data shown in the main panel */
-class WorkoutRecyclerAdapter (data: List<WorkoutModel>) : RecyclerView.Adapter<WorkoutRecyclerAdapter.WorkoutItem>() {
+class WorkoutRecyclerAdapter (data: List<WorkoutModel>, onClick: (WorkoutModel) -> Unit) : RecyclerView.Adapter<WorkoutRecyclerAdapter.WorkoutItem>() {
     private var workouts: MutableList<WorkoutModel> = mutableListOf()
+    private var onClickCallback: (WorkoutModel) -> Unit
 
     init {
         workouts.addAll(data)
+        onClickCallback = onClick
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WorkoutItem {
@@ -34,7 +36,7 @@ class WorkoutRecyclerAdapter (data: List<WorkoutModel>) : RecyclerView.Adapter<W
     }
 
     override fun onBindViewHolder(holder: WorkoutItem, position: Int) {
-        holder.bind(workouts[position])
+        holder.bind(workouts[position], onClickCallback)
     }
 
     /** Class to represent workout item view holder - each workout */
@@ -45,7 +47,7 @@ class WorkoutRecyclerAdapter (data: List<WorkoutModel>) : RecyclerView.Adapter<W
         private var total: TextView = itemView.findViewById(R.id.workout_total_txt)
 
         @SuppressLint("SetTextI18n")
-        fun bind(item: WorkoutModel) {
+        fun bind(item: WorkoutModel, onClickCallback: (WorkoutModel) -> Unit) {
             var textSummary = ""
             var totalKg = 0.0
             var totalReps = 0
@@ -62,9 +64,14 @@ class WorkoutRecyclerAdapter (data: List<WorkoutModel>) : RecyclerView.Adapter<W
             name.text = item.name
             date.text = SimpleDateFormat("dd/MMM/yyyy", Locale.US).format(item.date)
             summary.text = textSummary.dropLast(2)
-            total.text = String.format(Utils.getActivity().getText(R.string.workout_summary_lbl).toString(),
+            total.text = String.format(Utils.getContext().getText(R.string.workout_summary_lbl).toString(),
                          totalKg,
                          totalReps)
+
+            // Add click listener to select the workout
+            itemView.setOnClickListener {
+                onClickCallback(item)
+            }
         }
     }
 

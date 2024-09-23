@@ -90,7 +90,7 @@ class ExerciseRecyclerAdapter(data: List<ExerciseModel>, onSuccessChange: () -> 
          */
         @SuppressLint("InflateParams")
         private fun bindSets(item: ExerciseModel) {
-            val inflater = LayoutInflater.from(Utils.getActivity())
+            val inflater = LayoutInflater.from(Utils.getContext())
             var setCounter = 1
 
             // Clear the views from the previous bind

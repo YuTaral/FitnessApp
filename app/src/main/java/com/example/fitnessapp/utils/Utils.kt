@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
+import com.example.fitnessapp.MainActivity
 import com.example.fitnessapp.R
 import com.example.fitnessapp.models.ExerciseModel
 import com.google.android.material.snackbar.BaseTransientBottomBar
@@ -25,7 +26,7 @@ object Utils {
      * @param duration duration - short / long, long by default
      */
     fun showMessage(msgId: Int, duration: Int = BaseTransientBottomBar.LENGTH_LONG) {
-        showMessage(getActivity().getText(msgId).toString(), duration)
+        showMessage(getContext().getText(msgId).toString(), duration)
     }
 
     /** Show a snack-bar message
@@ -34,7 +35,7 @@ object Utils {
      */
     fun showMessage(message: String, duration: Int = BaseTransientBottomBar.LENGTH_LONG) {
         Snackbar.make(StateEngine.activeActivity.findViewById(R.id.user_message), message, duration)
-                .setBackgroundTint(getActivity().getColor(R.color.snackbarGreyColor))
+                .setBackgroundTint(getContext().getColor(R.color.snackbarGreyColor))
                 .setTextMaxLines(3)
                 .show()
     }
@@ -44,7 +45,7 @@ object Utils {
      * @param duration duration - short / long, long by default
      */
     fun showToast(msgId: Int, duration: Int = BaseTransientBottomBar.LENGTH_LONG) {
-        showToast(getActivity().getText(msgId).toString(), duration)
+        showToast(getContext().getText(msgId).toString(), duration)
     }
 
     /** Show a snack-bar message
@@ -52,7 +53,7 @@ object Utils {
     * @param duration duration - short / long, long by default
     * */
     private fun showToast(message: String, duration: Int = Toast.LENGTH_LONG) {
-        Toast.makeText(getActivity(), message, duration).show()
+        Toast.makeText(getContext(), message, duration).show()
     }
 
     /** Called when network error occurred when processing request
@@ -75,8 +76,13 @@ object Utils {
     }
 
     /** Returns the current activity when context is needed */
-    fun getActivity(): Context {
+    fun getContext(): Context {
         return StateEngine.activeActivity
+    }
+
+    /** Returns the current activity*/
+    fun getActivity(): MainActivity {
+        return StateEngine.activeActivity as MainActivity
     }
 
     /** Validate the data in the dialog when save is clicked
@@ -124,7 +130,7 @@ object Utils {
      * @param input the input view
      */
     fun openKeyboardOnInput(input: EditText) {
-        val imm = getActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val imm = getContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
         // Request focus and open keyboard
         input.requestFocus()

@@ -6,8 +6,11 @@ import android.view.View
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.activity.ComponentActivity
+import com.example.fitnessapp.models.WorkoutModel
+import com.example.fitnessapp.network.APIService
+import com.example.fitnessapp.network.NetworkManager
 import com.example.fitnessapp.panels.MainPanel
-import com.example.fitnessapp.panels.NewWorkoutPanel
+import com.example.fitnessapp.panels.SelectedWorkoutPanel
 import com.example.fitnessapp.utils.StateEngine
 
 /** Main Activity class to hold the main logic of the application.
@@ -15,7 +18,7 @@ import com.example.fitnessapp.utils.StateEngine
  */
 class MainActivity : ComponentActivity() {
     private lateinit var mainPanel: MainPanel
-    private lateinit var newWorkoutPanel: NewWorkoutPanel
+    private lateinit var selectedWorkoutPanel: SelectedWorkoutPanel
     private lateinit var mainPanelLbL: TextView
     private lateinit var newWorkoutPanelLbl: TextView
 
@@ -30,7 +33,7 @@ class MainActivity : ComponentActivity() {
 
         // Create the two panels
         mainPanel = MainPanel(findViewById(R.id.main_panel))
-        newWorkoutPanel = NewWorkoutPanel(findViewById(R.id.add_workout_panel))
+        selectedWorkoutPanel = SelectedWorkoutPanel(findViewById(R.id.add_workout_panel))
 
         // Show the default panel
         displayMainPanel()
@@ -49,6 +52,10 @@ class MainActivity : ComponentActivity() {
         findViewById<RelativeLayout>(R.id.main_panel).visibility = View.VISIBLE
         findViewById<View>(R.id.main_panel_lbl_underline).visibility = View.VISIBLE
         mainPanelLbL.setTypeface(null, Typeface.BOLD)
+
+        if (StateEngine.refreshWorkouts) {
+            mainPanel.populatePanel()
+        }
     }
 
     /** Handles New Workout panel clicked */
@@ -61,5 +68,18 @@ class MainActivity : ComponentActivity() {
         findViewById<RelativeLayout>(R.id.add_workout_panel).visibility = View.VISIBLE
         findViewById<View>(R.id.add_workout_panel_lbl_underline).visibility = View.VISIBLE
         newWorkoutPanelLbl.setTypeface(null, Typeface.BOLD)
+
+        selectedWorkoutPanel.populatePanel()
+    }
+
+    /** Executes Select Workout */
+    fun selectWorkout(workout: WorkoutModel) {
+        NetworkManager.sendRequest(
+            APIService.instance.getWorkout(workout.id.toString()),
+            onSuccessCallback = { response ->
+                StateEngine.workout = WorkoutModel(response.returnData[0])
+                displayNewWorkoutPanel()
+            }
+        )
     }
 }
