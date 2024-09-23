@@ -2,13 +2,13 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:padding="10dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
         android:id="@+id/add_exercise_dialog_title"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:text="@string/add_exercise_lbl"
         android:textSize="20sp"
         android:gravity="center"
@@ -20,8 +20,6 @@
         android:id="@+id/dialog_close"
         android:layout_width="35dp"
         android:layout_height="35dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="10dp"
         android:importantForAccessibility="no"
         android:background="@drawable/close_dialog_icon"
         app:layout_constraintEnd_toEndOf="parent"
@@ -42,7 +40,6 @@
         android:id="@+id/exercise_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
         android:layout_marginTop="5dp"
         android:inputType="textCapSentences"
         android:autofillHints=""

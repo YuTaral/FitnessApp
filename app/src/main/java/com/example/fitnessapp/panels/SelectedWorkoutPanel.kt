@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.EditText
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fitnessapp.R
@@ -20,28 +20,33 @@ import com.example.fitnessapp.utils.Utils
 /** Class to hold the logic for the New Workout Panel */
 class SelectedWorkoutPanel(root: ViewGroup) {
     private val panel: View
-    private val workoutName: EditText
+    private val currentWorkout: TextView
+    private val currentWorkoutDate: TextView
     private val exerciseRecycler: RecyclerView
     private val newExerciseBtn: Button
+    private val editBtn: Button
 
     init {
         // Inflate the panel
         panel = LayoutInflater.from(Utils.getContext()).inflate(R.layout.selected_workout_panel, root, false)
 
         // Find the views
-        workoutName = panel.findViewById(R.id.workout_name_txt)
+        currentWorkout = panel.findViewById(R.id.current_workout_label)
+        currentWorkoutDate = panel.findViewById(R.id.current_workout_date_label)
         exerciseRecycler = panel.findViewById(R.id.exercises_recycler)
         newExerciseBtn = panel.findViewById(R.id.add_exercise_btn)
+        editBtn = panel.findViewById(R.id.edit_btn)
 
         // Set the click listeners
-        newExerciseBtn.setOnClickListener {
-            if (workoutName.text.isEmpty()) {
-                Utils.showMessage(R.string.error_msg_enter_workout_name)
-                Utils.openKeyboardOnInput(workoutName)
-                return@setOnClickListener
-            }
+        newExerciseBtn.setOnClickListener { showAddExerciseDialog() }
 
-            showAddExerciseDialog()
+        // Set buttons visibility
+        if (StateEngine.workout == null) {
+            newExerciseBtn.visibility = View.GONE
+            editBtn.visibility = View.GONE
+        } else {
+            newExerciseBtn.visibility = View.VISIBLE
+            editBtn.visibility = View.VISIBLE
         }
 
         // Add the panel to the root view
@@ -51,7 +56,8 @@ class SelectedWorkoutPanel(root: ViewGroup) {
     /** Populates the data in the panel with the current workout */
     fun populatePanel() {
         if (StateEngine.workout != null) {
-            workoutName.setText(StateEngine.workout!!.name)
+            currentWorkout.text = StateEngine.workout!!.name
+            currentWorkoutDate.text = Utils.defaultFormatDate(StateEngine.workout!!.date)
         }
 
         if (exerciseRecycler.adapter == null) {
@@ -74,29 +80,15 @@ class SelectedWorkoutPanel(root: ViewGroup) {
      * @param exercise - the created exercise
      */
     private fun addDialogOnSave(exercise: ExerciseModel) {
-        if (StateEngine.workout != null) {
-            // Workout is already saved, send a request to add the exercise
-            val params = mapOf("exercise" to Utils.serializeObject(exercise), "workoutId" to StateEngine.workout!!.id.toString())
+        // Send a request to add the exercise
+        val params = mapOf("exercise" to Utils.serializeObject(exercise), "workoutId" to StateEngine.workout!!.id.toString())
 
-            NetworkManager.sendRequest(APIService.instance.addExercise(params),
-                onSuccessCallback = { response ->
-                    StateEngine.workout = WorkoutModel(response.returnData.first())
-                    populatePanel()
-                    Utils.showToast(R.string.exercise_updated)
-                })
-
-        } else {
-            // Send a request to create the workout
-            val workout = WorkoutModel(workoutName.text.toString(), mutableListOf(exercise))
-            val params = mapOf("workout" to Utils.serializeObject(workout), "userId" to StateEngine.user.id)
-
-            NetworkManager.sendRequest(APIService.instance.addWorkout(params),
-                onSuccessCallback = { response ->
-                    StateEngine.workout = WorkoutModel(response.returnData.first())
-                    populatePanel()
-                    Utils.showToast(R.string.workout_saved)
-                })
-        }
+        NetworkManager.sendRequest(APIService.instance.addExercise(params),
+            onSuccessCallback = { response ->
+                StateEngine.workout = WorkoutModel(response.returnData.first())
+                populatePanel()
+                Utils.showToast(R.string.exercise_updated)
+            })
 
         StateEngine.refreshWorkouts = true
     }

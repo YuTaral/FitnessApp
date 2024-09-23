@@ -10,6 +10,9 @@ import com.example.fitnessapp.models.ExerciseModel
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 /** Object to hold common methods */
 object Utils {
@@ -121,7 +124,7 @@ object Utils {
      * @param input the invalid input view
      * @param errorMsgId the id of the error message
      */
-     private fun validationFailed(input: EditText, errorMsgId: Int) {
+    fun validationFailed(input: EditText, errorMsgId: Int) {
         openKeyboardOnInput(input)
         showToast(errorMsgId)
     }
@@ -143,5 +146,12 @@ object Utils {
     fun serializeObject(obj: Any): String {
         val gson = Gson()
         return gson.toJson(obj)
+    }
+
+    /** Converts the date to default app format date - dd/MMM/yyyy
+     * @param date the date to format
+     */
+    fun defaultFormatDate(date: Date): String {
+        return SimpleDateFormat("dd/MMM/yyyy", Locale.US).format(date)
     }
 }

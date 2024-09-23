@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="250dp"
+    android:padding="10dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/add_workout_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/add_workout_panel_title"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/dialog_close"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:importantForAccessibility="no"
+        android:background="@drawable/close_dialog_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <EditText
+        android:id="@+id/workout_name_txt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:autofillHints=""
+        android:hint="@string/workout_name_lbl"
+        android:inputType="textCapSentences"
+        app:layout_constraintTop_toBottomOf="@+id/dialog_close" />
+
+<!--    <Button-->
+<!--        android:id="@+id/save_btn"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginBottom="5dp"-->
+<!--        android:text="@string/save_btn"-->
+<!--        android:background="@android:color/transparent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/workout_name_txt"-->
+<!--        app:layout_constraintEnd_toEndOf="parent" />-->
+
+</androidx.constraintlayout.widget.ConstraintLayout>

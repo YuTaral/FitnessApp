@@ -59,7 +59,7 @@ class MainActivity : ComponentActivity() {
     }
 
     /** Handles New Workout panel clicked */
-    private fun displayNewWorkoutPanel() {
+    fun displayNewWorkoutPanel() {
         findViewById<RelativeLayout>(R.id.main_panel).visibility = View.GONE
         findViewById<View>(R.id.main_panel_lbl_underline).visibility = View.GONE
 

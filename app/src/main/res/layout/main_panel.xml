@@ -18,8 +18,19 @@
         android:id="@+id/workouts_recycler"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginBottom="10dp"
         android:nestedScrollingEnabled="false"
         app:layout_constraintTop_toBottomOf="@+id/latest_workouts_lbl"
+        app:layout_constraintBottom_toTopOf="@+id/new_workout_btn"/>
+
+    <Button
+        android:id="@+id/new_workout_btn"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:text="@string/add_workout_btn"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

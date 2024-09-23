@@ -26,8 +26,10 @@
     <string name="save_btn">Save</string>
     <string name="clear_btn">Clear</string>
     <string name="workout_name_lbl">Workout name…</string>
+    <string name="workout_description_lbl">Workout description…</string>
     <string name="current_workout_lbl">Current Workout</string>
     <string name="add_exercise_btn">Add Exercise</string>
+    <string name="add_workout_btn">New Workout</string>
     <string name="plus_symbol">+</string>
     <string name="minus_symbol">-</string>
     <string name="add_exercise_lbl">Add Exercise</string>
@@ -55,5 +57,9 @@
     <string name="completed_lbl">Completed</string>
     <string name="latest_workouts_lbl">Latest Workouts</string>
     <string name="workout_summary_lbl">Summary: %.2f kgs, %d reps</string>
+    <string name="add_workout_panel_title">Add Workout</string>
+    <string name="edit_btn_lbl">Edit</string>
+    <string name="workout_added">Workout added</string>
+
 
 </resources>

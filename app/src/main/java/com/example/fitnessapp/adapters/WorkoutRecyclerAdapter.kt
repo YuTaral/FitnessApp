@@ -11,8 +11,6 @@ import com.example.fitnessapp.models.ExerciseModel
 import com.example.fitnessapp.models.SetModel
 import com.example.fitnessapp.models.WorkoutModel
 import com.example.fitnessapp.utils.Utils
-import java.text.SimpleDateFormat
-import java.util.Locale
 
 /** Recycler adapter to control the workouts data shown in the main panel */
 class WorkoutRecyclerAdapter (data: List<WorkoutModel>, onClick: (WorkoutModel) -> Unit) : RecyclerView.Adapter<WorkoutRecyclerAdapter.WorkoutItem>() {
@@ -62,7 +60,7 @@ class WorkoutRecyclerAdapter (data: List<WorkoutModel>, onClick: (WorkoutModel) 
             }
 
             name.text = item.name
-            date.text = SimpleDateFormat("dd/MMM/yyyy", Locale.US).format(item.date)
+            date.text = Utils.defaultFormatDate(item.date)
             summary.text = textSummary.dropLast(2)
             total.text = String.format(Utils.getContext().getText(R.string.workout_summary_lbl).toString(),
                          totalKg,
