@@ -27,7 +27,7 @@ class LoginActivity : ComponentActivity() {
         findViewById<Button>(R.id.register_btn).setOnClickListener { register() }
         findViewById<Button>(R.id.login_btn).setOnClickListener{ login() }
 
-        autoLogin()
+//        autoLogin()
     }
 
     /** Display Register page */
@@ -115,11 +115,11 @@ class LoginActivity : ComponentActivity() {
         )
     }
 
-    fun autoLogin() {
-        findViewById<TextView>(R.id.email).text = "test@abv.bg"
-        findViewById<TextView>(R.id.password).text = "123"
-        login()
-    }
+//    fun autoLogin() {
+//        findViewById<TextView>(R.id.email).text = "test@abv.bg"
+//        findViewById<TextView>(R.id.password).text = "123"
+//        login()
+//    }
 }
 
 
