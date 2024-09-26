@@ -17,6 +17,12 @@ interface IAPIService {
     @POST("workout/add")
     fun addWorkout(@Body params: Map<String, String>): Call<CustomResponse>
 
+    @POST("workout/edit")
+    fun editWorkout(@Body params: Map<String, String>): Call<CustomResponse>
+
+    @POST("workout/delete")
+    fun deleteWorkout(@Query("workoutId") workoutId: Long): Call<CustomResponse>
+
     @POST("workout/add-exercise")
     fun addExercise(@Body params: Map<String, String>): Call<CustomResponse>
 
@@ -31,4 +37,7 @@ interface IAPIService {
 
     @GET("workout/get-workout")
     fun getWorkout(@Query("workoutId") workoutId: String): Call<CustomResponse>
+
+    @GET("workout/get-muscle-groups")
+    fun getMuscleGroups(@Query("userId") userId: String): Call<CustomResponse>
 }

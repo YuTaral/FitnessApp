@@ -36,13 +36,23 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="20/Sep/2024"/>
 
+        <TextView
+            android:id="@+id/muscle_groups_txt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:textStyle="italic"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/current_workout_label"
+            tools:text="Full Body"/>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/exercises_recycler"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="10dp"
             android:nestedScrollingEnabled="false"
-            app:layout_constraintTop_toBottomOf="@+id/current_workout_label"
+            app:layout_constraintTop_toBottomOf="@+id/muscle_groups_txt"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

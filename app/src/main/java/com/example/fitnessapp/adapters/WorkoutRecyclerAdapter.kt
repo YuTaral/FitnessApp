@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fitnessapp.R
 import com.example.fitnessapp.models.ExerciseModel
+import com.example.fitnessapp.models.MuscleGroupModel
 import com.example.fitnessapp.models.SetModel
 import com.example.fitnessapp.models.WorkoutModel
 import com.example.fitnessapp.utils.Utils
@@ -41,17 +42,19 @@ class WorkoutRecyclerAdapter (data: List<WorkoutModel>, onClick: (WorkoutModel) 
     class WorkoutItem(view: View): RecyclerView.ViewHolder(view)  {
         private var name: TextView = itemView.findViewById(R.id.workout_name_txt)
         private var date: TextView = itemView.findViewById(R.id.workout_date_txt)
-        private var summary: TextView = itemView.findViewById(R.id.workout_exercises_summary_txt)
+        private var muscleGroups: TextView = itemView.findViewById(R.id.muscle_groups_txt)
+        private var exercises: TextView = itemView.findViewById(R.id.workout_exercises_summary_txt)
         private var total: TextView = itemView.findViewById(R.id.workout_total_txt)
 
         @SuppressLint("SetTextI18n")
         fun bind(item: WorkoutModel, onClickCallback: (WorkoutModel) -> Unit) {
-            var textSummary = ""
+            var muscleGroupsText = ""
+            var exercisesText = ""
             var totalKg = 0.0
             var totalReps = 0
 
             for (e: ExerciseModel in item.exercises) {
-                textSummary = textSummary + e.name + ", "
+                exercisesText = exercisesText + e.name + ", "
 
                 for (s : SetModel in e.sets) {
                     totalKg += s.weight
@@ -59,9 +62,16 @@ class WorkoutRecyclerAdapter (data: List<WorkoutModel>, onClick: (WorkoutModel) 
                 }
             }
 
+            for (m: MuscleGroupModel in item.muscleGroups) {
+                if (m.checked) {
+                    muscleGroupsText = muscleGroupsText + m.name + ", "
+                }
+            }
+
             name.text = item.name
             date.text = Utils.defaultFormatDate(item.date)
-            summary.text = textSummary.dropLast(2)
+            muscleGroups.text = muscleGroupsText.dropLast(2)
+            exercises.text = exercisesText.dropLast(2)
             total.text = String.format(Utils.getContext().getText(R.string.workout_summary_lbl).toString(),
                          totalKg,
                          totalReps)

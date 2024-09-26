@@ -28,6 +28,7 @@
     <string name="workout_name_lbl">Workout name…</string>
     <string name="workout_description_lbl">Workout description…</string>
     <string name="current_workout_lbl">Current Workout</string>
+    <string name="current_workout_not_selected_lbl">Workout not selected</string>
     <string name="add_exercise_btn">Add Exercise</string>
     <string name="add_workout_btn">New Workout</string>
     <string name="plus_symbol">+</string>
@@ -41,6 +42,7 @@
     <string name="weight_lbl">Weight</string>
     <string name="reps_lbl">Reps</string>
     <string name="error_msg_enter_ex_name">Please enter exercise name</string>
+    <string name="error_msg_enter_workout_name">Please enter workout name</string>
     <string name="error_msg_enter_sets">Please enter sets count greater than 0</string>
     <string name="error_msg_enter_reps">Please enter reps count greater than 0</string>
     <string name="error_msg_enter_weight">Please enter weight - positive number</string>
@@ -50,16 +52,21 @@
     <string name="weight_kg_lbl">Weight (kg)</string>
     <string name="add_set_btn">Add Set</string>
     <string name="delete_btn">Delete</string>
-    <string name="error_msg_enter_workout_name">Please enter workout name first</string>
     <string name="workout_saved">Workout saved</string>
     <string name="exercise_updated">Exercise updated</string>
     <string name="exercise_deleted">Exercise deleted</string>
     <string name="completed_lbl">Completed</string>
     <string name="latest_workouts_lbl">Latest Workouts</string>
-    <string name="workout_summary_lbl">Summary: %.2f kgs, %d reps</string>
+    <string name="workout_summary_lbl">%.2f kgs, %d reps</string>
     <string name="add_workout_panel_title">Add Workout</string>
+    <string name="edit_workout_panel_title">Edit Workout</string>
     <string name="edit_btn_lbl">Edit</string>
     <string name="workout_added">Workout added</string>
+    <string name="workout_updated">Workout updated</string>
+    <string name="workout_deleted">Workout deleted</string>
+    <string name="muscle_groups_lbl">Muscle groups</string>
+    <string name="target_muscle_groups_lbl">Target muscle groups:</string>
+    <string name="exercises_lbl">Exercises:</string>
 
 
 </resources>

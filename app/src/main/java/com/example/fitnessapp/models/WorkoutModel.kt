@@ -20,6 +20,9 @@ class WorkoutModel {
     @SerializedName("Exercises")
     val exercises: MutableList<ExerciseModel>
 
+    @SerializedName("MuscleGroups")
+    val muscleGroups: MutableList<MuscleGroupModel>
+
     /** Constructor to accept serialized object
      * @param data serialized WorkoutModel object
      */
@@ -31,16 +34,19 @@ class WorkoutModel {
         name = workout.name
         date = workout.date
         exercises = workout.exercises
+        muscleGroups = workout.muscleGroups
     }
 
     /** Constructor used when new workout is created
+     * @param idVal the exercise id
      * @param nameVal the exercise name
      * @param exercisesVal the exercises
      */
-    constructor(nameVal: String, exercisesVal: MutableList<ExerciseModel>) {
-        id = 0
+    constructor(idVal: Long, nameVal: String, exercisesVal: MutableList<ExerciseModel>, muscleGroupsVal: MutableList<MuscleGroupModel>) {
+        id = idVal
         name = nameVal
         date = Date()
         exercises = exercisesVal
+        muscleGroups = muscleGroupsVal
     }
 }

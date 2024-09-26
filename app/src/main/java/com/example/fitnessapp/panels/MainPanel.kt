@@ -62,7 +62,7 @@ class MainPanel(root: ViewGroup) {
 
     /** Executed on New Workout button click to open Add Workout Dialog */
     private fun startNewWorkout() {
-        AddEditWorkoutDialog.showDialog(onSave = { workout -> run {
+        AddEditWorkoutDialog.showDialog(true, onSave = { workout -> run {
             // Send a request to add the workout
             val params = mapOf("workout" to Utils.serializeObject(workout), "userId" to StateEngine.user.id)
 

@@ -25,18 +25,54 @@
         tools:text="22.09.2024"/>
 
     <TextView
-        android:id="@+id/workout_exercises_summary_txt"
-        android:layout_width="match_parent"
+        android:id="@+id/muscle_groups_lbl"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/target_muscle_groups_lbl"
+        android:textStyle="italic"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/workout_name_txt"/>
+
+    <TextView
+        android:id="@+id/muscle_groups_txt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:maxLines="1"
+        android:ellipsize="end"
         app:layout_constraintTop_toBottomOf="@+id/workout_name_txt"
+        app:layout_constraintStart_toEndOf="@+id/muscle_groups_lbl"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="Lower Body, Legs"/>
+
+    <TextView
+        android:id="@+id/exercises_lbl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/exercises_lbl"
+        android:textStyle="italic"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/muscle_groups_lbl"/>
+
+    <TextView
+        android:id="@+id/workout_exercises_summary_txt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        app:layout_constraintTop_toBottomOf="@+id/muscle_groups_lbl"
+        app:layout_constraintStart_toEndOf="@+id/exercises_lbl"
+        app:layout_constraintEnd_toEndOf="parent"
         tools:text="Calves, Squats, Dead Lift"/>
 
     <TextView
         android:id="@+id/workout_total_txt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textStyle="italic"
         app:layout_constraintTop_toBottomOf="@+id/workout_exercises_summary_txt"
-        tools:text="Summary: 950kgs, 150 reps"/>
+        tools:text="950kgs, 150 reps"/>
 
     <View
         android:layout_width="match_parent"
