@@ -17,7 +17,7 @@ object NetworkManager {
      * @param request the request to send
      * @param onSuccessCallback the callback to execute on success
      * @param onErrorCallback the callback to execute if the response code is not success
-     **/
+     */
     fun sendRequest(request: Call<CustomResponse>, onSuccessCallback: (CustomResponse) -> Unit, onErrorCallback: (CustomResponse) -> Unit) {
         // Show progress dialog
         showRequestInProgressDialog()
@@ -54,7 +54,7 @@ object NetworkManager {
     /** Overloads send request method
      * @param request the request to send
      * @param onSuccessCallback the callback to execute on success
-     **/
+     */
     fun sendRequest(request: Call<CustomResponse>, onSuccessCallback: (CustomResponse) -> Unit) {
         sendRequest(request, onSuccessCallback, onErrorCallback = {})
     }

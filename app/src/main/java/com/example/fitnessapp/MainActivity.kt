@@ -75,7 +75,7 @@ class MainActivity : ComponentActivity() {
     /** Executes Select Workout */
     fun selectWorkout(workout: WorkoutModel) {
         NetworkManager.sendRequest(
-            APIService.instance.getWorkout(workout.id.toString()),
+            APIService.instance.getWorkout(workout.id),
             onSuccessCallback = { response ->
                 StateEngine.workout = WorkoutModel(response.returnData[0])
                 displayNewWorkoutPanel()

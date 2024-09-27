@@ -1,64 +1,77 @@
 package com.example.fitnessapp.dialogs
 
-import android.content.DialogInterface
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
+import android.view.View
 import android.view.WindowManager
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
 import com.example.fitnessapp.R
-import com.example.fitnessapp.models.ExerciseModel
+import com.example.fitnessapp.network.repositories.ExerciseRepository
+import com.example.fitnessapp.utils.StateEngine
 import com.example.fitnessapp.utils.Utils
 
 /** Add Exercise dialog to hold the logic for adding exercise */
+@SuppressLint("InflateParams")
 class AddExerciseDialog {
+    private var dialogView: View
+    private var closeIcon: ImageView
+    private var name: EditText
+    private var sets: EditText
+    private var reps: EditText
+    private var weight: EditText
+    private var saveBtn: Button
 
-    companion object {
-        /** Show the dialog
-         * @param onSave callback to execute on Save button click
-         */
-        fun showDialog(onSave: (ExerciseModel) -> Unit) {
-            // Inflate the dialog layout
-            val inflater = LayoutInflater.from(Utils.getContext())
-            val dialogView = inflater.inflate(R.layout.add_exercise_dialog, null)
+    /** Dialog initialization */
+    init {
+        // Inflate the dialog layout
+        dialogView = LayoutInflater.from(Utils.getContext()).inflate(R.layout.add_exercise_dialog, null)
 
-            // Find the views
-            val closeIcon = dialogView.findViewById<ImageView>(R.id.dialog_close)
-            val name = dialogView.findViewById<EditText>(R.id.exercise_name)
-            val sets = dialogView.findViewById<EditText>(R.id.exercise_sets)
-            val reps = dialogView.findViewById<EditText>(R.id.set_reps)
-            val weight = dialogView.findViewById<EditText>(R.id.exercise_weight)
+        // Find the views
+        closeIcon = dialogView.findViewById(R.id.dialog_close)
+        name = dialogView.findViewById(R.id.exercise_name)
+        sets = dialogView.findViewById(R.id.exercise_sets)
+        reps = dialogView.findViewById(R.id.set_reps)
+        weight = dialogView.findViewById(R.id.exercise_weight)
+        saveBtn = dialogView.findViewById(R.id.save_btn)
+    }
 
-            // Create the dialog
-            val dialogBuilder = AlertDialog.Builder(Utils.getContext())
-            dialogBuilder.setView(dialogView)
-                         .setPositiveButton(Utils.getContext().getText(R.string.save_btn), null)
-                         .setCancelable(false)
+    /** Show the dialog */
+    fun showDialog() {
+        // Create the dialog
+        val dialogBuilder = AlertDialog.Builder(Utils.getContext())
+        dialogBuilder.setView(dialogView).setCancelable(false)
+        val alertDialog = dialogBuilder.create()
 
-            // Show the dialog
-            val alertDialog = dialogBuilder.create()
-            alertDialog.show()
+        // Add button click listeners
+        saveBtn.setOnClickListener { save(alertDialog) }
+        closeIcon.setOnClickListener { alertDialog.dismiss() }
 
-            // Open the keyboard once the dialog is shown
-            name.requestFocus()
-            alertDialog.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM)
-            alertDialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+        // Show the dialog
+        alertDialog.show()
 
-            // Override the positive button click listener to prevent it from closing the dialog
-            alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
-                // Validate
-                val exercise = Utils.validateExercise(name, sets, reps, weight)
-                    ?: return@setOnClickListener
+        // Open the keyboard once the dialog is shown
+        name.requestFocus()
+        alertDialog.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM)
+        alertDialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+    }
 
-                // Add the exercise
-                alertDialog.dismiss()
-                onSave(exercise)
-            }
+    /** Executed on Save button click
+     * @param alertDialog the alert dialog
+     */
+    private fun save(alertDialog: AlertDialog){
+        // Validate
+        val exercise = Utils.validateExercise(name, sets, reps, weight) ?: return
 
-            // Add click listener for the close button
-            closeIcon.setOnClickListener {
-                alertDialog.dismiss()
-            }
-        }
+        // Add the exercise
+        ExerciseRepository().addExercise(exercise, onSuccess = { workout ->
+            alertDialog.dismiss()
+            StateEngine.workout = workout
+            Utils.getActivity().displayNewWorkoutPanel()
+            Utils.showToast(R.string.exercise_updated)
+            StateEngine.refreshWorkouts = true
+        })
     }
 }

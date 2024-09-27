@@ -118,4 +118,13 @@
         app:layout_constraintTop_toBottomOf="@+id/exercise_sets"
         app:layout_constraintStart_toEndOf="@+id/exercise_weight_lbl"/>
 
+    <Button
+        android:id="@+id/save_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/save_btn"
+        android:background="@android:color/transparent"
+        app:layout_constraintTop_toBottomOf="@+id/exercise_weight"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

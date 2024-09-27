@@ -6,8 +6,10 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
 
-/** Interface to define request end points and the data send to the server */
+/** Interface to define request end points */
 interface IAPIService {
+
+    /** POST REQUESTS */
     @POST("user/login")
     fun login(@Body params: Map<String, String>): Call<CustomResponse>
 
@@ -30,13 +32,14 @@ interface IAPIService {
     fun updateExercise(@Body params: Map<String, String>): Call<CustomResponse>
 
     @POST("workout/delete-exercise")
-    fun deleteExercise(@Body params: Long): Call<CustomResponse>
+    fun deleteExercise(@Query("exerciseId") params: Long): Call<CustomResponse>
 
+    /** GET REQUESTS */
     @GET("workout/get-workouts")
     fun getWorkouts(@Query("userId") userId: String): Call<CustomResponse>
 
     @GET("workout/get-workout")
-    fun getWorkout(@Query("workoutId") workoutId: String): Call<CustomResponse>
+    fun getWorkout(@Query("workoutId") workoutId: Long): Call<CustomResponse>
 
     @GET("workout/get-muscle-groups")
     fun getMuscleGroups(@Query("userId") userId: String): Call<CustomResponse>

@@ -11,11 +11,7 @@ import com.example.fitnessapp.R
 import com.example.fitnessapp.adapters.ExerciseRecyclerAdapter
 import com.example.fitnessapp.dialogs.AddEditWorkoutDialog
 import com.example.fitnessapp.dialogs.AddExerciseDialog
-import com.example.fitnessapp.models.ExerciseModel
 import com.example.fitnessapp.models.MuscleGroupModel
-import com.example.fitnessapp.models.WorkoutModel
-import com.example.fitnessapp.network.APIService
-import com.example.fitnessapp.network.NetworkManager
 import com.example.fitnessapp.utils.StateEngine
 import com.example.fitnessapp.utils.Utils
 
@@ -84,7 +80,7 @@ class SelectedWorkoutPanel(root: ViewGroup) {
 
         if (exerciseRecycler.adapter == null) {
             exerciseRecycler.layoutManager = LinearLayoutManager(Utils.getContext())
-            exerciseRecycler.adapter = ExerciseRecyclerAdapter(listOf(), onSuccessChange = { populatePanel() })
+            exerciseRecycler.adapter = ExerciseRecyclerAdapter(listOf())
         }
 
         if (StateEngine.workout != null) {
@@ -97,25 +93,7 @@ class SelectedWorkoutPanel(root: ViewGroup) {
 
     /** Show Add Exercise dialog */
     private fun showAddExerciseDialog() {
-        AddExerciseDialog.showDialog(onSave = { exercise -> run { addDialogOnSave(exercise) } })
-    }
-
-    /** Executes Add Exercise Dialog button Save clicked to send a request and create a new workout
-     * or update the existing workout with the newly created exercise
-     * @param exercise - the created exercise
-     */
-    private fun addDialogOnSave(exercise: ExerciseModel) {
-        // Send a request to add the exercise
-        val params = mapOf("exercise" to Utils.serializeObject(exercise), "workoutId" to StateEngine.workout!!.id.toString())
-
-        NetworkManager.sendRequest(APIService.instance.addExercise(params),
-            onSuccessCallback = { response ->
-                StateEngine.workout = WorkoutModel(response.returnData.first())
-                populatePanel()
-                Utils.showToast(R.string.exercise_updated)
-            })
-
-        StateEngine.refreshWorkouts = true
+        AddExerciseDialog().showDialog()
     }
 
     /** Return the exercises recycler adapter */
@@ -125,19 +103,7 @@ class SelectedWorkoutPanel(root: ViewGroup) {
 
     /** Executed on Edit button click to open Edit Workout Dialog */
     private fun editWorkout() {
-        AddEditWorkoutDialog.showDialog(false, onSave = { workout -> run {
-            // Send a request to add the workout
-            val params = mapOf("workout" to Utils.serializeObject(workout), "userId" to StateEngine.user.id)
-
-            NetworkManager.sendRequest(APIService.instance.editWorkout(params),
-                onSuccessCallback = { response ->
-                    Utils.showToast(R.string.workout_updated)
-                    StateEngine.workout = WorkoutModel(response.returnData.first())
-                    Utils.getActivity().displayNewWorkoutPanel()
-                    StateEngine.refreshWorkouts = true
-                }
-            )
-        }})
+        AddEditWorkoutDialog(false).showDialog()
     }
 
     /** Sets buttons visibility based on whether workout is selected */

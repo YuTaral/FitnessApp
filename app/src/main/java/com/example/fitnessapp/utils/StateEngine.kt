@@ -17,6 +17,6 @@ object StateEngine {
 
     /** Used to track when change in the selected workout occurred and
      *  latest workouts refresh is needed
-     **/
+     */
     var refreshWorkouts = false
 }

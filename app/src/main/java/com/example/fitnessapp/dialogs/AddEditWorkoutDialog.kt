@@ -15,122 +15,144 @@ import com.example.fitnessapp.R
 import com.example.fitnessapp.adapters.MuscleGroupRecyclerAdapter
 import com.example.fitnessapp.models.MuscleGroupModel
 import com.example.fitnessapp.models.WorkoutModel
-import com.example.fitnessapp.network.APIService
-import com.example.fitnessapp.network.NetworkManager
+import com.example.fitnessapp.network.repositories.MuscleGroupRepository
+import com.example.fitnessapp.network.repositories.WorkoutRepository
 import com.example.fitnessapp.utils.StateEngine
 import com.example.fitnessapp.utils.Utils
 
-/** Add / Edit Workout dialog to hold the logic for add / edit workout */
-class AddEditWorkoutDialog {
-    companion object {
+/** Add / Edit Workout dialog to hold the logic for add / edit workout
+ * @param add true if dialog mode is add (adding workout), false if editing exercise
+ */
+@SuppressLint("InflateParams")
+class AddEditWorkoutDialog(add: Boolean) {
+    private var dialogView: View
+    private var title: TextView
+    private var closeIcon: ImageView
+    private var name: EditText
+    private var muscleGroupsRecycler: RecyclerView
+    private var saveBtn: Button
+    private var deleteBtn: Button
+    private var addMode: Boolean
 
-        /** Show the dialog
-         * @param add true if dialog mode is add (adding workout), false if editing exercise
-         * @param onSave callback to execute on Save button click
-         */
-        @SuppressLint("InflateParams")
-        fun showDialog(add: Boolean, onSave: (WorkoutModel) -> Unit) {
-            // Inflate the dialog layout
-            val inflater = LayoutInflater.from(Utils.getContext())
-            val dialogView = inflater.inflate(R.layout.add_edit_workout_dialog, null)
+    /** Dialog initialization */
+    init {
+        addMode = add
 
-            // Find the views
-            val title = dialogView.findViewById<TextView>(R.id.add_workout_title)
-            val closeIcon = dialogView.findViewById<ImageView>(R.id.dialog_close)
-            val name = dialogView.findViewById<EditText>(R.id.workout_name_txt)
-            val muscleGroupsRecycler = dialogView.findViewById<RecyclerView>(R.id.muscle_groups_recycler)
-            val saveBtn = dialogView.findViewById<Button>(R.id.save_btn)
-            val deleteBtn = dialogView.findViewById<Button>(R.id.delete_btn)
+        // Inflate the dialog layout
+        dialogView = LayoutInflater.from(Utils.getContext())
+            .inflate(R.layout.add_edit_workout_dialog, null)
 
-            // Create the dialog
-            val dialogBuilder = AlertDialog.Builder(Utils.getContext())
-            dialogBuilder.setView(dialogView).setCancelable(false)
+        // Find the views
+        title = dialogView.findViewById(R.id.add_workout_title)
+        closeIcon = dialogView.findViewById(R.id.dialog_close)
+        name = dialogView.findViewById(R.id.workout_name_txt)
+        muscleGroupsRecycler = dialogView.findViewById(R.id.muscle_groups_recycler)
+        saveBtn = dialogView.findViewById(R.id.save_btn)
+        deleteBtn = dialogView.findViewById(R.id.delete_btn)
+    }
 
-            // Populate the dialog and change the views
-            if (add) {
-                populateMuscleGroups(muscleGroupsRecycler)
-            } else {
-                title.text = Utils.getContext().getString(R.string.edit_workout_panel_title)
-                deleteBtn.visibility = View.VISIBLE
-                populateDialog(name, muscleGroupsRecycler)
-            }
+    /** Show the dialog */
+    fun showDialog() {
+        // Create the dialog
+        val dialogBuilder = AlertDialog.Builder(Utils.getContext())
+        dialogBuilder.setView(dialogView).setCancelable(false)
+        val alertDialog = dialogBuilder.create()
 
-            // Show the dialog
-            val alertDialog = dialogBuilder.create()
-            alertDialog.show()
-
-            // Open the keyboard once the dialog is shown
-            name.requestFocus()
-            alertDialog.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM)
-            alertDialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
-
-            // Set button click listeners
-            saveBtn.setOnClickListener {
-                var id: Long = 0
-                // Validate
-                if (name.text.isEmpty()) {
-                    Utils.validationFailed(name, R.string.error_msg_enter_workout_name)
-                    return@setOnClickListener
-                }
-
-                // Set the id if we are editing the workout
-                if (!add) {
-                    id = StateEngine.workout!!.id
-                }
-
-                // Add / Edit the workout
-                alertDialog.dismiss()
-                onSave(WorkoutModel(id, name.text.toString(), mutableListOf(),
-                    (muscleGroupsRecycler.adapter as MuscleGroupRecyclerAdapter).getSelectedMuscleGroups()))
-            }
-
-            deleteBtn.setOnClickListener {
-                // Send a request to delete the workout
-                NetworkManager.sendRequest(APIService.instance.deleteWorkout(StateEngine.workout!!.id),
-                    onSuccessCallback = { _ ->
-                        Utils.showToast(R.string.workout_deleted)
-                        alertDialog.dismiss()
-                        StateEngine.workout = null
-                        Utils.getActivity().displayNewWorkoutPanel()
-                        StateEngine.refreshWorkouts = true
-                    }
-                )
-            }
-
-            closeIcon.setOnClickListener {
-                alertDialog.dismiss()
-            }
+        // Populate the dialog and change the views
+        if (addMode) {
+            populateMuscleGroups(muscleGroupsRecycler)
+        } else {
+            title.text = Utils.getContext().getString(R.string.edit_workout_panel_title)
+            deleteBtn.visibility = View.VISIBLE
+            populateDialog(name, muscleGroupsRecycler)
         }
 
-        /** Fetches the Muscle Groups and populates the dialog
-         * @param muscleGroupsRecycler the recycler view
-         **/
-        private fun populateMuscleGroups(muscleGroupsRecycler: RecyclerView) {
-            NetworkManager.sendRequest(
-                APIService.instance.getMuscleGroups(StateEngine.user.id),
-                onSuccessCallback = { response ->
-                    val muscleGroups : MutableList<MuscleGroupModel> = mutableListOf()
+        // Add button click listeners
+        saveBtn.setOnClickListener { save(alertDialog) }
+        deleteBtn.setOnClickListener { delete(alertDialog) }
+        closeIcon.setOnClickListener { alertDialog.dismiss() }
 
-                    for (d : String in response.returnData) {
-                        muscleGroups.add(MuscleGroupModel(d))
-                    }
+        // Show the dialog
+        alertDialog.show()
 
-                    muscleGroupsRecycler.layoutManager = LinearLayoutManager(Utils.getContext())
-                    muscleGroupsRecycler.adapter = MuscleGroupRecyclerAdapter(muscleGroups)
-                }
-            )
+        // Open the keyboard once the dialog is shown
+        name.requestFocus()
+        alertDialog.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM)
+        alertDialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+    }
+
+    /** Fetches the Muscle Groups and populates the dialog
+     * @param muscleGroupsRecycler the recycler view
+     */
+    private fun populateMuscleGroups(muscleGroupsRecycler: RecyclerView) {
+        MuscleGroupRepository().getMuscleGroups(StateEngine.user.id, onSuccess = { muscleGroups ->
+            muscleGroupsRecycler.layoutManager = LinearLayoutManager(Utils.getContext())
+            muscleGroupsRecycler.adapter = MuscleGroupRecyclerAdapter(muscleGroups)
+        })
+    }
+
+    /** Populates the dialog when mode is edit
+     * @param name the name view
+     * @param muscleGroupsRecycler the recycler view
+     */
+    private fun populateDialog(name: EditText, muscleGroupsRecycler: RecyclerView) {
+        if (StateEngine.workout != null) {
+            name.setText(StateEngine.workout!!.name)
+            muscleGroupsRecycler.layoutManager = LinearLayoutManager(Utils.getContext())
+            muscleGroupsRecycler.adapter = MuscleGroupRecyclerAdapter(StateEngine.workout!!.muscleGroups)
+        }
+    }
+
+    /** Executed on Save button click
+     * @param alertDialog the alert dialog
+     */
+    private fun save(alertDialog: AlertDialog) {
+        // Validate
+        if (name.text.isEmpty()) {
+            Utils.validationFailed(name, R.string.error_msg_enter_workout_name)
+            return
         }
 
-        /** Populates the dialog when mode is edit
-         * @param name the name view
-         * @param muscleGroupsRecycler the recycler view
-         **/
-        private fun populateDialog(name: EditText, muscleGroupsRecycler: RecyclerView) {
-            if (StateEngine.workout != null) {
-                name.setText(StateEngine.workout!!.name)
-                muscleGroupsRecycler.layoutManager = LinearLayoutManager(Utils.getContext())
-                muscleGroupsRecycler.adapter = MuscleGroupRecyclerAdapter(StateEngine.workout!!.muscleGroups)
-            }
+        // Add / edit the workout
+        if (addMode) {
+            WorkoutRepository().addWorkout(WorkoutModel(0, name.text.toString(), mutableListOf(), getSelMuscleGroups()),
+                onSuccess = { workout ->
+                    alertDialog.dismiss()
+                    Utils.showToast(R.string.workout_added)
+                    StateEngine.workout = workout
+                    Utils.getActivity().displayNewWorkoutPanel()
+                    StateEngine.refreshWorkouts = true
+                    alertDialog.dismiss()
+
+                })
+        } else {
+            WorkoutRepository().editWorkout(WorkoutModel(StateEngine.workout!!.id, name.text.toString(), mutableListOf(), getSelMuscleGroups()),
+                onSuccess = { workout ->
+                    alertDialog.dismiss()
+                    Utils.showToast(R.string.workout_added)
+                    StateEngine.workout = workout
+                    Utils.getActivity().displayNewWorkoutPanel()
+                    StateEngine.refreshWorkouts = true
+                })
         }
+    }
+
+    /** Executed on Delete button click
+     * @param alertDialog the alert dialog
+     */
+    private fun delete(alertDialog: AlertDialog) {
+        // Send a request to delete the workout
+        WorkoutRepository().deleteWorkout(StateEngine.workout!!.id, onSuccess = {
+            Utils.showToast(R.string.workout_deleted)
+            alertDialog.dismiss()
+            StateEngine.workout = null
+            Utils.getActivity().displayNewWorkoutPanel()
+            StateEngine.refreshWorkouts = true
+        })
+    }
+
+    /** Return the Selected Muscle = Groups as mutable list */
+    private fun getSelMuscleGroups(): MutableList<MuscleGroupModel> {
+        return (muscleGroupsRecycler.adapter as MuscleGroupRecyclerAdapter).getSelectedMuscleGroups()
     }
 }

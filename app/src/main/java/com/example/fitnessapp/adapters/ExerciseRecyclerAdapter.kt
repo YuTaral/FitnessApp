@@ -17,13 +17,11 @@ import com.example.fitnessapp.models.SetModel
 import com.example.fitnessapp.utils.Utils
 
 /** Recycler adapter to control the data (exercises) shown for each workout */
-class ExerciseRecyclerAdapter(data: List<ExerciseModel>, onSuccessChange: () -> Unit) : RecyclerView.Adapter<ExerciseRecyclerAdapter.ExerciseItem>() {
+class ExerciseRecyclerAdapter(data: List<ExerciseModel>) : RecyclerView.Adapter<ExerciseRecyclerAdapter.ExerciseItem>() {
     private var exercises: MutableList<ExerciseModel> = mutableListOf()
-    private var onSuccessChangeCallback: () -> Unit
 
     init {
         exercises.addAll(data)
-        onSuccessChangeCallback = onSuccessChange
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExerciseItem {
@@ -36,7 +34,7 @@ class ExerciseRecyclerAdapter(data: List<ExerciseModel>, onSuccessChange: () -> 
     }
 
     override fun onBindViewHolder(holder: ExerciseItem, position: Int) {
-        holder.bind(exercises[position], onSuccessChangeCallback)
+        holder.bind(exercises[position])
     }
 
     /** Updates the data
@@ -59,9 +57,8 @@ class ExerciseRecyclerAdapter(data: List<ExerciseModel>, onSuccessChange: () -> 
 
         /** Set the data for each exercise and adds click listener to expand / collapse the exercise
          * @param item the exercise
-         * @param onSuccessChangeCallback the callback to execute when exercise has been modified successfully
          */
-        fun bind(item: ExerciseModel, onSuccessChangeCallback: () -> Unit) {
+        fun bind(item: ExerciseModel) {
             // Set the exercise data
             exerciseName.text = item.name
 
@@ -70,7 +67,7 @@ class ExerciseRecyclerAdapter(data: List<ExerciseModel>, onSuccessChange: () -> 
 
             // Add Edit click listener
             editBtn.setOnClickListener {
-                EditExerciseDialog.showDialog(item, onSuccessChange = { onSuccessChangeCallback() })
+                EditExerciseDialog(item).showDialog()
             }
 
             // Add expand mechanism
