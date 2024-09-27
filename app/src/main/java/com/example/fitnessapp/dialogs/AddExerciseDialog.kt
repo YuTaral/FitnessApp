@@ -70,7 +70,7 @@ class AddExerciseDialog {
             alertDialog.dismiss()
             StateEngine.workout = workout
             Utils.getActivity().displayNewWorkoutPanel()
-            Utils.showToast(R.string.exercise_updated)
+            Utils.showToast(R.string.exercise_added)
             StateEngine.refreshWorkouts = true
         })
     }

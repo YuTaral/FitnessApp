@@ -9,38 +9,40 @@ import retrofit2.http.Query
 /** Interface to define request end points */
 interface IAPIService {
 
-    /** POST REQUESTS */
+    /** USER  POST REQUESTS
+     * -------------------------------------------------------------------------------- */
     @POST("user/login")
     fun login(@Body params: Map<String, String>): Call<CustomResponse>
-
     @POST("user/register")
     fun register(@Body params: Map<String, String>): Call<CustomResponse>
 
+    /** WORKOUT POST REQUESTS
+     * -------------------------------------------------------------------------------- */
     @POST("workout/add")
     fun addWorkout(@Body params: Map<String, String>): Call<CustomResponse>
-
     @POST("workout/edit")
     fun editWorkout(@Body params: Map<String, String>): Call<CustomResponse>
-
     @POST("workout/delete")
     fun deleteWorkout(@Query("workoutId") workoutId: Long): Call<CustomResponse>
 
-    @POST("workout/add-exercise")
-    fun addExercise(@Body params: Map<String, String>): Call<CustomResponse>
-
-    @POST("workout/update-exercise")
-    fun updateExercise(@Body params: Map<String, String>): Call<CustomResponse>
-
-    @POST("workout/delete-exercise")
-    fun deleteExercise(@Query("exerciseId") params: Long): Call<CustomResponse>
-
-    /** GET REQUESTS */
+    /** WORKOUT GET REQUESTS
+     * -------------------------------------------------------------------------------- */
     @GET("workout/get-workouts")
     fun getWorkouts(@Query("userId") userId: String): Call<CustomResponse>
-
     @GET("workout/get-workout")
     fun getWorkout(@Query("workoutId") workoutId: Long): Call<CustomResponse>
 
-    @GET("workout/get-muscle-groups")
+    /** EXERCISE POST REQUESTS
+     * -------------------------------------------------------------------------------- */
+    @POST("exercise/add")
+    fun addExercise(@Body params: Map<String, String>): Call<CustomResponse>
+    @POST("exercise/update")
+    fun updateExercise(@Body params: Map<String, String>): Call<CustomResponse>
+    @POST("exercise/delete")
+    fun deleteExercise(@Query("exerciseId") params: Long): Call<CustomResponse>
+
+    /** MUSCLE GROUPS GET REQUESTS
+     * -------------------------------------------------------------------------------- */
+    @GET("mgroup/get-muscle-groups")
     fun getMuscleGroups(@Query("userId") userId: String): Call<CustomResponse>
 }
