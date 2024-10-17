@@ -129,7 +129,7 @@ class AddEditWorkoutDialog(add: Boolean) {
             WorkoutRepository().editWorkout(WorkoutModel(StateEngine.workout!!.id, name.text.toString(), mutableListOf(), getSelMuscleGroups()),
                 onSuccess = { workout ->
                     alertDialog.dismiss()
-                    Utils.showToast(R.string.workout_added)
+                    Utils.showToast(R.string.workout_updated)
                     StateEngine.workout = workout
                     Utils.getActivity().displayNewWorkoutPanel()
                     StateEngine.refreshWorkouts = true
