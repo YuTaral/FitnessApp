@@ -36,7 +36,7 @@ object Utils {
      * @param message the message to show
      * @param duration duration - short / long, long by default
      */
-    private fun showMessage(message: String, duration: Int = BaseTransientBottomBar.LENGTH_LONG) {
+    fun showMessage(message: String, duration: Int = BaseTransientBottomBar.LENGTH_LONG) {
         Snackbar.make(StateEngine.activeActivity.findViewById(R.id.user_message), message, duration)
                 .setBackgroundTint(getContext().getColor(R.color.snackbarGreyColor))
                 .setTextMaxLines(3)

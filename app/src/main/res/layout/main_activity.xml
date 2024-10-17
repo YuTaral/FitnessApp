@@ -1,94 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/header"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/colorSecondary"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/main_panel_lbl"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:gravity="center"
-            android:text="@string/main_lbl"
-            android:textSize="25sp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="85dp"
+            android:background="@color/colorSecondary"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintWidth_percent="0.5"/>
+            app:layout_constraintStart_toStartOf="parent">
 
-        <View
-            android:id="@+id/main_panel_lbl_underline"
-            android:layout_width="0dp"
-            android:layout_height="2dp"
-            android:layout_marginTop="1dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:background="@color/white"
-            app:layout_constraintStart_toStartOf="@+id/main_panel_lbl"
-            app:layout_constraintEnd_toEndOf="@+id/main_panel_lbl"
-            app:layout_constraintTop_toBottomOf="@+id/main_panel_lbl"/>
+            <ImageView
+                android:id="@+id/profile_img"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:importantForAccessibility="no"
+                android:background="@drawable/profile_icon"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
 
-        <TextView
-            android:id="@+id/panel_add_workout_lbl"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:gravity="center"
-            android:text="@string/new_workout_lbl"
-            android:textSize="25sp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/main_panel_lbl"
-            app:layout_constraintWidth_percent="0.5"/>
+            <TextView
+                android:id="@+id/main_panel_lbl"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:text="@string/main_lbl"
+                android:textSize="25sp"
+                app:layout_constraintTop_toBottomOf="@+id/profile_img"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintWidth_percent="0.5"/>
 
-        <View
-            android:id="@+id/add_workout_panel_lbl_underline"
-            android:layout_width="0dp"
-            android:layout_height="2dp"
-            android:layout_marginTop="1dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:background="@color/white"
-            app:layout_constraintStart_toStartOf="@+id/panel_add_workout_lbl"
-            app:layout_constraintEnd_toEndOf="@+id/panel_add_workout_lbl"
-            app:layout_constraintTop_toBottomOf="@+id/panel_add_workout_lbl"/>
+            <View
+                android:id="@+id/main_panel_lbl_underline"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@color/white"
+                app:layout_constraintStart_toStartOf="@+id/main_panel_lbl"
+                app:layout_constraintEnd_toEndOf="@+id/main_panel_lbl"
+                app:layout_constraintTop_toBottomOf="@+id/main_panel_lbl"/>
 
+            <TextView
+                android:id="@+id/panel_add_workout_lbl"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:text="@string/new_workout_lbl"
+                android:textSize="25sp"
+                app:layout_constraintTop_toBottomOf="@+id/profile_img"
+                app:layout_constraintStart_toEndOf="@+id/main_panel_lbl"
+                app:layout_constraintWidth_percent="0.5"/>
+
+            <View
+                android:id="@+id/add_workout_panel_lbl_underline"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@color/white"
+                app:layout_constraintStart_toStartOf="@+id/panel_add_workout_lbl"
+                app:layout_constraintEnd_toEndOf="@+id/panel_add_workout_lbl"
+                app:layout_constraintTop_toBottomOf="@+id/panel_add_workout_lbl"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <RelativeLayout
+            android:id="@+id/main_content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@+id/header"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <RelativeLayout
+                android:id="@+id/main_panel"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/add_workout_panel"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone">
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/user_message"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <RelativeLayout
-        android:id="@+id/main_content"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/header"
-        app:layout_constraintBottom_toBottomOf="parent">
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/menu_header"
+        app:menu="@menu/nav_menu"
+        app:itemTextAppearance="@style/MenuItemStyle" />
 
-        <RelativeLayout
-            android:id="@+id/main_panel"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/add_workout_panel"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone">
-        </RelativeLayout>
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/user_message"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        app:layout_constraintBottom_toBottomOf="parent"/>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.drawerlayout.widget.DrawerLayout>
