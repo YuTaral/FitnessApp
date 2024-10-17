@@ -52,6 +52,8 @@ class WorkoutRecyclerAdapter (data: List<WorkoutModel>, onClick: (WorkoutModel) 
             var exercisesText = ""
             var totalKg = 0.0
             var totalReps = 0
+            var completedKg = 0.0
+            var completedReps = 0
 
             for (e: ExerciseModel in item.exercises) {
                 exercisesText = exercisesText + e.name + ", "
@@ -59,6 +61,11 @@ class WorkoutRecyclerAdapter (data: List<WorkoutModel>, onClick: (WorkoutModel) 
                 for (s : SetModel in e.sets) {
                     totalKg += s.weight
                     totalReps += s.reps
+
+                    if (s.completed) {
+                        completedKg += s.weight
+                        completedReps += s.reps
+                    }
                 }
             }
 
@@ -73,8 +80,7 @@ class WorkoutRecyclerAdapter (data: List<WorkoutModel>, onClick: (WorkoutModel) 
             muscleGroups.text = muscleGroupsText.dropLast(2)
             exercises.text = exercisesText.dropLast(2)
             total.text = String.format(Utils.getContext().getText(R.string.workout_summary_lbl).toString(),
-                         totalKg,
-                         totalReps)
+                        completedKg, totalKg, completedReps, totalReps)
 
             // Add click listener to select the workout
             itemView.setOnClickListener {
