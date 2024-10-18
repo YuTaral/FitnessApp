@@ -13,6 +13,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.example.fitnessapp.models.WorkoutModel
 import com.example.fitnessapp.network.APIService
 import com.example.fitnessapp.network.NetworkManager
+import com.example.fitnessapp.network.repositories.UserRepository
 import com.example.fitnessapp.panels.MainPanel
 import com.example.fitnessapp.panels.SelectedWorkoutPanel
 import com.example.fitnessapp.utils.StateEngine
@@ -111,7 +112,11 @@ class MainActivity : ComponentActivity() {
             when (menuItem.itemId) {
                 R.id.nav_logout -> {
                     // Handle Logout
-                    logout()
+                    UserRepository().logout(onSuccess = {
+                        val intent = Intent(this, LoginActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    })
                 }
             }
             drawerLayout.closeDrawers()
@@ -130,12 +135,5 @@ class MainActivity : ComponentActivity() {
                 }
             }
         })
-    }
-
-    /** Logout the user */
-    private fun logout() {
-        val intent = Intent(this, LoginActivity::class.java)
-        startActivity(intent)
-        finish()
     }
 }

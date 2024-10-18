@@ -68,7 +68,7 @@
     <string name="muscle_groups_lbl">Muscle groups</string>
     <string name="target_muscle_groups_lbl">Target muscle groups:</string>
     <string name="exercises_lbl">Exercises:</string>
-    <string name="logout">Logout</string>
+    <string name="logout">Log Out</string>
 
 
 </resources>

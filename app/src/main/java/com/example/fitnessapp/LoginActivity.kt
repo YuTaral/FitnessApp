@@ -9,8 +9,7 @@ import androidx.activity.ComponentActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.fitnessapp.models.UserModel
 import com.example.fitnessapp.models.WorkoutModel
-import com.example.fitnessapp.network.APIService
-import com.example.fitnessapp.network.NetworkManager
+import com.example.fitnessapp.network.repositories.UserRepository
 import com.example.fitnessapp.utils.StateEngine
 import com.example.fitnessapp.utils.Utils
 
@@ -72,12 +71,10 @@ class LoginActivity : ComponentActivity() {
         }
 
         // Client-side validation passed, send the register request
-        NetworkManager.sendRequest(
-            APIService.instance.register(mapOf("email" to email, "password" to password)),
-            onSuccessCallback = {
-                Utils.showMessage(R.string.user_registered)
-                displayLogin()
-            })
+        UserRepository().register(email, password, onSuccess = {
+            Utils.showMessage(R.string.user_registered)
+            displayLogin()
+        })
     }
 
     /** Login user */
@@ -98,21 +95,18 @@ class LoginActivity : ComponentActivity() {
         }
 
         // Client-side validation passed, send the register request
-        NetworkManager.sendRequest(
-            APIService.instance.login(mapOf("email" to email, "password" to password)),
-            onSuccessCallback = { response ->
-                // Set the logged in user and start the Main Activity
-                StateEngine.user = UserModel(response.returnData[0])
+        UserRepository().login(email, password, onSuccess = { response ->
+            // Set the logged in user and start the Main Activity
+            StateEngine.user = UserModel(response.returnData[0])
 
-                if (response.returnData.size > 1) {
-                    StateEngine.workout = WorkoutModel(response.returnData[1])
-                }
-
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
-                finish()
+            if (response.returnData.size > 1) {
+                StateEngine.workout = WorkoutModel(response.returnData[1])
             }
-        )
+
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        })
     }
 
 //    fun autoLogin() {

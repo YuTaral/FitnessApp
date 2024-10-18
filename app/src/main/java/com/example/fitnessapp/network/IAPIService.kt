@@ -15,6 +15,8 @@ interface IAPIService {
     fun login(@Body params: Map<String, String>): Call<CustomResponse>
     @POST("user/register")
     fun register(@Body params: Map<String, String>): Call<CustomResponse>
+    @POST("user/logout")
+    fun logout(): Call<CustomResponse>
 
     /** WORKOUT POST REQUESTS
      * -------------------------------------------------------------------------------- */
