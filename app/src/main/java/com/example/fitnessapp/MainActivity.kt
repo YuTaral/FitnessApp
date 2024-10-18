@@ -113,6 +113,7 @@ class MainActivity : ComponentActivity() {
                 R.id.nav_logout -> {
                     // Handle Logout
                     UserRepository().logout(onSuccess = {
+                        StateEngine.workout = null
                         val intent = Intent(this, LoginActivity::class.java)
                         startActivity(intent)
                         finish()
