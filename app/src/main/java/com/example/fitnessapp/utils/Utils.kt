@@ -1,6 +1,7 @@
 package com.example.fitnessapp.utils
 
 import android.content.Context
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
@@ -138,6 +139,14 @@ object Utils {
         // Request focus and open keyboard
         input.requestFocus()
         imm.showSoftInput(input, InputMethodManager.SHOW_IMPLICIT)
+    }
+
+    /** Closes the keyboard
+     * @param view the focused view
+     * */
+    fun closeKeyboard(view: View) {
+        val imm = getContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
     /** JSON serializes an object using Gson and returns it
