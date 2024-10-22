@@ -25,8 +25,6 @@ class LoginActivity : ComponentActivity() {
         findViewById<TextView>(R.id.click_for_login_lbl).setOnClickListener { displayLogin() }
         findViewById<Button>(R.id.register_btn).setOnClickListener { register() }
         findViewById<Button>(R.id.login_btn).setOnClickListener{ login() }
-
-//        autoLogin()
     }
 
     /** Display Register page */
@@ -99,8 +97,8 @@ class LoginActivity : ComponentActivity() {
             // Set the logged in user and start the Main Activity
             StateEngine.user = UserModel(response.returnData[0])
 
-            if (response.returnData.size > 1) {
-                StateEngine.workout = WorkoutModel(response.returnData[1])
+            if (response.returnData.size > 2) {
+                StateEngine.workout = WorkoutModel(response.returnData[2])
             }
 
             val intent = Intent(this, MainActivity::class.java)
@@ -108,12 +106,6 @@ class LoginActivity : ComponentActivity() {
             finish()
         })
     }
-
-//    fun autoLogin() {
-//        findViewById<TextView>(R.id.email).text = "test@abv.bg"
-//        findViewById<TextView>(R.id.password).text = "123"
-//        login()
-//    }
 }
 
 

@@ -26,7 +26,10 @@ class UserRepository {
     fun login(email: String, password: String, onSuccess: (CustomResponse) -> Unit) {
         NetworkManager.sendRequest(
             APIService.instance.login(mapOf("email" to email, "password" to password)),
-            onSuccessCallback = { response -> onSuccess(response) })
+            onSuccessCallback = { response ->
+                onSuccess(response)
+                APIService.updateToken(response.returnData[1])
+            })
     }
 
     /** Logout the user
@@ -35,6 +38,9 @@ class UserRepository {
     fun logout(onSuccess: () -> Unit) {
         NetworkManager.sendRequest(
             APIService.instance.logout(),
-            onSuccessCallback = { onSuccess() })
+            onSuccessCallback = {
+                onSuccess()
+                APIService.updateToken("")
+            })
     }
 }

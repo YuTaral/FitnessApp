@@ -8,12 +8,11 @@ import com.example.fitnessapp.network.NetworkManager
 class MuscleGroupRepository {
 
     /** Fetches muscle groups
-     * @param userId the logged in user id
      * @param onSuccess callback to execute if request is successful
      */
-    fun getMuscleGroups(userId: String, onSuccess: (MutableList<MuscleGroupModel>) -> Unit) {
+    fun getMuscleGroups(onSuccess: (MutableList<MuscleGroupModel>) -> Unit) {
         NetworkManager.sendRequest(
-            APIService.instance.getMuscleGroups(userId),
+            APIService.instance.getMuscleGroups(),
             onSuccessCallback = { response ->
                 onSuccess(response.returnData.map { MuscleGroupModel(it) }.toMutableList())
             }

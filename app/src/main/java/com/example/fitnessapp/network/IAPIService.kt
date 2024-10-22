@@ -30,7 +30,7 @@ interface IAPIService {
     /** WORKOUT GET REQUESTS
      * -------------------------------------------------------------------------------- */
     @GET("workout/get-workouts")
-    fun getWorkouts(@Query("userId") userId: String): Call<CustomResponse>
+    fun getWorkouts(): Call<CustomResponse>
     @GET("workout/get-workout")
     fun getWorkout(@Query("workoutId") workoutId: Long): Call<CustomResponse>
 
@@ -46,5 +46,5 @@ interface IAPIService {
     /** MUSCLE GROUPS GET REQUESTS
      * -------------------------------------------------------------------------------- */
     @GET("mgroup/get-muscle-groups")
-    fun getMuscleGroups(@Query("userId") userId: String): Call<CustomResponse>
+    fun getMuscleGroups(): Call<CustomResponse>
 }

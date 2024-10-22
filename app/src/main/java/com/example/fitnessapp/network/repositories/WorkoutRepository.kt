@@ -3,7 +3,6 @@ package com.example.fitnessapp.network.repositories
 import com.example.fitnessapp.models.WorkoutModel
 import com.example.fitnessapp.network.APIService
 import com.example.fitnessapp.network.NetworkManager
-import com.example.fitnessapp.utils.StateEngine
 import com.example.fitnessapp.utils.Utils
 
 /** WorkoutRepository class, used to execute all requests related to workouts */
@@ -15,7 +14,7 @@ class WorkoutRepository {
      */
     fun addWorkout(workout: WorkoutModel, onSuccess: (WorkoutModel) -> Unit) {
         // Send a request to add the workout
-        val params = mapOf("workout" to Utils.serializeObject(workout), "userId" to StateEngine.user.id)
+        val params = mapOf("workout" to Utils.serializeObject(workout))
 
         NetworkManager.sendRequest(APIService.instance.addWorkout(params),
             onSuccessCallback = { response -> onSuccess(WorkoutModel(response.returnData[0])) }
@@ -28,7 +27,7 @@ class WorkoutRepository {
      */
     fun editWorkout(workout: WorkoutModel, onSuccess: (WorkoutModel) -> Unit) {
         // Send a request to add the workout
-        val params = mapOf("workout" to Utils.serializeObject(workout), "userId" to StateEngine.user.id)
+        val params = mapOf("workout" to Utils.serializeObject(workout))
 
         NetworkManager.sendRequest(APIService.instance.editWorkout(params),
             onSuccessCallback = { response -> onSuccess(WorkoutModel(response.returnData[0])) }

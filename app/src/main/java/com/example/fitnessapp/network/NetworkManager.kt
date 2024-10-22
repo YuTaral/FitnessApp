@@ -33,9 +33,9 @@ object NetworkManager {
                         onSuccessCallback(body)
                     } else {
                         if (body.userMessage.isNotEmpty()) {
-                            Utils.showToast(body.userMessage)
+                            Utils.showMessage(body.userMessage)
                         } else {
-                            Utils.showToast(R.string.error_msg_unexpected)
+                            Utils.showMessage(R.string.error_msg_unexpected)
                         }
                         onErrorCallback(body)
                     }

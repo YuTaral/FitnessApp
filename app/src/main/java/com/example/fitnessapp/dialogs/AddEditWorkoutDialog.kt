@@ -85,7 +85,7 @@ class AddEditWorkoutDialog(add: Boolean) {
      * @param muscleGroupsRecycler the recycler view
      */
     private fun populateMuscleGroups(muscleGroupsRecycler: RecyclerView) {
-        MuscleGroupRepository().getMuscleGroups(StateEngine.user.id, onSuccess = { muscleGroups ->
+        MuscleGroupRepository().getMuscleGroups(onSuccess = { muscleGroups ->
             muscleGroupsRecycler.layoutManager = LinearLayoutManager(Utils.getContext())
             muscleGroupsRecycler.adapter = MuscleGroupRecyclerAdapter(muscleGroups)
         })

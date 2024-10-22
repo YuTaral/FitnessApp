@@ -41,7 +41,7 @@ class MainPanel(root: ViewGroup) {
     /** Populates the data in the panel with the latest workouts */
      fun populatePanel() {
         NetworkManager.sendRequest(
-            APIService.instance.getWorkouts(StateEngine.user.id),
+            APIService.instance.getWorkouts(),
             onSuccessCallback = { response ->
                 workoutsRecycler.layoutManager = LinearLayoutManager(Utils.getContext())
 
