@@ -1,12 +1,21 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     id("com.google.gms.google-services")
 }
 
+
+// Load properties from local.properties
+val properties = Properties().apply {
+    load(file("../local.properties").inputStream())
+}
+
 android {
     namespace = "com.example.fitnessapp"
     compileSdk = 34
+    android.buildFeatures.buildConfig = true
 
     defaultConfig {
         applicationId = "com.example.fitnessapp"
@@ -22,6 +31,11 @@ android {
     }
 
     buildTypes {
+        debug {
+            // Ensure to wrap the URL in double quotes
+            val devUrl = properties.getProperty("DEV_BASE_URL")
+            buildConfigField("String", "BASE_URL", "\"$devUrl\"")
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(
