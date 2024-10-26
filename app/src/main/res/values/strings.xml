@@ -30,7 +30,7 @@
     <string name="current_workout_lbl">Current Workout</string>
     <string name="current_workout_not_selected_lbl">Workout not selected</string>
     <string name="add_exercise_btn">Add Exercise</string>
-    <string name="add_workout_btn">New Workout</string>
+    <string name="add_workout_btn">Workout</string>
     <string name="plus_symbol">+</string>
     <string name="minus_symbol">-</string>
     <string name="add_exercise_lbl">Add Exercise</string>
@@ -69,6 +69,15 @@
     <string name="target_muscle_groups_lbl">Target muscle groups:</string>
     <string name="exercises_lbl">Exercises:</string>
     <string name="logout">Log Out</string>
-
+    <string name="actions_lbl">Actions</string>
+    <string name="save_workout_as_template_lbl">Save workout as template</string>
+    <string name="save_template_lbl">Save template</string>
+    <string name="template_name_lbl">Template Name…</string>
+    <string name="error_msg_no_workout_selected">No workout selected</string>
+    <string name="error_msg_enter_template_name">Please enter workout template name</string>
+    <string name="workout_template_added">Workout template added</string>
+    <string name="templates_lbl">Templates</string>
+    <string name="error_msg_no_workout_templates">You don\'t have any templates yet</string>
+    <string name="close_btn">Close</string>
 
 </resources>

@@ -115,7 +115,7 @@ class AddEditWorkoutDialog(add: Boolean) {
 
         // Add / edit the workout
         if (addMode) {
-            WorkoutRepository().addWorkout(WorkoutModel(0, name.text.toString(), mutableListOf(), getSelMuscleGroups()),
+            WorkoutRepository().addWorkout(WorkoutModel(0, name.text.toString(), false, mutableListOf(), getSelMuscleGroups()),
                 onSuccess = { workout ->
                     alertDialog.dismiss()
                     Utils.showToast(R.string.workout_added)
@@ -126,7 +126,7 @@ class AddEditWorkoutDialog(add: Boolean) {
 
                 })
         } else {
-            WorkoutRepository().editWorkout(WorkoutModel(StateEngine.workout!!.id, name.text.toString(), mutableListOf(), getSelMuscleGroups()),
+            WorkoutRepository().editWorkout(WorkoutModel(StateEngine.workout!!.id, name.text.toString(), false, mutableListOf(), getSelMuscleGroups()),
                 onSuccess = { workout ->
                     alertDialog.dismiss()
                     Utils.showToast(R.string.workout_updated)

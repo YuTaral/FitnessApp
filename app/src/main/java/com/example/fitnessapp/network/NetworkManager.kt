@@ -40,7 +40,7 @@ object NetworkManager {
                         onErrorCallback(body)
                     }
                 } catch (e: Exception) {
-                    Utils.showMessage(R.string.error_msg_unexpected)
+                    Utils.showMessage(response.raw().toString())
                 }
             }
 

@@ -12,6 +12,7 @@ import com.example.fitnessapp.dialogs.AddEditWorkoutDialog
 import com.example.fitnessapp.models.WorkoutModel
 import com.example.fitnessapp.network.APIService
 import com.example.fitnessapp.network.NetworkManager
+import com.example.fitnessapp.network.repositories.WorkoutTemplateRepository
 import com.example.fitnessapp.utils.StateEngine
 import com.example.fitnessapp.utils.Utils
 
@@ -21,6 +22,8 @@ class MainPanel(root: ViewGroup) {
     private val panel: View
     private val workoutsRecycler: RecyclerView
     private val newWorkoutBtn: Button
+    private val templateBtn: Button
+
 
     init {
         panel = LayoutInflater.from(Utils.getContext()).inflate(R.layout.main_panel, root, false)
@@ -28,11 +31,13 @@ class MainPanel(root: ViewGroup) {
         // Find the views in the panel
         workoutsRecycler = panel.findViewById(R.id.workouts_recycler)
         newWorkoutBtn = panel.findViewById(R.id.new_workout_btn)
+        templateBtn = panel.findViewById(R.id.new_workout_from_template_btn)
 
         populatePanel()
 
         // Add click button click listener
         newWorkoutBtn.setOnClickListener { startNewWorkout() }
+        templateBtn.setOnClickListener { showWorkoutTemplate() }
 
         // Add the panel to the root view
         root.addView(panel)
@@ -63,5 +68,17 @@ class MainPanel(root: ViewGroup) {
     /** Executed on New Workout button click to open Add Workout Dialog */
     private fun startNewWorkout() {
         AddEditWorkoutDialog(true).showDialog()
+    }
+
+    /** Executed on Templates button click to display the workout templates */
+    private fun showWorkoutTemplate() {
+        WorkoutTemplateRepository().getWorkoutTemplates( onSuccess = { serializedTemplates ->
+            val templates: MutableList<WorkoutModel> = mutableListOf()
+            for (s: String in  serializedTemplates) {
+                templates.add(WorkoutModel(s))
+            }
+
+            // TODO: Display the templates
+        })
     }
 }

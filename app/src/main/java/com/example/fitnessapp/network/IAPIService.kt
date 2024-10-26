@@ -47,4 +47,14 @@ interface IAPIService {
      * -------------------------------------------------------------------------------- */
     @GET("mgroup/get-muscle-groups")
     fun getMuscleGroups(): Call<CustomResponse>
+
+    /** WORKOUT TEMPLATES POST REQUESTS
+     * -------------------------------------------------------------------------------- */
+    @POST("workout-template/add")
+    fun addWorkoutTemplate(@Body params: Map<String, String>): Call<CustomResponse>
+
+    /** WORKOUT TEMPLATES GET REQUESTS
+     * -------------------------------------------------------------------------------- */
+    @GET("workout-template/get-templates")
+    fun getWorkoutTemplates(): Call<CustomResponse>
 }

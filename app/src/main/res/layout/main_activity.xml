@@ -28,6 +28,17 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
 
+            <ImageView
+                android:id="@+id/menu_img"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginTop="5dp"
+                android:importantForAccessibility="no"
+                android:background="@drawable/menu_icon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
             <TextView
                 android:id="@+id/main_panel_lbl"
                 android:layout_width="0dp"
@@ -117,6 +128,16 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/menu_header"
         app:menu="@menu/nav_menu"
+        app:itemTextAppearance="@style/MenuItemStyle" />
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/action_nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/menu_action_header"
+        app:menu="@menu/nav_action_menu"
         app:itemTextAppearance="@style/MenuItemStyle" />
 
 </androidx.drawerlayout.widget.DrawerLayout>
