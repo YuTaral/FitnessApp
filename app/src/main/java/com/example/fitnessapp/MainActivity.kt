@@ -159,4 +159,13 @@ class MainActivity : AppCompatActivity() {
             fragment.onRefreshListener()
         }
     }
+
+    /** Displays Main panel
+     *  @param refreshWorkouts true if StateEngine variable to refresh workouts should be set to true,
+     * false otherwise
+     */
+    fun displayMainPanel(refreshWorkouts: Boolean) {
+        StateEngine.refreshWorkouts = refreshWorkouts
+        StateEngine.pager.setCurrentItem(PanelPagerAdapter.Panel.MAIN.getIndex(), true)
+    }
 }

@@ -142,8 +142,7 @@ class AddEditWorkoutDialog(add: Boolean) {
             Utils.showToast(R.string.workout_deleted)
             alertDialog.dismiss()
             StateEngine.workout = null
-            //Utils.getActivity().displayNewWorkoutPanel()
-            StateEngine.refreshWorkouts = true
+            Utils.getActivity().displayMainPanel(true)
         })
     }
 
