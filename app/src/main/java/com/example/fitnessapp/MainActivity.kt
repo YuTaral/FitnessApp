@@ -1,41 +1,36 @@
 package com.example.fitnessapp
 
 import android.content.Intent
-import android.graphics.Typeface
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.View
 import android.widget.ImageView
-import android.widget.RelativeLayout
 import android.widget.TextView
-import androidx.activity.ComponentActivity
 import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.viewpager2.widget.ViewPager2
 import com.example.fitnessapp.dialogs.SaveWorkoutTemplateDialog
 import com.example.fitnessapp.models.WorkoutModel
-import com.example.fitnessapp.network.APIService
-import com.example.fitnessapp.network.NetworkManager
 import com.example.fitnessapp.network.repositories.UserRepository
-import com.example.fitnessapp.panels.MainPanel
-import com.example.fitnessapp.panels.SelectedWorkoutPanel
+import com.example.fitnessapp.panels.FragmentRefreshListener
+import com.example.fitnessapp.panels.PanelPagerAdapter
 import com.example.fitnessapp.utils.StateEngine
 import com.example.fitnessapp.utils.Utils
 import com.google.android.material.navigation.NavigationView
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 
 /** Main Activity class to hold the main logic of the application.
  * Displayed after successful login
  */
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navView: NavigationView
     private lateinit var actionsNavView: NavigationView
-    private lateinit var mainPanel: MainPanel
-    private lateinit var selectedWorkoutPanel: SelectedWorkoutPanel
-    private lateinit var mainPanelLbL: TextView
-    private lateinit var newWorkoutPanelLbl: TextView
     private lateinit var profileIcon: ImageView
     private lateinit var menuIcon: ImageView
-
+    private lateinit var viewPager: ViewPager2
+    private lateinit var tabLayout: TabLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,23 +41,29 @@ class MainActivity : ComponentActivity() {
         drawerLayout = findViewById(R.id.drawer_layout)
         navView = findViewById(R.id.nav_view)
         actionsNavView = findViewById(R.id.action_nav_view)
-        mainPanelLbL = findViewById(R.id.main_panel_lbl)
-        newWorkoutPanelLbl = findViewById(R.id.panel_add_workout_lbl)
+        viewPager = findViewById(R.id.viewPager)
+        tabLayout = findViewById(R.id.tabLayout)
         profileIcon = findViewById(R.id.profile_img)
         menuIcon = findViewById(R.id.menu_img)
 
-        // Create the two panels
-        mainPanel = MainPanel(findViewById(R.id.main_panel))
-        selectedWorkoutPanel = SelectedWorkoutPanel(findViewById(R.id.add_workout_panel))
+        // Set up the pager adapter
+        initialisePager()
 
-        // Show the default panel
-        displayMainPanel()
+        // Initialise drawer logic - adds click listeners and overrides back button press
+        initialiseDrawerLogic()
+    }
 
-        // Add click listeners to display the different panels
-        mainPanelLbL.setOnClickListener { displayMainPanel() }
-        newWorkoutPanelLbl.setOnClickListener { displayNewWorkoutPanel() }
+    /** Sets the view pager */
+    private fun initialisePager() {
+        viewPager.adapter = PanelPagerAdapter(this, itemCount = 2)
+        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+            tab.text = PanelPagerAdapter.Panel.entries[position].getTitle()
+        }.attach()
+        StateEngine.pager = viewPager
+    }
 
-        // Add click listener to display the Navigations
+    /** Add click listeners for selecting item from the drawer and back button pressed */
+    private fun initialiseDrawerLogic() {
         profileIcon.setOnClickListener {
             findViewById<TextView>(R.id.txt_username).text = StateEngine.user.email
             drawerLayout.openDrawer(navView)
@@ -71,53 +72,6 @@ class MainActivity : ComponentActivity() {
             drawerLayout.openDrawer(actionsNavView)
         }
 
-        // Initialise drawer logic - adds click listener for menu item selection
-        // and overrides back button press
-        initialiseDrawerLogic()
-    }
-
-    /** Handles Main panel clicked */
-    private fun displayMainPanel() {
-        findViewById<RelativeLayout>(R.id.add_workout_panel).visibility = View.GONE
-        findViewById<View>(R.id.add_workout_panel_lbl_underline).visibility = View.GONE
-        newWorkoutPanelLbl.setTypeface(null)
-
-        findViewById<RelativeLayout>(R.id.main_panel).visibility = View.VISIBLE
-        findViewById<View>(R.id.main_panel_lbl_underline).visibility = View.VISIBLE
-        mainPanelLbL.setTypeface(null, Typeface.BOLD)
-
-        if (StateEngine.refreshWorkouts) {
-            mainPanel.populatePanel()
-        }
-    }
-
-    /** Handles New Workout panel clicked */
-    fun displayNewWorkoutPanel() {
-        findViewById<RelativeLayout>(R.id.main_panel).visibility = View.GONE
-        findViewById<View>(R.id.main_panel_lbl_underline).visibility = View.GONE
-
-        mainPanelLbL.setTypeface(null)
-
-        findViewById<RelativeLayout>(R.id.add_workout_panel).visibility = View.VISIBLE
-        findViewById<View>(R.id.add_workout_panel_lbl_underline).visibility = View.VISIBLE
-        newWorkoutPanelLbl.setTypeface(null, Typeface.BOLD)
-
-        selectedWorkoutPanel.populatePanel()
-    }
-
-    /** Executes Select Workout */
-    fun selectWorkout(workout: WorkoutModel) {
-        NetworkManager.sendRequest(
-            APIService.instance.getWorkout(workout.id),
-            onSuccessCallback = { response ->
-                StateEngine.workout = WorkoutModel(response.returnData[0])
-                displayNewWorkoutPanel()
-            }
-        )
-    }
-
-    /** Add click listeners for selecting item from the drawer and back button pressed */
-    private fun initialiseDrawerLogic() {
         navView.setNavigationItemSelectedListener { menuItem ->
             leftDrawerSelected(menuItem)
             drawerLayout.closeDrawers()
@@ -177,6 +131,32 @@ class MainActivity : ComponentActivity() {
                     finish()
                 })
             }
+        }
+    }
+
+    /** Displays Workout panel
+     * @param workout the workout model, updates the StateEngine variable
+     * @param refreshWorkouts true if StateEngine variable to refresh workouts should be set to true,
+     * false otherwise. If null provided, the variable is not being changed
+     */
+    fun displayWorkoutPanel(workout: WorkoutModel?, refreshWorkouts: Boolean?) {
+        val index = PanelPagerAdapter.Panel.WORKOUT.getIndex()
+
+        StateEngine.workout = workout
+
+        if (refreshWorkouts != null) {
+            StateEngine.refreshWorkouts = refreshWorkouts
+        }
+
+        if (index != StateEngine.pager.currentItem) {
+            // If the index of the viewPager changes, this will trigger onResume(), which will re-populate
+            // the panel
+            StateEngine.pager.setCurrentItem(PanelPagerAdapter.Panel.WORKOUT.getIndex(), true)
+        } else {
+            // If the index of the viewPager does not chang, this will not trigger onResume(), notify the listener
+            // to re-populate the panel
+            val fragment = supportFragmentManager.findFragmentByTag("f$index") as FragmentRefreshListener
+            fragment.onRefreshListener()
         }
     }
 }

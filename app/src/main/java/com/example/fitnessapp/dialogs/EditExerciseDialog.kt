@@ -140,9 +140,7 @@ class EditExerciseDialog(exerciseModel: ExerciseModel) {
             ExerciseRepository().deleteExercise(exercise.id, onSuccess = { workout ->
                 alertDialog.dismiss()
                 Utils.showToast(R.string.exercise_deleted)
-                StateEngine.workout = workout
-                StateEngine.refreshWorkouts = true
-                Utils.getActivity().displayNewWorkoutPanel()
+                Utils.getActivity().displayWorkoutPanel(workout, true)
             })
         }
     }
@@ -162,9 +160,7 @@ class EditExerciseDialog(exerciseModel: ExerciseModel) {
         ExerciseRepository().editExercise(ExerciseModel(exercise.id, name.text.toString(), getSets(setsContainer)), onSuccess = { workout ->
             alertDialog.dismiss()
             Utils.showToast(R.string.exercise_updated)
-            StateEngine.workout = workout
-            StateEngine.refreshWorkouts = true
-            Utils.getActivity().displayNewWorkoutPanel()
+            Utils.getActivity().displayWorkoutPanel(workout, true)
         })
     }
 }

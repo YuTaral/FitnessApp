@@ -10,7 +10,6 @@ import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
 import com.example.fitnessapp.R
 import com.example.fitnessapp.network.repositories.ExerciseRepository
-import com.example.fitnessapp.utils.StateEngine
 import com.example.fitnessapp.utils.Utils
 
 /** Add Exercise dialog to hold the logic for adding exercise */
@@ -68,10 +67,8 @@ class AddExerciseDialog {
         // Add the exercise
         ExerciseRepository().addExercise(exercise, onSuccess = { workout ->
             alertDialog.dismiss()
-            StateEngine.workout = workout
-            Utils.getActivity().displayNewWorkoutPanel()
             Utils.showToast(R.string.exercise_added)
-            StateEngine.refreshWorkouts = true
+            Utils.getActivity().displayWorkoutPanel(workout, true)
         })
     }
 }

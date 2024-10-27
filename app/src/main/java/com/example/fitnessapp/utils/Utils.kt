@@ -84,7 +84,7 @@ object Utils {
         return StateEngine.activeActivity
     }
 
-    /** Returns the current activity*/
+    /** Returns the current activity */
     fun getActivity(): MainActivity {
         return StateEngine.activeActivity as MainActivity
     }

@@ -39,78 +39,22 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
 
-            <TextView
-                android:id="@+id/main_panel_lbl"
-                android:layout_width="0dp"
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabLayout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:gravity="center"
-                android:text="@string/main_lbl"
-                android:textSize="25sp"
-                app:layout_constraintTop_toBottomOf="@+id/profile_img"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintWidth_percent="0.5"/>
-
-            <View
-                android:id="@+id/main_panel_lbl_underline"
-                android:layout_width="0dp"
-                android:layout_height="2dp"
-                android:layout_marginTop="1dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:background="@color/white"
-                app:layout_constraintStart_toStartOf="@+id/main_panel_lbl"
-                app:layout_constraintEnd_toEndOf="@+id/main_panel_lbl"
-                app:layout_constraintTop_toBottomOf="@+id/main_panel_lbl"/>
-
-            <TextView
-                android:id="@+id/panel_add_workout_lbl"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:gravity="center"
-                android:text="@string/new_workout_lbl"
-                android:textSize="25sp"
-                app:layout_constraintTop_toBottomOf="@+id/profile_img"
-                app:layout_constraintStart_toEndOf="@+id/main_panel_lbl"
-                app:layout_constraintWidth_percent="0.5"/>
-
-            <View
-                android:id="@+id/add_workout_panel_lbl_underline"
-                android:layout_width="0dp"
-                android:layout_height="2dp"
-                android:layout_marginTop="1dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:background="@color/white"
-                app:layout_constraintStart_toStartOf="@+id/panel_add_workout_lbl"
-                app:layout_constraintEnd_toEndOf="@+id/panel_add_workout_lbl"
-                app:layout_constraintTop_toBottomOf="@+id/panel_add_workout_lbl"/>
-
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/profile_img"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <RelativeLayout
-            android:id="@+id/main_content"
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@+id/header"
-            app:layout_constraintBottom_toBottomOf="parent">
-
-            <RelativeLayout
-                android:id="@+id/main_panel"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/add_workout_panel"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone">
-            </RelativeLayout>
-
-        </RelativeLayout>
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/header"/>
 
         <RelativeLayout
             android:id="@+id/user_message"

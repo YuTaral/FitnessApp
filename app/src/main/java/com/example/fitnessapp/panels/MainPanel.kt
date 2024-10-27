@@ -1,9 +1,11 @@
 package com.example.fitnessapp.panels
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fitnessapp.R
@@ -18,33 +20,40 @@ import com.example.fitnessapp.utils.Utils
 
 
 /** Class to hold the logic for the Main Panel */
-class MainPanel(root: ViewGroup) {
-    private val panel: View
-    private val workoutsRecycler: RecyclerView
-    private val newWorkoutBtn: Button
-    private val templateBtn: Button
+class MainPanel : Fragment() {
+    private lateinit var panel: View
+    private lateinit var workoutsRecycler: RecyclerView
+    private lateinit var newWorkoutBtn: Button
+    private lateinit var templateBtn: Button
 
-
-    init {
-        panel = LayoutInflater.from(Utils.getContext()).inflate(R.layout.main_panel, root, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        panel = inflater.inflate(R.layout.main_panel, container, false)
 
         // Find the views in the panel
         workoutsRecycler = panel.findViewById(R.id.workouts_recycler)
         newWorkoutBtn = panel.findViewById(R.id.new_workout_btn)
         templateBtn = panel.findViewById(R.id.new_workout_from_template_btn)
 
-        populatePanel()
-
         // Add click button click listener
         newWorkoutBtn.setOnClickListener { startNewWorkout() }
         templateBtn.setOnClickListener { showWorkoutTemplate() }
 
-        // Add the panel to the root view
-        root.addView(panel)
+        // Populate the panel
+        populatePanel()
+
+        return panel
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        if (StateEngine.refreshWorkouts) {
+            populatePanel()
+        }
     }
 
     /** Populates the data in the panel with the latest workouts */
-     fun populatePanel() {
+    private fun populatePanel() {
         NetworkManager.sendRequest(
             APIService.instance.getWorkouts(),
             onSuccessCallback = { response ->
@@ -56,7 +65,12 @@ class MainPanel(root: ViewGroup) {
                 }
 
                 workoutsRecycler.adapter = WorkoutRecyclerAdapter(workouts) { workout ->
-                    Utils.getActivity().selectWorkout(workout)
+                    NetworkManager.sendRequest(
+                        APIService.instance.getWorkout(workout.id),
+                        onSuccessCallback = { response ->
+                            Utils.getActivity().displayWorkoutPanel(WorkoutModel(response.returnData[0]), null)
+                        }
+                    )
                 }
 
                 // The most recent data with workouts is now displayed

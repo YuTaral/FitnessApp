@@ -15,14 +15,14 @@
     <string name="error_msg_unexpected">Unexpected error occurred while processing the request</string>
     <string name="user_registered">User registered successfully</string>
     <string name="please_wait">Please wait…</string>
-    <string name="new_workout_lbl">Workout</string>
+    <string name="workout_panel_title">Workout</string>
     <string name="previous_symbol"><![CDATA[<]]></string>
     <string name="next_symbol"><![CDATA[>]]></string>
     <string name="today_lbl">Today</string>
     <string name="yesterday_lbl">Yesterday</string>
     <string name="tomorrow_lbl">Tomorrow</string>
     <string name="new_workout_btn">New Workout</string>
-    <string name="main_lbl">Main</string>
+    <string name="main_panel_title">Main</string>
     <string name="save_btn">Save</string>
     <string name="clear_btn">Clear</string>
     <string name="workout_name_lbl">Workout name…</string>

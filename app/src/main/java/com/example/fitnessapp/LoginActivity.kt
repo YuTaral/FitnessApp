@@ -8,7 +8,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
-import androidx.activity.ComponentActivity
+import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.fitnessapp.models.UserModel
 import com.example.fitnessapp.models.WorkoutModel
@@ -17,7 +17,7 @@ import com.example.fitnessapp.utils.StateEngine
 import com.example.fitnessapp.utils.Utils
 
 /** Class to hold the logic for Login / Register */
-class LoginActivity : ComponentActivity() {
+class LoginActivity : AppCompatActivity() {
     private lateinit var loginContainer: ConstraintLayout
     private lateinit var registerContainer: ConstraintLayout
     private lateinit var email: EditText

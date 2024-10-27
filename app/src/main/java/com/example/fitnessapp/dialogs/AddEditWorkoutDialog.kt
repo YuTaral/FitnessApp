@@ -119,9 +119,7 @@ class AddEditWorkoutDialog(add: Boolean) {
                 onSuccess = { workout ->
                     alertDialog.dismiss()
                     Utils.showToast(R.string.workout_added)
-                    StateEngine.workout = workout
-                    Utils.getActivity().displayNewWorkoutPanel()
-                    StateEngine.refreshWorkouts = true
+                    Utils.getActivity().displayWorkoutPanel(workout, true)
                     alertDialog.dismiss()
 
                 })
@@ -130,9 +128,7 @@ class AddEditWorkoutDialog(add: Boolean) {
                 onSuccess = { workout ->
                     alertDialog.dismiss()
                     Utils.showToast(R.string.workout_updated)
-                    StateEngine.workout = workout
-                    Utils.getActivity().displayNewWorkoutPanel()
-                    StateEngine.refreshWorkouts = true
+                    Utils.getActivity().displayWorkoutPanel(workout, true)
                 })
         }
     }
@@ -146,7 +142,7 @@ class AddEditWorkoutDialog(add: Boolean) {
             Utils.showToast(R.string.workout_deleted)
             alertDialog.dismiss()
             StateEngine.workout = null
-            Utils.getActivity().displayNewWorkoutPanel()
+            //Utils.getActivity().displayNewWorkoutPanel()
             StateEngine.refreshWorkouts = true
         })
     }
