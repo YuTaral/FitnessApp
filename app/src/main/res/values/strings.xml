@@ -11,7 +11,7 @@
     <string name="confirm_password_lbl">Confirm password</string>
     <string name="error_msg_invalid_email">Email is not valid</string>
     <string name="error_msg_blank_pass">Password cannot be blank</string>
-    <string name="error_msg_pass_match">Passwords does not match</string>
+    <string name="error_msg_pass_match">Passwords do not match</string>
     <string name="error_msg_unexpected">Unexpected error occurred while processing the request</string>
     <string name="user_registered">User registered successfully</string>
     <string name="please_wait">Please wait…</string>

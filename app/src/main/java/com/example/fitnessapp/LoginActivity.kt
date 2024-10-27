@@ -103,23 +103,23 @@ class LoginActivity : AppCompatActivity() {
 
         // Validate email
         if (!Utils.isValidEmail(email)) {
-            Utils.showMessage(R.string.error_msg_invalid_email)
+            Utils.showToast(R.string.error_msg_invalid_email)
             return
         }
 
         // Validate passwords
         if (password.isEmpty()) {
-            Utils.showMessage( R.string.error_msg_blank_pass)
+            Utils.showToast( R.string.error_msg_blank_pass)
             return
         }
         if (password != confirmPassword) {
-            Utils.showMessage(R.string.error_msg_pass_match)
+            Utils.showToast(R.string.error_msg_pass_match)
             return
         }
 
         // Client-side validation passed, send the register request
         UserRepository().register(email, password, onSuccess = {
-            Utils.showMessage(R.string.user_registered)
+            Utils.showToast(R.string.user_registered)
             displayLogin()
         })
     }
@@ -131,13 +131,13 @@ class LoginActivity : AppCompatActivity() {
 
         // Validate email
         if (!Utils.isValidEmail(email)) {
-            Utils.showMessage(R.string.error_msg_invalid_email)
+            Utils.showToast(R.string.error_msg_invalid_email)
             return
         }
 
         // Validate passwords
         if (password.isEmpty()) {
-            Utils.showMessage( R.string.error_msg_blank_pass)
+            Utils.showToast( R.string.error_msg_blank_pass)
             return
         }
 

@@ -56,7 +56,7 @@ object Utils {
     * @param message the message to show
     * @param duration duration - short / long, long by default
     * */
-    fun showToast(message: String, duration: Int = Toast.LENGTH_LONG) {
+    private fun showToast(message: String, duration: Int = Toast.LENGTH_LONG) {
         Toast.makeText(getContext(), message, duration).show()
     }
 
