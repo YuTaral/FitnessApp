@@ -36,7 +36,6 @@
             app:layout_constraintStart_toEndOf="@+id/exercise_edit_btn"
             app:layout_constraintEnd_toStartOf="@+id/exercise_expand_collapse_symbol"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="@+id/exercise_edit_btn"
             tools:text="Squats"/>
 
         <ImageView
