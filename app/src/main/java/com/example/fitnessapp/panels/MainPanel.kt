@@ -12,8 +12,7 @@ import com.example.fitnessapp.R
 import com.example.fitnessapp.adapters.WorkoutRecyclerAdapter
 import com.example.fitnessapp.dialogs.AddEditWorkoutDialog
 import com.example.fitnessapp.models.WorkoutModel
-import com.example.fitnessapp.network.APIService
-import com.example.fitnessapp.network.NetworkManager
+import com.example.fitnessapp.network.repositories.WorkoutRepository
 import com.example.fitnessapp.network.repositories.WorkoutTemplateRepository
 import com.example.fitnessapp.utils.StateEngine
 import com.example.fitnessapp.utils.Utils
@@ -54,29 +53,21 @@ class MainPanel : Fragment() {
 
     /** Populates the data in the panel with the latest workouts */
     private fun populatePanel() {
-        NetworkManager.sendRequest(
-            APIService.instance.getWorkouts(),
-            onSuccessCallback = { response ->
-                workoutsRecycler.layoutManager = LinearLayoutManager(Utils.getContext())
+        WorkoutRepository().getWorkouts(onSuccess = { returnData ->
+            workoutsRecycler.layoutManager = LinearLayoutManager(Utils.getContext())
 
-                val workouts : MutableList<WorkoutModel> = mutableListOf()
-                for (w : String in response.returnData) {
-                    workouts.add(WorkoutModel(w))
-                }
-
-                workoutsRecycler.adapter = WorkoutRecyclerAdapter(workouts) { workout ->
-                    NetworkManager.sendRequest(
-                        APIService.instance.getWorkout(workout.id),
-                        onSuccessCallback = { response ->
-                            Utils.getActivity().displayWorkoutPanel(WorkoutModel(response.returnData[0]), null)
-                        }
-                    )
-                }
-
-                // The most recent data with workouts is now displayed
-                StateEngine.refreshWorkouts = false
+            val workouts : MutableList<WorkoutModel> = mutableListOf()
+            for (w : String in returnData) {
+                workouts.add(WorkoutModel(w))
             }
-        )
+
+            workoutsRecycler.adapter = WorkoutRecyclerAdapter(workouts) { workout ->
+                Utils.getActivity().displayWorkoutPanel(workout, null)
+            }
+
+            // The most recent data with workouts is now displayed
+            StateEngine.refreshWorkouts = false
+        })
     }
 
     /** Executed on New Workout button click to open Add Workout Dialog */

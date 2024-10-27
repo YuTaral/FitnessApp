@@ -42,4 +42,29 @@ class WorkoutRepository {
         NetworkManager.sendRequest(APIService.instance.deleteWorkout(workoutId),
             onSuccessCallback = { onSuccess() })
     }
+
+    /** Fetches the workouts
+     * @param onSuccess callback to execute if request is successful
+     */
+    fun getWorkouts(onSuccess: (List<String>) -> Unit) {
+        NetworkManager.sendRequest(
+            APIService.instance.getWorkouts(),
+            onSuccessCallback = { response ->
+                onSuccess(response.returnData)
+            }
+        )
+    }
+
+    /** Fetches the workout
+     * @param workoutId the workout id
+     * @param onSuccess callback to execute if request is successful
+     */
+    fun getWorkout(workoutId: Long, onSuccess: (WorkoutModel) -> Unit) {
+        NetworkManager.sendRequest(
+            APIService.instance.getWorkout(workoutId),
+            onSuccessCallback = { response ->
+                onSuccess(WorkoutModel(response.returnData[0]))
+            }
+        )
+    }
 }
