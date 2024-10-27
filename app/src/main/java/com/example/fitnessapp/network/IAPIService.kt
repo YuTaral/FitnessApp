@@ -45,7 +45,7 @@ interface IAPIService {
 
     /** MUSCLE GROUPS GET REQUESTS
      * -------------------------------------------------------------------------------- */
-    @GET("mgroup/get-muscle-groups")
+    @GET("muscle-group/get-by-user")
     fun getMuscleGroups(): Call<CustomResponse>
 
     /** WORKOUT TEMPLATES POST REQUESTS
