@@ -66,7 +66,7 @@
     <string name="workout_updated">Workout updated</string>
     <string name="workout_deleted">Workout deleted</string>
     <string name="muscle_groups_lbl">Muscle groups</string>
-    <string name="target_muscle_groups_lbl">Target muscle groups:</string>
+    <string name="target_muscle_groups_lbl">Target:</string>
     <string name="exercises_lbl">Exercises:</string>
     <string name="logout">Log Out</string>
     <string name="actions_lbl">Actions</string>

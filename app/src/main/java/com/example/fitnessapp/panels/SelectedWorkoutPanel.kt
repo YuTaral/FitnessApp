@@ -13,7 +13,6 @@ import com.example.fitnessapp.R
 import com.example.fitnessapp.adapters.ExerciseRecyclerAdapter
 import com.example.fitnessapp.dialogs.AddEditWorkoutDialog
 import com.example.fitnessapp.dialogs.AddExerciseDialog
-import com.example.fitnessapp.models.MuscleGroupModel
 import com.example.fitnessapp.utils.StateEngine
 import com.example.fitnessapp.utils.Utils
 
@@ -58,23 +57,11 @@ class SelectedWorkoutPanel : Fragment(), FragmentRefreshListener {
 
     /** Populates the data in the panel with the current workout */
     private fun populatePanel() {
-        var muscleGroupsSummary = ""
-
         if (StateEngine.workout != null) {
             currentWorkout.text = StateEngine.workout!!.name
             currentWorkoutDate.text = Utils.defaultFormatDate(StateEngine.workout!!.date)
-
-            for (mg: MuscleGroupModel in StateEngine.workout!!.muscleGroups) {
-                if (mg.checked) {
-                    muscleGroupsSummary += mg.name + ", "
-                }
-            }
-
-            if (muscleGroupsSummary.length > 2) {
-                currentMuscleGroups.text = muscleGroupsSummary.dropLast(2)
-            } else {
-                currentMuscleGroups.text = ""
-            }
+            currentMuscleGroups.text = StateEngine.workout!!.muscleGroups.filter { it.checked }
+                                        .joinToString(separator =", ") { it.name  }
 
         } else {
             currentWorkout.text = Utils.getContext().getString(R.string.current_workout_not_selected_lbl)

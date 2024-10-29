@@ -8,7 +8,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fitnessapp.R
 import com.example.fitnessapp.models.ExerciseModel
-import com.example.fitnessapp.models.MuscleGroupModel
 import com.example.fitnessapp.models.SetModel
 import com.example.fitnessapp.models.WorkoutModel
 import com.example.fitnessapp.utils.Utils
@@ -42,13 +41,14 @@ class WorkoutRecyclerAdapter (data: List<WorkoutModel>, onClick: (WorkoutModel) 
     class WorkoutItem(view: View): RecyclerView.ViewHolder(view)  {
         private var name: TextView = itemView.findViewById(R.id.workout_name_txt)
         private var date: TextView = itemView.findViewById(R.id.workout_date_txt)
+        private var muscleGroupsLbl: TextView = itemView.findViewById(R.id.muscle_groups_lbl)
         private var muscleGroups: TextView = itemView.findViewById(R.id.muscle_groups_txt)
+        private var exercisesLlb: TextView = itemView.findViewById(R.id.exercises_lbl)
         private var exercises: TextView = itemView.findViewById(R.id.workout_exercises_summary_txt)
         private var total: TextView = itemView.findViewById(R.id.workout_total_txt)
 
         @SuppressLint("SetTextI18n")
         fun bind(item: WorkoutModel, onClickCallback: (WorkoutModel) -> Unit) {
-            var muscleGroupsText = ""
             var exercisesText = ""
             var totalKg = 0.0
             var totalReps = 0
@@ -69,16 +69,25 @@ class WorkoutRecyclerAdapter (data: List<WorkoutModel>, onClick: (WorkoutModel) 
                 }
             }
 
-            for (m: MuscleGroupModel in item.muscleGroups) {
-                if (m.checked) {
-                    muscleGroupsText = muscleGroupsText + m.name + ", "
-                }
-            }
-
             name.text = item.name
             date.text = Utils.defaultFormatDate(item.date)
-            muscleGroups.text = muscleGroupsText.dropLast(2)
-            exercises.text = exercisesText.dropLast(2)
+
+            muscleGroups.text = item.muscleGroups.filter { it.checked }.joinToString(separator = ", ") { it.name }
+            if (muscleGroups.text.isEmpty()) {
+                muscleGroupsLbl.visibility = View.GONE
+            } else {
+                muscleGroupsLbl.visibility = View.VISIBLE
+            }
+
+            if (exercisesText.length > 2) {
+                exercisesLlb.visibility = View.VISIBLE
+                exercises.visibility = View.VISIBLE
+                exercises.text = exercisesText.dropLast(2)
+            } else {
+                exercisesLlb.visibility = View.GONE
+                exercises.visibility = View.GONE
+            }
+
             total.text = String.format(Utils.getContext().getText(R.string.workout_summary_lbl).toString(),
                         completedKg, totalKg, completedReps, totalReps)
 

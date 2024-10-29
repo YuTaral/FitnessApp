@@ -16,18 +16,6 @@ class ExerciseModel {
     @SerializedName("Sets")
     val sets: MutableList<SetModel>
 
-    /** Constructor to accept serialized object
-     * @param data serialized ExerciseModel object
-     */
-    constructor(data: String) {
-        val gson = Gson()
-        val exercise: ExerciseModel = gson.fromJson(data, ExerciseModel::class.java)
-
-        id = exercise.id
-        name = exercise.name
-        sets = exercise.sets
-    }
-
     /** Constructor used when new exercise is created
      * @param nameVal the exercise name
      * @param setsCountVal the sets value
@@ -39,7 +27,7 @@ class ExerciseModel {
         name = nameVal
         sets = mutableListOf()
 
-        for(i in 0..<setsCountVal) {
+        for (i in 0..<setsCountVal) {
             sets.add(i, SetModel(0, repsVal, weightVal, false))
         }
     }

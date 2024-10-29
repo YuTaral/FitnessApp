@@ -53,9 +53,7 @@ class EditExerciseDialog(exerciseModel: ExerciseModel) {
 
         // Populate the data
         name.setText(exercise.name)
-        for (set: SetModel in exercise.sets) {
-            addSetToContainer(set, setsContainer)
-        }
+        exercise.sets.map { addSetToContainer(it, setsContainer) }
 
         // Add click listener to add new set
         addSetBtn.setOnClickListener {

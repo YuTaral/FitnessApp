@@ -54,13 +54,8 @@ class MainPanel : Fragment() {
     private fun populatePanel() {
         WorkoutRepository().getWorkouts(onSuccess = { returnData ->
             workoutsRecycler.layoutManager = LinearLayoutManager(Utils.getContext())
-
-            val workouts : MutableList<WorkoutModel> = mutableListOf()
-            for (w : String in returnData) {
-                workouts.add(WorkoutModel(w))
-            }
-
-            workoutsRecycler.adapter = WorkoutRecyclerAdapter(workouts) { workout ->
+            workoutsRecycler.adapter = WorkoutRecyclerAdapter(
+                returnData.map { WorkoutModel(it) }.toMutableList()) { workout ->
                 StateEngine.panelAdapter.displayWorkoutPanel(workout, null)
             }
 
