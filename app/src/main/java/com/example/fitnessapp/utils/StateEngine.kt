@@ -1,9 +1,9 @@
 package com.example.fitnessapp.utils
 
 import androidx.appcompat.app.AppCompatActivity
-import androidx.viewpager2.widget.ViewPager2
 import com.example.fitnessapp.models.UserModel
 import com.example.fitnessapp.models.WorkoutModel
+import com.example.fitnessapp.panels.PanelAdapter
 
 /** Object to define the current state (holds current activity, logged in user, etc... */
 object StateEngine {
@@ -21,6 +21,6 @@ object StateEngine {
      */
     var refreshWorkouts = false
 
-    /** The panels pager */
-    lateinit var pager: ViewPager2
+    /** The panels pager adapter */
+    lateinit var panelAdapter: PanelAdapter
 }

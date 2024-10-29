@@ -22,21 +22,26 @@ import com.example.fitnessapp.utils.Utils
 
 /** Add / Edit Workout dialog to hold the logic for add / edit workout
  * @param add true if dialog mode is add (adding workout), false if editing exercise
+ * @param workoutModel null by default, not null when the dialog is opened only to confirm
+ * the workout name when starting workout from Template
  */
 @SuppressLint("InflateParams")
-class AddEditWorkoutDialog(add: Boolean) {
+class AddEditWorkoutDialog(add: Boolean, workoutModel: WorkoutModel? = null) {
     private var dialogView: View
     private var title: TextView
     private var closeIcon: ImageView
     private var name: EditText
+    private var muscleGroupsLbl: TextView
     private var muscleGroupsRecycler: RecyclerView
     private var saveBtn: Button
     private var deleteBtn: Button
     private var addMode: Boolean
+    private var template: WorkoutModel?
 
     /** Dialog initialization */
     init {
         addMode = add
+        template = workoutModel
 
         // Inflate the dialog layout
         dialogView = LayoutInflater.from(Utils.getContext())
@@ -46,6 +51,7 @@ class AddEditWorkoutDialog(add: Boolean) {
         title = dialogView.findViewById(R.id.add_workout_title)
         closeIcon = dialogView.findViewById(R.id.dialog_close)
         name = dialogView.findViewById(R.id.workout_name_txt)
+        muscleGroupsLbl = dialogView.findViewById(R.id.muscle_groups_txt)
         muscleGroupsRecycler = dialogView.findViewById(R.id.muscle_groups_recycler)
         saveBtn = dialogView.findViewById(R.id.save_btn)
         deleteBtn = dialogView.findViewById(R.id.delete_btn)
@@ -60,7 +66,16 @@ class AddEditWorkoutDialog(add: Boolean) {
 
         // Populate the dialog and change the views
         if (addMode) {
-            populateMuscleGroups(muscleGroupsRecycler)
+           var enableMGSelection = true
+
+            if (template != null) {
+                // If we only need to confirm the Workout name, set the name
+                // and disable the muscle groups
+                name.setText(template!!.name)
+                enableMGSelection = false
+            }
+
+            populateMuscleGroups(muscleGroupsRecycler, enableMGSelection)
         } else {
             title.text = Utils.getContext().getString(R.string.edit_workout_panel_title)
             deleteBtn.visibility = View.VISIBLE
@@ -68,9 +83,11 @@ class AddEditWorkoutDialog(add: Boolean) {
         }
 
         // Add button click listeners
-        saveBtn.setOnClickListener { save(alertDialog) }
-        deleteBtn.setOnClickListener { delete(alertDialog) }
         closeIcon.setOnClickListener { alertDialog.dismiss() }
+        saveBtn.setOnClickListener { save(alertDialog) }
+        if (deleteBtn.visibility == View.VISIBLE) {
+            deleteBtn.setOnClickListener { delete(alertDialog) }
+        }
 
         // Show the dialog
         alertDialog.show()
@@ -83,12 +100,21 @@ class AddEditWorkoutDialog(add: Boolean) {
 
     /** Fetches the Muscle Groups and populates the dialog
      * @param muscleGroupsRecycler the recycler view
+     * @param enable whether to enable Muscle Group selection
      */
-    private fun populateMuscleGroups(muscleGroupsRecycler: RecyclerView) {
-        MuscleGroupRepository().getMuscleGroups(onSuccess = { muscleGroups ->
-            muscleGroupsRecycler.layoutManager = LinearLayoutManager(Utils.getContext())
-            muscleGroupsRecycler.adapter = MuscleGroupRecyclerAdapter(muscleGroups)
-        })
+    private fun populateMuscleGroups(muscleGroupsRecycler: RecyclerView, enable: Boolean) {
+        muscleGroupsRecycler.layoutManager = LinearLayoutManager(Utils.getContext())
+
+        if (template != null) {
+            // Populate the data by filtering the selected muscle groups
+            muscleGroupsRecycler.adapter =
+                MuscleGroupRecyclerAdapter(template!!.muscleGroups.filter { it.checked }.toMutableList(), enable)
+        } else {
+            // Fetch the muscle groups and populate the data
+            MuscleGroupRepository().getMuscleGroups(onSuccess = { muscleGroups ->
+                muscleGroupsRecycler.adapter = MuscleGroupRecyclerAdapter(muscleGroups, enable)
+            })
+        }
     }
 
     /** Populates the dialog when mode is edit
@@ -99,7 +125,7 @@ class AddEditWorkoutDialog(add: Boolean) {
         if (StateEngine.workout != null) {
             name.setText(StateEngine.workout!!.name)
             muscleGroupsRecycler.layoutManager = LinearLayoutManager(Utils.getContext())
-            muscleGroupsRecycler.adapter = MuscleGroupRecyclerAdapter(StateEngine.workout!!.muscleGroups)
+            muscleGroupsRecycler.adapter = MuscleGroupRecyclerAdapter(StateEngine.workout!!.muscleGroups, true)
         }
     }
 
@@ -115,20 +141,28 @@ class AddEditWorkoutDialog(add: Boolean) {
 
         // Add / edit the workout
         if (addMode) {
-            WorkoutRepository().addWorkout(WorkoutModel(0, name.text.toString(), false, mutableListOf(), getSelMuscleGroups()),
-                onSuccess = { workout ->
-                    alertDialog.dismiss()
-                    Utils.showToast(R.string.workout_added)
-                    Utils.getActivity().displayWorkoutPanel(workout, true)
-                    alertDialog.dismiss()
+            val newWorkout: WorkoutModel
 
-                })
+            if (template == null) {
+                // Create new workout
+                newWorkout = WorkoutModel(0, name.text.toString(), false, mutableListOf(), getSelMuscleGroups())
+            } else {
+                // Create new workout from the template, filtering only the selected muscle groups
+                newWorkout = template!!
+                newWorkout.muscleGroups = newWorkout.muscleGroups.filter { it.checked }.toMutableList()
+            }
+
+            WorkoutRepository().addWorkout(newWorkout, onSuccess = { workout ->
+                alertDialog.dismiss()
+                Utils.showToast(R.string.workout_added)
+                StateEngine.panelAdapter.displayWorkoutPanel(workout, true)
+            })
         } else {
             WorkoutRepository().editWorkout(WorkoutModel(StateEngine.workout!!.id, name.text.toString(), false, mutableListOf(), getSelMuscleGroups()),
                 onSuccess = { workout ->
                     alertDialog.dismiss()
                     Utils.showToast(R.string.workout_updated)
-                    Utils.getActivity().displayWorkoutPanel(workout, true)
+                    StateEngine.panelAdapter.displayWorkoutPanel(workout, true)
                 })
         }
     }
@@ -142,7 +176,7 @@ class AddEditWorkoutDialog(add: Boolean) {
             Utils.showToast(R.string.workout_deleted)
             alertDialog.dismiss()
             StateEngine.workout = null
-            Utils.getActivity().displayMainPanel(true)
+            StateEngine.panelAdapter.displayMainPanel(true)
         })
     }
 

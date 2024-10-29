@@ -10,11 +10,13 @@ import com.example.fitnessapp.R
 import com.example.fitnessapp.models.MuscleGroupModel
 
 /** Recycler adapter to control the muscle groups shown when adding new workout */
-class MuscleGroupRecyclerAdapter(data: MutableList<MuscleGroupModel>): RecyclerView.Adapter<MuscleGroupRecyclerAdapter.MGItem>() {
+class MuscleGroupRecyclerAdapter(data: MutableList<MuscleGroupModel>, enableAll: Boolean): RecyclerView.Adapter<MuscleGroupRecyclerAdapter.MGItem>() {
     private var muscleGroups: MutableList<MuscleGroupModel>
+    private var enabled: Boolean
 
     init {
         muscleGroups = data
+        enabled = enableAll
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MGItem {
@@ -27,7 +29,7 @@ class MuscleGroupRecyclerAdapter(data: MutableList<MuscleGroupModel>): RecyclerV
     }
 
     override fun onBindViewHolder(holder: MGItem, position: Int) {
-        holder.bind(muscleGroups[position])
+        holder.bind(muscleGroups[position], enabled)
     }
 
     /** Returns the selected Muscle groups */
@@ -40,12 +42,19 @@ class MuscleGroupRecyclerAdapter(data: MutableList<MuscleGroupModel>): RecyclerV
         private var selected: CheckBox = itemView.findViewById(R.id.mg_selected_chkb)
         private var name: TextView = itemView.findViewById(R.id.mg_name_txt)
 
-        fun bind(item: MuscleGroupModel) {
+        /** Binds the view
+         * @param item the muscle group
+         * @param enabled whether the selected checkbox should be enabled
+         * */
+        fun bind(item: MuscleGroupModel, enabled: Boolean) {
             selected.isChecked = item.checked
 
             selected.setOnClickListener {
                 item.checked = selected.isChecked
             }
+
+            // Set the enabled state
+           selected.isEnabled = enabled
 
             name.text = item.name
 

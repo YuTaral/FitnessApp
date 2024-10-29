@@ -13,7 +13,6 @@ import com.example.fitnessapp.adapters.WorkoutRecyclerAdapter
 import com.example.fitnessapp.dialogs.AddEditWorkoutDialog
 import com.example.fitnessapp.models.WorkoutModel
 import com.example.fitnessapp.network.repositories.WorkoutRepository
-import com.example.fitnessapp.network.repositories.WorkoutTemplateRepository
 import com.example.fitnessapp.utils.StateEngine
 import com.example.fitnessapp.utils.Utils
 
@@ -62,7 +61,7 @@ class MainPanel : Fragment() {
             }
 
             workoutsRecycler.adapter = WorkoutRecyclerAdapter(workouts) { workout ->
-                Utils.getActivity().displayWorkoutPanel(workout, null)
+                StateEngine.panelAdapter.displayWorkoutPanel(workout, null)
             }
 
             // The most recent data with workouts is now displayed
@@ -77,13 +76,6 @@ class MainPanel : Fragment() {
 
     /** Executed on Templates button click to display the workout templates */
     private fun showWorkoutTemplate() {
-        WorkoutTemplateRepository().getWorkoutTemplates( onSuccess = { serializedTemplates ->
-            val templates: MutableList<WorkoutModel> = mutableListOf()
-            for (s: String in  serializedTemplates) {
-                templates.add(WorkoutModel(s))
-            }
-
-            // TODO: Display the templates
-        })
+        StateEngine.panelAdapter.displayTemplatesPanel()
     }
 }

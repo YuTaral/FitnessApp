@@ -24,7 +24,7 @@ class WorkoutModel {
     val exercises: MutableList<ExerciseModel>
 
     @SerializedName("MuscleGroups")
-    val muscleGroups: MutableList<MuscleGroupModel>
+    var muscleGroups: MutableList<MuscleGroupModel>
 
     /** Constructor to accept serialized object
      * @param data serialized WorkoutModel object

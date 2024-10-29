@@ -10,10 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.viewpager2.widget.ViewPager2
 import com.example.fitnessapp.dialogs.SaveWorkoutTemplateDialog
-import com.example.fitnessapp.models.WorkoutModel
 import com.example.fitnessapp.network.repositories.UserRepository
-import com.example.fitnessapp.panels.FragmentRefreshListener
-import com.example.fitnessapp.panels.PanelPagerAdapter
+import com.example.fitnessapp.panels.PanelAdapter
 import com.example.fitnessapp.utils.StateEngine
 import com.example.fitnessapp.utils.Utils
 import com.google.android.material.navigation.NavigationView
@@ -55,11 +53,23 @@ class MainActivity : AppCompatActivity() {
 
     /** Sets the view pager */
     private fun initialisePager() {
-        viewPager.adapter = PanelPagerAdapter(this, itemCount = 2)
+        // Set offscreenPageLimit to ensure all non temporary panels are created upon initialization
+        viewPager.offscreenPageLimit = 2
+        viewPager.adapter = PanelAdapter(viewPager, this, viewPager.offscreenPageLimit)
+
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-            tab.text = PanelPagerAdapter.Panel.entries[position].getTitle()
+            tab.text = PanelAdapter.Panel.entries[position].getTitle()
         }.attach()
-        StateEngine.pager = viewPager
+
+        // Remove the temporary Templates panel on page selected
+        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                (viewPager.adapter as PanelAdapter).onPanelSelectionChange(position)
+            }
+        })
+
+        StateEngine.panelAdapter = viewPager.adapter as PanelAdapter
     }
 
     /** Add click listeners for selecting item from the drawer and back button pressed */
@@ -132,40 +142,5 @@ class MainActivity : AppCompatActivity() {
                 })
             }
         }
-    }
-
-    /** Displays Workout panel
-     * @param workout the workout model, updates the StateEngine variable
-     * @param refreshWorkouts true if StateEngine variable to refresh workouts should be set to true,
-     * false otherwise. If null provided, the variable is not being changed
-     */
-    fun displayWorkoutPanel(workout: WorkoutModel?, refreshWorkouts: Boolean?) {
-        val index = PanelPagerAdapter.Panel.WORKOUT.getIndex()
-
-        StateEngine.workout = workout
-
-        if (refreshWorkouts != null) {
-            StateEngine.refreshWorkouts = refreshWorkouts
-        }
-
-        if (index != StateEngine.pager.currentItem) {
-            // If the index of the viewPager changes, this will trigger onResume(), which will re-populate
-            // the panel
-            StateEngine.pager.setCurrentItem(PanelPagerAdapter.Panel.WORKOUT.getIndex(), true)
-        } else {
-            // If the index of the viewPager does not chang, this will not trigger onResume(), notify the listener
-            // to re-populate the panel
-            val fragment = supportFragmentManager.findFragmentByTag("f$index") as FragmentRefreshListener
-            fragment.onRefreshListener()
-        }
-    }
-
-    /** Displays Main panel
-     *  @param refreshWorkouts true if StateEngine variable to refresh workouts should be set to true,
-     * false otherwise
-     */
-    fun displayMainPanel(refreshWorkouts: Boolean) {
-        StateEngine.refreshWorkouts = refreshWorkouts
-        StateEngine.pager.setCurrentItem(PanelPagerAdapter.Panel.MAIN.getIndex(), true)
     }
 }

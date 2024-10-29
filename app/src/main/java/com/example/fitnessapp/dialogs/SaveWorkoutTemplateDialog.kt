@@ -44,7 +44,7 @@ class SaveWorkoutTemplateDialog {
 
         // Populate the data
         templateName.setText(StateEngine.workout!!.name)
-        muscleGroups.text = StateEngine.workout!!.muscleGroups.joinToString(separator = ", ") { it.name }
+        muscleGroups.text = StateEngine.workout!!.muscleGroups.filter { it.checked }.joinToString(separator = ", ") { it.name }
         exercises.text = StateEngine.workout!!.exercises.joinToString (separator = ", ") { it.name }
 
         // Add button click listeners
@@ -62,8 +62,9 @@ class SaveWorkoutTemplateDialog {
             return
         }
 
-        // Create template, changing the name
+        // Create template, changing the name and adding only the selected Muscle Groups
         val template: WorkoutModel = StateEngine.workout!!
+        template.muscleGroups = template.muscleGroups.filter { it.checked }.toMutableList()
         template.name = templateName.text.toString()
 
         WorkoutTemplateRepository().addWorkoutTemplate(template, onSuccess =  {
