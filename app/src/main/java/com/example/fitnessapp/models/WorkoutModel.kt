@@ -41,11 +41,7 @@ class WorkoutModel {
         muscleGroups = workout.muscleGroups
     }
 
-    /** Constructor used when new workout is created
-     * @param idVal the exercise id
-     * @param nameVal the exercise name
-     * @param exercisesVal the exercises
-     */
+    /** Constructor used when new workout is created */
     constructor(idVal: Long, nameVal: String, templateVal: Boolean, exercisesVal: MutableList<ExerciseModel>, muscleGroupsVal: MutableList<MuscleGroupModel>) {
         id = idVal
         name = nameVal

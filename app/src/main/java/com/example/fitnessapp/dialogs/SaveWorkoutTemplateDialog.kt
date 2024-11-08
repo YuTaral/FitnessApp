@@ -63,9 +63,9 @@ class SaveWorkoutTemplateDialog {
         }
 
         // Create template, changing the name and adding only the selected Muscle Groups
-        val template: WorkoutModel = StateEngine.workout!!
-        template.muscleGroups = template.muscleGroups.filter { it.checked }.toMutableList()
-        template.name = templateName.text.toString()
+        val template = WorkoutModel(0, templateName.text.toString(), true,
+                                        StateEngine.workout!!.exercises,
+                                        StateEngine.workout!!.muscleGroups.filter { it.checked }.toMutableList())
 
         WorkoutTemplateRepository().addWorkoutTemplate(template, onSuccess =  {
             Utils.showToast(R.string.workout_template_added)
