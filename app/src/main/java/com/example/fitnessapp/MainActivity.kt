@@ -12,6 +12,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.fitnessapp.dialogs.SaveWorkoutTemplateDialog
 import com.example.fitnessapp.network.repositories.UserRepository
 import com.example.fitnessapp.panels.PanelAdapter
+import com.example.fitnessapp.panels.TemplatesPanel
 import com.example.fitnessapp.utils.StateEngine
 import com.example.fitnessapp.utils.Utils
 import com.google.android.material.navigation.NavigationView
@@ -78,7 +79,7 @@ class MainActivity : AppCompatActivity() {
             findViewById<TextView>(R.id.txt_username).text = StateEngine.user.email
             drawerLayout.openDrawer(navView)
         }
-        menuIcon.setOnClickListener{
+        menuIcon.setOnClickListener {
             drawerLayout.openDrawer(actionsNavView)
         }
 
@@ -123,6 +124,9 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 SaveWorkoutTemplateDialog().showDialog()
+            }
+            R.id.nav_delete_templates -> {
+                StateEngine.panelAdapter.displayTemplatesPanel(TemplatesPanel.Mode.DELETE_TEMPLATE)
             }
         }
     }

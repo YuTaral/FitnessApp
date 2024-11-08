@@ -52,6 +52,8 @@ interface IAPIService {
      * -------------------------------------------------------------------------------- */
     @POST("workout-template/add")
     fun addWorkoutTemplate(@Body params: Map<String, String>): Call<CustomResponse>
+    @POST("workout-template/delete")
+    fun deleteWorkoutTemplate(@Query("templateId") params: Long): Call<CustomResponse>
 
     /** WORKOUT TEMPLATES GET REQUESTS
      * -------------------------------------------------------------------------------- */

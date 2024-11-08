@@ -25,6 +25,7 @@
     <string name="main_panel_title">Main</string>
     <string name="save_btn">Save</string>
     <string name="clear_btn">Clear</string>
+    <string name="confirm_btn">Confirm</string>
     <string name="workout_name_lbl">Workout name…</string>
     <string name="workout_description_lbl">Workout description…</string>
     <string name="current_workout_lbl">Current Workout</string>
@@ -77,7 +78,10 @@
     <string name="error_msg_enter_template_name">Please enter workout template name</string>
     <string name="workout_template_added">Workout template added</string>
     <string name="templates_lbl">Templates</string>
-    <string name="select_template_lbl">Select Template</string>
+    <string name="select_template_lbl">Templates</string>
     <string name="error_msg_no_workout_templates">You don\'t have any templates yet</string>
-
+    <string name="delete_templates_lbl">Delete Templates</string>
+    <string name="question_delete_template_title">Delete Template</string>
+    <string name="question_delete_template_text">Are you sure you want to delete template \"%s\"</string>
+    <string name="template_deleted">Template successfully deleted</string>
 </resources>

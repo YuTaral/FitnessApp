@@ -33,8 +33,8 @@ class MainPanel : Fragment() {
         templateBtn = panel.findViewById(R.id.new_workout_from_template_btn)
 
         // Add click button click listener
-        newWorkoutBtn.setOnClickListener { startNewWorkout() }
-        templateBtn.setOnClickListener { showWorkoutTemplate() }
+        newWorkoutBtn.setOnClickListener { AddEditWorkoutDialog(true).showDialog() }
+        templateBtn.setOnClickListener { StateEngine.panelAdapter.displayTemplatesPanel(TemplatesPanel.Mode.START_WORKOUT) }
 
         // Populate the panel
         populatePanel()
@@ -62,15 +62,5 @@ class MainPanel : Fragment() {
             // The most recent data with workouts is now displayed
             StateEngine.refreshWorkouts = false
         })
-    }
-
-    /** Executed on New Workout button click to open Add Workout Dialog */
-    private fun startNewWorkout() {
-        AddEditWorkoutDialog(true).showDialog()
-    }
-
-    /** Executed on Templates button click to display the workout templates */
-    private fun showWorkoutTemplate() {
-        StateEngine.panelAdapter.displayTemplatesPanel()
     }
 }

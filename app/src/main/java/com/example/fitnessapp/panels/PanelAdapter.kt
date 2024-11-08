@@ -34,6 +34,9 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, in
     /** Holds the number of currently created fragments */
     private var fragmentCount: Int = initialFragmentsCount
 
+    /** Holds the TemplatesPanel mode */
+    private lateinit var templatesPanelMode: TemplatesPanel.Mode
+
     override fun getItemCount(): Int {
         return fragmentCount
     }
@@ -42,12 +45,13 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, in
         val fragment: Fragment = when (position) {
             0 -> { MainPanel() }
             1 -> { SelectedWorkoutPanel() }
-            else -> { TemplatesPanel() }
+            else -> {
+                TemplatesPanel(templatesPanelMode)
+            }
         }
 
         return fragment
     }
-
 
     /** Displays Workout panel  */
     fun displayWorkoutPanel() {
@@ -89,19 +93,34 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, in
         pager.setCurrentItem(Panel.MAIN.getIndex(), true)
     }
 
-    /** Displays Templates panel */
-    fun displayTemplatesPanel() {
+    /** Displays Templates panel
+     * @param mode - the templates panel mode
+     * */
+    fun displayTemplatesPanel(mode: TemplatesPanel.Mode) {
+        templatesPanelMode = mode
         val index = Panel.TEMPLATES.getIndex()
 
         // Increase the fragments counter
-        fragmentCount ++
+        if (fragmentCount < Panel.entries.size) {
+            fragmentCount ++
+        }
 
         // Create the fragment
         createFragment(index)
         notifyItemChanged(index)
 
-        // Set it as current
-        pager.setCurrentItem(index, true)
+        if (index != pager.currentItem) {
+            // If the index of the viewPager changes, this will trigger the onCreateView, which will populate the panel
+            pager.setCurrentItem(index, true)
+        } else {
+            // There is a possible scenario when Templates Panel is the current active fragment,
+            // and it is being reopened (e.g opened by clicking Templates in the Main Panel and then re-opened
+            // from the right drawer). In this case the index of the viewPager does not change,
+            // which will not trigger the onCreateView() with the correct callback for template click
+            // Find the fragment and populate it, overriding the OnClick method
+            val fragment = Utils.getActivity().supportFragmentManager.findFragmentByTag("f$index") as TemplatesPanel
+            fragment.populatePanel(templatesPanelMode, true)
+        }
     }
 
     /** Callback to be executed when Panel selection changes
@@ -112,5 +131,5 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, in
             fragmentCount --
             notifyItemRemoved(Panel.TEMPLATES.getIndex())
         }
-    }
+     }
 }

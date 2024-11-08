@@ -3,4 +3,7 @@
     <item
         android:id="@+id/nav_save_workout_template"
         android:title="@string/save_workout_as_template_lbl" />
+    <item
+        android:id="@+id/nav_delete_templates"
+        android:title="@string/delete_templates_lbl" />
 </menu>

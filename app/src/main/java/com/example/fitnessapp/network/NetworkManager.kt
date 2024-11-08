@@ -30,6 +30,10 @@ object NetworkManager {
 
                     // Process the response
                     if (response.isSuccessful && Utils.isSuccessRespCode(body.responseCode)) {
+                        if (body.userMessage != "Success") {
+                            Utils.showToast(body.userMessage)
+                        }
+
                         onSuccessCallback(body)
                     } else {
                         if (body.userMessage.isNotEmpty()) {
