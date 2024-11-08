@@ -119,7 +119,6 @@ class LoginActivity : AppCompatActivity() {
 
         // Client-side validation passed, send the register request
         UserRepository().register(email, password, onSuccess = {
-            Utils.showToast(R.string.user_registered)
             displayLogin()
         })
     }

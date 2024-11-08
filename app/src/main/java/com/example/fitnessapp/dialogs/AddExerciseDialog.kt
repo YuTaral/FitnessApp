@@ -68,7 +68,6 @@ class AddExerciseDialog {
         // Add the exercise
         ExerciseRepository().addExercise(exercise, onSuccess = { workout ->
             alertDialog.dismiss()
-            Utils.showToast(R.string.exercise_added)
             StateEngine.panelAdapter.displayWorkoutPanel(workout, true)
         })
     }

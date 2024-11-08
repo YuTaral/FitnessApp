@@ -68,7 +68,6 @@ class SaveWorkoutTemplateDialog {
                                         StateEngine.workout!!.muscleGroups.filter { it.checked }.toMutableList())
 
         WorkoutTemplateRepository().addWorkoutTemplate(template, onSuccess =  {
-            Utils.showToast(R.string.workout_template_added)
             alertDialog.dismiss()
         })
     }

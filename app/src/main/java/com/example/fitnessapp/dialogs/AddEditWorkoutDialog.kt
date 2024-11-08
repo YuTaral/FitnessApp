@@ -154,14 +154,12 @@ class AddEditWorkoutDialog(add: Boolean, workoutModel: WorkoutModel? = null) {
 
             WorkoutRepository().addWorkout(newWorkout, onSuccess = { workout ->
                 alertDialog.dismiss()
-                Utils.showToast(R.string.workout_added)
                 StateEngine.panelAdapter.displayWorkoutPanel(workout, true)
             })
         } else {
             WorkoutRepository().editWorkout(WorkoutModel(StateEngine.workout!!.id, name.text.toString(), false, mutableListOf(), getSelMuscleGroups()),
                 onSuccess = { workout ->
                     alertDialog.dismiss()
-                    Utils.showToast(R.string.workout_updated)
                     StateEngine.panelAdapter.displayWorkoutPanel(workout, true)
                 })
         }
@@ -173,7 +171,6 @@ class AddEditWorkoutDialog(add: Boolean, workoutModel: WorkoutModel? = null) {
     private fun delete(alertDialog: AlertDialog) {
         // Send a request to delete the workout
         WorkoutRepository().deleteWorkout(StateEngine.workout!!.id, onSuccess = {
-            Utils.showToast(R.string.workout_deleted)
             alertDialog.dismiss()
             StateEngine.workout = null
             StateEngine.panelAdapter.displayMainPanel(true)
