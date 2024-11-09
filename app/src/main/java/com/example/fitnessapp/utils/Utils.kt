@@ -39,7 +39,7 @@ object Utils {
      */
     fun showMessage(message: String, duration: Int = BaseTransientBottomBar.LENGTH_LONG) {
         Snackbar.make(StateEngine.activeActivity.findViewById(R.id.user_message), message, duration)
-                .setBackgroundTint(getContext().getColor(R.color.snackbarGreyColor))
+                .setBackgroundTint(getContext().getColor(R.color.colorAccent))
                 .setTextMaxLines(3)
                 .show()
     }

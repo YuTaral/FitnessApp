@@ -62,7 +62,7 @@ class TemplatesPanel(m: Mode): Fragment() {
             templatesRecycler.adapter = WorkoutRecyclerAdapter(templates, onClick = { template ->
 
                 if (panelMode == Mode.START_WORKOUT) {
-                    AddEditWorkoutDialog(true, template).showDialog()
+                    AddEditWorkoutDialog(AddEditWorkoutDialog.Mode.ADD, template).showDialog()
                 } else if (panelMode == Mode.DELETE_TEMPLATE) {
                     DialogAskQuestion(DialogAskQuestion.Question.DELETE_TEMPLATE).showDialog(template)
                 }

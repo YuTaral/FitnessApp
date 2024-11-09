@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorAccent">#F57C00</color>
-    <color name="colorSecondary">#4B4C4C</color>
-    <color name="darkBackground">#3E3D3D</color>
+    <color name="colorAccent">#228F9A</color>
+    <color name="colorHeader">#302F2F</color>
+    <color name="colorBackground">#191919</color>
+    <color name="colorDialogBackground">#2E2E2E</color>
+    <color name="colorEditTextLine">#BEBFBF</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="lightGrey">#E6E4E4</color>
-    <color name="snackbarGreyColor">#A7AAAA</color>
     <color name="grey">#7C7E7E</color>
-
 </resources>

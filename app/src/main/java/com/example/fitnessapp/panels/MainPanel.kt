@@ -33,7 +33,7 @@ class MainPanel : Fragment() {
         templateBtn = panel.findViewById(R.id.new_workout_from_template_btn)
 
         // Add click button click listener
-        newWorkoutBtn.setOnClickListener { AddEditWorkoutDialog(true).showDialog() }
+        newWorkoutBtn.setOnClickListener { AddEditWorkoutDialog(AddEditWorkoutDialog.Mode.ADD).showDialog() }
         templateBtn.setOnClickListener { StateEngine.panelAdapter.displayTemplatesPanel(TemplatesPanel.Mode.START_WORKOUT) }
 
         // Populate the panel

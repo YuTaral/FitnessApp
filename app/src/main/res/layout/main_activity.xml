@@ -13,7 +13,7 @@
             android:id="@+id/header"
             android:layout_width="match_parent"
             android:layout_height="85dp"
-            android:background="@color/colorSecondary"
+            android:background="@color/colorHeader"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
@@ -44,7 +44,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/profile_img"/>
+                app:layout_constraintTop_toBottomOf="@+id/profile_img"
+                style="@style/CustomTabLayout"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

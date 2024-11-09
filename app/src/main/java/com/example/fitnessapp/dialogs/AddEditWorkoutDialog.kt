@@ -9,6 +9,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fitnessapp.R
@@ -21,12 +22,20 @@ import com.example.fitnessapp.utils.StateEngine
 import com.example.fitnessapp.utils.Utils
 
 /** Add / Edit Workout dialog to hold the logic for add / edit workout
- * @param add true if dialog mode is add (adding workout), false if editing exercise
+ * @param mode the dialog mode
  * @param workoutModel null by default, not null when the dialog is opened only to confirm
  * the workout name when starting workout from Template
  */
 @SuppressLint("InflateParams")
-class AddEditWorkoutDialog(add: Boolean, workoutModel: WorkoutModel? = null) {
+class AddEditWorkoutDialog(mode: Mode, workoutModel: WorkoutModel? = null) {
+    /** The dialog mode - add / edit */
+    enum class Mode {
+        ADD,
+        EDIT
+    }
+
+    private var dialogMode: Mode = mode
+    private var template: WorkoutModel? = workoutModel
     private var dialogView: View
     private var title: TextView
     private var closeIcon: ImageView
@@ -35,14 +44,9 @@ class AddEditWorkoutDialog(add: Boolean, workoutModel: WorkoutModel? = null) {
     private var muscleGroupsRecycler: RecyclerView
     private var saveBtn: Button
     private var deleteBtn: Button
-    private var addMode: Boolean
-    private var template: WorkoutModel?
 
     /** Dialog initialization */
     init {
-        addMode = add
-        template = workoutModel
-
         // Inflate the dialog layout
         dialogView = LayoutInflater.from(Utils.getContext())
             .inflate(R.layout.add_edit_workout_dialog, null)
@@ -65,7 +69,7 @@ class AddEditWorkoutDialog(add: Boolean, workoutModel: WorkoutModel? = null) {
         val alertDialog = dialogBuilder.create()
 
         // Populate the dialog and change the views
-        if (addMode) {
+        if (dialogMode == Mode.ADD) {
            var enableMGSelection = true
 
             if (template != null) {
@@ -78,7 +82,7 @@ class AddEditWorkoutDialog(add: Boolean, workoutModel: WorkoutModel? = null) {
             populateMuscleGroups(muscleGroupsRecycler, enableMGSelection)
         } else {
             title.text = Utils.getContext().getString(R.string.edit_workout_panel_title)
-            deleteBtn.visibility = View.VISIBLE
+            setEditModeButtons()
             populateDialog(name, muscleGroupsRecycler)
         }
 
@@ -96,6 +100,22 @@ class AddEditWorkoutDialog(add: Boolean, workoutModel: WorkoutModel? = null) {
         name.requestFocus()
         alertDialog.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM)
         alertDialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+    }
+
+    /** Sets the buttons visibility and styles for Edit Mode*/
+    private fun setEditModeButtons() {
+        deleteBtn.visibility = View.VISIBLE
+
+        var layoutParams = deleteBtn.layoutParams as LayoutParams
+        layoutParams.startToStart = LayoutParams.PARENT_ID
+        layoutParams.endToStart = R.id.save_btn
+        deleteBtn.setBackgroundResource(R.drawable.right_border)
+        deleteBtn.layoutParams = layoutParams
+
+        layoutParams = saveBtn.layoutParams as LayoutParams
+        layoutParams.startToStart = LayoutParams.UNSET
+        layoutParams.startToEnd = R.id.delete_btn
+        saveBtn.setBackgroundResource(R.drawable.top_border)
     }
 
     /** Fetches the Muscle Groups and populates the dialog
@@ -140,7 +160,7 @@ class AddEditWorkoutDialog(add: Boolean, workoutModel: WorkoutModel? = null) {
         }
 
         // Add / edit the workout
-        if (addMode) {
+        if (dialogMode == Mode.ADD) {
             val newWorkout: WorkoutModel
 
             if (template == null) {

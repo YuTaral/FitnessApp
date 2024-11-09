@@ -3,20 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="10dp">
+    android:paddingTop="10dp">
 
     <TextView
         android:id="@+id/ask_question_title"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         android:textAlignment="center"
         android:textSize="24sp"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/dialog_close"/>
 
     <ImageView
         android:id="@+id/dialog_close"
         android:layout_width="35dp"
         android:layout_height="35dp"
+        android:layout_marginEnd="10dp"
         android:importantForAccessibility="no"
         android:background="@drawable/close_dialog_icon"
         app:layout_constraintEnd_toEndOf="parent"
@@ -26,18 +31,19 @@
         android:id="@+id/question_lbl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_margin="10dp"
         android:textSize="20sp"
         app:layout_constraintTop_toBottomOf="@+id/ask_question_title" />
 
     <Button
         android:id="@+id/confirm_btn"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="@string/confirm_btn"
-        android:background="@android:color/transparent"
+        android:background="@drawable/top_border"
         app:layout_constraintTop_toBottomOf="@+id/question_lbl"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        style="@style/DialogButtonStyle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

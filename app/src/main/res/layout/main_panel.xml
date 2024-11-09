@@ -25,16 +25,17 @@
 
     <Button
         android:id="@+id/new_workout_btn"
-        android:layout_width="120dp"
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:layout_marginStart="10dp"
         android:text="@string/add_workout_btn"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
+
     <Button
         android:id="@+id/new_workout_from_template_btn"
-        android:layout_width="120dp"
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:layout_marginEnd="10dp"

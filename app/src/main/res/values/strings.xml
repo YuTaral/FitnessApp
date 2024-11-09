@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">FitnessApp</string>
+    <string name="app_name">Fitness Tracker</string>
     <string name="login_title">Login\n</string>
-    <string name="email_lbl">Email</string>
+    <string name="email_lbl">Email Address</string>
     <string name="password_lbl">Password</string>
     <string name="click_for_register_lbl">Don\'t have an account? Click here to register</string>
     <string name="login_btn">Login</string>

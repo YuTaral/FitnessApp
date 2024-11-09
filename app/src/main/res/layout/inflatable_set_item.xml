@@ -37,6 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
+        android:buttonTint="@color/white"
         app:layout_constraintStart_toEndOf="@+id/weight_lbl"
         app:layout_constraintBottom_toBottomOf="@+id/weight_lbl"
         app:layout_constraintTop_toTopOf="parent"/>

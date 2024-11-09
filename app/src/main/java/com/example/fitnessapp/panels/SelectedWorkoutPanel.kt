@@ -98,7 +98,7 @@ class SelectedWorkoutPanel : Fragment(), FragmentRefreshListener {
 
     /** Executed on Edit button click to open Edit Workout Dialog */
     private fun editWorkout() {
-        AddEditWorkoutDialog(false).showDialog()
+        AddEditWorkoutDialog(AddEditWorkoutDialog.Mode.EDIT).showDialog()
     }
 
     /** Sets buttons visibility based on whether workout is selected */
