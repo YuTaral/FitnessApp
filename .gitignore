@@ -13,3 +13,13 @@
 .externalNativeBuild
 .cxx
 local.properties
+.gradle/
+.idea/
+build/
+*.apk
+*.aab
+*.jks
+*.class
+Thumbs.db
+*.log
+.env
