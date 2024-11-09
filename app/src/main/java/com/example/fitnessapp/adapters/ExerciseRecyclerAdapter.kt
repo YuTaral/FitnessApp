@@ -74,10 +74,10 @@ class ExerciseRecyclerAdapter(data: List<ExerciseModel>) : RecyclerView.Adapter<
             expandSymbol.setOnClickListener {
                 if (setsContainer.visibility == View.VISIBLE) {
                     setsContainer.visibility = View.GONE
-                    expandSymbol.setBackgroundResource(R.drawable.expand_icon)
+                    expandSymbol.setBackgroundResource(R.drawable.icon_expand)
                 } else {
                     setsContainer.visibility = View.VISIBLE
-                    expandSymbol.setBackgroundResource(R.drawable.collapse_icon)
+                    expandSymbol.setBackgroundResource(R.drawable.icon_collapse)
                 }
             }
         }

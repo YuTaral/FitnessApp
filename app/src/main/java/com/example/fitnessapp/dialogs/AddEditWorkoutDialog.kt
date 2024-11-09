@@ -109,13 +109,13 @@ class AddEditWorkoutDialog(mode: Mode, workoutModel: WorkoutModel? = null) {
         var layoutParams = deleteBtn.layoutParams as LayoutParams
         layoutParams.startToStart = LayoutParams.PARENT_ID
         layoutParams.endToStart = R.id.save_btn
-        deleteBtn.setBackgroundResource(R.drawable.right_border)
+        deleteBtn.setBackgroundResource(R.drawable.background_right_border)
         deleteBtn.layoutParams = layoutParams
 
         layoutParams = saveBtn.layoutParams as LayoutParams
         layoutParams.startToStart = LayoutParams.UNSET
         layoutParams.startToEnd = R.id.delete_btn
-        saveBtn.setBackgroundResource(R.drawable.top_border)
+        saveBtn.setBackgroundResource(R.drawable.background_top_border)
     }
 
     /** Fetches the Muscle Groups and populates the dialog

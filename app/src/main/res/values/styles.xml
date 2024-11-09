@@ -22,7 +22,7 @@
     </style>
 
     <style name="CircleCheckBoxStyle" parent="Widget.AppCompat.CompoundButton.CheckBox">
-        <item name="android:button">@drawable/background_checkbox</item>
+        <item name="android:button">@drawable/button_checkbox</item>
         <item name="android:background">@android:color/transparent</item>
     </style>
 
