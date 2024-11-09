@@ -7,13 +7,13 @@
         <item name="alertDialogTheme">@style/Theme.FitnessApp.AlertDialog</item>
         <item name="android:buttonStyle">@style/ButtonStyle</item>
         <item name="editTextStyle">@style/EditTextStyle</item>
-        <item name="android:checkboxStyle">@style/CheckBoxStyle</item>
+        <item name="android:checkboxStyle">@style/CircleCheckBoxStyle</item>
     </style>
 
     <style name="Theme.FitnessApp.AlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:editTextStyle">@style/EditTextStyle</item>
         <item name="android:windowBackground">@color/colorDialogBackground</item>
-        <item name="android:checkboxStyle">@style/CheckBoxStyle</item>
+        <item name="android:checkboxStyle">@style/CircleCheckBoxStyle</item>
         <item name="android:background">@drawable/alert_dialog_border</item>
     </style>
 </resources>

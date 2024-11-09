@@ -21,6 +21,11 @@
         <item name="android:buttonTint">@color/colorAccent</item>
     </style>
 
+    <style name="CircleCheckBoxStyle" parent="Widget.AppCompat.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/background_checkbox</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
     <style name="MenuItemStyle" parent="TextAppearance.AppCompat">
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">16sp</item>

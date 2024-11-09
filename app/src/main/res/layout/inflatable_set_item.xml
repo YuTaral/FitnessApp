@@ -40,6 +40,7 @@
         android:buttonTint="@color/white"
         app:layout_constraintStart_toEndOf="@+id/weight_lbl"
         app:layout_constraintBottom_toBottomOf="@+id/weight_lbl"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        style="@style/CheckBoxStyle"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
