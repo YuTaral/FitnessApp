@@ -121,14 +121,12 @@ class AddEditWorkoutDialog(mode: Mode, workoutModel: WorkoutModel? = null) {
 
         // Add / edit the workout
         if (dialogMode == Mode.ADD) {
-            val newWorkout: WorkoutModel
-
-            if (template == null) {
+            val newWorkout: WorkoutModel = if (template == null) {
                 // Create new workout
-                newWorkout = WorkoutModel(0, name.text.toString(), false, mutableListOf())
+                WorkoutModel(0, name.text.toString(), false, mutableListOf())
             } else {
-                // Create new workout from the template, filtering only the selected muscle groups
-                newWorkout = template!!
+                // Create new workout from the template
+                WorkoutModel(0, name.text.toString(), false, template!!.exercises)
             }
 
             WorkoutRepository().addWorkout(newWorkout, onSuccess = { workout ->

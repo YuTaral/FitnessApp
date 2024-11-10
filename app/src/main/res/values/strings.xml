@@ -64,6 +64,7 @@
     <string name="exercises_lbl">Exercises:</string>
     <string name="new_exercise_lbl">New Exercise</string>
     <string name="exercise_lbl">Exercise</string>
+    <string name="select_action_lbl">Select action</string>
     <string name="logout">Log Out</string>
     <string name="actions_lbl">Actions</string>
     <string name="save_workout_as_template_lbl">Save workout as template</string>
@@ -78,4 +79,7 @@
     <string name="question_delete_template_title">Delete Template</string>
     <string name="question_delete_template_text">Are you sure you want to delete template \"%s\"</string>
     <string name="template_deleted">Template successfully deleted</string>
+    <string name="action_start_workout_from_template">Start workout</string>
+    <string name="action_delete_template">Delete template</string>
+    <string name="error_select_action">Please select template action from the dropdown</string>
 </resources>
