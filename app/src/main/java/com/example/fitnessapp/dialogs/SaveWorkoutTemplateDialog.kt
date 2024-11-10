@@ -19,7 +19,6 @@ import com.example.fitnessapp.utils.Utils
 class SaveWorkoutTemplateDialog {
     private var dialogView: View
     private var templateName: EditText
-    private var muscleGroups: TextView
     private var exercises: TextView
     private var closeIcon: ImageView
     private var saveBtn: Button
@@ -31,7 +30,6 @@ class SaveWorkoutTemplateDialog {
         // Find the views
         closeIcon = dialogView.findViewById(R.id.dialog_close)
         templateName = dialogView.findViewById(R.id.template_name_txt)
-        muscleGroups = dialogView.findViewById(R.id.muscle_groups_txt)
         exercises = dialogView.findViewById(R.id.workout_exercises_summary_txt)
         saveBtn = dialogView.findViewById(R.id.save_btn)
     }
@@ -44,7 +42,6 @@ class SaveWorkoutTemplateDialog {
 
         // Populate the data
         templateName.setText(StateEngine.workout!!.name)
-        muscleGroups.text = StateEngine.workout!!.muscleGroups.filter { it.checked }.joinToString(separator = ", ") { it.name }
         exercises.text = StateEngine.workout!!.exercises.joinToString (separator = ", ") { it.name }
 
         // Add button click listeners
@@ -63,9 +60,7 @@ class SaveWorkoutTemplateDialog {
         }
 
         // Create template, changing the name and adding only the selected Muscle Groups
-        val template = WorkoutModel(0, templateName.text.toString(), true,
-                                        StateEngine.workout!!.exercises,
-                                        StateEngine.workout!!.muscleGroups.filter { it.checked }.toMutableList())
+        val template = WorkoutModel(0, templateName.text.toString(), true, StateEngine.workout!!.exercises)
 
         WorkoutTemplateRepository().addWorkoutTemplate(template, onSuccess =  {
             alertDialog.dismiss()

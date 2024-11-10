@@ -12,7 +12,6 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.fitnessapp.dialogs.SaveWorkoutTemplateDialog
 import com.example.fitnessapp.network.repositories.UserRepository
 import com.example.fitnessapp.panels.PanelAdapter
-import com.example.fitnessapp.panels.TemplatesPanel
 import com.example.fitnessapp.utils.StateEngine
 import com.example.fitnessapp.utils.Utils
 import com.google.android.material.navigation.NavigationView
@@ -58,10 +57,6 @@ class MainActivity : AppCompatActivity() {
         viewPager.offscreenPageLimit = 2
         viewPager.adapter = PanelAdapter(viewPager, this, viewPager.offscreenPageLimit)
 
-        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-            tab.text = PanelAdapter.Panel.entries[position].getTitle()
-        }.attach()
-
         // Remove the temporary Templates panel on page selected
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
@@ -71,6 +66,10 @@ class MainActivity : AppCompatActivity() {
         })
 
         StateEngine.panelAdapter = viewPager.adapter as PanelAdapter
+
+        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+            tab.text = StateEngine.panelAdapter.getPanelTitle(position)
+        }.attach()
     }
 
     /** Add click listeners for selecting item from the drawer and back button pressed */
@@ -126,7 +125,7 @@ class MainActivity : AppCompatActivity() {
                 SaveWorkoutTemplateDialog().showDialog()
             }
             R.id.nav_delete_templates -> {
-                StateEngine.panelAdapter.displayTemplatesPanel(TemplatesPanel.Mode.DELETE_TEMPLATE)
+                StateEngine.panelAdapter.displayTemporaryPanel()
             }
         }
     }

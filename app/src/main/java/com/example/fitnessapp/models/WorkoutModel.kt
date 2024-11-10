@@ -23,9 +23,6 @@ class WorkoutModel {
     @SerializedName("Exercises")
     val exercises: MutableList<ExerciseModel>
 
-    @SerializedName("MuscleGroups")
-    var muscleGroups: MutableList<MuscleGroupModel>
-
     /** Constructor to accept serialized object
      * @param data serialized WorkoutModel object
      */
@@ -38,16 +35,14 @@ class WorkoutModel {
         date = workout.date
         template = workout.template
         exercises = workout.exercises
-        muscleGroups = workout.muscleGroups
     }
 
     /** Constructor used when new workout is created */
-    constructor(idVal: Long, nameVal: String, templateVal: Boolean, exercisesVal: MutableList<ExerciseModel>, muscleGroupsVal: MutableList<MuscleGroupModel>) {
+    constructor(idVal: Long, nameVal: String, templateVal: Boolean, exercisesVal: MutableList<ExerciseModel>) {
         id = idVal
         name = nameVal
         date = Date()
         template = templateVal
         exercises = exercisesVal
-        muscleGroups = muscleGroupsVal
     }
 }

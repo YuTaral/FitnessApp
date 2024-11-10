@@ -5,5 +5,5 @@
         android:title="@string/save_workout_as_template_lbl" />
     <item
         android:id="@+id/nav_delete_templates"
-        android:title="@string/delete_templates_lbl" />
+        android:title="@string/manage_templates_lbl" />
 </menu>

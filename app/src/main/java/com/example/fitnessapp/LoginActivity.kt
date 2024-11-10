@@ -74,6 +74,9 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
+        email.setText("test@abv.bg")
+        password.setText("123")
+        login()
     }
 
     /** Display Register page */

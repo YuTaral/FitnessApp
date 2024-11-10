@@ -10,13 +10,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.fitnessapp.R
-import com.example.fitnessapp.adapters.MuscleGroupRecyclerAdapter
-import com.example.fitnessapp.models.MuscleGroupModel
 import com.example.fitnessapp.models.WorkoutModel
-import com.example.fitnessapp.network.repositories.MuscleGroupRepository
 import com.example.fitnessapp.network.repositories.WorkoutRepository
 import com.example.fitnessapp.utils.StateEngine
 import com.example.fitnessapp.utils.Utils
@@ -40,8 +35,6 @@ class AddEditWorkoutDialog(mode: Mode, workoutModel: WorkoutModel? = null) {
     private var title: TextView
     private var closeIcon: ImageView
     private var name: EditText
-    private var muscleGroupsLbl: TextView
-    private var muscleGroupsRecycler: RecyclerView
     private var saveBtn: Button
     private var deleteBtn: Button
 
@@ -55,8 +48,6 @@ class AddEditWorkoutDialog(mode: Mode, workoutModel: WorkoutModel? = null) {
         title = dialogView.findViewById(R.id.add_workout_title)
         closeIcon = dialogView.findViewById(R.id.dialog_close)
         name = dialogView.findViewById(R.id.workout_name_txt)
-        muscleGroupsLbl = dialogView.findViewById(R.id.muscle_groups_txt)
-        muscleGroupsRecycler = dialogView.findViewById(R.id.muscle_groups_recycler)
         saveBtn = dialogView.findViewById(R.id.save_btn)
         deleteBtn = dialogView.findViewById(R.id.delete_btn)
     }
@@ -70,20 +61,20 @@ class AddEditWorkoutDialog(mode: Mode, workoutModel: WorkoutModel? = null) {
 
         // Populate the dialog and change the views
         if (dialogMode == Mode.ADD) {
-           var enableMGSelection = true
 
             if (template != null) {
                 // If we only need to confirm the Workout name, set the name
                 // and disable the muscle groups
                 name.setText(template!!.name)
-                enableMGSelection = false
             }
 
-            populateMuscleGroups(muscleGroupsRecycler, enableMGSelection)
         } else {
             title.text = Utils.getContext().getString(R.string.edit_workout_panel_title)
             setEditModeButtons()
-            populateDialog(name, muscleGroupsRecycler)
+
+            if (StateEngine.workout != null) {
+                name.setText(StateEngine.workout!!.name)
+            }
         }
 
         // Add button click listeners
@@ -118,37 +109,6 @@ class AddEditWorkoutDialog(mode: Mode, workoutModel: WorkoutModel? = null) {
         saveBtn.setBackgroundResource(R.drawable.background_top_border)
     }
 
-    /** Fetches the Muscle Groups and populates the dialog
-     * @param muscleGroupsRecycler the recycler view
-     * @param enable whether to enable Muscle Group selection
-     */
-    private fun populateMuscleGroups(muscleGroupsRecycler: RecyclerView, enable: Boolean) {
-        muscleGroupsRecycler.layoutManager = LinearLayoutManager(Utils.getContext())
-
-        if (template != null) {
-            // Populate the data by filtering the selected muscle groups
-            muscleGroupsRecycler.adapter =
-                MuscleGroupRecyclerAdapter(template!!.muscleGroups.filter { it.checked }.toMutableList(), enable)
-        } else {
-            // Fetch the muscle groups and populate the data
-            MuscleGroupRepository().getMuscleGroups(onSuccess = { muscleGroups ->
-                muscleGroupsRecycler.adapter = MuscleGroupRecyclerAdapter(muscleGroups, enable)
-            })
-        }
-    }
-
-    /** Populates the dialog when mode is edit
-     * @param name the name view
-     * @param muscleGroupsRecycler the recycler view
-     */
-    private fun populateDialog(name: EditText, muscleGroupsRecycler: RecyclerView) {
-        if (StateEngine.workout != null) {
-            name.setText(StateEngine.workout!!.name)
-            muscleGroupsRecycler.layoutManager = LinearLayoutManager(Utils.getContext())
-            muscleGroupsRecycler.adapter = MuscleGroupRecyclerAdapter(StateEngine.workout!!.muscleGroups, true)
-        }
-    }
-
     /** Executed on Save button click
      * @param alertDialog the alert dialog
      */
@@ -165,11 +125,10 @@ class AddEditWorkoutDialog(mode: Mode, workoutModel: WorkoutModel? = null) {
 
             if (template == null) {
                 // Create new workout
-                newWorkout = WorkoutModel(0, name.text.toString(), false, mutableListOf(), getSelMuscleGroups())
+                newWorkout = WorkoutModel(0, name.text.toString(), false, mutableListOf())
             } else {
                 // Create new workout from the template, filtering only the selected muscle groups
                 newWorkout = template!!
-                newWorkout.muscleGroups = newWorkout.muscleGroups.filter { it.checked }.toMutableList()
             }
 
             WorkoutRepository().addWorkout(newWorkout, onSuccess = { workout ->
@@ -177,7 +136,7 @@ class AddEditWorkoutDialog(mode: Mode, workoutModel: WorkoutModel? = null) {
                 StateEngine.panelAdapter.displayWorkoutPanel(workout, true)
             })
         } else {
-            WorkoutRepository().editWorkout(WorkoutModel(StateEngine.workout!!.id, name.text.toString(), false, mutableListOf(), getSelMuscleGroups()),
+            WorkoutRepository().editWorkout(WorkoutModel(StateEngine.workout!!.id, name.text.toString(), false, mutableListOf()),
                 onSuccess = { workout ->
                     alertDialog.dismiss()
                     StateEngine.panelAdapter.displayWorkoutPanel(workout, true)
@@ -195,10 +154,5 @@ class AddEditWorkoutDialog(mode: Mode, workoutModel: WorkoutModel? = null) {
             StateEngine.workout = null
             StateEngine.panelAdapter.displayMainPanel(true)
         })
-    }
-
-    /** Return the Selected Muscle = Groups as mutable list */
-    private fun getSelMuscleGroups(): MutableList<MuscleGroupModel> {
-        return (muscleGroupsRecycler.adapter as MuscleGroupRecyclerAdapter).getSelectedMuscleGroups()
     }
 }

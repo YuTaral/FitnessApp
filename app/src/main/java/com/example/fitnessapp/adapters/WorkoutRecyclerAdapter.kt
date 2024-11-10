@@ -41,8 +41,6 @@ class WorkoutRecyclerAdapter (data: List<WorkoutModel>, onClick: (WorkoutModel) 
     class WorkoutItem(view: View): RecyclerView.ViewHolder(view)  {
         private var name: TextView = itemView.findViewById(R.id.workout_name_txt)
         private var date: TextView = itemView.findViewById(R.id.workout_date_txt)
-        private var muscleGroupsLbl: TextView = itemView.findViewById(R.id.muscle_groups_lbl)
-        private var muscleGroups: TextView = itemView.findViewById(R.id.muscle_groups_txt)
         private var exercisesLlb: TextView = itemView.findViewById(R.id.exercises_lbl)
         private var exercises: TextView = itemView.findViewById(R.id.workout_exercises_summary_txt)
         private var total: TextView = itemView.findViewById(R.id.workout_total_txt)
@@ -71,13 +69,6 @@ class WorkoutRecyclerAdapter (data: List<WorkoutModel>, onClick: (WorkoutModel) 
 
             name.text = item.name
             date.text = Utils.defaultFormatDate(item.date)
-
-            muscleGroups.text = item.muscleGroups.filter { it.checked }.joinToString(separator = ", ") { it.name }
-            if (muscleGroups.text.isEmpty()) {
-                muscleGroupsLbl.visibility = View.GONE
-            } else {
-                muscleGroupsLbl.visibility = View.VISIBLE
-            }
 
             if (exercisesText.length > 2) {
                 exercisesLlb.visibility = View.VISIBLE

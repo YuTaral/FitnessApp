@@ -1,41 +1,36 @@
 package com.example.fitnessapp.panels
 
+import android.annotation.SuppressLint
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
-import com.example.fitnessapp.R
 import com.example.fitnessapp.models.WorkoutModel
 import com.example.fitnessapp.utils.StateEngine
 import com.example.fitnessapp.utils.Utils
 
 /** FragmentStateAdapter used to manage the panels */
-class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, initialFragmentsCount: Int) : FragmentStateAdapter(fragmentActivity) {
-    /** Enum to hold all panel types */
-    enum class Panel(private val index: Int, private val titleId: Int) {
-        MAIN(0, R.string.main_panel_title),
-        WORKOUT(1, R.string.workout_panel_title),
-        TEMPLATES(2, R.string.templates_lbl);
-
-        /** Returns the panel index */
-        fun getIndex(): Int {
-            return index
-        }
-
-        /** Returns the panel title */
-        fun getTitle(): String {
-            return Utils.getActivity().getString(titleId)
-        }
-    }
-
+class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, count: Int) : FragmentStateAdapter(fragmentActivity) {
     /** The pager view */
     private var pager: ViewPager2 = pagerView
 
-    /** Holds the number of currently created fragments */
-    private var fragmentCount: Int = initialFragmentsCount
+    /** The main panel instance */
+    private lateinit var mainPanel: MainPanel
 
-    /** Holds the TemplatesPanel mode */
-    private lateinit var templatesPanelMode: TemplatesPanel.Mode
+    /** The workout panel instance */
+    private lateinit var workoutPanel: SelectedWorkoutPanel
+
+    /** The temporary panel instance */
+    private var temporaryPanel: PanelFragment? = null
+
+    /** Holds the number of initial fragments count*/
+    private var initialFragmentCount: Int = count
+
+    /** Holds the number of currently created fragments */
+    private var fragmentCount: Int = count
+
+    /** Holds the temporary panel mode */
+    private var exercisePanelMode: ExercisePanel.PanelMode? = null
 
     override fun getItemCount(): Int {
         return fragmentCount
@@ -43,19 +38,84 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, in
 
     override fun createFragment(position: Int): Fragment {
         val fragment: Fragment = when (position) {
-            0 -> { MainPanel() }
-            1 -> { SelectedWorkoutPanel() }
-            else -> {
-                TemplatesPanel(templatesPanelMode)
-            }
+            0 -> { getMainPanel() }
+            1 -> { getWorkoutPanel() }
+            else -> { getTemporaryPanel() }
         }
 
         return fragment
     }
 
+    override fun getItemId(position: Int): Long {
+        // Override the method to send the unique id to containsItem fun
+        return when (position) {
+            0 -> { getMainPanel().getUniqueId() }
+            1 -> { getWorkoutPanel().getUniqueId() }
+            else -> { getTemporaryPanel().getUniqueId() }
+        }
+    }
+
+    override fun containsItem(itemId: Long): Boolean {
+        // When there is active temporary panel,
+        // and we are adding a new one, check the unique id of the panel
+        // otherwise the FragmentStateAdapter does not recognize the change,
+        // because the panels count remains the same, and the new panel is
+        // not being created
+        if (temporaryPanel != null) {
+            return getTemporaryPanel().getUniqueId() == itemId
+        }
+
+        return true
+    }
+
+
+    /** Initializes the main panel if it's not and returns the instance */
+    private fun getMainPanel(): PanelFragment {
+        if (!::mainPanel.isInitialized) {
+            mainPanel = MainPanel()
+        }
+
+        return mainPanel
+    }
+
+    /** Initializes the workout panel if it's not and returns the instance */
+    private fun getWorkoutPanel(): PanelFragment {
+        if (!::workoutPanel.isInitialized) {
+            workoutPanel = SelectedWorkoutPanel()
+        }
+
+        return workoutPanel
+    }
+
+    /** Initializes the template panel and returns the instance */
+    private fun getTemporaryPanel(): PanelFragment {
+        if (temporaryPanel == null) {
+            temporaryPanel = if (exercisePanelMode != null) {
+                ExercisePanel(exercisePanelMode!!)
+            } else {
+                TemplatesPanel()
+            }
+        }
+
+        return temporaryPanel as PanelFragment
+    }
+
+    /** Removes the currently created temporary panel, when navigating away from it
+     * or a new temporary panel must be created
+     */
+    @SuppressLint("NotifyDataSetChanged")
+    private fun removeTemporaryPanel() {
+        if (temporaryPanel != null) {
+            fragmentCount --
+            notifyDataSetChanged()
+            temporaryPanel = null
+            exercisePanelMode = null
+        }
+    }
+
     /** Displays Workout panel  */
     fun displayWorkoutPanel() {
-        pager.setCurrentItem(Panel.WORKOUT.getIndex(), true)
+        pager.setCurrentItem(getWorkoutPanel().getIndex(), true)
     }
 
     /** Displays Workout panel
@@ -64,7 +124,7 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, in
      * false otherwise. If null provided, the variable is not being changed
      */
     fun displayWorkoutPanel(workout: WorkoutModel, refreshWorkouts: Boolean?) {
-        val index = Panel.WORKOUT.getIndex()
+        val index = getWorkoutPanel().getIndex()
 
         StateEngine.workout = workout
 
@@ -90,46 +150,45 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, in
      */
     fun displayMainPanel(refreshWorkouts: Boolean) {
         StateEngine.refreshWorkouts = refreshWorkouts
-        pager.setCurrentItem(Panel.MAIN.getIndex(), true)
+        pager.setCurrentItem(getMainPanel().getIndex(), true)
     }
 
-    /** Displays Templates panel
-     * @param mode - the templates panel mode
-     * */
-    fun displayTemplatesPanel(mode: TemplatesPanel.Mode) {
-        templatesPanelMode = mode
-        val index = Panel.TEMPLATES.getIndex()
+    /** Displays temporary panel
+     * @param mode - the temporary panel mode
+     */
+    @SuppressLint("NotifyDataSetChanged")
+    fun displayTemporaryPanel(mode: ExercisePanel.PanelMode? = null) {
+        // Remove the previous temporary panel
+        removeTemporaryPanel()
 
-        // Increase the fragments counter
-        if (fragmentCount < Panel.entries.size) {
-            fragmentCount ++
-        }
+        // Set the values
+        exercisePanelMode = mode
+        temporaryPanel = getTemporaryPanel()
 
-        // Create the fragment
-        createFragment(index)
-        notifyItemChanged(index)
+        // Increase the fragments counter and notify the adapter that change occurred
+        fragmentCount ++
+        notifyDataSetChanged()
 
-        if (index != pager.currentItem) {
-            // If the index of the viewPager changes, this will trigger the onCreateView, which will populate the panel
-            pager.setCurrentItem(index, true)
-        } else {
-            // There is a possible scenario when Templates Panel is the current active fragment,
-            // and it is being reopened (e.g opened by clicking Templates in the Main Panel and then re-opened
-            // from the right drawer). In this case the index of the viewPager does not change,
-            // which will not trigger the onCreateView() with the correct callback for template click
-            // Find the fragment and populate it, overriding the OnClick method
-            val fragment = Utils.getActivity().supportFragmentManager.findFragmentByTag("f$index") as TemplatesPanel
-            fragment.populatePanel(templatesPanelMode, true)
-        }
+        pager.setCurrentItem(temporaryPanel!!.getIndex(), true)
     }
 
     /** Callback to be executed when Panel selection changes
-     * @param position the current position
-     * */
+     * @param position the panel position
+     */
      fun onPanelSelectionChange(position: Int) {
-        if (position != Panel.TEMPLATES.getIndex() && fragmentCount == Panel.entries.size) {
-            fragmentCount --
-            notifyItemRemoved(Panel.TEMPLATES.getIndex())
-        }
+         if (fragmentCount > initialFragmentCount && (position == getMainPanel().getIndex() || position == getWorkoutPanel().getIndex())) {
+             removeTemporaryPanel()
+         }
      }
+
+    /** Returns the panel title to be displayed in the tab layout
+     * @param position the panel position
+     */
+    fun getPanelTitle(position: Int): String {
+        return when (position) {
+            0 -> { getMainPanel().getTitle() }
+            1 -> { getWorkoutPanel().getTitle() }
+            else -> { getTemporaryPanel().getTitle() }
+        }
+    }
 }
