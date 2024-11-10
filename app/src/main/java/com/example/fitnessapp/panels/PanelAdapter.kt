@@ -29,9 +29,6 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
     /** Holds the number of currently created fragments */
     private var fragmentCount: Int = count
 
-    /** Holds the temporary panel mode */
-    private var exercisePanelMode: ExercisePanel.PanelMode? = null
-
     override fun getItemCount(): Int {
         return fragmentCount
     }
@@ -89,14 +86,6 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
 
     /** Initializes the template panel and returns the instance */
     private fun getTemporaryPanel(): PanelFragment {
-        if (temporaryPanel == null) {
-            temporaryPanel = if (exercisePanelMode != null) {
-                ExercisePanel(exercisePanelMode!!)
-            } else {
-                TemplatesPanel()
-            }
-        }
-
         return temporaryPanel as PanelFragment
     }
 
@@ -109,7 +98,6 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
             fragmentCount --
             notifyDataSetChanged()
             temporaryPanel = null
-            exercisePanelMode = null
         }
     }
 
@@ -154,16 +142,15 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
     }
 
     /** Displays temporary panel
-     * @param mode - the temporary panel mode
+     * @param panel - the temporary panel panel
      */
     @SuppressLint("NotifyDataSetChanged")
-    fun displayTemporaryPanel(mode: ExercisePanel.PanelMode? = null) {
+    fun displayTemporaryPanel(panel: PanelFragment) {
         // Remove the previous temporary panel
         removeTemporaryPanel()
 
-        // Set the values
-        exercisePanelMode = mode
-        temporaryPanel = getTemporaryPanel()
+        // Set the temporary panel
+        temporaryPanel = panel
 
         // Increase the fragments counter and notify the adapter that change occurred
         fragmentCount ++

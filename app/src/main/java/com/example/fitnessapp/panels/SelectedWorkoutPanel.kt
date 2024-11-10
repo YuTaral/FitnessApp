@@ -78,7 +78,7 @@ class SelectedWorkoutPanel : PanelFragment(), FragmentRefreshListener {
 
     /** Shows Exercise panel */
     private fun showAddExerciseDialog() {
-        StateEngine.panelAdapter.displayTemporaryPanel(ExercisePanel.PanelMode.ADD)
+        StateEngine.panelAdapter.displayTemporaryPanel(ExercisePanel(ExercisePanel.PanelMode.ADD))
     }
 
     /** Return the exercises recycler adapter */

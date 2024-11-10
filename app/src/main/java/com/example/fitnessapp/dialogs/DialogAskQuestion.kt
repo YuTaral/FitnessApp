@@ -10,6 +10,7 @@ import androidx.appcompat.app.AlertDialog
 import com.example.fitnessapp.R
 import com.example.fitnessapp.models.WorkoutModel
 import com.example.fitnessapp.network.repositories.WorkoutTemplateRepository
+import com.example.fitnessapp.panels.TemplatesPanel
 import com.example.fitnessapp.utils.StateEngine
 import com.example.fitnessapp.utils.Utils
 
@@ -81,7 +82,7 @@ class DialogAskQuestion(q: Question) {
     private fun deleteTemplate(id: Long, alertDialog: AlertDialog) {
         WorkoutTemplateRepository().deleteWorkoutTemplate(id, onSuccess = {
             alertDialog.dismiss()
-            StateEngine.panelAdapter.displayTemporaryPanel()
+            StateEngine.panelAdapter.displayTemporaryPanel(TemplatesPanel())
         })
     }
 }
