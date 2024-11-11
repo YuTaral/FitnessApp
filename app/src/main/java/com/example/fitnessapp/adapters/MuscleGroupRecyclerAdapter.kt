@@ -1,22 +1,22 @@
 package com.example.fitnessapp.adapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fitnessapp.R
 import com.example.fitnessapp.models.MuscleGroupModel
+import com.example.fitnessapp.utils.Utils
 
 /** Recycler adapter to control the muscle groups shown when adding new workout */
-class MuscleGroupRecyclerAdapter(data: MutableList<MuscleGroupModel>, enableAll: Boolean): RecyclerView.Adapter<MuscleGroupRecyclerAdapter.MGItem>() {
+class MuscleGroupRecyclerAdapter(data: MutableList<MuscleGroupModel>): RecyclerView.Adapter<MuscleGroupRecyclerAdapter.MGItem>() {
     private var muscleGroups: MutableList<MuscleGroupModel>
-    private var enabled: Boolean
 
     init {
         muscleGroups = data
-        enabled = enableAll
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MGItem {
@@ -29,32 +29,26 @@ class MuscleGroupRecyclerAdapter(data: MutableList<MuscleGroupModel>, enableAll:
     }
 
     override fun onBindViewHolder(holder: MGItem, position: Int) {
-        holder.bind(muscleGroups[position], enabled)
-    }
-
-    /** Returns the selected Muscle groups */
-    fun getSelectedMuscleGroups(): MutableList<MuscleGroupModel> {
-        return muscleGroups.filter { it.checked }.toMutableList()
+        holder.bind(muscleGroups[position])
     }
 
     /** Class to represent muscle group item view holder */
     class MGItem(view: View): RecyclerView.ViewHolder(view) {
-        private var selected: CheckBox = itemView.findViewById(R.id.mg_selected_chkb)
+        private var image: ImageView = itemView.findViewById(R.id.mg_image)
         private var name: TextView = itemView.findViewById(R.id.mg_name_txt)
+        private var imageNext: ImageView = itemView.findViewById(R.id.image_next)
 
         /** Binds the view
          * @param item the muscle group
-         * @param enabled whether the selected checkbox should be enabled
-         * */
-        fun bind(item: MuscleGroupModel, enabled: Boolean) {
-            selected.isChecked = item.checked
+         */
+        @SuppressLint("DiscouragedApi")
+        fun bind(item: MuscleGroupModel) {
+            val ctx = Utils.getContext()
+            val resourceId = ctx.resources.getIdentifier(item.imageName, "drawable", ctx.packageName)
 
-            selected.setOnClickListener {
-                item.checked = selected.isChecked
+            if (resourceId != 0) { // Check if resource exists
+                image.setBackgroundResource(resourceId)
             }
-
-            // Set the enabled state
-           selected.isEnabled = enabled
 
             name.text = item.name
 

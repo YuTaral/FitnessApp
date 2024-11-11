@@ -47,7 +47,7 @@
     <string name="edit_workout_panel_title">Edit Workout</string>
     <string name="edit_btn_lbl">Edit</string>
     <string name="exercises_lbl">Exercises:</string>
-    <string name="new_exercise_lbl">New Exercise</string>
+    <string name="select_muscle_group_lbl">Select muscle group</string>
     <string name="exercise_lbl">Exercise</string>
     <string name="select_action_lbl">Select action</string>
     <string name="logout">Log Out</string>

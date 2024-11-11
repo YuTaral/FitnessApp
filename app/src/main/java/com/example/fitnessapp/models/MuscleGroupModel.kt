@@ -16,6 +16,9 @@ class MuscleGroupModel(data: String) {
     @SerializedName("Checked")
     var checked: Boolean
 
+    @SerializedName("ImageName")
+    var imageName: String
+
     /** Init method to accept serialized object and set the values */
     init {
         val gson = Gson()
@@ -24,5 +27,6 @@ class MuscleGroupModel(data: String) {
         id = muscleGroup.id
         name = muscleGroup.name
         checked = muscleGroup.checked
+        imageName = muscleGroup.imageName
     }
 }

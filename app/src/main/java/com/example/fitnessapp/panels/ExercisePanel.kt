@@ -1,6 +1,5 @@
 package com.example.fitnessapp.panels
 
-import android.widget.Button
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fitnessapp.R
@@ -22,19 +21,14 @@ class ExercisePanel(m: PanelMode): PanelFragment()  {
     }
 
     private lateinit var muscleGroupRecycler: RecyclerView
-    private lateinit var nextBtn: Button
     private var panelMode = m
 
     override fun initializePanel() {
         // Find the views
         muscleGroupRecycler = panel.findViewById(R.id.muscle_groups_recycler)
-        nextBtn = panel.findViewById(R.id.next_btn)
 
         // Populate the panel
         populatePanel(panelMode)
-
-        // Click listeners
-        nextBtn.setOnClickListener { }
     }
 
     /** Populates the data in the panel
@@ -48,7 +42,7 @@ class ExercisePanel(m: PanelMode): PanelFragment()  {
 
         MuscleGroupRepository().getMuscleGroups(onSuccess = { muscleGroups ->
             muscleGroupRecycler.layoutManager = LinearLayoutManager(Utils.getContext())
-            muscleGroupRecycler.adapter = MuscleGroupRecyclerAdapter(muscleGroups, true)
+            muscleGroupRecycler.adapter = MuscleGroupRecyclerAdapter(muscleGroups)
         })
     }
 }
