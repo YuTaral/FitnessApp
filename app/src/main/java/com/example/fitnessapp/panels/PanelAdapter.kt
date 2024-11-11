@@ -7,7 +7,6 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.example.fitnessapp.models.WorkoutModel
 import com.example.fitnessapp.utils.StateEngine
-import com.example.fitnessapp.utils.Utils
 
 /** FragmentStateAdapter used to manage the panels */
 class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, count: Int) : FragmentStateAdapter(fragmentActivity) {
@@ -127,8 +126,7 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
         } else {
             // If the index of the viewPager does not change, this will not trigger onResume(), notify the listener
             // to re-populate the panel
-            val fragment = Utils.getActivity().supportFragmentManager.findFragmentByTag("f$index") as FragmentRefreshListener
-            fragment.onRefreshListener()
+            (getWorkoutPanel() as FragmentRefreshListener).onRefreshListener()
         }
     }
 
