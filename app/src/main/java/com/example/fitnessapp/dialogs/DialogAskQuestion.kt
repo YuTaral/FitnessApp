@@ -9,9 +9,6 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import com.example.fitnessapp.R
 import com.example.fitnessapp.models.WorkoutModel
-import com.example.fitnessapp.network.repositories.WorkoutTemplateRepository
-import com.example.fitnessapp.panels.TemplatesPanel
-import com.example.fitnessapp.utils.StateEngine
 import com.example.fitnessapp.utils.Utils
 
 /** Dialog used to ask a question and execute a callback on confirm */
@@ -33,11 +30,13 @@ class DialogAskQuestion(q: Question) {
     }
 
     private var question: Question
+    private lateinit var onConfirmCallback: () -> Unit
     private var dialogView: View
     private var title: TextView
     private var questionText: TextView
     private var closeIcon: ImageView
     private var confirmBtn: Button
+    private lateinit var alertDialog: AlertDialog
 
     init {
         question = q
@@ -50,13 +49,18 @@ class DialogAskQuestion(q: Question) {
         confirmBtn = dialogView.findViewById(R.id.confirm_btn)
     }
 
+    /** Setter for the callback which will be executed on confirm button click */
+    fun setConfirmCallback(callback: () -> Unit) {
+        onConfirmCallback = callback
+    }
+
     /** Shows the dialog
      * @param data any additional data used to populate the dialog
      */
     fun showDialog(data: Any) {
         val dialogBuilder = AlertDialog.Builder(Utils.getContext())
         dialogBuilder.setView(dialogView).setCancelable(false)
-        val alertDialog = dialogBuilder.create()
+         alertDialog = dialogBuilder.create()
 
         // Populate the data based on the question
         if (question == Question.DELETE_TEMPLATE) {
@@ -64,10 +68,10 @@ class DialogAskQuestion(q: Question) {
 
             title.text = question.getTitle()
             questionText.text = String.format(question.getQuestionText(), template.name)
-
-            // Add confirm listener
-            confirmBtn.setOnClickListener { deleteTemplate(template.id, alertDialog) }
         }
+
+        // Add confirm listener
+        confirmBtn.setOnClickListener { onConfirmCallback() }
 
         // Close dialog listener
         closeIcon.setOnClickListener { alertDialog.dismiss() }
@@ -75,14 +79,8 @@ class DialogAskQuestion(q: Question) {
         alertDialog.show()
     }
 
-    /** Sends a request to delete the template
-     * @param id the template id
-     * @param alertDialog the alert dialog
-     */
-    private fun deleteTemplate(id: Long, alertDialog: AlertDialog) {
-        WorkoutTemplateRepository().deleteWorkoutTemplate(id, onSuccess = {
-            alertDialog.dismiss()
-            StateEngine.panelAdapter.displayTemporaryPanel(TemplatesPanel())
-        })
+    /** Closes the alert dialog */
+    fun closeDialog() {
+        alertDialog.dismiss()
     }
 }

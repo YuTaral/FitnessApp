@@ -37,6 +37,13 @@ class WorkoutRecyclerAdapter (data: List<WorkoutModel>, onClick: (WorkoutModel) 
         holder.bind(workouts[position], onClickCallback)
     }
 
+    /** Removes the specified template and re-populates the recycler */
+    @SuppressLint("NotifyDataSetChanged")
+    fun removeTemplate(template: WorkoutModel) {
+        workouts.remove(template)
+        notifyDataSetChanged()
+    }
+
     /** Class to represent workout item view holder - each workout */
     class WorkoutItem(view: View): RecyclerView.ViewHolder(view)  {
         private var name: TextView = itemView.findViewById(R.id.workout_name_txt)

@@ -70,10 +70,17 @@ class TemplatesPanel: PanelFragment() {
 
                 } else  {
                     // Delete the question otherwise
-                    DialogAskQuestion(DialogAskQuestion.Question.DELETE_TEMPLATE).showDialog(template)
+                    val dialog = DialogAskQuestion(DialogAskQuestion.Question.DELETE_TEMPLATE)
 
+                    dialog.setConfirmCallback(callback = {
+                        WorkoutTemplateRepository().deleteWorkoutTemplate(template.id, onSuccess = {
+                            (templatesRecycler.adapter as WorkoutRecyclerAdapter).removeTemplate(template)
+                            dialog.closeDialog()
+                        })
+                    })
+
+                    dialog.showDialog(template)
                 }
-
             })
         }, onError = {
             StateEngine.panelAdapter.displayWorkoutPanel()
