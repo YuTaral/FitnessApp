@@ -12,11 +12,15 @@ import com.example.fitnessapp.models.MuscleGroupModel
 import com.example.fitnessapp.utils.Utils
 
 /** Recycler adapter to control the muscle groups shown when adding new workout */
-class MuscleGroupRecyclerAdapter(data: MutableList<MuscleGroupModel>): RecyclerView.Adapter<MuscleGroupRecyclerAdapter.MGItem>() {
-    private var muscleGroups: MutableList<MuscleGroupModel>
+class MuscleGroupRecyclerAdapter(data: MutableList<MuscleGroupModel>, callback: (muscleGroupId: Long) -> Unit):
+    RecyclerView.Adapter<MuscleGroupRecyclerAdapter.MGItem>() {
+
+        private var muscleGroups: MutableList<MuscleGroupModel>
+        private var onSelectCallback: (muscleGroupId: Long) -> Unit = callback
 
     init {
         muscleGroups = data
+        onSelectCallback = callback
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MGItem {
@@ -29,20 +33,19 @@ class MuscleGroupRecyclerAdapter(data: MutableList<MuscleGroupModel>): RecyclerV
     }
 
     override fun onBindViewHolder(holder: MGItem, position: Int) {
-        holder.bind(muscleGroups[position])
+        holder.bind(muscleGroups[position], onSelectCallback)
     }
 
     /** Class to represent muscle group item view holder */
     class MGItem(view: View): RecyclerView.ViewHolder(view) {
         private var image: ImageView = itemView.findViewById(R.id.mg_image)
         private var name: TextView = itemView.findViewById(R.id.mg_name_txt)
-        private var imageNext: ImageView = itemView.findViewById(R.id.image_next)
 
         /** Binds the view
          * @param item the muscle group
          */
         @SuppressLint("DiscouragedApi")
-        fun bind(item: MuscleGroupModel) {
+        fun bind(item: MuscleGroupModel, onSelectCallback: (muscleGroupId: Long) -> Unit) {
             val ctx = Utils.getContext()
             val resourceId = ctx.resources.getIdentifier(item.imageName, "drawable", ctx.packageName)
 
@@ -52,8 +55,8 @@ class MuscleGroupRecyclerAdapter(data: MutableList<MuscleGroupModel>): RecyclerV
 
             name.text = item.name
 
-            // Store the id as tag
-            itemView.tag = item.id
+            // Set the on click listener
+            itemView.setOnClickListener { onSelectCallback(item.id) }
         }
     }
 }

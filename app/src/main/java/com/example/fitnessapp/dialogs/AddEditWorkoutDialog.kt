@@ -126,7 +126,7 @@ class AddEditWorkoutDialog(mode: Mode, workoutModel: WorkoutModel? = null) {
                 WorkoutModel(0, name.text.toString(), false, mutableListOf())
             } else {
                 // Create new workout from the template
-                WorkoutModel(0, name.text.toString(), false, template!!.exercises)
+                WorkoutModel(0, name.text.toString(), true, template!!.exercises)
             }
 
             WorkoutRepository().addWorkout(newWorkout, onSuccess = { workout ->

@@ -8,8 +8,8 @@
         android:id="@+id/latest_workouts_lbl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:textSize="24sp"
+        android:textSize="20sp"
+        android:textStyle="bold"
         android:textAlignment="center"
         android:text="@string/latest_workouts_lbl"
         app:layout_constraintTop_toTopOf="parent" />
@@ -18,6 +18,7 @@
         android:id="@+id/workouts_recycler"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:nestedScrollingEnabled="false"
         app:layout_constraintTop_toBottomOf="@+id/latest_workouts_lbl"

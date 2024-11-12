@@ -1,6 +1,7 @@
 package com.example.fitnessapp.network.repositories
 
 import com.example.fitnessapp.models.ExerciseModel
+import com.example.fitnessapp.models.MGExerciseModel
 import com.example.fitnessapp.models.WorkoutModel
 import com.example.fitnessapp.network.APIService
 import com.example.fitnessapp.network.NetworkManager
@@ -19,7 +20,7 @@ class ExerciseRepository {
         val params = mapOf("exercise" to Utils.serializeObject(exercise), "workoutId" to StateEngine.workout!!.id.toString())
 
         NetworkManager.sendRequest(
-            APIService.instance.addExercise(params),
+            APIService.instance.addExerciseToWorkout(params),
             onSuccessCallback = { response -> onSuccess(WorkoutModel(response.returnData[0])) }
         )
     }
@@ -45,6 +46,17 @@ class ExerciseRepository {
         NetworkManager.sendRequest(
             APIService.instance.deleteExercise(exerciseId),
             onSuccessCallback = { response -> onSuccess(WorkoutModel(response.returnData[0])) }
+        )
+    }
+
+    /** Fetches all exercises for this muscle group
+     * @param muscleGroupId the muscle group id
+     * @param onSuccess callback to execute if request is successful
+     */
+    fun getMuscleGroupExercises(muscleGroupId: Long, onSuccess:(MutableList<MGExerciseModel>) -> Unit) {
+        NetworkManager.sendRequest(
+            APIService.instance.getExerciseByMGId(muscleGroupId),
+            onSuccessCallback = { response -> onSuccess(response.returnData.map { MGExerciseModel(it) }.toMutableList()) }
         )
     }
 }

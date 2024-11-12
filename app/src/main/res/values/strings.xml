@@ -48,6 +48,8 @@
     <string name="edit_btn_lbl">Edit</string>
     <string name="exercises_lbl">Exercises:</string>
     <string name="select_muscle_group_lbl">Select muscle group</string>
+    <string name="select_exercise_lbl">Select exercise</string>
+    <string name="no_exercise_lbl">There are no exercises for this specific muscle groups.\nClick Add to create new exercise</string>
     <string name="exercise_lbl">Exercise</string>
     <string name="select_action_lbl">Select action</string>
     <string name="logout">Log Out</string>
@@ -65,4 +67,6 @@
     <string name="action_start_workout_from_template">Start workout</string>
     <string name="action_delete_template">Delete template</string>
     <string name="error_select_action">Please select template action from the dropdown</string>
+    <string name="back_btn">Back</string>
+    <string name="add_btn">Add</string>
 </resources>

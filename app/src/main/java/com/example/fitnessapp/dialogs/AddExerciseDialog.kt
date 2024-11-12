@@ -9,13 +9,16 @@ import android.widget.EditText
 import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
 import com.example.fitnessapp.R
+import com.example.fitnessapp.models.MGExerciseModel
 import com.example.fitnessapp.network.repositories.ExerciseRepository
 import com.example.fitnessapp.utils.StateEngine
 import com.example.fitnessapp.utils.Utils
 
 /** Add Exercise dialog to hold the logic for adding exercise */
 @SuppressLint("InflateParams")
-class AddExerciseDialog {
+class AddExerciseDialog(mode: Mode, exercise: MGExerciseModel? = null) {
+    private var dialogMode: Mode
+    private var exerciseToAdd: MGExerciseModel?
     private var dialogView: View
     private var closeIcon: ImageView
     private var name: EditText
@@ -24,8 +27,18 @@ class AddExerciseDialog {
     private var weight: EditText
     private var saveBtn: Button
 
+
+    /** The dialog mode - create new exercise / add exercise to workout */
+    enum class Mode {
+        CREATE_NEW,
+        ADD_TO_WORKOUT
+    }
+
     /** Dialog initialization */
     init {
+        dialogMode = mode
+        exerciseToAdd = exercise
+
         // Inflate the dialog layout
         dialogView = LayoutInflater.from(Utils.getContext()).inflate(R.layout.add_exercise_dialog, null)
 
@@ -49,26 +62,35 @@ class AddExerciseDialog {
         saveBtn.setOnClickListener { save(alertDialog) }
         closeIcon.setOnClickListener { alertDialog.dismiss() }
 
+        if (dialogMode == Mode.ADD_TO_WORKOUT) {
+            name.setText(exerciseToAdd!!.name)
+            name.setEnabled(false)
+        }
+
         // Show the dialog
         alertDialog.show()
 
         // Open the keyboard once the dialog is shown
-        name.requestFocus()
-        alertDialog.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM)
-        alertDialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+        if (dialogMode == Mode.CREATE_NEW) {
+            name.requestFocus()
+            alertDialog.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM)
+            alertDialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+        }
     }
 
     /** Executed on Save button click
      * @param alertDialog the alert dialog
      */
-    private fun save(alertDialog: AlertDialog){
+    private fun save(alertDialog: AlertDialog) {
         // Validate
         val exercise = Utils.validateExercise(name, sets, reps, weight) ?: return
 
-        // Add the exercise
-        ExerciseRepository().addExercise(exercise, onSuccess = { workout ->
-            alertDialog.dismiss()
-            StateEngine.panelAdapter.displayWorkoutPanel(workout, true)
-        })
+        // Add the exercise to the workout
+        if (dialogMode == Mode.ADD_TO_WORKOUT) {
+            ExerciseRepository().addExercise(exercise, onSuccess = { workout ->
+                alertDialog.dismiss()
+                StateEngine.panelAdapter.displayWorkoutPanel(workout, true)
+            })
+        }
     }
 }

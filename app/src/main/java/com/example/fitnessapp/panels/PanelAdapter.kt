@@ -83,7 +83,7 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
         return workoutPanel
     }
 
-    /** Initializes the template panel and returns the instance */
+    /** Returns the temporary panel instance */
     private fun getTemporaryPanel(): PanelFragment {
         return temporaryPanel as PanelFragment
     }
