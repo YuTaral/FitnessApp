@@ -55,7 +55,7 @@ class SelectedWorkoutPanel : PanelFragment(), FragmentRefreshListener {
             currentWorkoutDate.text = Utils.defaultFormatDate(StateEngine.workout!!.date)
 
         } else {
-            currentWorkout.text = Utils.getContext().getString(R.string.current_workout_not_selected_lbl)
+            currentWorkout.text = requireContext().getString(R.string.current_workout_not_selected_lbl)
             currentWorkoutDate.text = ""
 
             if (exerciseRecycler.adapter != null) {
@@ -64,7 +64,7 @@ class SelectedWorkoutPanel : PanelFragment(), FragmentRefreshListener {
         }
 
         if (exerciseRecycler.adapter == null) {
-            exerciseRecycler.layoutManager = LinearLayoutManager(Utils.getContext())
+            exerciseRecycler.layoutManager = LinearLayoutManager(context)
             exerciseRecycler.adapter = ExerciseRecyclerAdapter(listOf())
         }
 

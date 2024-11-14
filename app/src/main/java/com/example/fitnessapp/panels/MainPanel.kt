@@ -9,7 +9,6 @@ import com.example.fitnessapp.dialogs.AddEditWorkoutDialog
 import com.example.fitnessapp.models.WorkoutModel
 import com.example.fitnessapp.network.repositories.WorkoutRepository
 import com.example.fitnessapp.utils.StateEngine
-import com.example.fitnessapp.utils.Utils
 
 /** Class to hold the logic for the Main Panel */
 class MainPanel: PanelFragment() {
@@ -44,7 +43,7 @@ class MainPanel: PanelFragment() {
     /** Populates the data in the panel with the latest workouts */
     private fun populatePanel() {
         WorkoutRepository().getWorkouts(onSuccess = { returnData ->
-            workoutsRecycler.layoutManager = LinearLayoutManager(Utils.getContext())
+            workoutsRecycler.layoutManager = LinearLayoutManager(context)
             workoutsRecycler.adapter = WorkoutRecyclerAdapter(
                 returnData.map { WorkoutModel(it) }.toMutableList()) { workout ->
                 StateEngine.panelAdapter.displayWorkoutPanel(workout, null)

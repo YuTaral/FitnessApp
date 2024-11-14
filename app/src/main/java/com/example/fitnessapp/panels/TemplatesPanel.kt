@@ -41,11 +41,13 @@ class TemplatesPanel: PanelFragment() {
 
     /** Populates the data in the panel */
     private fun populatePanel() {
+        val ctx = requireContext()
+
         // Create the adapter
         actionSpinner.adapter = CustomSpinnerAdapter(panel.context, true, listOf(
-            Utils.getContext().getString(R.string.select_action_lbl),
-            Utils.getContext().getString(R.string.action_start_workout_from_template),
-            Utils.getContext().getString(R.string.action_delete_template))
+            ctx.getString(R.string.select_action_lbl),
+            ctx.getString(R.string.action_start_workout_from_template),
+            ctx.getString(R.string.action_delete_template))
         )
 
         // Pre-select 'Start workout'
@@ -55,7 +57,7 @@ class TemplatesPanel: PanelFragment() {
         WorkoutTemplateRepository().getWorkoutTemplates(onSuccess = { serializedTemplates ->
             val templates: MutableList<WorkoutModel> = serializedTemplates.map { WorkoutModel(it) }.toMutableList()
 
-            templatesRecycler.layoutManager = LinearLayoutManager(Utils.getContext())
+            templatesRecycler.layoutManager = LinearLayoutManager(context)
             templatesRecycler.adapter = WorkoutRecyclerAdapter(templates, onClick = { template ->
 
                 // Validate there is selected action
