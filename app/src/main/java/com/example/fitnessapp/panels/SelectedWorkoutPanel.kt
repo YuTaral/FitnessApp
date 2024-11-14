@@ -3,6 +3,7 @@ package com.example.fitnessapp.panels
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fitnessapp.R
@@ -18,6 +19,8 @@ class SelectedWorkoutPanel : PanelFragment(), FragmentRefreshListener {
     override var panelIndex: Int = 1
     override var titleId: Int = R.string.workout_panel_title
 
+    private lateinit var mainContent: ConstraintLayout
+    private lateinit var noWorkoutContent: ConstraintLayout
     private lateinit var currentWorkout: TextView
     private lateinit var currentWorkoutDate: TextView
     private lateinit var exerciseRecycler: RecyclerView
@@ -26,6 +29,8 @@ class SelectedWorkoutPanel : PanelFragment(), FragmentRefreshListener {
 
     override fun initializePanel() {
         // Find the views
+        mainContent = panel.findViewById(R.id.main_content)
+        noWorkoutContent = panel.findViewById(R.id.no_workout_content)
         currentWorkout = panel.findViewById(R.id.current_workout_label)
         currentWorkoutDate = panel.findViewById(R.id.current_workout_date_label)
         exerciseRecycler = panel.findViewById(R.id.exercises_recycler)
@@ -35,6 +40,7 @@ class SelectedWorkoutPanel : PanelFragment(), FragmentRefreshListener {
         // Set the click listeners
         newExerciseBtn.setOnClickListener { showAddExerciseDialog() }
         editBtn.setOnClickListener{ editWorkout() }
+        noWorkoutContent.setOnClickListener { AddEditWorkoutDialog(AddEditWorkoutDialog.Mode.ADD).showDialog() }
 
         // Set buttons visibility
         setButtonsVisibility()
@@ -51,16 +57,15 @@ class SelectedWorkoutPanel : PanelFragment(), FragmentRefreshListener {
     /** Populates the data in the panel with the current workout */
     private fun populatePanel() {
         if (StateEngine.workout != null) {
+            mainContent.visibility = View.VISIBLE
+            noWorkoutContent.visibility = View.GONE
+
             currentWorkout.text = StateEngine.workout!!.name
             currentWorkoutDate.text = Utils.defaultFormatDate(StateEngine.workout!!.date)
 
         } else {
-            currentWorkout.text = requireContext().getString(R.string.current_workout_not_selected_lbl)
-            currentWorkoutDate.text = ""
-
-            if (exerciseRecycler.adapter != null) {
-                getExercisesRecyclerAdapter().updateData(listOf())
-            }
+            mainContent.visibility = View.GONE
+            noWorkoutContent.visibility = View.VISIBLE
         }
 
         if (exerciseRecycler.adapter == null) {

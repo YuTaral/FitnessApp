@@ -12,7 +12,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/header"
             android:layout_width="match_parent"
-            android:layout_height="85dp"
+            android:layout_height="90dp"
+            android:paddingTop="5dp"
             android:background="@color/colorHeader"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent">
