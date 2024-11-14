@@ -1,7 +1,11 @@
 package com.example.fitnessapp.utils
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.ValueAnimator
 import android.content.Context
 import android.view.View
+import android.view.animation.DecelerateInterpolator
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
@@ -129,5 +133,50 @@ object Utils {
      */
     fun defaultFormatDate(date: Date): String {
         return SimpleDateFormat("dd MMM yyyy", Locale.US).format(date)
+    }
+
+    /** User to smoothly expand container view
+     * @param view the container
+     */
+    fun expandContainer(view: View) {
+        view.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
+        val targetHeight = view.measuredHeight
+
+        // Set the height to 0 and make it visible
+        view.layoutParams.height = 0
+        view.visibility = View.VISIBLE
+
+        val animator = ValueAnimator.ofInt(0, targetHeight)
+        animator.addUpdateListener { valueAnimator ->
+            val animatedValue = valueAnimator.animatedValue as Int
+            view.layoutParams.height = animatedValue
+            view.requestLayout()
+        }
+        animator.interpolator = DecelerateInterpolator()
+        animator.duration = 350
+        animator.start()
+    }
+
+    /** User to smoothly collapse container view
+     * @param view the container
+     */
+    fun collapseContainer(view: View) {
+        val initialHeight = view.measuredHeight
+
+        val animator = ValueAnimator.ofInt(initialHeight, 0)
+        animator.addUpdateListener { valueAnimator ->
+            val animatedValue = valueAnimator.animatedValue as Int
+            view.layoutParams.height = animatedValue
+            view.requestLayout()
+        }
+        animator.addListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator) {
+                super.onAnimationEnd(animation)
+                view.visibility = View.GONE
+            }
+        })
+        animator.interpolator = DecelerateInterpolator()
+        animator.duration = 350
+        animator.start()
     }
 }

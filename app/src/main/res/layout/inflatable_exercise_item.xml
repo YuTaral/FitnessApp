@@ -40,10 +40,10 @@
 
         <ImageView
             android:id="@+id/exercise_expand_collapse_symbol"
-            android:layout_width="25dp"
-            android:layout_height="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="5dp"
-            android:background="@drawable/icon_collapse"
+            android:background="@drawable/icon_arrow_up"
             android:importantForAccessibility="no"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
