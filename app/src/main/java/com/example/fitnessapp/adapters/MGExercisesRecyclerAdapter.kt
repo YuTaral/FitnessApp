@@ -69,10 +69,10 @@ class MGExercisesRecyclerAdapter(data: List<MGExerciseModel>): RecyclerView.Adap
             // Add expand mechanism
             expandCollapse.setOnClickListener {
                 if (description.visibility == View.VISIBLE) {
-                    Utils.collapseContainer(description)
+                    Utils.collapseView(description)
                     expandCollapse.animate().rotation(180f).setDuration(350).start()
                 } else {
-                    Utils.expandContainer(description)
+                    Utils.expandView(description)
                     expandCollapse.animate().rotation(360f).setDuration(350).start()
                 }
             }

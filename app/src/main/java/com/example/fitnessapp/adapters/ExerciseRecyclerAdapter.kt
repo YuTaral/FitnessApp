@@ -73,10 +73,10 @@ class ExerciseRecyclerAdapter(data: List<ExerciseModel>) : RecyclerView.Adapter<
             // Add expand mechanism
             expandSymbol.setOnClickListener {
                 if (setsContainer.visibility == View.VISIBLE) {
-                    Utils.collapseContainer(setsContainer)
+                    Utils.collapseView(setsContainer)
                     expandSymbol.animate().rotation(180f).setDuration(300).start()
                 } else {
-                    Utils.expandContainer(setsContainer)
+                    Utils.expandView(setsContainer)
                     expandSymbol.animate().rotation(360f).setDuration(300).start()
                 }
             }

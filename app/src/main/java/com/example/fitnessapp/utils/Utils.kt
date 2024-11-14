@@ -135,10 +135,10 @@ object Utils {
         return SimpleDateFormat("dd MMM yyyy", Locale.US).format(date)
     }
 
-    /** User to smoothly expand container view
-     * @param view the container
+    /** Used to smoothly expand view
+     * @param view the view to expand
      */
-    fun expandContainer(view: View) {
+    fun expandView(view: View) {
         view.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
         val targetHeight = view.measuredHeight
 
@@ -157,10 +157,10 @@ object Utils {
         animator.start()
     }
 
-    /** User to smoothly collapse container view
-     * @param view the container
+    /** Used to smoothly collapse view
+     * @param view the view to collapse
      */
-    fun collapseContainer(view: View) {
+    fun collapseView(view: View) {
         val initialHeight = view.measuredHeight
 
         val animator = ValueAnimator.ofInt(initialHeight, 0)
