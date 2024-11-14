@@ -128,6 +128,6 @@ object Utils {
      * @param date the date to format
      */
     fun defaultFormatDate(date: Date): String {
-        return SimpleDateFormat("dd/MMM/yyyy", Locale.US).format(date)
+        return SimpleDateFormat("dd MMM yyyy", Locale.US).format(date)
     }
 }
