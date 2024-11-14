@@ -22,11 +22,11 @@ class MuscleGroupModel(data: String) {
     /** Init method to accept serialized object and set the values */
     init {
         val gson = Gson()
-        val muscleGroup: MuscleGroupModel = gson.fromJson(data, MuscleGroupModel::class.java)
+        val model: MuscleGroupModel = gson.fromJson(data, MuscleGroupModel::class.java)
 
-        id = muscleGroup.id
-        name = muscleGroup.name
-        checked = muscleGroup.checked
-        imageName = muscleGroup.imageName
+        id = model.id
+        name = model.name
+        checked = model.checked
+        imageName = model.imageName
     }
 }

@@ -28,13 +28,13 @@ class WorkoutModel {
      */
     constructor(data: String) {
         val gson = Gson()
-        val workout: WorkoutModel = gson.fromJson(data, WorkoutModel::class.java)
+        val model: WorkoutModel = gson.fromJson(data, WorkoutModel::class.java)
 
-        id = workout.id
-        name = workout.name
-        date = workout.date
-        template = workout.template
-        exercises = workout.exercises
+        id = model.id
+        name = model.name
+        date = model.date
+        template = model.template
+        exercises = model.exercises
     }
 
     /** Constructor used when new workout is created */

@@ -15,9 +15,9 @@ class UserModel(data: String) {
 
     init {
         val gson = Gson()
-        val user: UserModel = gson.fromJson(data, UserModel::class.java)
+        val model: UserModel = gson.fromJson(data, UserModel::class.java)
 
-        id = user.id
-        email = user.email
+        id = model.id
+        email = model.email
     }
 }

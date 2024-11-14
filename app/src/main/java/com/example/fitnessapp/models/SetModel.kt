@@ -24,12 +24,12 @@ class SetModel {
      */
     constructor(data: String) {
         val gson = Gson()
-        val set: SetModel = gson.fromJson(data, SetModel::class.java)
+        val model: SetModel = gson.fromJson(data, SetModel::class.java)
 
-        id = set.id
-        reps = set.reps
-        weight = set.weight
-        completed = set.completed
+        id = model.id
+        reps = model.reps
+        weight = model.weight
+        completed = model.completed
     }
 
     /** Empty constructor */
