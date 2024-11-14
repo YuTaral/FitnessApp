@@ -3,7 +3,6 @@ package com.example.fitnessapp
 import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
-import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
@@ -81,21 +80,23 @@ class LoginActivity : AppCompatActivity() {
 
     /** Display Register page */
     private fun displayRegister() {
-        loginContainer.visibility = View.GONE
+        Utils.hideViewWithFade(loginContainer)
+
         email.setText("")
         password.setText("")
 
-        registerContainer.visibility = View.VISIBLE
+        Utils.displayViewWithFade(registerContainer)
     }
 
     /** Display Login page */
     private fun displayLogin() {
-        registerContainer.visibility = View.GONE
+        Utils.hideViewWithFade(registerContainer)
+
         emailReg.setText("")
         passwordReg.setText("")
         passwordConfirm.setText("")
 
-        loginContainer.visibility = View.VISIBLE
+        Utils.displayViewWithFade(loginContainer)
     }
 
     /** Register a new user */

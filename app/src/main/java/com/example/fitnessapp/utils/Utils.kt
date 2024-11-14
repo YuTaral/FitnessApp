@@ -179,4 +179,27 @@ object Utils {
         animator.duration = 350
         animator.start()
     }
+
+    /** Used to smoothly hide the view with fade
+     * @param view the view to hide
+     */
+    fun hideViewWithFade(view: View) {
+        view.animate().translationX(-view.width.toFloat()).alpha(0f).setDuration(350)
+            .withEndAction {
+                view.visibility = View.GONE
+                view.translationX = 0f
+                view.alpha = 1f
+            }.start()
+    }
+
+    /** Used to smoothly display the view with fade
+     * @param view the view to display
+     */
+    fun displayViewWithFade(view: View) {
+        view.translationX = view.width.toFloat()
+        view.alpha = 0f
+        view.visibility = View.VISIBLE
+
+        view.animate().translationX(0f).alpha(1f).setDuration(350).start()
+    }
 }
