@@ -24,6 +24,8 @@
     <style name="CircleCheckBoxStyle" parent="Widget.AppCompat.CompoundButton.CheckBox">
         <item name="android:button">@drawable/button_checkbox</item>
         <item name="android:background">@android:color/transparent</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:paddingStart">10dp</item>
     </style>
 
     <style name="MenuItemStyle" parent="TextAppearance.AppCompat">

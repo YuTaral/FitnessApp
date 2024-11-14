@@ -27,6 +27,7 @@
     <string name="add_exercise_lbl">Add Exercise</string>
     <string name="edit_exercise_lbl">Edit Exercise</string>
     <string name="exercise_name_lbl">Name</string>
+    <string name="exercise_description_lbl">Description</string>
     <string name="error_msg_enter_exercise_name">Please enter exercise name</string>
     <string name="cancel_btn">Cancel</string>
     <string name="next_btn">Next</string>
@@ -69,4 +70,8 @@
     <string name="error_select_action">Please select template action from the dropdown</string>
     <string name="back_btn">Back</string>
     <string name="add_btn">Add</string>
+    <string name="describe_the_exercise_lbl">Describe the exercise…</string>
+    <string name="add_exercise_to_current_workout_lbl">Add exercise to current workout</string>
+    <string name="no_description_for_ex_lbl">No description added for this exercise…</string>
+
 </resources>

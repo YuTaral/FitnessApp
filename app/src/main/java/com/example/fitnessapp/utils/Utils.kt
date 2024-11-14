@@ -7,7 +7,6 @@ import android.widget.EditText
 import android.widget.Toast
 import com.example.fitnessapp.MainActivity
 import com.example.fitnessapp.R
-import com.example.fitnessapp.models.ExerciseModel
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
@@ -87,38 +86,6 @@ object Utils {
     /** Returns the current activity */
     fun getActivity(): MainActivity {
         return StateEngine.activeActivity as MainActivity
-    }
-
-    /** Validate the data in the dialog when save is clicked
-     * @param name the name input view
-     * @param sets the set input view
-     * @param reps the reps input view
-     * @param weight the weight input view
-     */
-     fun validateExercise(name: EditText, sets: EditText, reps: EditText, weight: EditText): ExerciseModel? {
-        val exerciseName = name.text.toString()
-        var exerciseSets = 0
-        var setReps = 0
-        var exerciseWeight = 0.0
-
-        if (sets.text.toString().isNotEmpty()) {
-            exerciseSets = sets.text.toString().toInt()
-        }
-        if (reps.text.toString().isNotEmpty()) {
-            setReps = reps.text.toString().toInt()
-        }
-        if (weight.text.toString().isNotEmpty()) {
-            exerciseWeight = weight.text.toString().toDouble()
-        }
-
-        // Validate Name
-        if (exerciseName.isEmpty()) {
-            validationFailed(name, R.string.error_msg_enter_ex_name)
-            return null
-        }
-
-        // Validation passed
-        return ExerciseModel(exerciseName, exerciseSets, setReps, exerciseWeight)
     }
 
     /** Validation failed - focus the field and open the keyboard

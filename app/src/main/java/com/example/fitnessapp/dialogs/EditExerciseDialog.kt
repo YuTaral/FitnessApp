@@ -135,7 +135,7 @@ class EditExerciseDialog(exerciseModel: ExerciseModel) {
      * */
     private fun delete(alertDialog: AlertDialog) {
         if (StateEngine.workout != null) {
-            ExerciseRepository().deleteExercise(exercise.id, onSuccess = { workout ->
+            ExerciseRepository().deleteExerciseFromWorkout(exercise.id, onSuccess = { workout ->
                 alertDialog.dismiss()
                 StateEngine.panelAdapter.displayWorkoutPanel(workout, true)
             })
@@ -154,7 +154,7 @@ class EditExerciseDialog(exerciseModel: ExerciseModel) {
         }
 
         // Validation passed create the updated exercise and execute the callback
-        ExerciseRepository().editExercise(ExerciseModel(exercise.id, name.text.toString(), getSets(setsContainer)), onSuccess = { workout ->
+        ExerciseRepository().editExerciseFromWorkout(ExerciseModel(exercise.id, name.text.toString(), getSets(setsContainer)), onSuccess = { workout ->
             alertDialog.dismiss()
             StateEngine.panelAdapter.displayWorkoutPanel(workout, true)
         })

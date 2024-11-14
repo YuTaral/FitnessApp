@@ -1,5 +1,7 @@
 package com.example.fitnessapp.adapters
 
+import android.annotation.SuppressLint
+import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.fitnessapp.R
 import com.example.fitnessapp.dialogs.AddExerciseDialog
 import com.example.fitnessapp.models.MGExerciseModel
+import com.example.fitnessapp.utils.Utils
 
 /** Recycler adapter to control the data (exercises) shown for each muscle group */
 class MGExercisesRecyclerAdapter(data: List<MGExerciseModel>): RecyclerView.Adapter<MGExercisesRecyclerAdapter.ExerciseItem>() {
@@ -30,6 +33,16 @@ class MGExercisesRecyclerAdapter(data: List<MGExerciseModel>): RecyclerView.Adap
         holder.bind(exercises[position])
     }
 
+    /** Updates the exercises with the provided data
+     * @param data the new exercises
+     */
+    @SuppressLint("NotifyDataSetChanged")
+    fun updateData(data: List<MGExerciseModel>) {
+        exercises.clear()
+        exercises.addAll(data)
+        notifyDataSetChanged()
+    }
+
     /** Class to represent exercise item view holder - each exercise */
     class ExerciseItem(view: View): RecyclerView.ViewHolder(view) {
         private var name: TextView = itemView.findViewById(R.id.exercise_name_txt)
@@ -41,9 +54,16 @@ class MGExercisesRecyclerAdapter(data: List<MGExerciseModel>): RecyclerView.Adap
          */
         fun bind(item: MGExerciseModel) {
             name.text = item.name
-            description.text = item.description
 
-            name.setOnClickListener { AddExerciseDialog(AddExerciseDialog.Mode.ADD_TO_WORKOUT, item).showDialog() }
+            if (item.description.isEmpty()) {
+                description.text = Utils.getContext().getString(R.string.no_description_for_ex_lbl)
+                description.setTypeface(null, Typeface.ITALIC)
+            } else {
+                description.text = item.description
+                description.typeface = null
+            }
+
+            name.setOnClickListener {  AddExerciseDialog(AddExerciseDialog.Mode.ADD_TO_WORKOUT, item).showDialog() }
             description.setOnClickListener { AddExerciseDialog(AddExerciseDialog.Mode.ADD_TO_WORKOUT, item).showDialog() }
 
             // Add expand mechanism

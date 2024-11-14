@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 /** MGExerciseModel class representing an exercise of specific muscle group.
  * Must correspond with server-side MGExerciseModel
  */
-class MGExerciseModel(data: String) {
+class MGExerciseModel {
     @SerializedName("Id")
     val id: Long
 
@@ -16,12 +16,23 @@ class MGExerciseModel(data: String) {
     @SerializedName("Description")
     val description: String
 
-    init {
+    @SerializedName("MuscleGroupId")
+    val muscleGroupId: Long
+
+    constructor(data: String) {
         val gson = Gson()
         val model: MGExerciseModel = gson.fromJson(data, MGExerciseModel::class.java)
 
         id = model.id
         name = model.name
         description = model.description
+        muscleGroupId = model.muscleGroupId
+    }
+
+    constructor(nameVal: String, descriptionVal: String, muscleGroupIdVal: Long) {
+        id = 0
+        name = nameVal
+        description = descriptionVal
+        muscleGroupId = muscleGroupIdVal
     }
 }

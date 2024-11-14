@@ -9,22 +9,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.fitnessapp.R
 import com.example.fitnessapp.adapters.MGExercisesRecyclerAdapter
 import com.example.fitnessapp.adapters.MuscleGroupRecyclerAdapter
+import com.example.fitnessapp.dialogs.AddExerciseDialog
+import com.example.fitnessapp.models.MGExerciseModel
 import com.example.fitnessapp.models.MuscleGroupModel
 import com.example.fitnessapp.network.repositories.ExerciseRepository
 import com.example.fitnessapp.network.repositories.MuscleGroupRepository
 
 /** Class to hold the logic for Exercise Panel */
-class ExercisePanel(m: PanelMode): PanelFragment()  {
+class ExercisePanel: PanelFragment()  {
     override var id: Long = 4
     override var layoutId: Int = R.layout.exercise_panel
     override var panelIndex: Int = 2
     override var titleId: Int = R.string.exercise_lbl
-
-    /** Enum to hold different modes for the panel */
-    enum class PanelMode {
-        ADD,
-        EDIT
-    }
 
     private lateinit var muscleGroupRecycler: RecyclerView
     private lateinit var exercisesRecycler: RecyclerView
@@ -33,7 +29,7 @@ class ExercisePanel(m: PanelMode): PanelFragment()  {
     private lateinit var backBtn: Button
     private lateinit var addBtn: Button
     private lateinit var muscleGroups: MutableList<MuscleGroupModel>
-    private var panelMode = m
+    private var selectedMuscleGroupId: Long = 0
 
     override fun initializePanel() {
         muscleGroups = mutableListOf()
@@ -47,57 +43,65 @@ class ExercisePanel(m: PanelMode): PanelFragment()  {
         addBtn = panel.findViewById(R.id.add_btn)
 
         // Populate the panel
-        populatePanel(panelMode)
+        populatePanel()
 
         // Click listeners
-        backBtn.setOnClickListener { displayMuscleGroupOrExercises(true) }
+        backBtn.setOnClickListener {
+            selectedMuscleGroupId = 0
+            displayMuscleGroupOrExercises(true)
+        }
+        addBtn.setOnClickListener{ AddExerciseDialog(AddExerciseDialog.Mode.CREATE_NEW, null, selectedMuscleGroupId).showDialog() }
     }
 
-    /** Populates the data in the panel
-     * @param mode the panel mode
-     * @param overrideMode whether panelMode property should be overridden, false by default
-     */
-    private fun populatePanel(mode: PanelMode, overrideMode: Boolean = false) {
-        if (overrideMode) {
-            panelMode = mode
-        }
-
+    /** Populates the data in the panel */
+    private fun populatePanel() {
         displayMuscleGroupOrExercises(true)
 
         if (muscleGroups.isEmpty()) {
             // Fetch the muscle groups if the list is empty
             MuscleGroupRepository().getMuscleGroups(onSuccess = { data ->
                 muscleGroups = data
-                setMuscleGroupAdapter()
+
+                muscleGroupRecycler.layoutManager = LinearLayoutManager(context)
+                muscleGroupRecycler.adapter = MuscleGroupRecyclerAdapter(muscleGroups,
+                    callback = { muscleGroupId ->
+                        selectedMuscleGroupId = muscleGroupId
+
+                        ExerciseRepository().getMuscleGroupExercises(muscleGroupId, onSuccess = { exercises ->
+                            displayExercises(exercises, true)
+                        })
+                    })
             })
         }
     }
 
-    /** Sets the adapter of the muscle group recycler */
-    private fun setMuscleGroupAdapter() {
-        muscleGroupRecycler.layoutManager = LinearLayoutManager(context)
-        muscleGroupRecycler.adapter = MuscleGroupRecyclerAdapter(muscleGroups,
-            callback = { muscleGroupId -> displayExercises(muscleGroupId) })
-    }
-
     /** Populates the exercises of the given muscle group
-     * @param muscleGroupId the muscle group id
+     * @param exercises the exercises to display
+     * @param initializeAdapter true if the adapter should be initialized, false if we just want
+     * to update the data
      */
-    private fun displayExercises(muscleGroupId: Long) {
-        ExerciseRepository().getMuscleGroupExercises(muscleGroupId, onSuccess = { exercises ->
-            displayMuscleGroupOrExercises(false)
+    fun displayExercises(exercises: List<MGExerciseModel>, initializeAdapter: Boolean) {
+        displayMuscleGroupOrExercises(false)
 
-            exercisesRecycler.layoutManager = LinearLayoutManager(context)
+        exercisesRecycler.layoutManager = LinearLayoutManager(context)
 
-            if (exercises.isEmpty()) {
-                // Show title that there is no exercises for this muscle group
-                title.text = requireContext().getString(R.string.no_exercise_lbl)
+        if (exercises.isEmpty()) {
+            // Show title that there is no exercises for this muscle group
+            title.text = requireContext().getString(R.string.no_exercise_lbl)
+
+            if (initializeAdapter) {
                 exercisesRecycler.adapter = MGExercisesRecyclerAdapter(mutableListOf())
             } else {
-                // Display the exercises
-                exercisesRecycler.adapter = MGExercisesRecyclerAdapter(exercises)
+                (exercisesRecycler.adapter as MGExercisesRecyclerAdapter).updateData(mutableListOf())
             }
-        })
+        } else {
+            // Display the exercises
+            if (initializeAdapter) {
+                exercisesRecycler.adapter = MGExercisesRecyclerAdapter(exercises)
+            } else {
+                (exercisesRecycler.adapter as MGExercisesRecyclerAdapter).updateData(exercises)
+            }
+        }
     }
 
     /** Changes the visibility the views in the panel to display the muscle groups or exercises

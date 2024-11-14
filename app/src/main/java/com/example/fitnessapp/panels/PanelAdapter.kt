@@ -88,6 +88,15 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
         return temporaryPanel as PanelFragment
     }
 
+    /** Returns the temporary panel instance as Exercise Panel */
+    fun getExercisePanel(): ExercisePanel? {
+        if (temporaryPanel == null) {
+            return null
+        }
+
+        return temporaryPanel as ExercisePanel
+    }
+
     /** Removes the currently created temporary panel, when navigating away from it
      * or a new temporary panel must be created
      */
