@@ -73,5 +73,6 @@
     <string name="describe_the_exercise_lbl">Describe the exercise…</string>
     <string name="add_exercise_to_current_workout_lbl">Add exercise to current workout</string>
     <string name="no_description_for_ex_lbl">No description added for this exercise…</string>
+    <string name="exercise_completed_lbl">Exercise completed</string>
 
 </resources>

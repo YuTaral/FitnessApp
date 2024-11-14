@@ -35,6 +35,7 @@ class AddExerciseDialog(mode: Mode, exercise: MGExerciseModel? = null, muscleGro
     private var sets: EditText
     private var reps: EditText
     private var weight: EditText
+    private var exerciseCompleted: CheckBox
     private var saveBtn: Button
 
     /** The dialog mode - create new exercise / add exercise to workout */
@@ -62,6 +63,7 @@ class AddExerciseDialog(mode: Mode, exercise: MGExerciseModel? = null, muscleGro
         sets = dialogView.findViewById(R.id.exercise_sets)
         reps = dialogView.findViewById(R.id.set_reps)
         weight = dialogView.findViewById(R.id.exercise_weight)
+        exerciseCompleted = dialogView.findViewById(R.id.complete_exercise)
         saveBtn = dialogView.findViewById(R.id.save_btn)
     }
 
@@ -167,7 +169,7 @@ class AddExerciseDialog(mode: Mode, exercise: MGExerciseModel? = null, muscleGro
         }
 
         // Validation passed
-        return ExerciseModel(exerciseName, exerciseSets, setReps, exerciseWeight)
+        return ExerciseModel(exerciseName, exerciseSets, setReps, exerciseWeight, exerciseCompleted.isChecked)
     }
 
     /** Validate the data in the dialog when save is clicked and new exercise is being added */

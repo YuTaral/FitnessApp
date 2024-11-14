@@ -1,6 +1,5 @@
 package com.example.fitnessapp.models
 
-import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 
 /** ExerciseModel class representing an exercise.
@@ -21,14 +20,15 @@ class ExerciseModel {
      * @param setsCountVal the sets value
      * @param repsVal the repetitions value
      * @param weightVal the weight value
+     * @param completedVal the completed value
      */
-    constructor(nameVal: String, setsCountVal: Int, repsVal: Int, weightVal: Double) {
+    constructor(nameVal: String, setsCountVal: Int, repsVal: Int, weightVal: Double, completedVal: Boolean) {
         id = 0
         name = nameVal
         sets = mutableListOf()
 
         for (i in 0..<setsCountVal) {
-            sets.add(i, SetModel(0, repsVal, weightVal, false))
+            sets.add(i, SetModel(0, repsVal, weightVal, completedVal))
         }
     }
 
