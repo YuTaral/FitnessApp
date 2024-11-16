@@ -11,7 +11,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fitnessapp.R
-import com.example.fitnessapp.dialogs.EditExerciseDialog
+import com.example.fitnessapp.dialogs.EditExerciseFromWorkoutDialog
 import com.example.fitnessapp.models.ExerciseModel
 import com.example.fitnessapp.models.SetModel
 import com.example.fitnessapp.utils.Utils
@@ -69,7 +69,7 @@ class ExerciseRecyclerAdapter(data: List<ExerciseModel>) : RecyclerView.Adapter<
 
             // Add Edit click listener
             editBtn.setOnClickListener {
-                EditExerciseDialog(item).showDialog()
+                EditExerciseFromWorkoutDialog(item).showDialog()
             }
 
             // Add expand mechanism

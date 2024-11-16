@@ -62,19 +62,35 @@ class ExerciseRepository {
         )
     }
 
-    /** Adds new exercise to the given workout
+    /** Adds new exercise
      * @param exercise the exercise data
-     * @param workoutId greater than 0 to add the newly created exercise to the current workout,
-     * 0 otherwise
+     * @param workoutId greater than 0 to add the newly created exercise to the current workout, 0 otherwise
+     * @param onlyForUser used when workoutId is 0. "Y" if we need only user defined muscle group exercises
+     * to be returned to the client, "N" if we need user defined and the default ones
      * @param onSuccess callback to execute if request is successful
      */
-    fun addExercise(exercise: MGExerciseModel, workoutId: String, onSuccess: (List<String>) -> Unit) {
-        // Send a request to add new exercise to the muscle group group
-        val params = mapOf("exercise" to Utils.serializeObject(exercise), "workoutId" to workoutId)
+    fun addExercise(exercise: MGExerciseModel, workoutId: String, onlyForUser: String, onSuccess: (List<String>) -> Unit) {
+        val params = mapOf("exercise" to Utils.serializeObject(exercise),
+                    "workoutId" to workoutId, "onlyForUser" to onlyForUser)
 
         NetworkManager.sendRequest(
             APIService.instance.addExercise(params),
             onSuccessCallback = { response -> onSuccess(response.returnData) }
+        )
+    }
+
+    /** Updates the exercise
+     * @param exercise the exercise data
+     * @param onSuccess callback to execute if request is successful
+     */
+    fun updateExercise(exercise: MGExerciseModel, onSuccess: (List<MGExerciseModel>) -> Unit) {
+        val params = mapOf("exercise" to Utils.serializeObject(exercise))
+
+        NetworkManager.sendRequest(
+            APIService.instance.updateExercise(params),
+            onSuccessCallback = { response ->
+                onSuccess(response.returnData.map { MGExerciseModel(it)})
+            }
         )
     }
 

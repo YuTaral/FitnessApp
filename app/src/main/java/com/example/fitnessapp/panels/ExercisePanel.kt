@@ -11,7 +11,8 @@ import com.example.fitnessapp.R
 import com.example.fitnessapp.adapters.CustomSpinnerAdapter
 import com.example.fitnessapp.adapters.MGExercisesRecyclerAdapter
 import com.example.fitnessapp.adapters.MuscleGroupRecyclerAdapter
-import com.example.fitnessapp.dialogs.AddExerciseDialog
+import com.example.fitnessapp.dialogs.AddEditMGExerciseDialog
+import com.example.fitnessapp.dialogs.AddExerciseFromWorkoutDialog
 import com.example.fitnessapp.dialogs.DialogAskQuestion
 import com.example.fitnessapp.models.MGExerciseModel
 import com.example.fitnessapp.models.MuscleGroupModel
@@ -64,6 +65,7 @@ class ExercisePanel(mode: Mode): PanelFragment()  {
 
         // Click listeners
         backBtn.setOnClickListener {
+            // Update the mode, reset the selectedMuscleGroupId and update the views
             if (panelMode == Mode.SELECT_EXERCISE) {
                 panelMode = Mode.SELECT_MG_BEFORE_SELECT_EXERCISE
 
@@ -71,14 +73,10 @@ class ExercisePanel(mode: Mode): PanelFragment()  {
                 panelMode = Mode.SELECT_MG_BEFORE_EDIT_EXERCISE
 
             }
-
             selectedMuscleGroupId = 0
             updateViews()
         }
-        addBtn.setOnClickListener {
-            AddExerciseDialog(AddExerciseDialog.Mode.CREATE_NEW, null, selectedMuscleGroupId)
-                .showDialog()
-        }
+        addBtn.setOnClickListener { AddEditMGExerciseDialog(selectedMuscleGroupId).showDialog() }
     }
 
     /** Populates the data in the panel */
@@ -97,14 +95,12 @@ class ExercisePanel(mode: Mode): PanelFragment()  {
 
                         selectedMuscleGroupId = muscleGroupId
 
-                        if (panelMode == Mode.SELECT_MG_BEFORE_EDIT_EXERCISE ||
-                            panelMode == Mode.EDIT_EXERCISE) {
-
+                        if (isInUpdateMode()) {
                             onlyForUser = "Y"
                         }
 
                         ExerciseRepository().getMuscleGroupExercises(muscleGroupId,onlyForUser, onSuccess = { exercises ->
-                            displayExercises(exercises, true)
+                            populateExercises(exercises, true)
                         })
                     })
             })
@@ -116,7 +112,8 @@ class ExercisePanel(mode: Mode): PanelFragment()  {
      * @param initializeAdapter true if the adapter should be initialized, false if we just want
      * to update the data
      */
-    fun displayExercises(exercises: List<MGExerciseModel>, initializeAdapter: Boolean) {
+    fun populateExercises(exercises: List<MGExerciseModel>, initializeAdapter: Boolean) {
+        // Set the mode
         if (panelMode == Mode.SELECT_MG_BEFORE_SELECT_EXERCISE) {
             panelMode = Mode.SELECT_EXERCISE
 
@@ -124,66 +121,15 @@ class ExercisePanel(mode: Mode): PanelFragment()  {
             panelMode = Mode.EDIT_EXERCISE
         }
 
+        // Update the views after the mode has been set
         updateViews()
 
-        exercisesRecycler.layoutManager = LinearLayoutManager(context)
-
         if (exercises.isEmpty()) {
-            if (panelMode == Mode.EDIT_EXERCISE) {
-                actionSpinner.visibility = View.GONE
-                title.visibility = View.VISIBLE
-            }
-
-            // Show title that there is no exercises for this muscle group
-            title.text = requireContext().getString(R.string.no_exercise_lbl)
-
-            if (initializeAdapter) {
-                exercisesRecycler.adapter = MGExercisesRecyclerAdapter(mutableListOf(), callback = {})
-            } else {
-                (exercisesRecycler.adapter as MGExercisesRecyclerAdapter).updateData(mutableListOf())
-            }
+            // Show no exercises
+            showViewsWhenNoExercises(initializeAdapter)
         } else {
             // Display the exercises
-            if (initializeAdapter) {
-                exercisesRecycler.adapter = MGExercisesRecyclerAdapter(exercises, callback = { model ->
-
-                    // Set the on select callback
-                    if (panelMode == Mode.SELECT_EXERCISE) {
-                        // Add exercise to workout
-                        AddExerciseDialog(AddExerciseDialog.Mode.ADD_TO_WORKOUT, model).showDialog()
-
-                    } else if (panelMode == Mode.EDIT_EXERCISE) {
-
-                        if (actionSpinner.selectedItemPosition == 0) {
-                            Utils.showToast(R.string.error_select_exercise_action)
-                            return@MGExercisesRecyclerAdapter
-                        }
-
-                        if (actionSpinner.selectedItemPosition == actionSpinnerEditExIndex) {
-                            // Edit exercise
-                            //TODO: Update the muscle group exercise
-                            Utils.showMessage("UPDATING EXERCISE " + model.name)
-
-                        } else {
-                            // Delete exercise
-                            val dialog = DialogAskQuestion(DialogAskQuestion.Question.DELETE_MG_EXERCISE)
-
-                            dialog.setConfirmCallback {
-                                ExerciseRepository().deleteExercise(model.id, onSuccess = { mGExercises ->
-                                    // Re-populate on success
-                                    dialog.closeDialog()
-                                    displayExercises(mGExercises, false)
-                                })
-                            }
-
-                            dialog.showDialog(model)
-                        }
-                    }
-                })
-
-            } else {
-                (exercisesRecycler.adapter as MGExercisesRecyclerAdapter).updateData(exercises)
-            }
+            displayExercises(exercises, initializeAdapter)
         }
     }
 
@@ -224,5 +170,90 @@ class ExercisePanel(mode: Mode): PanelFragment()  {
                 }
             }
         }
+    }
+
+    /** Executes the logic to update views there are exercises for the selected muscle group
+     * @param exercises the exercises to display
+     * @param initializeAdapter true if the recycler adapter needs initialization, false otherwise
+     */
+    private fun displayExercises(exercises: List<MGExerciseModel>, initializeAdapter: Boolean) {
+        if (initializeAdapter) {
+            exercisesRecycler.layoutManager = LinearLayoutManager(context)
+
+            exercisesRecycler.adapter = MGExercisesRecyclerAdapter(exercises, callback = { model ->
+                // Set the on select callback
+                onClickCallback(model)
+            })
+
+        } else {
+            (exercisesRecycler.adapter as MGExercisesRecyclerAdapter).updateData(exercises)
+        }
+    }
+
+    /** Executes the logic on exercise click depending on the mode
+     * @param model the exercise that was clicked
+     */
+    private fun onClickCallback(model: MGExerciseModel) {
+        // Set the on select callback
+        if (panelMode == Mode.SELECT_EXERCISE) {
+            // Add exercise to workout
+            AddExerciseFromWorkoutDialog(model).showDialog()
+
+        } else if (panelMode == Mode.EDIT_EXERCISE) {
+
+            if (actionSpinner.selectedItemPosition == 0) {
+                Utils.showToast(R.string.error_select_exercise_action)
+                return
+            }
+
+            if (actionSpinner.selectedItemPosition == actionSpinnerEditExIndex) {
+                // Edit exercise
+                AddEditMGExerciseDialog(selectedMuscleGroupId, model).showDialog()
+
+            } else {
+                // Delete exercise
+                val dialog = DialogAskQuestion(DialogAskQuestion.Question.DELETE_MG_EXERCISE)
+
+                dialog.setConfirmCallback {
+                    ExerciseRepository().deleteExercise(model.id, onSuccess = { mGExercises ->
+                        // Re-populate on success
+                        dialog.closeDialog()
+                        populateExercises(mGExercises, false)
+                    })
+                }
+
+                dialog.showDialog(model)
+            }
+        }
+    }
+
+    /** Executes the logic to update views when no exercises has been found for the selected muscle group
+     * @param initializeAdapter true if the recycler adapter needs initialization, false otherwise
+     */
+    private fun showViewsWhenNoExercises(initializeAdapter: Boolean) {
+        var titleId = R.string.no_exercise_lbl
+        if (panelMode == Mode.EDIT_EXERCISE) {
+            actionSpinner.visibility = View.GONE
+            title.visibility = View.VISIBLE
+        }
+
+        if (panelMode == Mode.EDIT_EXERCISE) {
+            titleId = R.string.no_exercise_to_edit_lbl
+        }
+
+        // Show title that there is no exercises for this muscle group
+        title.text = requireContext().getString(titleId)
+
+        if (initializeAdapter) {
+            exercisesRecycler.layoutManager = LinearLayoutManager(context)
+            exercisesRecycler.adapter = MGExercisesRecyclerAdapter(mutableListOf(), callback = {})
+        } else {
+            (exercisesRecycler.adapter as MGExercisesRecyclerAdapter).updateData(mutableListOf())
+        }
+    }
+
+    /** Checks the current panel mode and return true if it's part of update exercise sequence */
+    fun isInUpdateMode(): Boolean {
+        return panelMode == Mode.SELECT_MG_BEFORE_EDIT_EXERCISE || panelMode == Mode.EDIT_EXERCISE
     }
 }

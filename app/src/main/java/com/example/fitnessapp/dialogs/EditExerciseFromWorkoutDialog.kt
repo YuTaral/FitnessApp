@@ -19,7 +19,7 @@ import com.example.fitnessapp.utils.Utils
 
 /** Edit Exercise dialog to hold the logic to edit exercise */
 @SuppressLint("InflateParams")
-class EditExerciseDialog(exerciseModel: ExerciseModel) {
+class EditExerciseFromWorkoutDialog(exerciseModel: ExerciseModel) {
     private var exercise: ExerciseModel
     private var dialogView: View
     private var closeIcon: ImageView

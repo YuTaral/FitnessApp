@@ -29,8 +29,8 @@ class MGExerciseModel {
         muscleGroupId = model.muscleGroupId
     }
 
-    constructor(nameVal: String, descriptionVal: String, muscleGroupIdVal: Long) {
-        id = 0
+    constructor(idVal: Long, nameVal: String, descriptionVal: String, muscleGroupIdVal: Long) {
+        id = idVal
         name = nameVal
         description = descriptionVal
         muscleGroupId = muscleGroupIdVal
