@@ -13,6 +13,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.fitnessapp.R
 import com.example.fitnessapp.models.ExerciseModel
 import com.example.fitnessapp.models.MGExerciseModel
+import com.example.fitnessapp.models.MuscleGroupModel
 import com.example.fitnessapp.models.WorkoutModel
 import com.example.fitnessapp.network.repositories.ExerciseRepository
 import com.example.fitnessapp.utils.StateEngine
@@ -168,8 +169,12 @@ class AddExerciseDialog(mode: Mode, exercise: MGExerciseModel? = null, muscleGro
             return null
         }
 
+        // Create MuscleGroup object only with id, that's the variable which is needed
+        // server side in order to create Exercise record
+        val model = MuscleGroupModel(exerciseToAdd!!.muscleGroupId)
+
         // Validation passed
-        return ExerciseModel(exerciseName, exerciseSets, setReps, exerciseWeight, exerciseCompleted.isChecked)
+        return ExerciseModel(exerciseName, model, exerciseSets, setReps, exerciseWeight, exerciseCompleted.isChecked)
     }
 
     /** Validate the data in the dialog when save is clicked and new exercise is being added */

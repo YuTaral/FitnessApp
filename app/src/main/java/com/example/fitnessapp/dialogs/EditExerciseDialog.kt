@@ -11,6 +11,7 @@ import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
 import com.example.fitnessapp.R
 import com.example.fitnessapp.models.ExerciseModel
+import com.example.fitnessapp.models.MuscleGroupModel
 import com.example.fitnessapp.models.SetModel
 import com.example.fitnessapp.network.repositories.ExerciseRepository
 import com.example.fitnessapp.utils.StateEngine
@@ -153,10 +154,12 @@ class EditExerciseDialog(exerciseModel: ExerciseModel) {
             return
         }
 
-        // Validation passed create the updated exercise and execute the callback
-        ExerciseRepository().editExerciseFromWorkout(ExerciseModel(exercise.id, name.text.toString(), getSets(setsContainer)), onSuccess = { workout ->
-            alertDialog.dismiss()
-            StateEngine.panelAdapter.displayWorkoutPanel(workout, true)
+
+        // Edit the exercise, passing empty MuscleGroup object, it is not needed server side
+        ExerciseRepository().editExerciseFromWorkout(ExerciseModel(exercise.id, name.text.toString(), MuscleGroupModel(), getSets(setsContainer)),
+            onSuccess = { workout ->
+                alertDialog.dismiss()
+                StateEngine.panelAdapter.displayWorkoutPanel(workout, true)
         })
     }
 }

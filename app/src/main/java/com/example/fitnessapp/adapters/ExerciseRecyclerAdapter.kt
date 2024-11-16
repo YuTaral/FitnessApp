@@ -52,6 +52,7 @@ class ExerciseRecyclerAdapter(data: List<ExerciseModel>) : RecyclerView.Adapter<
         private var exerciseName: TextView = itemView.findViewById(R.id.exercise_name_txt)
         private var editBtn: ImageView = itemView.findViewById(R.id.exercise_edit_btn)
         private var expandSymbol: ImageView = itemView.findViewById(R.id.exercise_expand_collapse_symbol)
+        private var targetMuscleGroup: TextView = itemView.findViewById(R.id.target_muscle_group)
         private var setsContainer: ConstraintLayout = itemView.findViewById(R.id.sets_container)
         private var setsLinLayout: LinearLayout = itemView.findViewById(R.id.sets)
 
@@ -61,6 +62,7 @@ class ExerciseRecyclerAdapter(data: List<ExerciseModel>) : RecyclerView.Adapter<
         fun bind(item: ExerciseModel) {
             // Set the exercise data
             exerciseName.text = item.name
+            targetMuscleGroup.text = String.format(Utils.getContext().getString(R.string.target_lbl), item.muscleGroup.name)
 
             // Add the sets
             bindSets(item)

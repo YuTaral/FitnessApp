@@ -75,5 +75,6 @@
     <string name="no_description_for_ex_lbl">No description added for this exercise…</string>
     <string name="exercise_completed_lbl">Exercise completed</string>
     <string name="no_workout_selected_lbl">You have not selected workout. Go to Main panel or click here to start new workout</string>
+    <string name="target_lbl">Target: %s</string>
 
 </resources>
