@@ -62,22 +62,19 @@
         app:layout_constraintBottom_toTopOf="@+id/save_btn">
 
         <TextView
-            android:id="@+id/set_number_lbl"
+            android:id="@+id/empty_lbl"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="3dp"
-            android:paddingStart="8dp"
-            android:text="@string/exercise_number_symbol"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="RtlSymmetry" />
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
             android:id="@+id/reps_number_lbl"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:text="@string/reps_number_lbl"
-            app:layout_constraintStart_toEndOf="@+id/set_number_lbl"
+            app:layout_constraintStart_toEndOf="@+id/empty_lbl"
             app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
@@ -92,7 +89,7 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/set_number_lbl">
+            app:layout_constraintTop_toBottomOf="@+id/empty_lbl">
 
             <LinearLayout
                 android:id="@+id/set_items_container"
