@@ -79,6 +79,11 @@ class AddExerciseDialog(mode: Mode, exercise: MGExerciseModel? = null, muscleGro
         saveBtn.setOnClickListener { save() }
         closeIcon.setOnClickListener { alertDialog.dismiss() }
 
+        // Setup views which depend on condition
+        if (StateEngine.workout == null) {
+            addExerciseToWorkout.visibility = View.GONE
+        }
+
         if (dialogMode == Mode.ADD_TO_WORKOUT) {
             // Set the exercise name
             name.setText(exerciseToAdd!!.name)
@@ -117,7 +122,7 @@ class AddExerciseDialog(mode: Mode, exercise: MGExerciseModel? = null, muscleGro
 
             // Pass the workout id if we need to add automatically the newly created exercise
             // to the current workout
-            val workoutId = if (addExerciseToWorkout.isChecked) {
+            val workoutId = if (addExerciseToWorkout.isChecked && StateEngine.workout != null) {
                 StateEngine.workout!!.id.toString()
             } else {
                 "0"

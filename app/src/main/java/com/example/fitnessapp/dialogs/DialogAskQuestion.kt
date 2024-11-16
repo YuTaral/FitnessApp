@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import com.example.fitnessapp.R
+import com.example.fitnessapp.models.MGExerciseModel
 import com.example.fitnessapp.models.WorkoutModel
 import com.example.fitnessapp.utils.Utils
 
@@ -16,7 +17,8 @@ import com.example.fitnessapp.utils.Utils
 class DialogAskQuestion(q: Question) {
     /** Enum to hold all questions */
     enum class Question(private val titleId: Int, private val questionId: Int) {
-        DELETE_TEMPLATE(R.string.question_delete_template_title, R.string.question_delete_template_text);
+        DELETE_TEMPLATE(R.string.question_delete_template_title, R.string.question_delete_template_text),
+        DELETE_MG_EXERCISE(R.string.question_delete_exercise_title, R.string.question_delete_exercise_text);
 
         /** Returns the question title */
         fun getTitle(): String {
@@ -58,17 +60,23 @@ class DialogAskQuestion(q: Question) {
      * @param data any additional data used to populate the dialog
      */
     fun showDialog(data: Any) {
+        var formatName = ""
         val dialogBuilder = AlertDialog.Builder(Utils.getContext())
         dialogBuilder.setView(dialogView).setCancelable(false)
-         alertDialog = dialogBuilder.create()
+        alertDialog = dialogBuilder.create()
+
+        title.text = question.getTitle()
 
         // Populate the data based on the question
         if (question == Question.DELETE_TEMPLATE) {
-            val template: WorkoutModel = data as WorkoutModel
+            formatName = (data as WorkoutModel).name
 
-            title.text = question.getTitle()
-            questionText.text = String.format(question.getQuestionText(), template.name)
+        } else if (question == Question.DELETE_MG_EXERCISE) {
+            formatName = (data as MGExerciseModel).name
+
         }
+
+        questionText.text = String.format(question.getQuestionText(), formatName)
 
         // Add confirm listener
         confirmBtn.setOnClickListener { onConfirmCallback() }

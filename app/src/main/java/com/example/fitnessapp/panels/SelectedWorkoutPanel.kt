@@ -38,9 +38,18 @@ class SelectedWorkoutPanel : PanelFragment(), FragmentRefreshListener {
         editBtn = panel.findViewById(R.id.edit_btn)
 
         // Set the click listeners
-        newExerciseBtn.setOnClickListener { showAddExerciseDialog() }
-        editBtn.setOnClickListener{ editWorkout() }
-        noWorkoutContent.setOnClickListener { AddEditWorkoutDialog(AddEditWorkoutDialog.Mode.ADD).showDialog() }
+        newExerciseBtn.setOnClickListener {
+            StateEngine.panelAdapter
+                .displayTemporaryPanel(ExercisePanel(ExercisePanel.Mode.SELECT_MG_BEFORE_SELECT_EXERCISE))
+        }
+
+        editBtn.setOnClickListener {
+            AddEditWorkoutDialog(AddEditWorkoutDialog.Mode.EDIT).showDialog()
+        }
+
+        noWorkoutContent.setOnClickListener {
+            AddEditWorkoutDialog(AddEditWorkoutDialog.Mode.ADD).showDialog()
+        }
 
         // Set buttons visibility
         setButtonsVisibility()
@@ -81,19 +90,9 @@ class SelectedWorkoutPanel : PanelFragment(), FragmentRefreshListener {
         setButtonsVisibility()
     }
 
-    /** Shows Exercise panel */
-    private fun showAddExerciseDialog() {
-        StateEngine.panelAdapter.displayTemporaryPanel(ExercisePanel())
-    }
-
     /** Return the exercises recycler adapter */
     private fun getExercisesRecyclerAdapter(): ExerciseRecyclerAdapter {
         return exerciseRecycler.adapter as ExerciseRecyclerAdapter
-    }
-
-    /** Executed on Edit button click to open Edit Workout Dialog */
-    private fun editWorkout() {
-        AddEditWorkoutDialog(AddEditWorkoutDialog.Mode.EDIT).showDialog()
     }
 
     /** Sets buttons visibility based on whether workout is selected */

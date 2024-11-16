@@ -45,10 +45,13 @@ interface IAPIService {
     @POST("exercise/add")
     fun addExercise(@Body params: Map<String, String>): Call<CustomResponse>
 
+    @POST("exercise/delete")
+    fun deleteExercise(@Query("MGExerciseId") params: Long): Call<CustomResponse>
+
     /** EXERCISE GET REQUESTS
      * -------------------------------------------------------------------------------- */
     @GET("exercise/get-by-mg-id")
-    fun getExerciseByMGId(@Query("muscleGroupId") params: Long): Call<CustomResponse>
+    fun getExerciseByMGId(@Query("muscleGroupId") muscleGroupId: Long, @Query("onlyForUser") onlyForUser: String): Call<CustomResponse>
 
     /** MUSCLE GROUPS GET REQUESTS
      * -------------------------------------------------------------------------------- */

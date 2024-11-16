@@ -51,11 +51,13 @@ class ExerciseRepository {
 
     /** Fetches all exercises for this muscle group
      * @param muscleGroupId the muscle group id
+     * @param onlyForUser "Y" if we need only user defined muscle group exercises, "N" if we need
+     * user defined and the default ones
      * @param onSuccess callback to execute if request is successful
      */
-    fun getMuscleGroupExercises(muscleGroupId: Long, onSuccess:(MutableList<MGExerciseModel>) -> Unit) {
+    fun getMuscleGroupExercises(muscleGroupId: Long, onlyForUser: String,onSuccess:(MutableList<MGExerciseModel>) -> Unit) {
         NetworkManager.sendRequest(
-            APIService.instance.getExerciseByMGId(muscleGroupId),
+            APIService.instance.getExerciseByMGId(muscleGroupId, onlyForUser),
             onSuccessCallback = { response -> onSuccess(response.returnData.map { MGExerciseModel(it) }.toMutableList()) }
         )
     }
@@ -73,6 +75,19 @@ class ExerciseRepository {
         NetworkManager.sendRequest(
             APIService.instance.addExercise(params),
             onSuccessCallback = { response -> onSuccess(response.returnData) }
+        )
+    }
+
+    /** Deletes the exercise
+     * @param mGExerciseId the muscle group exercise id
+     * @param onSuccess callback to execute if request is successful
+     */
+    fun deleteExercise(mGExerciseId: Long, onSuccess: (List<MGExerciseModel>) -> Unit) {
+        NetworkManager.sendRequest(
+            APIService.instance.deleteExercise(mGExerciseId),
+            onSuccessCallback = { response ->
+                onSuccess(response.returnData.map { MGExerciseModel(it) })
+            }
         )
     }
 }

@@ -9,16 +9,17 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fitnessapp.R
-import com.example.fitnessapp.dialogs.AddExerciseDialog
 import com.example.fitnessapp.models.MGExerciseModel
 import com.example.fitnessapp.utils.Utils
 
 /** Recycler adapter to control the data (exercises) shown for each muscle group */
-class MGExercisesRecyclerAdapter(data: List<MGExerciseModel>): RecyclerView.Adapter<MGExercisesRecyclerAdapter.ExerciseItem>() {
+class MGExercisesRecyclerAdapter(data: List<MGExerciseModel>, callback: (MGExerciseModel) -> Unit): RecyclerView.Adapter<MGExercisesRecyclerAdapter.ExerciseItem>() {
     private var exercises: MutableList<MGExerciseModel> = mutableListOf()
+    private var onClickCallback: (MGExerciseModel) -> Unit
 
     init {
         exercises.addAll(data)
+        onClickCallback = callback
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExerciseItem {
@@ -30,7 +31,7 @@ class MGExercisesRecyclerAdapter(data: List<MGExerciseModel>): RecyclerView.Adap
     }
 
     override fun onBindViewHolder(holder: ExerciseItem, position: Int) {
-        holder.bind(exercises[position])
+        holder.bind(exercises[position], onClickCallback)
     }
 
     /** Updates the exercises with the provided data
@@ -51,8 +52,9 @@ class MGExercisesRecyclerAdapter(data: List<MGExerciseModel>): RecyclerView.Adap
 
         /** Set the data for each exercise
          * @param item the exercise
+         * @param onClickCallback callback to execute on click
          */
-        fun bind(item: MGExerciseModel) {
+        fun bind(item: MGExerciseModel, onClickCallback: (MGExerciseModel) -> Unit) {
             name.text = item.name
 
             if (item.description.isEmpty()) {
@@ -63,8 +65,8 @@ class MGExercisesRecyclerAdapter(data: List<MGExerciseModel>): RecyclerView.Adap
                 description.typeface = null
             }
 
-            name.setOnClickListener {  AddExerciseDialog(AddExerciseDialog.Mode.ADD_TO_WORKOUT, item).showDialog() }
-            description.setOnClickListener { AddExerciseDialog(AddExerciseDialog.Mode.ADD_TO_WORKOUT, item).showDialog() }
+            name.setOnClickListener { onClickCallback(item) }
+            description.setOnClickListener { onClickCallback(item) }
 
             // Add expand mechanism
             expandCollapse.setOnClickListener {

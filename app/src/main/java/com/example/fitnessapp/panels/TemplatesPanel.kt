@@ -51,7 +51,7 @@ class TemplatesPanel: PanelFragment() {
         )
 
         // Pre-select 'Start workout'
-        actionSpinner.setSelection(1)
+        actionSpinner.setSelection(startWorkoutIndex)
 
         // Get the templates and populate the recycler
         WorkoutTemplateRepository().getWorkoutTemplates(onSuccess = { serializedTemplates ->

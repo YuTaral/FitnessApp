@@ -62,12 +62,14 @@
     <string name="error_msg_enter_template_name">Please enter workout template name</string>
     <string name="templates_lbl">Templates</string>
     <string name="manage_templates_lbl">Manage Templates</string>
+    <string name="manage_exercises_lbl">Manage Exercises</string>
     <string name="question_delete_template_title">Delete Template</string>
     <string name="question_delete_template_text">Are you sure you want to delete template \"%s\"</string>
     <string name="template_deleted">Template successfully deleted</string>
     <string name="action_start_workout_from_template">Start workout</string>
     <string name="action_delete_template">Delete template</string>
     <string name="error_select_action">Please select template action from the dropdown</string>
+    <string name="error_select_exercise_action">Please select exercise action from the dropdown</string>
     <string name="back_btn">Back</string>
     <string name="add_btn">Add</string>
     <string name="describe_the_exercise_lbl">Describe the exercise…</string>
@@ -76,5 +78,9 @@
     <string name="exercise_completed_lbl">Exercise completed</string>
     <string name="no_workout_selected_lbl">You have not selected workout. Go to Main panel or click here to start new workout</string>
     <string name="target_lbl">Target: %s</string>
+    <string name="action_update_exercise">Update exercise</string>
+    <string name="action_delete_exercise">Delete exercise</string>
+    <string name="question_delete_exercise_title">Delete Exercise</string>
+    <string name="question_delete_exercise_text">Are you sure you want to delete exercise \"%s\"</string>
 
 </resources>
