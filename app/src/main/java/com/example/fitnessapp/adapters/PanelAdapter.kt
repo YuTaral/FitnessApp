@@ -1,11 +1,17 @@
-package com.example.fitnessapp.panels
+package com.example.fitnessapp.adapters
 
 import android.annotation.SuppressLint
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
+import com.example.fitnessapp.interfaces.IExercisePanel
+import com.example.fitnessapp.interfaces.IFragmentRefreshListener
 import com.example.fitnessapp.models.WorkoutModel
+import com.example.fitnessapp.panels.MainPanel
+import com.example.fitnessapp.panels.ManageExercisesPanel
+import com.example.fitnessapp.panels.PanelFragment
+import com.example.fitnessapp.panels.SelectedWorkoutPanel
 import com.example.fitnessapp.utils.StateEngine
 
 /** FragmentStateAdapter used to manage the panels */
@@ -88,13 +94,21 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
         return temporaryPanel as PanelFragment
     }
 
-    /** Returns the temporary panel instance as Exercise Panel */
-    fun getExercisePanel(): ExercisePanel? {
-        if (temporaryPanel == null) {
+    /** Returns the temporary panel instance as IExercisePanel */
+    fun getIExercisePanel(): IExercisePanel? {
+        if (temporaryPanel is IExercisePanel) {
+            return temporaryPanel as IExercisePanel
+        }
+        return null
+    }
+
+    /** Returns the temporary panel instance as Manage Exercise Panel */
+    fun getManageExercisesPanel(): ManageExercisesPanel? {
+        if (temporaryPanel == null || temporaryPanel !is ManageExercisesPanel) {
             return null
         }
 
-        return temporaryPanel as ExercisePanel
+        return temporaryPanel as ManageExercisesPanel
     }
 
     /** Removes the currently created temporary panel, when navigating away from it
@@ -135,7 +149,7 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
         } else {
             // If the index of the viewPager does not change, this will not trigger onResume(), notify the listener
             // to re-populate the panel
-            (getWorkoutPanel() as FragmentRefreshListener).onRefreshListener()
+            (getWorkoutPanel() as IFragmentRefreshListener).onRefreshListener()
         }
     }
 

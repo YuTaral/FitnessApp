@@ -8,11 +8,12 @@ import com.example.fitnessapp.adapters.WorkoutRecyclerAdapter
 import com.example.fitnessapp.dialogs.AddEditWorkoutDialog
 import com.example.fitnessapp.models.WorkoutModel
 import com.example.fitnessapp.network.repositories.WorkoutRepository
+import com.example.fitnessapp.utils.Constants
 import com.example.fitnessapp.utils.StateEngine
 
 /** Class to hold the logic for the Main Panel */
 class MainPanel: PanelFragment() {
-    override var id: Long = 1
+    override var id: Long = Constants.PanelUniqueId.MAIN.ordinal.toLong()
     override var layoutId: Int = R.layout.main_panel
     override var panelIndex: Int = 0
     override var titleId: Int = R.string.main_panel_title

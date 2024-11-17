@@ -11,8 +11,8 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.viewpager2.widget.ViewPager2
 import com.example.fitnessapp.dialogs.SaveWorkoutTemplateDialog
 import com.example.fitnessapp.network.repositories.UserRepository
-import com.example.fitnessapp.panels.ExercisePanel
-import com.example.fitnessapp.panels.PanelAdapter
+import com.example.fitnessapp.panels.ManageExercisesPanel
+import com.example.fitnessapp.adapters.PanelAdapter
 import com.example.fitnessapp.panels.TemplatesPanel
 import com.example.fitnessapp.utils.StateEngine
 import com.example.fitnessapp.utils.Utils
@@ -131,7 +131,7 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.nav_manage_exercises -> {
                 StateEngine.panelAdapter
-                    .displayTemporaryPanel(ExercisePanel(ExercisePanel.Mode.SELECT_MG_BEFORE_EDIT_EXERCISE))
+                    .displayTemporaryPanel(ManageExercisesPanel(ManageExercisesPanel.Mode.SELECT_MUSCLE_GROUP))
             }
         }
     }

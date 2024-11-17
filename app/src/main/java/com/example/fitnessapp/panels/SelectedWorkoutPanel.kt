@@ -9,12 +9,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.fitnessapp.R
 import com.example.fitnessapp.adapters.ExerciseRecyclerAdapter
 import com.example.fitnessapp.dialogs.AddEditWorkoutDialog
+import com.example.fitnessapp.interfaces.IFragmentRefreshListener
+import com.example.fitnessapp.utils.Constants
 import com.example.fitnessapp.utils.StateEngine
 import com.example.fitnessapp.utils.Utils
 
 /** Class to hold the logic for the New Workout Panel */
-class SelectedWorkoutPanel : PanelFragment(), FragmentRefreshListener {
-    override var id: Long = 2
+class SelectedWorkoutPanel : PanelFragment(), IFragmentRefreshListener {
+    override var id: Long = Constants.PanelUniqueId.WORKOUT.ordinal.toLong()
     override var layoutId: Int = R.layout.selected_workout_panel
     override var panelIndex: Int = 1
     override var titleId: Int = R.string.workout_panel_title
@@ -40,7 +42,7 @@ class SelectedWorkoutPanel : PanelFragment(), FragmentRefreshListener {
         // Set the click listeners
         newExerciseBtn.setOnClickListener {
             StateEngine.panelAdapter
-                .displayTemporaryPanel(ExercisePanel(ExercisePanel.Mode.SELECT_MG_BEFORE_SELECT_EXERCISE))
+                .displayTemporaryPanel(ExercisePanel(ExercisePanel.Mode.SELECT_MUSCLE_GROUP))
         }
 
         editBtn.setOnClickListener {

@@ -11,15 +11,16 @@ import com.example.fitnessapp.dialogs.AddEditWorkoutDialog
 import com.example.fitnessapp.dialogs.DialogAskQuestion
 import com.example.fitnessapp.models.WorkoutModel
 import com.example.fitnessapp.network.repositories.WorkoutTemplateRepository
+import com.example.fitnessapp.utils.Constants
 import com.example.fitnessapp.utils.StateEngine
 import com.example.fitnessapp.utils.Utils
 
 /** Class to hold the logic for Templates Panel */
 class TemplatesPanel: PanelFragment() {
-    override var id: Long = 3
+    override var id: Long = Constants.PanelUniqueId.TEMPLATES.ordinal.toLong()
     override var layoutId: Int = R.layout.templates_panel
     override var panelIndex: Int = 2
-    override var titleId: Int = R.string.templates_lbl
+    override var titleId: Int = R.string.manage_templates_lbl
 
     private lateinit var actionSpinner: Spinner
     private lateinit var templatesRecycler: RecyclerView

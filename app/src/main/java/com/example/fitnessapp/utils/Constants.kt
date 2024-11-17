@@ -14,4 +14,12 @@ object Constants {
         UNEXPECTED_ERROR
     }
 
+    /** Enum to hold the panel unique ids */
+    enum class PanelUniqueId {
+        MAIN,
+        WORKOUT,
+        TEMPLATES,
+        SELECT_EXERCISE,
+        MANAGE_EXERCISE
+    }
 }

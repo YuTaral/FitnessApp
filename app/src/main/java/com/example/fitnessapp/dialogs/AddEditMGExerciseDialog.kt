@@ -93,7 +93,7 @@ class AddEditMGExerciseDialog(mGroupId: Long, exercise: MGExerciseModel? = null)
                 workoutId = StateEngine.workout!!.id.toString()
             }
 
-            if (StateEngine.panelAdapter.getExercisePanel()!!.isInUpdateMode()) {
+            if (StateEngine.panelAdapter.getManageExercisesPanel() != null) {
                 onlyForUser = "Y"
             }
 
@@ -106,7 +106,7 @@ class AddEditMGExerciseDialog(mGroupId: Long, exercise: MGExerciseModel? = null)
 
                 } else {
                     // Response contains the updated muscle group exercises
-                    StateEngine.panelAdapter.getExercisePanel()!!
+                    StateEngine.panelAdapter.getIExercisePanel()!!
                         .populateExercises(returnData.map { MGExerciseModel(it) }, false)
 
                 }
@@ -118,7 +118,7 @@ class AddEditMGExerciseDialog(mGroupId: Long, exercise: MGExerciseModel? = null)
                 alertDialog.dismiss()
 
                 // Response contains the updated muscle group exercises
-                StateEngine.panelAdapter.getExercisePanel()!!
+                StateEngine.panelAdapter.getIExercisePanel()!!
                     .populateExercises(exercises, false)
             })
 
