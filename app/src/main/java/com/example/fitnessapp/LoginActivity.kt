@@ -143,10 +143,10 @@ class LoginActivity : AppCompatActivity() {
         // Client-side validation passed, send the register request
         UserRepository().login(email, password, onSuccess = { response ->
             // Set the logged in user and start the Main Activity
-            StateEngine.user = UserModel(response.returnData[0])
+            StateEngine.user = UserModel(response.responseData[0])
 
-            if (response.returnData.size > 2) {
-                StateEngine.workout = WorkoutModel(response.returnData[2])
+            if (response.responseData.size > 2) {
+                StateEngine.workout = WorkoutModel(response.responseData[2])
             }
 
             val intent = Intent(this, MainActivity::class.java)

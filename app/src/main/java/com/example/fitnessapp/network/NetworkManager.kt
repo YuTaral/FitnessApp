@@ -30,14 +30,14 @@ object NetworkManager {
 
                     // Process the response
                     if (response.isSuccessful && Utils.isSuccessRespCode(body.responseCode)) {
-                        if (body.userMessage != "Success") {
-                            Utils.showToast(body.userMessage)
+                        if (body.responseMessage != "Success") {
+                            Utils.showToast(body.responseMessage)
                         }
 
                         onSuccessCallback(body)
                     } else {
-                        if (body.userMessage.isNotEmpty()) {
-                            Utils.showMessage(body.userMessage)
+                        if (body.responseMessage.isNotEmpty()) {
+                            Utils.showMessage(body.responseMessage)
                         } else {
                             Utils.showMessage(R.string.error_msg_unexpected)
                         }

@@ -28,7 +28,7 @@ class UserRepository {
             APIService.instance.login(mapOf("email" to email, "password" to password)),
             onSuccessCallback = { response ->
                 onSuccess(response)
-                APIService.updateToken(response.returnData[1])
+                APIService.updateToken(response.responseData[1])
             })
     }
 

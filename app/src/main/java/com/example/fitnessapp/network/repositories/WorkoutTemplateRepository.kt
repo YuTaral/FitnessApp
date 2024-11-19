@@ -28,7 +28,7 @@ class WorkoutTemplateRepository {
     fun getWorkoutTemplates(onSuccess: (List<String>) -> Unit, onError: () -> Unit) {
         NetworkManager.sendRequest(
             APIService.instance.getWorkoutTemplates(),
-            onSuccessCallback = { response -> onSuccess(response.returnData) },
+            onSuccessCallback = { response -> onSuccess(response.responseData) },
             onErrorCallback = { onError() }
         )
     }

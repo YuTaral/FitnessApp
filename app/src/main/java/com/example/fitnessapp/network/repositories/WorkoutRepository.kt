@@ -17,7 +17,7 @@ class WorkoutRepository {
         val params = mapOf("workout" to Utils.serializeObject(workout))
 
         NetworkManager.sendRequest(APIService.instance.addWorkout(params),
-            onSuccessCallback = { response -> onSuccess(WorkoutModel(response.returnData[0])) }
+            onSuccessCallback = { response -> onSuccess(WorkoutModel(response.responseData[0])) }
         )
     }
 
@@ -30,7 +30,7 @@ class WorkoutRepository {
         val params = mapOf("workout" to Utils.serializeObject(workout))
 
         NetworkManager.sendRequest(APIService.instance.editWorkout(params),
-            onSuccessCallback = { response -> onSuccess(WorkoutModel(response.returnData[0])) }
+            onSuccessCallback = { response -> onSuccess(WorkoutModel(response.responseData[0])) }
         )
     }
 
@@ -50,7 +50,7 @@ class WorkoutRepository {
         NetworkManager.sendRequest(
             APIService.instance.getWorkouts(),
             onSuccessCallback = { response ->
-                onSuccess(response.returnData)
+                onSuccess(response.responseData)
             }
         )
     }
@@ -63,7 +63,7 @@ class WorkoutRepository {
         NetworkManager.sendRequest(
             APIService.instance.getWorkout(workoutId),
             onSuccessCallback = { response ->
-                onSuccess(WorkoutModel(response.returnData[0]))
+                onSuccess(WorkoutModel(response.responseData[0]))
             }
         )
     }

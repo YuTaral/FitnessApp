@@ -14,7 +14,7 @@ class MuscleGroupRepository {
         NetworkManager.sendRequest(
             APIService.instance.getMuscleGroups(),
             onSuccessCallback = { response ->
-                onSuccess(response.returnData.map { MuscleGroupModel(it) }.toMutableList())
+                onSuccess(response.responseData.map { MuscleGroupModel(it) }.toMutableList())
             }
         )
     }
