@@ -8,6 +8,7 @@ import android.view.View
 import android.view.animation.DecelerateInterpolator
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import com.example.fitnessapp.MainActivity
 import com.example.fitnessapp.R
@@ -41,10 +42,14 @@ object Utils {
      * @param duration duration - short / long, long by default
      */
     fun showMessage(message: String, duration: Int = BaseTransientBottomBar.LENGTH_LONG) {
-        Snackbar.make(StateEngine.activeActivity.findViewById(R.id.user_message), message, duration)
-                .setBackgroundTint(getContext().getColor(R.color.colorAccent))
-                .setTextMaxLines(3)
-                .show()
+        val snackBarContainer = Snackbar.make(StateEngine.activeActivity.findViewById(R.id.user_message), message, duration)
+
+        val textView = snackBarContainer.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
+        textView.maxLines = 4
+        textView.textSize = 18f
+
+        snackBarContainer.setBackgroundTint(getContext().getColor(R.color.colorAccent))
+        snackBarContainer.show()
     }
 
     /** Show a toast message
@@ -61,18 +66,6 @@ object Utils {
     * */
     fun showToast(message: String, duration: Int = Toast.LENGTH_LONG) {
         Toast.makeText(getContext(), message, duration).show()
-    }
-
-    /** Called when network error occurred when processing request
-     * @param t error
-     */
-    fun onNetworkFailure(t: Throwable) {
-        // Show the error
-        if (t.message.toString().isEmpty()) {
-            showMessage(R.string.error_msg_unexpected)
-        } else {
-           showMessage(t.message.toString())
-        }
     }
 
     /** Checks whether the value is ResponseCode.Success

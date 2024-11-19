@@ -12,7 +12,8 @@
     <string name="error_msg_invalid_email">Email is not valid</string>
     <string name="error_msg_blank_pass">Password cannot be blank</string>
     <string name="error_msg_pass_match">Passwords do not match</string>
-    <string name="error_msg_unexpected">Unexpected error occurred while processing the request</string>
+    <string name="error_msg_unexpected">Unexpected error occurred while processing the request. Please try again</string>
+    <string name="error_msg_unexpected_network_problem">Unexpected network error occurred while processing the request. Please try again</string>
     <string name="please_wait">Please wait…</string>
     <string name="workout_panel_title">Workout</string>
     <string name="new_workout_btn">New Workout</string>

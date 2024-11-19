@@ -30,18 +30,32 @@ object NetworkManager {
 
                     // Process the response
                     if (response.isSuccessful && Utils.isSuccessRespCode(body.responseCode)) {
-                        if (body.responseMessage != "Success") {
-                            Utils.showToast(body.responseMessage)
-                        }
-
-                        onSuccessCallback(body)
-                    } else {
-                        if (body.responseMessage.isNotEmpty()) {
-                            Utils.showMessage(body.responseMessage)
-                        } else {
+                        try {
+                            // Execute the callback and show the message if it's different from
+                            // success
+                            onSuccessCallback(body)
+                            if (body.responseMessage != "Success") {
+                                Utils.showToast(body.responseMessage)
+                            }
+                        } catch (ex: Exception) {
+                            // Show unexpected error message in case something goes wrong
                             Utils.showMessage(R.string.error_msg_unexpected)
                         }
-                        onErrorCallback(body)
+                    } else {
+                        try {
+                            // Execute the callback
+                            onErrorCallback(body)
+
+                            // Show error message
+                            if (body.responseMessage.isNotEmpty()) {
+                                Utils.showMessage(body.responseMessage)
+                            } else {
+                                Utils.showMessage(R.string.error_msg_unexpected)
+                            }
+                        } catch (ex: Exception) {
+                            // Show unexpected error message in case something goes wrong
+                            Utils.showMessage(R.string.error_msg_unexpected)
+                        }
                     }
                 } catch (e: Exception) {
                     Utils.showMessage(response.raw().toString())
@@ -50,7 +64,7 @@ object NetworkManager {
 
             override fun onFailure(call: Call<CustomResponse>, t: Throwable) {
                 progressDialog.hide()
-                Utils.onNetworkFailure(t)
+                Utils.showMessage(R.string.error_msg_unexpected_network_problem)
             }
         })
     }
