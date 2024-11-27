@@ -11,7 +11,9 @@ object Constants {
     enum class ResponseCode {
         SUCCESS,
         FAIL,
-        UNEXPECTED_ERROR
+        UNEXPECTED_ERROR,
+        EXERCISE_ALREADY_EXISTS
+
     }
 
     /** Enum to hold the panel unique ids */

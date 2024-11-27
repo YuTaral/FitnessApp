@@ -180,7 +180,7 @@ class ManageExercisesPanel(mode: Mode): PanelFragment(), IExercisePanel {
             // Delete exercise
             val dialog = DialogAskQuestion(DialogAskQuestion.Question.DELETE_MG_EXERCISE)
 
-            dialog.setConfirmCallback {
+            dialog.setYesCallback {
                 ExerciseRepository().deleteExercise(model.id, onSuccess = { mGExercises ->
                     // Re-populate on success
                     dialog.closeDialog()

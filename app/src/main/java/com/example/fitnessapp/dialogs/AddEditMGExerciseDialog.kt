@@ -13,7 +13,9 @@ import androidx.appcompat.app.AlertDialog
 import com.example.fitnessapp.R
 import com.example.fitnessapp.models.MGExerciseModel
 import com.example.fitnessapp.models.WorkoutModel
+import com.example.fitnessapp.network.CustomResponse
 import com.example.fitnessapp.network.repositories.ExerciseRepository
+import com.example.fitnessapp.utils.Constants
 import com.example.fitnessapp.utils.StateEngine
 import com.example.fitnessapp.utils.Utils
 
@@ -58,7 +60,7 @@ class AddEditMGExerciseDialog(mGroupId: Long, exercise: MGExerciseModel? = null)
         alertDialog = dialogBuilder.create()
 
         // Add button click listeners
-        saveBtn.setOnClickListener { save() }
+        saveBtn.setOnClickListener { save("Y") }
         closeIcon.setOnClickListener { alertDialog.dismiss() }
 
         // Change the title and populate the data if edit
@@ -66,6 +68,12 @@ class AddEditMGExerciseDialog(mGroupId: Long, exercise: MGExerciseModel? = null)
             title.setText(R.string.edit_exercise_lbl)
             name.setText(exerciseToEdit!!.name)
             description.setText(exerciseToEdit!!.description)
+            addExerciseToWorkout.visibility = View.GONE
+        }
+
+        if (StateEngine.panelAdapter.getManageExercisesPanel() != null) {
+            // Remove the add exercise to workout checkbox if we are
+            // managing the exercises
             addExerciseToWorkout.visibility = View.GONE
         }
 
@@ -81,47 +89,87 @@ class AddEditMGExerciseDialog(mGroupId: Long, exercise: MGExerciseModel? = null)
     }
 
     /** Executed on Save button click */
-    private fun save() {
+    private fun save(checkExistingEx: String) {
         val exercise = validateMGExercise() ?: return
 
         if (exerciseToEdit == null) {
-            val updateWorkout = addExerciseToWorkout.isChecked && StateEngine.workout != null
+            var updateWorkout = false
             var workoutId = "0"
-            var onlyForUser = "N"
+
+            if (addExerciseToWorkout.visibility == View.VISIBLE) {
+                updateWorkout = addExerciseToWorkout.isChecked && StateEngine.workout != null
+            }
 
             if (updateWorkout) {
                 workoutId = StateEngine.workout!!.id.toString()
             }
 
-            if (StateEngine.panelAdapter.getManageExercisesPanel() != null) {
-                onlyForUser = "Y"
-            }
-
             // Add the exercise
-            ExerciseRepository().addExercise(exercise, workoutId, onlyForUser, onSuccess = { returnData ->
-                if (updateWorkout) {
-                    // Response contains the updated workout
-                    StateEngine.panelAdapter
-                        .displayWorkoutPanel(WorkoutModel(returnData[0]), true)
+            ExerciseRepository().addExercise(exercise, workoutId, getOnlyForUserParam(), checkExistingEx,
+                onSuccess = { returnData -> onSuccessCallback(updateWorkout, returnData) },
+                onFailure = { response  -> onFailureCallback(response) })
 
-                } else {
-                    // Response contains the updated muscle group exercises
-                    StateEngine.panelAdapter.getIExercisePanel()!!
-                        .populateExercises(returnData.map { MGExerciseModel(it) }, false)
-
-                }
-                alertDialog.dismiss()
-            })
         } else {
             // Edit the exercise
-            ExerciseRepository().updateExercise(exercise, onSuccess = { exercises ->
+            ExerciseRepository().updateExercise(exercise, getOnlyForUserParam(), onSuccess = { returnData ->
                 alertDialog.dismiss()
 
                 // Response contains the updated muscle group exercises
                 StateEngine.panelAdapter.getIExercisePanel()!!
-                    .populateExercises(exercises, false)
+                    .populateExercises(returnData.map{ MGExerciseModel(it) }, false)
             })
 
+        }
+    }
+
+    /** Callback to execute when Add / Edit request was successful
+     * @param updateWorkout true if we need to update the workout, false otherwise
+     * @param returnData the data returned by the request
+     */
+    private fun onSuccessCallback(updateWorkout: Boolean, returnData: List<String>) {
+        if (updateWorkout) {
+            // Response contains the updated workout
+            StateEngine.panelAdapter
+                .displayWorkoutPanel(WorkoutModel(returnData[0]), true)
+
+        } else {
+            // Response contains the updated muscle group exercises
+            StateEngine.panelAdapter.getIExercisePanel()!!
+                .populateExercises(returnData.map { MGExerciseModel(it) }, false)
+
+        }
+        alertDialog.dismiss()
+    }
+
+    /** Callback to execute when Add / Edit request failed
+     * @param response the response returned by the server
+     */
+    private fun onFailureCallback(response: CustomResponse) {
+        if (response.responseCode == Constants.ResponseCode.EXERCISE_ALREADY_EXISTS.ordinal) {
+            // Display dialog asking the user whether to override the existing exercise
+            val dialog = DialogAskQuestion(DialogAskQuestion.Question.OVERRIDE_EXISTING_EXERCISE)
+
+            dialog.setYesCallback {
+                val existingExercise = MGExerciseModel(response.responseData[0])
+                existingExercise.description = description.text.toString()
+
+                ExerciseRepository().updateExercise(existingExercise, getOnlyForUserParam(), onSuccess = { returnData ->
+                    // Close the dialogs
+                    dialog.closeDialog()
+                    alertDialog.dismiss()
+
+                    // Updated the exercises
+                    StateEngine.panelAdapter.getIExercisePanel()!!
+                        .populateExercises(returnData.map { MGExerciseModel(it) }, false)
+                })
+            }
+
+            dialog.setNoCallback {
+                dialog.closeDialog()
+                save("N")
+            }
+
+            dialog.showDialog(MGExerciseModel(response.responseData[0]))
         }
     }
 
@@ -142,6 +190,14 @@ class AddEditMGExerciseDialog(mGroupId: Long, exercise: MGExerciseModel? = null)
         } else {
             // Return exercise for update
             MGExerciseModel(exerciseToEdit!!.id, exerciseName, description.text.toString(), exerciseToEdit!!.muscleGroupId)
+        }
+    }
+    /** Returns "Y" if ManageExercisePanel is active, "N" otherwise */
+    private fun getOnlyForUserParam(): String {
+        return if (StateEngine.panelAdapter.getManageExercisesPanel() != null) {
+            "Y"
+        } else {
+            "N"
         }
     }
 }

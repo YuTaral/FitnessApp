@@ -11,7 +11,7 @@ class MGExerciseModel: BaseModel {
     val name: String
 
     @SerializedName("Description")
-    val description: String
+    var description: String
 
     @SerializedName("MuscleGroupId")
     val muscleGroupId: Long

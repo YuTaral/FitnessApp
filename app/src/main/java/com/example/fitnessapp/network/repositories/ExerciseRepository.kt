@@ -4,6 +4,7 @@ import com.example.fitnessapp.models.ExerciseModel
 import com.example.fitnessapp.models.MGExerciseModel
 import com.example.fitnessapp.models.WorkoutModel
 import com.example.fitnessapp.network.APIService
+import com.example.fitnessapp.network.CustomResponse
 import com.example.fitnessapp.network.NetworkManager
 import com.example.fitnessapp.utils.StateEngine
 import com.example.fitnessapp.utils.Utils
@@ -67,29 +68,36 @@ class ExerciseRepository {
      * @param workoutId greater than 0 to add the newly created exercise to the current workout, 0 otherwise
      * @param onlyForUser used when workoutId is 0. "Y" if we need only user defined muscle group exercises
      * to be returned to the client, "N" if we need user defined and the default ones
+     * @param checkExistingEx "Y" when upon exercise creation check whether exercise with the same name
+     * already exists must be executed, "N" otherwise
      * @param onSuccess callback to execute if request is successful
+     * @param onFailure callback to execute if request failed
      */
-    fun addExercise(exercise: MGExerciseModel, workoutId: String, onlyForUser: String, onSuccess: (List<String>) -> Unit) {
-        val params = mapOf("exercise" to Utils.serializeObject(exercise),
-                    "workoutId" to workoutId, "onlyForUser" to onlyForUser)
+    fun addExercise(exercise: MGExerciseModel, workoutId: String, onlyForUser: String, checkExistingEx: String,
+                    onSuccess: (List<String>) -> Unit, onFailure: (CustomResponse) -> Unit) {
+
+        val params = mapOf("exercise" to Utils.serializeObject(exercise), "workoutId" to workoutId,
+                            "onlyForUser" to onlyForUser, "checkExistingEx" to checkExistingEx)
 
         NetworkManager.sendRequest(
             APIService.instance.addExercise(params),
-            onSuccessCallback = { response -> onSuccess(response.responseData) }
+            onSuccessCallback = { response -> onSuccess(response.responseData) },
+            onErrorCallback = { response -> onFailure(response) }
         )
     }
 
     /** Updates the exercise
      * @param exercise the exercise data
+     * @param onlyForUser "Y" if the returned exercises should be only user defined, "N" if all
      * @param onSuccess callback to execute if request is successful
      */
-    fun updateExercise(exercise: MGExerciseModel, onSuccess: (List<MGExerciseModel>) -> Unit) {
-        val params = mapOf("exercise" to Utils.serializeObject(exercise))
+    fun updateExercise(exercise: MGExerciseModel, onlyForUser: String, onSuccess: (List<String>) -> Unit) {
+        val params = mapOf("exercise" to Utils.serializeObject(exercise), "onlyForUser" to onlyForUser)
 
         NetworkManager.sendRequest(
             APIService.instance.updateExercise(params),
             onSuccessCallback = { response ->
-                onSuccess(response.responseData.map { MGExerciseModel(it)})
+                onSuccess(response.responseData)
             }
         )
     }

@@ -20,6 +20,10 @@
     <string name="main_panel_title">Main</string>
     <string name="save_btn">Save</string>
     <string name="confirm_btn">Confirm</string>
+    <string name="yes_btn">Yes</string>
+    <string name="no_btn">No</string>
+    <string name="create_new_btn">Create new</string>
+    <string name="override_btn">Override</string>
     <string name="workout_name_lbl">Workout name…</string>
     <string name="current_workout_lbl">Current Workout</string>
     <string name="current_workout_not_selected_lbl">Workout not selected</string>
@@ -75,6 +79,7 @@
     <string name="back_btn">Back</string>
     <string name="add_btn">Add</string>
     <string name="describe_the_exercise_lbl">Describe the exercise…</string>
+    <string name="mg_exercise_description">Description: %s</string>
     <string name="add_exercise_to_current_workout_lbl">Add exercise to current workout</string>
     <string name="no_description_for_ex_lbl">No description added for this exercise…</string>
     <string name="exercise_completed_lbl">Exercise completed</string>
@@ -84,5 +89,6 @@
     <string name="action_delete_exercise">Delete exercise</string>
     <string name="question_delete_exercise_title">Delete Exercise</string>
     <string name="question_delete_exercise_text">Are you sure you want to delete exercise \"%s\"</string>
-
+    <string name="question_override_exercise_text">Exercise \"%s\" already exists. Do you want to override it by changing the description?</string>
+    <string name="question_override_exercise_title">Override Exercise</string>
 </resources>
