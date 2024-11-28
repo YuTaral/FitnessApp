@@ -42,7 +42,7 @@ class SelectedWorkoutPanel : PanelFragment(), IFragmentRefreshListener {
         // Set the click listeners
         newExerciseBtn.setOnClickListener {
             StateEngine.panelAdapter
-                .displayTemporaryPanel(ExercisePanel(ExercisePanel.Mode.SELECT_MUSCLE_GROUP))
+                .displayTemporaryPanel(ExercisePanel(BaseExercisePanel.Mode.SELECT_MUSCLE_GROUP))
         }
 
         editBtn.setOnClickListener {

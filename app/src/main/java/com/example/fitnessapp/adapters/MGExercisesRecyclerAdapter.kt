@@ -15,10 +15,12 @@ import com.example.fitnessapp.utils.Utils
 /** Recycler adapter to control the data (exercises) shown for each muscle group */
 class MGExercisesRecyclerAdapter(data: List<MGExerciseModel>, callback: (MGExerciseModel) -> Unit): RecyclerView.Adapter<MGExercisesRecyclerAdapter.ExerciseItem>() {
     private var exercises: MutableList<MGExerciseModel> = mutableListOf()
+    private var filteredExercises: MutableList<MGExerciseModel> = mutableListOf()
     private var onClickCallback: (MGExerciseModel) -> Unit
 
     init {
         exercises.addAll(data)
+        filteredExercises = exercises
         onClickCallback = callback
     }
 
@@ -27,11 +29,11 @@ class MGExercisesRecyclerAdapter(data: List<MGExerciseModel>, callback: (MGExerc
     }
 
     override fun getItemCount(): Int {
-        return exercises.size
+        return filteredExercises.size
     }
 
     override fun onBindViewHolder(holder: ExerciseItem, position: Int) {
-        holder.bind(exercises[position], onClickCallback)
+        holder.bind(filteredExercises[position], onClickCallback)
     }
 
     /** Updates the exercises with the provided data
@@ -41,6 +43,19 @@ class MGExercisesRecyclerAdapter(data: List<MGExerciseModel>, callback: (MGExerc
     fun updateData(data: List<MGExerciseModel>) {
         exercises.clear()
         exercises.addAll(data)
+        notifyDataSetChanged()
+    }
+
+    /** Filters the exercises by the provided text */
+    @SuppressLint("NotifyDataSetChanged")
+    fun filter(text: String) {
+        filteredExercises = if (text.isEmpty()) {
+            exercises
+        } else {
+            exercises.filter { it.name.lowercase().contains(text) ||
+                    it.description.lowercase().contains(text) }.toMutableList()
+        }
+
         notifyDataSetChanged()
     }
 

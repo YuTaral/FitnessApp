@@ -16,10 +16,12 @@ class MuscleGroupRecyclerAdapter(data: MutableList<MuscleGroupModel>, callback: 
     RecyclerView.Adapter<MuscleGroupRecyclerAdapter.MGItem>() {
 
         private var muscleGroups: MutableList<MuscleGroupModel>
+        private var filteredMuscleGroups: MutableList<MuscleGroupModel>
         private var onSelectCallback: (muscleGroupId: Long) -> Unit = callback
 
     init {
         muscleGroups = data
+        filteredMuscleGroups = muscleGroups
         onSelectCallback = callback
     }
 
@@ -29,11 +31,23 @@ class MuscleGroupRecyclerAdapter(data: MutableList<MuscleGroupModel>, callback: 
     }
 
     override fun getItemCount(): Int {
-        return muscleGroups.size
+        return filteredMuscleGroups.size
     }
 
     override fun onBindViewHolder(holder: MGItem, position: Int) {
-        holder.bind(muscleGroups[position], onSelectCallback)
+        holder.bind(filteredMuscleGroups[position], onSelectCallback)
+    }
+
+    /** Filters the muscle groups by the provided text */
+    @SuppressLint("NotifyDataSetChanged")
+    fun filter(text: String) {
+        filteredMuscleGroups = if (text.isEmpty()) {
+            muscleGroups
+        } else {
+            muscleGroups.filter { it.name.lowercase().contains(text) }.toMutableList()
+        }
+
+        notifyDataSetChanged()
     }
 
     /** Class to represent muscle group item view holder */

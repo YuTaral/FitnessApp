@@ -91,4 +91,5 @@
     <string name="question_delete_exercise_text">Are you sure you want to delete exercise \"%s\"</string>
     <string name="question_override_exercise_text">Exercise \"%s\" already exists. Do you want to override it by changing the description?</string>
     <string name="question_override_exercise_title">Override Exercise</string>
+    <string name="search_hint_lbl">Search…</string>
 </resources>

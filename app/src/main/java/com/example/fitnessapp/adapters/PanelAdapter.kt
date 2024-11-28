@@ -5,9 +5,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
-import com.example.fitnessapp.interfaces.IExercisePanel
 import com.example.fitnessapp.interfaces.IFragmentRefreshListener
 import com.example.fitnessapp.models.WorkoutModel
+import com.example.fitnessapp.panels.BaseExercisePanel
 import com.example.fitnessapp.panels.MainPanel
 import com.example.fitnessapp.panels.ManageExercisesPanel
 import com.example.fitnessapp.panels.PanelFragment
@@ -95,9 +95,9 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
     }
 
     /** Returns the temporary panel instance as IExercisePanel */
-    fun getIExercisePanel(): IExercisePanel? {
-        if (temporaryPanel is IExercisePanel) {
-            return temporaryPanel as IExercisePanel
+    fun getBaseExercisePanel(): BaseExercisePanel? {
+        if (temporaryPanel is BaseExercisePanel) {
+            return temporaryPanel as BaseExercisePanel
         }
         return null
     }
