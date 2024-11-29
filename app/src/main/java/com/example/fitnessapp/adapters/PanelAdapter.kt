@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
-import com.example.fitnessapp.interfaces.IFragmentRefreshListener
 import com.example.fitnessapp.models.WorkoutModel
 import com.example.fitnessapp.panels.BaseExercisePanel
 import com.example.fitnessapp.panels.MainPanel
@@ -149,7 +148,7 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
         } else {
             // If the index of the viewPager does not change, this will not trigger onResume(), notify the listener
             // to re-populate the panel
-            (getWorkoutPanel() as IFragmentRefreshListener).onRefreshListener()
+            (getWorkoutPanel() as SelectedWorkoutPanel).populatePanel()
         }
     }
 

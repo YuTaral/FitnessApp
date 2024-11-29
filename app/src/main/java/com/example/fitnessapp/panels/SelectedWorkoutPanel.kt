@@ -9,13 +9,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.fitnessapp.R
 import com.example.fitnessapp.adapters.ExerciseRecyclerAdapter
 import com.example.fitnessapp.dialogs.AddEditWorkoutDialog
-import com.example.fitnessapp.interfaces.IFragmentRefreshListener
 import com.example.fitnessapp.utils.Constants
 import com.example.fitnessapp.utils.StateEngine
 import com.example.fitnessapp.utils.Utils
 
 /** Class to hold the logic for the New Workout Panel */
-class SelectedWorkoutPanel : PanelFragment(), IFragmentRefreshListener {
+class SelectedWorkoutPanel : PanelFragment() {
     override var id: Long = Constants.PanelUniqueId.WORKOUT.ordinal.toLong()
     override var layoutId: Int = R.layout.selected_workout_panel
     override var panelIndex: Int = 1
@@ -66,7 +65,7 @@ class SelectedWorkoutPanel : PanelFragment(), IFragmentRefreshListener {
     }
 
     /** Populates the data in the panel with the current workout */
-    private fun populatePanel() {
+    fun populatePanel() {
         if (StateEngine.workout != null) {
             mainContent.visibility = View.VISIBLE
             noWorkoutContent.visibility = View.GONE
@@ -106,11 +105,5 @@ class SelectedWorkoutPanel : PanelFragment(), IFragmentRefreshListener {
             newExerciseBtn.visibility = View.VISIBLE
             editBtn.visibility = View.VISIBLE
         }
-    }
-
-    /** Re-populates the panel, used when the viewPager current item index does not change,
-     * but wee need to re-populate the panel */
-    override fun onRefreshListener() {
-        populatePanel()
     }
 }
