@@ -69,7 +69,7 @@ object NetworkManager {
         })
     }
 
-    /** Overloads send request method
+    /** Overload send request method
      * @param request the request to send
      * @param onSuccessCallback the callback to execute on success
      */
@@ -77,7 +77,7 @@ object NetworkManager {
         sendRequest(request, onSuccessCallback, onErrorCallback = {})
     }
 
-    /** Shows request in progress dialog when the request is sent */
+    /** Show request in progress dialog when the request is sent */
     private fun showRequestInProgressDialog() {
         val dialogBuilder = AlertDialog.Builder(Utils.getContext())
                             .setView(R.layout.progress_dialog)

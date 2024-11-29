@@ -8,7 +8,7 @@ import com.example.fitnessapp.utils.Utils
 /** WorkoutRepository class, used to execute all requests related to workouts */
 class WorkoutRepository {
 
-    /** Adds new workout
+    /** Add new workout
      * @param workout the workout data
      * @param onSuccess callback to execute if request is successful
      */
@@ -21,7 +21,7 @@ class WorkoutRepository {
         )
     }
 
-    /** Edits the workout
+    /** Edit the workout
      * @param workout the workout data
      * @param onSuccess callback to execute if request is successful
      */
@@ -34,7 +34,7 @@ class WorkoutRepository {
         )
     }
 
-    /** Deletes the workout
+    /** Delete the workout
      * @param workoutId the workout id
      * @param onSuccess callback to execute if request is successful
      */
@@ -43,7 +43,7 @@ class WorkoutRepository {
             onSuccessCallback = { onSuccess() })
     }
 
-    /** Fetches the workouts
+    /** Fetch the workouts
      * @param onSuccess callback to execute if request is successful
      */
     fun getWorkouts(onSuccess: (List<String>) -> Unit) {
@@ -55,7 +55,7 @@ class WorkoutRepository {
         )
     }
 
-    /** Fetches the workout
+    /** Fetch the workout
      * @param workoutId the workout id
      * @param onSuccess callback to execute if request is successful
      */

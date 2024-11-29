@@ -10,7 +10,9 @@ import com.example.fitnessapp.network.repositories.ExerciseRepository
 import com.example.fitnessapp.utils.Constants
 import com.example.fitnessapp.utils.Utils
 
-/** Class to hold the logic for Manage Exercises Panel */
+/** Manage Exercises Panel class to implement the logic for managing(CRUD operations)
+ * muscle group exercises
+ */
 class ManageExercisesPanel(mode: Mode): BaseExercisePanel(mode) {
     override var id: Long = Constants.PanelUniqueId.MANAGE_EXERCISE.ordinal.toLong()
     override var layoutId: Int = R.layout.exercise_panel

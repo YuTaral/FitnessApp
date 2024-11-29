@@ -7,7 +7,7 @@ import com.example.fitnessapp.network.NetworkManager
 /** UserRepository class, used to execute all requests related to User */
 class UserRepository {
 
-    /** Registers the user with the given email and password
+    /** Register the user with the given email and password
      * @param email the email
      * @param password the password
      * @param onSuccess callback to execute if request is successful
@@ -18,7 +18,7 @@ class UserRepository {
             onSuccessCallback = { onSuccess() })
     }
 
-    /** Logins the user with the given email and password
+    /** Login the user with the given email and password
      * @param email the email
      * @param password the password
      * @param onSuccess callback to execute if request is successful
@@ -44,7 +44,7 @@ class UserRepository {
             })
     }
 
-    /** Changes the user password
+    /** Chang user password
      * @param oldPassword the old password
      * @param password the new password
      * @param onSuccess callback to execute if request is successful

@@ -12,7 +12,7 @@ import com.example.fitnessapp.utils.Utils
 /** ExerciseRepository class, used to execute all requests related to exercise */
 class ExerciseRepository {
 
-    /** Adds new exercise to the given workout
+    /** Add new exercise to the given workout
      * @param exercise the exercise data
      * @param onSuccess callback to execute if request is successful
      */
@@ -26,7 +26,7 @@ class ExerciseRepository {
         )
     }
 
-    /** Edits the exercise from the given workout
+    /** Edit the exercise from the given workout
      * @param exercise the exercise data
      * @param onSuccess callback to execute if request is successful
      */
@@ -39,7 +39,7 @@ class ExerciseRepository {
         )
     }
 
-    /** Deletes the exercise from the workout
+    /** Delete the exercise from the workout
      * @param exerciseId the exercise id
      * @param onSuccess callback to execute if request is successful
      */
@@ -50,7 +50,7 @@ class ExerciseRepository {
         )
     }
 
-    /** Fetches all exercises for this muscle group
+    /** Fetch all exercises for this muscle group
      * @param muscleGroupId the muscle group id
      * @param onlyForUser "Y" if we need only user defined muscle group exercises, "N" if we need
      * user defined and the default ones
@@ -63,7 +63,7 @@ class ExerciseRepository {
         )
     }
 
-    /** Adds new exercise
+    /** Add new exercise
      * @param exercise the exercise data
      * @param workoutId greater than 0 to add the newly created exercise to the current workout, 0 otherwise
      * @param onlyForUser used when workoutId is 0. "Y" if we need only user defined muscle group exercises
@@ -86,7 +86,7 @@ class ExerciseRepository {
         )
     }
 
-    /** Updates the exercise
+    /** Update the exercise
      * @param exercise the exercise data
      * @param onlyForUser "Y" if the returned exercises should be only user defined, "N" if all
      * @param onSuccess callback to execute if request is successful
@@ -102,7 +102,7 @@ class ExerciseRepository {
         )
     }
 
-    /** Deletes the exercise
+    /** Delete the exercise
      * @param mGExerciseId the muscle group exercise id
      * @param onSuccess callback to execute if request is successful
      */

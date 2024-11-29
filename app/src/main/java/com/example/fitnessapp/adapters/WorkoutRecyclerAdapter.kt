@@ -37,7 +37,7 @@ class WorkoutRecyclerAdapter (data: List<WorkoutModel>, onClick: (WorkoutModel) 
         holder.bind(workouts[position], onClickCallback)
     }
 
-    /** Removes the specified template and re-populates the recycler */
+    /** Remove the specified template and re-populates the recycler */
     @SuppressLint("NotifyDataSetChanged")
     fun removeTemplate(template: WorkoutModel) {
         workouts.remove(template)

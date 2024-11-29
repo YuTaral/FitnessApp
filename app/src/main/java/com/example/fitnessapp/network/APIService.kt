@@ -5,7 +5,7 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-/** Singleton object object to implement IAPIService interface */
+/** Singleton object to implement IAPIService interface */
 object APIService {
     var instance: IAPIService
 
@@ -19,7 +19,7 @@ object APIService {
     }
 
     /**
-     * Updates the API service to include the Authorization header with the JWT token if requested.
+     * Update the API service to include the Authorization header with the JWT token if requested.
      * @param token - the token, may be empty (in case of logout)
      */
     fun updateToken(token: String) {

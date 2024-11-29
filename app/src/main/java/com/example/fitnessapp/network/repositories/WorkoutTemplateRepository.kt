@@ -8,7 +8,7 @@ import com.example.fitnessapp.utils.Utils
 /** WorkoutTemplateRepository class, used to execute all requests related to workout templates */
 class WorkoutTemplateRepository {
 
-    /** Adds new workout template
+    /** Add new workout template
      * @param workout the workout template data
      * @param onSuccess callback to execute if request is successful
      */
@@ -21,7 +21,7 @@ class WorkoutTemplateRepository {
         )
     }
 
-    /** Fetches workout templates which has been added by the user
+    /** Fetch workout templates which has been added by the user
      * @param onSuccess callback to execute if request is successful
      * @param onError callback to execute if request failed
      */
@@ -33,7 +33,7 @@ class WorkoutTemplateRepository {
         )
     }
 
-    /** Deletes the workout template
+    /** Delete the workout template
      * @param id the template id
      * @param onSuccess callback to execute if request is successful
      */

@@ -70,7 +70,7 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
     }
 
 
-    /** Initializes the main panel if it's not and returns the instance */
+    /** Initialize the main panel if it's not and returns the instance */
     private fun getMainPanel(): PanelFragment {
         if (!::mainPanel.isInitialized) {
             mainPanel = MainPanel()
@@ -79,7 +79,7 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
         return mainPanel
     }
 
-    /** Initializes the workout panel if it's not and returns the instance */
+    /** Initialize the workout panel if it's not and returns the instance */
     private fun getWorkoutPanel(): PanelFragment {
         if (!::workoutPanel.isInitialized) {
             workoutPanel = SelectedWorkoutPanel()
@@ -88,12 +88,12 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
         return workoutPanel
     }
 
-    /** Returns the temporary panel instance */
+    /** Return the temporary panel instance */
     private fun getTemporaryPanel(): PanelFragment {
         return temporaryPanel as PanelFragment
     }
 
-    /** Returns the temporary panel instance as IExercisePanel */
+    /** Return the temporary panel instance as IExercisePanel */
     fun getBaseExercisePanel(): BaseExercisePanel? {
         if (temporaryPanel is BaseExercisePanel) {
             return temporaryPanel as BaseExercisePanel
@@ -101,7 +101,7 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
         return null
     }
 
-    /** Returns the temporary panel instance as Manage Exercise Panel */
+    /** Return the temporary panel instance as Manage Exercise Panel */
     fun getManageExercisesPanel(): ManageExercisesPanel? {
         if (temporaryPanel == null || temporaryPanel !is ManageExercisesPanel) {
             return null
@@ -110,7 +110,7 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
         return temporaryPanel as ManageExercisesPanel
     }
 
-    /** Removes the currently created temporary panel, when navigating away from it
+    /** Remove the currently created temporary panel, when navigating away from it
      * or a new temporary panel must be created
      */
     @SuppressLint("NotifyDataSetChanged")
@@ -122,12 +122,12 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
         }
     }
 
-    /** Displays Workout panel  */
+    /** Display Workout panel  */
     fun displayWorkoutPanel() {
         pager.setCurrentItem(getWorkoutPanel().getIndex(), true)
     }
 
-    /** Displays Workout panel
+    /** Display Workout panel
      * @param workout the workout model, updates the StateEngine variable
      * @param refreshWorkouts true if StateEngine variable to refresh workouts should be set to true,
      * false otherwise. If null provided, the variable is not being changed
@@ -152,7 +152,7 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
         }
     }
 
-    /** Displays Main panel
+    /** Display Main panel
      *  @param refreshWorkouts true if StateEngine variable to refresh workouts should be set to true,
      * false otherwise
      */
@@ -161,7 +161,7 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
         pager.setCurrentItem(getMainPanel().getIndex(), true)
     }
 
-    /** Displays temporary panel
+    /** Display temporary panel
      * @param panel - the temporary panel panel
      */
     @SuppressLint("NotifyDataSetChanged")
@@ -188,7 +188,7 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
          }
      }
 
-    /** Returns the panel title to be displayed in the tab layout
+    /** Return the panel title to be displayed in the tab layout
      * @param position the panel position
      */
     fun getPanelTitle(position: Int): String {

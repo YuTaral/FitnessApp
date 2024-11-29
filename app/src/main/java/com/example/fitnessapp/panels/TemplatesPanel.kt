@@ -15,7 +15,7 @@ import com.example.fitnessapp.utils.Constants
 import com.example.fitnessapp.utils.StateEngine
 import com.example.fitnessapp.utils.Utils
 
-/** Class to hold the logic for Templates Panel */
+/** Templates Panel class to implement the logic for managing templates */
 class TemplatesPanel: PanelFragment() {
     override var id: Long = Constants.PanelUniqueId.TEMPLATES.ordinal.toLong()
     override var layoutId: Int = R.layout.templates_panel

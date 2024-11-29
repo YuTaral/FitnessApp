@@ -7,7 +7,7 @@ import com.example.fitnessapp.dialogs.AddExerciseFromWorkoutDialog
 import com.example.fitnessapp.models.MGExerciseModel
 import com.example.fitnessapp.utils.Constants
 
-/** Class to hold the logic for Exercise Panel */
+/** Exercise Panel class to implement the logic for selecting exercises for workout */
 class ExercisePanel(mode: Mode): BaseExercisePanel(mode) {
     override var id: Long = Constants.PanelUniqueId.SELECT_EXERCISE.ordinal.toLong()
     override var layoutId: Int = R.layout.exercise_panel

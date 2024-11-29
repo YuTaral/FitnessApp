@@ -38,7 +38,7 @@ class MuscleGroupRecyclerAdapter(data: MutableList<MuscleGroupModel>, callback: 
         holder.bind(filteredMuscleGroups[position], onSelectCallback)
     }
 
-    /** Filters the muscle groups by the provided text */
+    /** Filter the muscle groups by the provided text */
     @SuppressLint("NotifyDataSetChanged")
     fun filter(text: String) {
         filteredMuscleGroups = if (text.isEmpty()) {

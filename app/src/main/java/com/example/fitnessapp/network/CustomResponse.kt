@@ -1,6 +1,6 @@
 package com.example.fitnessapp.network
 
-/** Data class to define the fields which are returned after request */
+/** CustomResponse class to define the fields which are returned on request response */
 data class CustomResponse(
     val responseCode: Int,
     val responseMessage: String,

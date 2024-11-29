@@ -89,7 +89,7 @@ abstract class BaseExercisePanel(mode: Mode): PanelFragment() {
         }
     }
 
-    /** Populates the data in the panel */
+    /** Populate the data in the panel */
     private fun populatePanel() {
         updateViews()
 
@@ -111,7 +111,7 @@ abstract class BaseExercisePanel(mode: Mode): PanelFragment() {
         }
     }
 
-    /** Populates the exercises of the given muscle group
+    /** Populate the exercises of the given muscle group
      * @param exercises the exercises to display
      * @param initializeAdapter true if the adapter should be initialized, false if we just want
      * to update the data
@@ -138,7 +138,7 @@ abstract class BaseExercisePanel(mode: Mode): PanelFragment() {
         }
     }
 
-    /** Executes the logic to update views there are exercises for the selected muscle group
+    /** Execute the logic to update views there are exercises for the selected muscle group
      * @param exercises the exercises to display
      * @param initializeAdapter true if the recycler adapter needs initialization, false otherwise
      */
@@ -155,7 +155,7 @@ abstract class BaseExercisePanel(mode: Mode): PanelFragment() {
         }
     }
 
-    /** Adds search functionality to search for Muscle Groups / Exercises */
+    /** Add search functionality to search for Muscle Groups / Exercises */
     private fun addSearch() {
         search.addTextChangedListener(object: TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -181,7 +181,7 @@ abstract class BaseExercisePanel(mode: Mode): PanelFragment() {
         })
     }
 
-    /** Executes the logic to update views when no exercises has been found for the selected muscle group
+    /** Execute the logic to update views when no exercises has been found for the selected muscle group
      * @param initializeAdapter true if the recycler adapter needs initialization, false otherwise
      */
     private fun showViewsWhenNoExercises(initializeAdapter: Boolean) {
@@ -197,7 +197,7 @@ abstract class BaseExercisePanel(mode: Mode): PanelFragment() {
         }
     }
 
-    /** Changes the visibility the views in the panel to display the muscle groups or exercises */
+    /** Change the visibility the views in the panel to display the muscle groups or exercises */
     private fun updateViews() {
         when (panelMode) {
             Mode.SELECT_MUSCLE_GROUP -> {
@@ -218,17 +218,17 @@ abstract class BaseExercisePanel(mode: Mode): PanelFragment() {
         updateAdditionalViews()
     }
 
-    /** Clears the search field if not empty */
+    /** Clear the search field if not empty */
     private fun clearSearch() {
         if (search.text.isNotEmpty()) {
             search.setText("")
         }
     }
 
-    /** Performs the additional initialization specific for the exercise panel */
+    /** Perform the additional initialization specific for the exercise panel */
     abstract fun additionalPanelInitialization()
 
-    /** Performs update on the panel exercise panel specific views */
+    /** Perform update on the panel exercise panel specific views */
     abstract fun updateAdditionalViews()
 
     /** Callback to execute when user selects exercise

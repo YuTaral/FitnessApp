@@ -13,7 +13,7 @@ import com.example.fitnessapp.utils.Constants
 import com.example.fitnessapp.utils.StateEngine
 import com.example.fitnessapp.utils.Utils
 
-/** Class to hold the logic for the New Workout Panel */
+/** New Workout Panel class to display and manage the selected workout */
 class SelectedWorkoutPanel : PanelFragment() {
     override var id: Long = Constants.PanelUniqueId.WORKOUT.ordinal.toLong()
     override var layoutId: Int = R.layout.selected_workout_panel

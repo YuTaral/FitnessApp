@@ -60,7 +60,7 @@ object Utils {
         showToast(getContext().getText(msgId).toString(), duration)
     }
 
-    /** Show a snack-bar message
+    /** Show a toast message
     * @param message the message to show
     * @param duration duration - short / long, long by default
     * */
@@ -75,12 +75,12 @@ object Utils {
         return value == Constants.ResponseCode.SUCCESS.ordinal
     }
 
-    /** Returns the current activity when context is needed */
+    /** Return the current activity when context is needed */
     fun getContext(): Context {
         return StateEngine.activeActivity
     }
 
-    /** Returns the current activity */
+    /** Return the current activity */
     fun getActivity(): MainActivity {
         return StateEngine.activeActivity as MainActivity
     }
@@ -94,7 +94,7 @@ object Utils {
         showToast(errorMsgId)
     }
 
-    /** Focuses the field and opens the keyboard
+    /** Focus the field and open the keyboard
      * @param input the input view
      */
     fun openKeyboardOnInput(input: EditText) {
@@ -105,7 +105,7 @@ object Utils {
         imm.showSoftInput(input, InputMethodManager.SHOW_IMPLICIT)
     }
 
-    /** Closes the keyboard
+    /** Close the keyboard
      * @param view the focused view
      * */
     fun closeKeyboard(view: View) {
@@ -121,7 +121,7 @@ object Utils {
         return gson.toJson(obj)
     }
 
-    /** Converts the date to default app format date - dd/MMM/yyyy
+    /** Convert the date to default app format date - dd/MMM/yyyy
      * @param date the date to format
      */
     fun defaultFormatDate(date: Date): String {

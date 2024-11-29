@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.fitnessapp.utils.Utils
 
-/** Abstract PanelFragment class. Each panel in the tab layout should inherit this class */
+/** Abstract PanelFragment class to define the common logic for the panels displayed in the top
+ * tab layout. Each panel in the tab layout should inherit this class
+ */
 abstract class PanelFragment: Fragment() {
     /** The panel root view */
     protected lateinit var panel: View

@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
         initialiseDrawerLogic()
     }
 
-    /** Sets the view pager */
+    /** Set the view pager */
     private fun initialisePager() {
         // Set offscreenPageLimit to ensure all non temporary panels are created upon initialization
         viewPager.offscreenPageLimit = 2
@@ -115,7 +115,7 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    /** Executes the action based on the selected action in the right Drawer
+    /** Execute the action based on the selected action in the right Drawer
      * @param menuItem the selected menu item
      * */
     private fun rightDrawerSelected(menuItem: MenuItem) {
@@ -138,7 +138,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    /** Executes the action based on the selected action in the left Drawer
+    /** Execute the action based on the selected action in the left Drawer
      * @param menuItem the selected menu item
      * */
     private fun leftDrawerSelected(menuItem: MenuItem) {

@@ -11,7 +11,7 @@ import com.example.fitnessapp.network.repositories.WorkoutRepository
 import com.example.fitnessapp.utils.Constants
 import com.example.fitnessapp.utils.StateEngine
 
-/** Class to hold the logic for the Main Panel */
+/** Main Panel class to implement the logic in the main panel, where workouts are displayed */
 class MainPanel: PanelFragment() {
     override var id: Long = Constants.PanelUniqueId.MAIN.ordinal.toLong()
     override var layoutId: Int = R.layout.main_panel
