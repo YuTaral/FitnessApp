@@ -1,7 +1,6 @@
 package com.example.fitnessapp.panels
 
 import android.view.View
-import android.widget.Spinner
 import com.example.fitnessapp.R
 import com.example.fitnessapp.adapters.CustomSpinnerAdapter
 import com.example.fitnessapp.dialogs.AddEditMGExerciseDialog
@@ -14,13 +13,12 @@ import com.example.fitnessapp.utils.Utils
 /** Class to hold the logic for Manage Exercises Panel */
 class ManageExercisesPanel(mode: Mode): BaseExercisePanel(mode) {
     override var id: Long = Constants.PanelUniqueId.MANAGE_EXERCISE.ordinal.toLong()
-    override var layoutId: Int = R.layout.manage_exercises_panel
+    override var layoutId: Int = R.layout.exercise_panel
     override var panelIndex: Int = 2
     override var titleId: Int = R.string.manage_exercises_lbl
     override var onlyForUser: String = "Y"
     override var noExercisesStringId: Int = R.string.no_exercise_to_edit_lbl
 
-    private lateinit var actionSpinner: Spinner
     private var actionSpinnerEditExIndex: Int = 1
 
     override fun additionalPanelInitialization() {
@@ -32,7 +30,7 @@ class ManageExercisesPanel(mode: Mode): BaseExercisePanel(mode) {
             requireContext().getString(R.string.action_delete_exercise))
         )
 
-        addBtn.setOnClickListener { AddEditMGExerciseDialog(selectedMuscleGroupId).showDialog() }
+        addBtn.setOnClickListener { AddEditMGExerciseDialog(selectedMuscleGroup!!.id).showDialog() }
     }
 
     override fun updateAdditionalViews() {
@@ -58,7 +56,7 @@ class ManageExercisesPanel(mode: Mode): BaseExercisePanel(mode) {
 
         if (actionSpinner.selectedItemPosition == actionSpinnerEditExIndex) {
             // Edit exercise
-            AddEditMGExerciseDialog(selectedMuscleGroupId, model).showDialog()
+            AddEditMGExerciseDialog(selectedMuscleGroup!!.id, model).showDialog()
 
         } else {
             // Delete exercise

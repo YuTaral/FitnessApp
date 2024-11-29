@@ -5,6 +5,7 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Spinner
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,6 +17,7 @@ import com.example.fitnessapp.models.MGExerciseModel
 import com.example.fitnessapp.models.MuscleGroupModel
 import com.example.fitnessapp.network.repositories.ExerciseRepository
 import com.example.fitnessapp.network.repositories.MuscleGroupRepository
+import com.example.fitnessapp.utils.Utils
 
 /** Base ExercisePanel Class to implement the common logic for exercise panels:
  * - ExercisePanel where exercise can be selected and added to the current workout
@@ -34,15 +36,17 @@ abstract class BaseExercisePanel(mode: Mode): PanelFragment() {
         SELECT_EXERCISE,
     }
 
+    private lateinit var selectedMuscleGroupLbl: TextView
     private lateinit var search: EditText
     private lateinit var buttonsContainer: ConstraintLayout
     private lateinit var backBtn: Button
     private lateinit var muscleGroups: MutableList<MuscleGroupModel>
     protected lateinit var title: TextView
+    protected lateinit var actionSpinner: Spinner
     protected lateinit var addBtn: Button
     protected lateinit var muscleGroupRecycler: RecyclerView
     protected lateinit var exercisesRecycler: RecyclerView
-    protected var selectedMuscleGroupId: Long = 0
+    protected var selectedMuscleGroup: MuscleGroupModel? = null
     protected var panelMode: Mode = mode
 
     override fun initializePanel() {
@@ -51,7 +55,9 @@ abstract class BaseExercisePanel(mode: Mode): PanelFragment() {
 
         // Find the views
         title = panel.findViewById(R.id.exercise_panel_title)
+        actionSpinner = panel.findViewById(R.id.exercise_action_spinner)
         search = panel.findViewById(R.id.search)
+        selectedMuscleGroupLbl = panel.findViewById(R.id.selected_muscle_group_lbl)
         muscleGroupRecycler = panel.findViewById(R.id.muscle_groups_recycler)
         exercisesRecycler = panel.findViewById(R.id.exercises_recycler)
         buttonsContainer = panel.findViewById(R.id.buttons_container)
@@ -78,7 +84,7 @@ abstract class BaseExercisePanel(mode: Mode): PanelFragment() {
 
             // Update the mode, reset the selectedMuscleGroupId and update the views
             panelMode = Mode.SELECT_MUSCLE_GROUP
-            selectedMuscleGroupId = 0
+            selectedMuscleGroup = null
             updateViews()
         }
     }
@@ -94,10 +100,10 @@ abstract class BaseExercisePanel(mode: Mode): PanelFragment() {
 
                 muscleGroupRecycler.layoutManager = LinearLayoutManager(context)
                 muscleGroupRecycler.adapter = MuscleGroupRecyclerAdapter(muscleGroups,
-                    callback = { muscleGroupId ->
-                        selectedMuscleGroupId = muscleGroupId
+                    callback = { muscleGroup ->
+                        selectedMuscleGroup = muscleGroup
 
-                        ExerciseRepository().getMuscleGroupExercises(muscleGroupId, onlyForUser, onSuccess = { exercises ->
+                        ExerciseRepository().getMuscleGroupExercises(selectedMuscleGroup!!.id, onlyForUser, onSuccess = { exercises ->
                             populateExercises(exercises, true)
                         })
                     })
@@ -124,6 +130,9 @@ abstract class BaseExercisePanel(mode: Mode): PanelFragment() {
             // Show no exercises
             showViewsWhenNoExercises(initializeAdapter)
         } else {
+            selectedMuscleGroupLbl.text = String.format(Utils.getContext()
+                .getString(R.string.exercises_for_mg_lbl), selectedMuscleGroup!!.name)
+
             // Display the exercises
             displayExercises(exercises, initializeAdapter)
         }
@@ -177,7 +186,8 @@ abstract class BaseExercisePanel(mode: Mode): PanelFragment() {
      */
     private fun showViewsWhenNoExercises(initializeAdapter: Boolean) {
         // Show title that there is no exercises for this muscle group
-        title.text = requireContext().getString(noExercisesStringId)
+        selectedMuscleGroupLbl.text = String.format(Utils.getContext()
+                .getString(noExercisesStringId), selectedMuscleGroup!!.name)
 
         if (initializeAdapter) {
             exercisesRecycler.layoutManager = LinearLayoutManager(context)
@@ -191,11 +201,13 @@ abstract class BaseExercisePanel(mode: Mode): PanelFragment() {
     private fun updateViews() {
         when (panelMode) {
             Mode.SELECT_MUSCLE_GROUP -> {
+                selectedMuscleGroupLbl.visibility = View.GONE
                 muscleGroupRecycler.visibility = View.VISIBLE
                 exercisesRecycler.visibility = View.GONE
                 buttonsContainer.visibility = View.GONE
             }
             Mode.SELECT_EXERCISE -> {
+                selectedMuscleGroupLbl.visibility = View.VISIBLE
                 muscleGroupRecycler.visibility = View.GONE
                 exercisesRecycler.visibility = View.VISIBLE
                 buttonsContainer.visibility = View.VISIBLE

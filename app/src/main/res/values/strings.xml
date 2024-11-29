@@ -55,8 +55,8 @@
     <string name="exercises_lbl">Exercises:</string>
     <string name="select_muscle_group_lbl">Select muscle group</string>
     <string name="select_exercise_lbl">Select exercise</string>
-    <string name="no_exercise_lbl">There are no exercises for this specific muscle groups.\nClick Add to create new exercise</string>
-    <string name="no_exercise_to_edit_lbl">There are no editable exercises for this specific muscle groups.\nClick Add to create new exercise</string>
+    <string name="no_exercise_lbl">There are no exercises for %s.\nClick Add to create new exercise</string>
+    <string name="no_exercise_to_edit_lbl">There are no editable exercises for %s.\nClick Add to create new exercise</string>
     <string name="exercise_lbl">Exercise</string>
     <string name="select_action_lbl">Select action</string>
     <string name="logout">Log Out</string>
@@ -92,4 +92,6 @@
     <string name="question_override_exercise_text">Exercise \"%s\" already exists. Do you want to override it by changing the description?</string>
     <string name="question_override_exercise_title">Override Exercise</string>
     <string name="search_hint_lbl">Search…</string>
+    <string name="exercises_for_mg_lbl">Exercises for %s</string>
+    <string name="complete_all_sets_lbl">Complete all sets</string>
 </resources>

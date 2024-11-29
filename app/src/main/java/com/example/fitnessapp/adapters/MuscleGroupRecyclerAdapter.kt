@@ -12,12 +12,12 @@ import com.example.fitnessapp.models.MuscleGroupModel
 import com.example.fitnessapp.utils.Utils
 
 /** Recycler adapter to control the muscle groups shown when adding new workout */
-class MuscleGroupRecyclerAdapter(data: MutableList<MuscleGroupModel>, callback: (muscleGroupId: Long) -> Unit):
+class MuscleGroupRecyclerAdapter(data: MutableList<MuscleGroupModel>, callback: (muscleGroup: MuscleGroupModel) -> Unit):
     RecyclerView.Adapter<MuscleGroupRecyclerAdapter.MGItem>() {
 
         private var muscleGroups: MutableList<MuscleGroupModel>
         private var filteredMuscleGroups: MutableList<MuscleGroupModel>
-        private var onSelectCallback: (muscleGroupId: Long) -> Unit = callback
+        private var onSelectCallback: (muscleGroup: MuscleGroupModel) -> Unit = callback
 
     init {
         muscleGroups = data
@@ -59,18 +59,20 @@ class MuscleGroupRecyclerAdapter(data: MutableList<MuscleGroupModel>, callback: 
          * @param item the muscle group
          */
         @SuppressLint("DiscouragedApi")
-        fun bind(item: MuscleGroupModel, onSelectCallback: (muscleGroupId: Long) -> Unit) {
+        fun bind(item: MuscleGroupModel, onSelectCallback: (muscleGroup: MuscleGroupModel) -> Unit) {
             val ctx = Utils.getContext()
             val resourceId = ctx.resources.getIdentifier(item.imageName, "drawable", ctx.packageName)
 
             if (resourceId != 0) { // Check if resource exists
                 image.setBackgroundResource(resourceId)
+            } else {
+                image.setBackgroundResource(R.drawable.icon_mg_not_found)
             }
 
             name.text = item.name
 
             // Set the on click listener
-            itemView.setOnClickListener { onSelectCallback(item.id) }
+            itemView.setOnClickListener { onSelectCallback(item) }
         }
     }
 }

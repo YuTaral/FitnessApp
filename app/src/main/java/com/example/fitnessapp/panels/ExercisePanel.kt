@@ -1,5 +1,6 @@
 package com.example.fitnessapp.panels
 
+import android.view.View
 import com.example.fitnessapp.R
 import com.example.fitnessapp.dialogs.AddEditMGExerciseDialog
 import com.example.fitnessapp.dialogs.AddExerciseFromWorkoutDialog
@@ -16,10 +17,12 @@ class ExercisePanel(mode: Mode): BaseExercisePanel(mode) {
     override var noExercisesStringId: Int = R.string.no_exercise_lbl
 
     override fun additionalPanelInitialization() {
-        addBtn.setOnClickListener { AddEditMGExerciseDialog(selectedMuscleGroupId).showDialog() }
+        addBtn.setOnClickListener { AddEditMGExerciseDialog(selectedMuscleGroup!!.id).showDialog() }
     }
 
     override fun updateAdditionalViews() {
+        actionSpinner.visibility = View.GONE
+
         when (panelMode) {
             Mode.SELECT_MUSCLE_GROUP -> {
                 title.text = requireContext().getString(R.string.select_muscle_group_lbl)
