@@ -25,9 +25,11 @@ class EditExerciseFromWorkoutDialog(exerciseModel: ExerciseModel) {
     private var closeIcon: ImageView
     private var name: EditText
     private var setsContainer: LinearLayout
+    private var chbCompleteAll: CheckBox
     private var addSetBtn: Button
     private var saveBtn: Button
     private var deleteBtn: Button
+    private var allCompleted: Boolean = true
 
     /** Dialog initialization */
     init {
@@ -40,6 +42,7 @@ class EditExerciseFromWorkoutDialog(exerciseModel: ExerciseModel) {
         closeIcon = dialogView.findViewById(R.id.dialog_close)
         name = dialogView.findViewById(R.id.exercise_name)
         setsContainer = dialogView.findViewById(R.id.set_items_container)
+        chbCompleteAll = dialogView.findViewById(R.id.complete_all_sets)
         addSetBtn = dialogView.findViewById(R.id.add_set_btn)
         saveBtn = dialogView.findViewById(R.id.save_btn)
         deleteBtn = dialogView.findViewById(R.id.delete_btn)
@@ -54,14 +57,22 @@ class EditExerciseFromWorkoutDialog(exerciseModel: ExerciseModel) {
 
         // Populate the data
         name.setText(exercise.name)
-        exercise.sets.map { addSetToContainer(it, setsContainer) }
+        exercise.sets.map { addSetToContainer(it, setsContainer, true) }
 
-        // Add click listener to add new set
-        addSetBtn.setOnClickListener {
-            addSetToContainer(SetModel(), setsContainer)
+        if (exercise.sets.isEmpty()) {
+            allCompleted = false
         }
 
-        // Add button click listeners
+        if (allCompleted) {
+            // Complete all checkbox must be checked by default
+            chbCompleteAll.setChecked(true)
+        }
+
+        // Add click listeners
+        chbCompleteAll.setOnClickListener { changeSetsCompletedState() }
+        addSetBtn.setOnClickListener {
+            addSetToContainer(SetModel(), setsContainer, false)
+        }
         saveBtn.setOnClickListener { save(alertDialog) }
         deleteBtn.setOnClickListener { delete(alertDialog) }
         closeIcon.setOnClickListener { alertDialog.dismiss() }
@@ -73,9 +84,14 @@ class EditExerciseFromWorkoutDialog(exerciseModel: ExerciseModel) {
     /** Populates a single set item and adds it to the container
      * @param set the set to add
      * @param setsContainer the sets container
+     * @param checkCompleted true if set.completed must be checked to set allCompleted, false otherwise
      */
     @SuppressLint("InflateParams", "SetTextI18n")
-    private fun addSetToContainer(set: SetModel, setsContainer: LinearLayout) {
+    private fun addSetToContainer(set: SetModel, setsContainer: LinearLayout, checkCompleted: Boolean) {
+        if (checkCompleted && !set.completed) {
+            allCompleted = false
+        }
+
         val inflatableView: View = LayoutInflater.from(Utils.getContext())
             .inflate(R.layout.inflatable_edit_set, null)
 
@@ -161,5 +177,14 @@ class EditExerciseFromWorkoutDialog(exerciseModel: ExerciseModel) {
                 alertDialog.dismiss()
                 StateEngine.panelAdapter.displayWorkoutPanel(workout, true)
         })
+    }
+
+
+    /** Changes all sets completed state based on whether Complete all sets checkbox is checked */
+    private fun changeSetsCompletedState() {
+        for (i in 0..<setsContainer.childCount) {
+            setsContainer.getChildAt(i).findViewById<CheckBox>(R.id.completed)
+                .setChecked(chbCompleteAll.isChecked)
+        }
     }
 }
