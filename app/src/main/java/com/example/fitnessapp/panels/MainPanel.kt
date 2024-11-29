@@ -27,7 +27,7 @@ class MainPanel: PanelFragment() {
         newWorkoutBtn = panel.findViewById(R.id.new_workout_btn)
 
         // Add click button click listener
-        newWorkoutBtn.setOnClickListener { AddEditWorkoutDialog(AddEditWorkoutDialog.Mode.ADD).showDialog() }
+        newWorkoutBtn.setOnClickListener { AddEditWorkoutDialog(requireContext(), AddEditWorkoutDialog.Mode.ADD).show() }
 
         // Populate the panel
         populatePanel()

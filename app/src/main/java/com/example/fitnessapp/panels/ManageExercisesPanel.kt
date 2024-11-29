@@ -32,7 +32,7 @@ class ManageExercisesPanel(mode: Mode): BaseExercisePanel(mode) {
             requireContext().getString(R.string.action_delete_exercise))
         )
 
-        addBtn.setOnClickListener { AddEditMGExerciseDialog(selectedMuscleGroup!!.id).showDialog() }
+        addBtn.setOnClickListener { AddEditMGExerciseDialog(requireContext(), selectedMuscleGroup!!.id).show() }
     }
 
     override fun updateAdditionalViews() {
@@ -58,21 +58,21 @@ class ManageExercisesPanel(mode: Mode): BaseExercisePanel(mode) {
 
         if (actionSpinner.selectedItemPosition == actionSpinnerEditExIndex) {
             // Edit exercise
-            AddEditMGExerciseDialog(selectedMuscleGroup!!.id, model).showDialog()
+            AddEditMGExerciseDialog(requireContext(), selectedMuscleGroup!!.id, model).show()
 
         } else {
             // Delete exercise
-            val dialog = DialogAskQuestion(DialogAskQuestion.Question.DELETE_MG_EXERCISE)
+            val dialog = DialogAskQuestion(requireContext(), DialogAskQuestion.Question.DELETE_MG_EXERCISE, model)
 
             dialog.setYesCallback {
                 ExerciseRepository().deleteExercise(model.id, onSuccess = { mGExercises ->
                     // Re-populate on success
-                    dialog.closeDialog()
+                    dialog.dismiss()
                     populateExercises(mGExercises, false)
                 })
             }
 
-            dialog.showDialog(model)
+            dialog.show()
         }
     }
 }

@@ -69,7 +69,7 @@ class ExerciseRecyclerAdapter(data: List<ExerciseModel>) : RecyclerView.Adapter<
 
             // Add Edit click listener
             editBtn.setOnClickListener {
-                EditExerciseFromWorkoutDialog(item).showDialog()
+                EditExerciseFromWorkoutDialog(Utils.getContext(), item).show()
             }
 
             // Add expand mechanism

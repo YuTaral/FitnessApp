@@ -69,20 +69,20 @@ class TemplatesPanel: PanelFragment() {
 
                 if (actionSpinner.selectedItemPosition == startWorkoutIndex) {
                     // Start workout is at index 1
-                    AddEditWorkoutDialog(AddEditWorkoutDialog.Mode.ADD, template).showDialog()
+                    AddEditWorkoutDialog(requireContext(), AddEditWorkoutDialog.Mode.ADD, template).show()
 
                 } else  {
                     // Delete the question otherwise
-                    val dialog = DialogAskQuestion(DialogAskQuestion.Question.DELETE_TEMPLATE)
+                    val dialog = DialogAskQuestion(requireContext(), DialogAskQuestion.Question.DELETE_TEMPLATE, template)
 
                     dialog.setYesCallback(callback = {
                         WorkoutTemplateRepository().deleteWorkoutTemplate(template.id, onSuccess = {
                             (templatesRecycler.adapter as WorkoutRecyclerAdapter).removeTemplate(template)
-                            dialog.closeDialog()
+                            dialog.dismiss()
                         })
                     })
 
-                    dialog.showDialog(template)
+                    dialog.show()
                 }
             })
         }, onError = {

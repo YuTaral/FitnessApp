@@ -1,15 +1,14 @@
 package com.example.fitnessapp.dialogs
 
 import android.annotation.SuppressLint
-import android.view.LayoutInflater
+import android.content.Context
+import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
-import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import com.example.fitnessapp.R
 import com.example.fitnessapp.models.MGExerciseModel
 import com.example.fitnessapp.models.WorkoutModel
@@ -19,50 +18,42 @@ import com.example.fitnessapp.utils.Constants
 import com.example.fitnessapp.utils.StateEngine
 import com.example.fitnessapp.utils.Utils
 
-/** Add/Edit Muscle group Exercise dialog to hold the logic for
+/** Add / Edit Muscle group Exercise dialog to hold the logic for
  * adding exercise / updating exercise as part of muscle group
  */
 @SuppressLint("InflateParams")
-class AddEditMGExerciseDialog(mGroupId: Long, exercise: MGExerciseModel? = null) {
-    private var muscleGroupId: Long
-    private var exerciseToEdit: MGExerciseModel?
-    private var dialogView: View
-    private var title: TextView
-    private var closeIcon: ImageView
-    private var name: EditText
-    private var description: EditText
-    private var addExerciseToWorkout: CheckBox
-    private var saveBtn: Button
-    private lateinit var alertDialog: AlertDialog
+class AddEditMGExerciseDialog(ctx: Context, mGroupId: Long, exercise: MGExerciseModel? = null): BaseAlertDialog(ctx) {
+    override var layoutId = R.layout.add_edit_mgexercise_dialog
 
-    /** Dialog initialization */
-    init {
-        muscleGroupId = mGroupId
-        exerciseToEdit = exercise
+    private var muscleGroupId = mGroupId
+    private var exerciseToEdit = exercise
 
-        // Inflate the dialog layout
-        dialogView = LayoutInflater.from(Utils.getContext()).inflate(R.layout.add_edit_mgexercise_dialog, null)
+    private lateinit var title: TextView
+    private lateinit var name: EditText
+    private lateinit var description: EditText
+    private lateinit var addExerciseToWorkout: CheckBox
+    private lateinit var saveBtn: Button
 
-        // Find the views
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        // Open the keyboard once the dialog is shown
+        if (exerciseToEdit == null) {
+            name.requestFocus()
+            window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM)
+            window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+        }
+    }
+
+    override fun findViews() {
         title = dialogView.findViewById(R.id.add_exercise_dialog_title)
-        closeIcon = dialogView.findViewById(R.id.dialog_close)
         name = dialogView.findViewById(R.id.exercise_name)
         description = dialogView.findViewById(R.id.exercise_description)
         addExerciseToWorkout = dialogView.findViewById(R.id.add_exercise_to_workout)
         saveBtn = dialogView.findViewById(R.id.save_btn)
     }
 
-    /** Show the dialog */
-    fun showDialog() {
-        // Create the dialog
-        val dialogBuilder = AlertDialog.Builder(Utils.getContext())
-        dialogBuilder.setView(dialogView).setCancelable(false)
-        alertDialog = dialogBuilder.create()
-
-        // Add button click listeners
-        saveBtn.setOnClickListener { save("Y") }
-        closeIcon.setOnClickListener { alertDialog.dismiss() }
-
+    override fun populateDialog() {
         // Change the title and populate the data if edit
         if (exerciseToEdit != null) {
             title.setText(R.string.edit_exercise_lbl)
@@ -76,16 +67,10 @@ class AddEditMGExerciseDialog(mGroupId: Long, exercise: MGExerciseModel? = null)
             // managing the exercises
             addExerciseToWorkout.visibility = View.GONE
         }
+    }
 
-        // Show the dialog
-        alertDialog.show()
-
-        // Open the keyboard once the dialog is shown
-        if (exerciseToEdit == null) {
-            name.requestFocus()
-            alertDialog.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM)
-            alertDialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
-        }
+    override fun addClickListeners() {
+        saveBtn.setOnClickListener { save("Y") }
     }
 
     /** Executed on Save button click */
@@ -112,7 +97,7 @@ class AddEditMGExerciseDialog(mGroupId: Long, exercise: MGExerciseModel? = null)
         } else {
             // Edit the exercise
             ExerciseRepository().updateExercise(exercise, getOnlyForUserParam(), onSuccess = { returnData ->
-                alertDialog.dismiss()
+                dismiss()
 
                 // Response contains the updated muscle group exercises
                 StateEngine.panelAdapter.getBaseExercisePanel()!!
@@ -138,7 +123,7 @@ class AddEditMGExerciseDialog(mGroupId: Long, exercise: MGExerciseModel? = null)
                 .populateExercises(returnData.map { MGExerciseModel(it) }, false)
 
         }
-        alertDialog.dismiss()
+        dismiss()
     }
 
     /** Callback to execute when Add / Edit request failed
@@ -147,7 +132,9 @@ class AddEditMGExerciseDialog(mGroupId: Long, exercise: MGExerciseModel? = null)
     private fun onFailureCallback(response: CustomResponse) {
         if (response.responseCode == Constants.ResponseCode.EXERCISE_ALREADY_EXISTS.ordinal) {
             // Display dialog asking the user whether to override the existing exercise
-            val dialog = DialogAskQuestion(DialogAskQuestion.Question.OVERRIDE_EXISTING_EXERCISE)
+            val dialog = DialogAskQuestion(Utils.getContext(),
+                                            DialogAskQuestion.Question.OVERRIDE_EXISTING_EXERCISE,
+                                            MGExerciseModel(response.responseData[0]))
 
             dialog.setYesCallback {
                 val existingExercise = MGExerciseModel(response.responseData[0])
@@ -155,8 +142,8 @@ class AddEditMGExerciseDialog(mGroupId: Long, exercise: MGExerciseModel? = null)
 
                 ExerciseRepository().updateExercise(existingExercise, getOnlyForUserParam(), onSuccess = { returnData ->
                     // Close the dialogs
-                    dialog.closeDialog()
-                    alertDialog.dismiss()
+                    dialog.dismiss()
+                    dismiss()
 
                     // Updated the exercises
                     StateEngine.panelAdapter.getBaseExercisePanel()!!
@@ -165,11 +152,11 @@ class AddEditMGExerciseDialog(mGroupId: Long, exercise: MGExerciseModel? = null)
             }
 
             dialog.setNoCallback {
-                dialog.closeDialog()
+                dialog.dismiss()
                 save("N")
             }
 
-            dialog.showDialog(MGExerciseModel(response.responseData[0]))
+            dialog.show()
         }
     }
 

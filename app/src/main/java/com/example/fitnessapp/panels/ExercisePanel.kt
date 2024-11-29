@@ -17,7 +17,7 @@ class ExercisePanel(mode: Mode): BaseExercisePanel(mode) {
     override var noExercisesStringId: Int = R.string.no_exercise_lbl
 
     override fun additionalPanelInitialization() {
-        addBtn.setOnClickListener { AddEditMGExerciseDialog(selectedMuscleGroup!!.id).showDialog() }
+        addBtn.setOnClickListener { AddEditMGExerciseDialog(requireContext(), selectedMuscleGroup!!.id).show() }
     }
 
     override fun updateAdditionalViews() {
@@ -34,6 +34,6 @@ class ExercisePanel(mode: Mode): BaseExercisePanel(mode) {
     }
 
     override fun onExerciseSelectCallback(model: MGExerciseModel) {
-        AddExerciseFromWorkoutDialog(model).showDialog()
+        AddExerciseFromWorkoutDialog(requireContext(), model).show()
     }
 }

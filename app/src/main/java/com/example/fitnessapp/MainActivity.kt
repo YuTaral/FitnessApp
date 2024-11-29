@@ -126,7 +126,7 @@ class MainActivity : AppCompatActivity() {
                     return
                 }
 
-                SaveWorkoutTemplateDialog().showDialog()
+                SaveWorkoutTemplateDialog(this).show()
             }
             R.id.nav_manage_templates -> {
                 StateEngine.panelAdapter.displayTemporaryPanel(TemplatesPanel())

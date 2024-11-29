@@ -1,6 +1,7 @@
 package com.example.fitnessapp.dialogs
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
@@ -8,7 +9,6 @@ import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
-import androidx.appcompat.app.AlertDialog
 import com.example.fitnessapp.R
 import com.example.fitnessapp.models.ExerciseModel
 import com.example.fitnessapp.models.MuscleGroupModel
@@ -19,27 +19,20 @@ import com.example.fitnessapp.utils.Utils
 
 /** Edit Exercise dialog to hold the logic to edit exercise */
 @SuppressLint("InflateParams")
-class EditExerciseFromWorkoutDialog(exerciseModel: ExerciseModel) {
-    private var exercise: ExerciseModel
-    private var dialogView: View
-    private var closeIcon: ImageView
-    private var name: EditText
-    private var setsContainer: LinearLayout
-    private var chbCompleteAll: CheckBox
-    private var addSetBtn: Button
-    private var saveBtn: Button
-    private var deleteBtn: Button
+class EditExerciseFromWorkoutDialog(ctx: Context, exerciseModel: ExerciseModel): BaseAlertDialog(ctx) {
+    override var layoutId = R.layout.edit_exercise_dialog
+
+    private var exercise = exerciseModel
     private var allCompleted: Boolean = true
 
-    /** Dialog initialization */
-    init {
-        exercise = exerciseModel
+    private lateinit var name: EditText
+    private lateinit var setsContainer: LinearLayout
+    private lateinit var chbCompleteAll: CheckBox
+    private lateinit var addSetBtn: Button
+    private lateinit var saveBtn: Button
+    private lateinit var deleteBtn: Button
 
-        // Inflate the dialog layout
-        dialogView = LayoutInflater.from(Utils.getContext()).inflate(R.layout.edit_exercise_dialog, null)
-
-        // Find the views
-        closeIcon = dialogView.findViewById(R.id.dialog_close)
+    override fun findViews() {
         name = dialogView.findViewById(R.id.exercise_name)
         setsContainer = dialogView.findViewById(R.id.set_items_container)
         chbCompleteAll = dialogView.findViewById(R.id.complete_all_sets)
@@ -48,14 +41,7 @@ class EditExerciseFromWorkoutDialog(exerciseModel: ExerciseModel) {
         deleteBtn = dialogView.findViewById(R.id.delete_btn)
     }
 
-    /** Show the dialog */
-    fun showDialog() {
-        // Create the dialog
-        val dialogBuilder = AlertDialog.Builder(Utils.getContext())
-        dialogBuilder.setView(dialogView).setCancelable(false)
-        val alertDialog = dialogBuilder.create()
-
-        // Populate the data
+    override fun populateDialog() {
         name.setText(exercise.name)
         exercise.sets.map { addSetToContainer(it, setsContainer, true) }
 
@@ -67,21 +53,18 @@ class EditExerciseFromWorkoutDialog(exerciseModel: ExerciseModel) {
             // Complete all checkbox must be checked by default
             chbCompleteAll.setChecked(true)
         }
+    }
 
-        // Add click listeners
+    override fun addClickListeners() {
         chbCompleteAll.setOnClickListener { changeSetsCompletedState() }
         addSetBtn.setOnClickListener {
             addSetToContainer(SetModel(), setsContainer, false)
         }
-        saveBtn.setOnClickListener { save(alertDialog) }
-        deleteBtn.setOnClickListener { delete(alertDialog) }
-        closeIcon.setOnClickListener { alertDialog.dismiss() }
-
-        // Show the dialog
-        alertDialog.show()
+        saveBtn.setOnClickListener { save() }
+        deleteBtn.setOnClickListener { delete() }
     }
 
-    /** Populates a single set item and adds it to the container
+    /** Populate a single set item and adds it to the container
      * @param set the set to add
      * @param setsContainer the sets container
      * @param checkCompleted true if set.completed must be checked to set allCompleted, false otherwise
@@ -118,7 +101,7 @@ class EditExerciseFromWorkoutDialog(exerciseModel: ExerciseModel) {
         setsContainer.addView(inflatableView)
     }
 
-    /** Returns an list of sets
+    /** Return list of sets
      * @param setsContainer the sets container
      */
     private fun getSets(setsContainer: LinearLayout): MutableList<SetModel>  {
@@ -147,22 +130,18 @@ class EditExerciseFromWorkoutDialog(exerciseModel: ExerciseModel) {
         return sets
     }
 
-    /** Executes Edit Exercise Dialog button Delete clicked to send a request and delete the exercise
-     * @param alertDialog the alert dialog
-     * */
-    private fun delete(alertDialog: AlertDialog) {
+    /** Execute Edit Exercise Dialog button Delete clicked to send a request and delete the exercise */
+    private fun delete() {
         if (StateEngine.workout != null) {
             ExerciseRepository().deleteExerciseFromWorkout(exercise.id, onSuccess = { workout ->
-                alertDialog.dismiss()
+                dismiss()
                 StateEngine.panelAdapter.displayWorkoutPanel(workout, true)
             })
         }
     }
 
-    /** Executed on Save button click
-     * @param alertDialog the alert dialog
-     */
-    private fun save(alertDialog: AlertDialog){
+    /** Executed on Save button click */
+    private fun save(){
         // Validate exercise name
         if (name.text.isEmpty()) {
             Utils.showMessage(R.string.error_msg_enter_exercise_name)
@@ -170,17 +149,16 @@ class EditExerciseFromWorkoutDialog(exerciseModel: ExerciseModel) {
             return
         }
 
-
         // Edit the exercise, passing empty MuscleGroup object, it is not needed server side
         ExerciseRepository().editExerciseFromWorkout(ExerciseModel(exercise.id, name.text.toString(), MuscleGroupModel(), getSets(setsContainer)),
             onSuccess = { workout ->
-                alertDialog.dismiss()
+                dismiss()
                 StateEngine.panelAdapter.displayWorkoutPanel(workout, true)
         })
     }
 
 
-    /** Changes all sets completed state based on whether Complete all sets checkbox is checked */
+    /** Change all sets completed state based on whether Complete all sets checkbox is checked */
     private fun changeSetsCompletedState() {
         for (i in 0..<setsContainer.childCount) {
             setsContainer.getChildAt(i).findViewById<CheckBox>(R.id.completed)

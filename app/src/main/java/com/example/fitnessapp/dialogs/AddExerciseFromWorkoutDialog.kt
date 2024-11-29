@@ -1,13 +1,10 @@
 package com.example.fitnessapp.dialogs
 
 import android.annotation.SuppressLint
-import android.view.LayoutInflater
-import android.view.View
+import android.content.Context
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
-import android.widget.ImageView
-import androidx.appcompat.app.AlertDialog
 import com.example.fitnessapp.R
 import com.example.fitnessapp.models.ExerciseModel
 import com.example.fitnessapp.models.MGExerciseModel
@@ -20,27 +17,19 @@ import com.example.fitnessapp.utils.Utils
  * adding exercise / updating exercise as part of workout
  */
 @SuppressLint("InflateParams")
-class AddExerciseFromWorkoutDialog(exercise: MGExerciseModel) {
-    private var exerciseToAdd: MGExerciseModel
-    private var dialogView: View
-    private lateinit var alertDialog: AlertDialog
-    private var closeIcon: ImageView
-    private var name: EditText
-    private var sets: EditText
-    private var reps: EditText
-    private var weight: EditText
-    private var exerciseCompleted: CheckBox
-    private var saveBtn: Button
+class AddExerciseFromWorkoutDialog(ctx: Context, exercise: MGExerciseModel): BaseAlertDialog(ctx) {
+    override var layoutId = R.layout.add_exercise_dialog
 
-    /** Dialog initialization */
-    init {
-        exerciseToAdd = exercise
+    private var exerciseToAdd = exercise
 
-        // Inflate the dialog layout
-        dialogView = LayoutInflater.from(Utils.getContext()).inflate(R.layout.add_exercise_dialog, null)
+    private lateinit var name: EditText
+    private lateinit var sets: EditText
+    private lateinit var reps: EditText
+    private lateinit var weight: EditText
+    private lateinit var exerciseCompleted: CheckBox
+    private lateinit var saveBtn: Button
 
-        // Find the views
-        closeIcon = dialogView.findViewById(R.id.dialog_close)
+    override fun findViews() {
         name = dialogView.findViewById(R.id.exercise_name)
         sets = dialogView.findViewById(R.id.exercise_sets)
         reps = dialogView.findViewById(R.id.set_reps)
@@ -49,32 +38,22 @@ class AddExerciseFromWorkoutDialog(exercise: MGExerciseModel) {
         saveBtn = dialogView.findViewById(R.id.save_btn)
     }
 
-    /** Show the dialog */
-    fun showDialog() {
-        // Create the dialog
-        val dialogBuilder = AlertDialog.Builder(Utils.getContext())
-        dialogBuilder.setView(dialogView).setCancelable(false)
-        alertDialog = dialogBuilder.create()
-
+    override fun populateDialog() {
         name.setText(exerciseToAdd.name)
+    }
 
-        // Add button click listeners
+    override fun addClickListeners() {
         saveBtn.setOnClickListener { save() }
-        closeIcon.setOnClickListener { alertDialog.dismiss() }
-
-        // Show the dialog
-        alertDialog.show()
     }
 
     /** Executed on Save button click */
     private fun save() {
         val exercise = validateExercise() ?: return
         ExerciseRepository().addExerciseToWorkout(exercise, onSuccess = { workout ->
-            alertDialog.dismiss()
+            dismiss()
             StateEngine.panelAdapter.displayWorkoutPanel(workout, true)
         })
     }
-
 
     /** Validate the data in the dialog when save is clicked and exercise is being added to the workout */
     private fun validateExercise(): ExerciseModel? {

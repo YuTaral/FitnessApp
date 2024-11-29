@@ -1,14 +1,13 @@
 package com.example.fitnessapp.dialogs
 
 import android.annotation.SuppressLint
-import android.view.LayoutInflater
+import android.content.Context
+import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
-import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams
 import com.example.fitnessapp.R
 import com.example.fitnessapp.models.WorkoutModel
@@ -22,29 +21,33 @@ import com.example.fitnessapp.utils.Utils
  * the workout name when starting workout from Template
  */
 @SuppressLint("InflateParams")
-class AddEditWorkoutDialog(mode: Mode, workoutModel: WorkoutModel? = null) {
+class AddEditWorkoutDialog(ctx: Context, mode: Mode, workoutModel: WorkoutModel? = null): BaseAlertDialog(ctx) {
     /** The dialog mode - add / edit */
     enum class Mode {
         ADD,
         EDIT
     }
 
+    override var layoutId = R.layout.add_edit_workout_dialog
+
     private var dialogMode: Mode = mode
     private var template: WorkoutModel? = workoutModel
-    private var dialogView: View
-    private var title: TextView
-    private var closeIcon: ImageView
-    private var name: EditText
-    private var saveBtn: Button
-    private var deleteBtn: Button
 
-    /** Dialog initialization */
-    init {
-        // Inflate the dialog layout
-        dialogView = LayoutInflater.from(Utils.getContext())
-            .inflate(R.layout.add_edit_workout_dialog, null)
+    private lateinit  var title: TextView
+    private lateinit var name: EditText
+    private lateinit var saveBtn: Button
+    private lateinit var deleteBtn: Button
 
-        // Find the views
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        // Open the keyboard once the dialog is shown
+        name.requestFocus()
+        window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM)
+        window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+    }
+
+    override fun findViews() {
         title = dialogView.findViewById(R.id.add_workout_title)
         closeIcon = dialogView.findViewById(R.id.dialog_close)
         name = dialogView.findViewById(R.id.workout_name_txt)
@@ -52,14 +55,7 @@ class AddEditWorkoutDialog(mode: Mode, workoutModel: WorkoutModel? = null) {
         deleteBtn = dialogView.findViewById(R.id.delete_btn)
     }
 
-    /** Show the dialog */
-    fun showDialog() {
-        // Create the dialog
-        val dialogBuilder = AlertDialog.Builder(Utils.getContext())
-        dialogBuilder.setView(dialogView).setCancelable(false)
-        val alertDialog = dialogBuilder.create()
-
-        // Populate the dialog and change the views
+    override fun populateDialog() {
         if (dialogMode == Mode.ADD) {
 
             if (template != null) {
@@ -76,21 +72,14 @@ class AddEditWorkoutDialog(mode: Mode, workoutModel: WorkoutModel? = null) {
                 name.setText(StateEngine.workout!!.name)
             }
         }
+    }
 
-        // Add button click listeners
-        closeIcon.setOnClickListener { alertDialog.dismiss() }
-        saveBtn.setOnClickListener { save(alertDialog) }
+    override fun addClickListeners() {
+        closeIcon.setOnClickListener { dismiss() }
+        saveBtn.setOnClickListener { save() }
         if (deleteBtn.visibility == View.VISIBLE) {
-            deleteBtn.setOnClickListener { delete(alertDialog) }
+            deleteBtn.setOnClickListener { delete() }
         }
-
-        // Show the dialog
-        alertDialog.show()
-
-        // Open the keyboard once the dialog is shown
-        name.requestFocus()
-        alertDialog.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM)
-        alertDialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
     }
 
     /** Sets the buttons visibility and styles for Edit Mode*/
@@ -109,10 +98,8 @@ class AddEditWorkoutDialog(mode: Mode, workoutModel: WorkoutModel? = null) {
         saveBtn.setBackgroundResource(R.drawable.background_top_border)
     }
 
-    /** Executed on Save button click
-     * @param alertDialog the alert dialog
-     */
-    private fun save(alertDialog: AlertDialog) {
+    /** Executed on Save button click */
+    private fun save() {
         // Validate
         if (name.text.isEmpty()) {
             Utils.validationFailed(name, R.string.error_msg_enter_workout_name)
@@ -130,25 +117,23 @@ class AddEditWorkoutDialog(mode: Mode, workoutModel: WorkoutModel? = null) {
             }
 
             WorkoutRepository().addWorkout(newWorkout, onSuccess = { workout ->
-                alertDialog.dismiss()
+                dismiss()
                 StateEngine.panelAdapter.displayWorkoutPanel(workout, true)
             })
         } else {
             WorkoutRepository().editWorkout(WorkoutModel(StateEngine.workout!!.id, name.text.toString(), false, mutableListOf()),
                 onSuccess = { workout ->
-                    alertDialog.dismiss()
+                    dismiss()
                     StateEngine.panelAdapter.displayWorkoutPanel(workout, true)
                 })
         }
     }
 
-    /** Executed on Delete button click
-     * @param alertDialog the alert dialog
-     */
-    private fun delete(alertDialog: AlertDialog) {
+    /** Executed on Delete button click */
+    private fun delete() {
         // Send a request to delete the workout
         WorkoutRepository().deleteWorkout(StateEngine.workout!!.id, onSuccess = {
-            alertDialog.dismiss()
+            dismiss()
             StateEngine.workout = null
             StateEngine.panelAdapter.displayMainPanel(true)
         })

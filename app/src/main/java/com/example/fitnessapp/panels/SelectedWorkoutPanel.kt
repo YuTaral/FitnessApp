@@ -45,11 +45,11 @@ class SelectedWorkoutPanel : PanelFragment() {
         }
 
         editBtn.setOnClickListener {
-            AddEditWorkoutDialog(AddEditWorkoutDialog.Mode.EDIT).showDialog()
+            AddEditWorkoutDialog(requireContext(), AddEditWorkoutDialog.Mode.EDIT).show()
         }
 
         noWorkoutContent.setOnClickListener {
-            AddEditWorkoutDialog(AddEditWorkoutDialog.Mode.ADD).showDialog()
+            AddEditWorkoutDialog(requireContext(), AddEditWorkoutDialog.Mode.ADD).show()
         }
 
         // Set buttons visibility
