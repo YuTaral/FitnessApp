@@ -94,4 +94,6 @@
     <string name="search_hint_lbl">Search…</string>
     <string name="exercises_for_mg_lbl">Exercises for %s</string>
     <string name="complete_all_sets_lbl">Complete all sets</string>
+    <string name="change_password_lbl">Change password</string>
+    <string name="old_password_lbl">Old password</string>
 </resources>

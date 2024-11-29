@@ -43,4 +43,15 @@ class UserRepository {
                 APIService.updateToken("")
             })
     }
+
+    /** Changes the user password
+     * @param oldPassword the old password
+     * @param password the new password
+     * @param onSuccess callback to execute if request is successful
+     */
+    fun changePassword(oldPassword: String, password: String, onSuccess: () -> Unit) {
+        NetworkManager.sendRequest(
+            APIService.instance.changePassword(mapOf("oldPassword" to oldPassword, "password" to password)),
+            onSuccessCallback = { onSuccess() })
+    }
 }

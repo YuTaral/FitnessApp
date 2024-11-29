@@ -40,15 +40,4 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-<!--    <style name="CustomSpinnerStyle" parent="Widget.AppCompat.Spinner">-->
-<!--        <item name="android:ellipsize">marquee</item>-->
-<!--        <item name="singleLine">true</item>-->
-<!--        <item name="android:background">@drawable/background_spinner</item>-->
-<!--        <item name="android:popupBackground">@color/colorEditTextLine</item>-->
-<!--    </style>-->
-
-<!--    <style name="CustomSpinnerDropdownItemStyle">-->
-<!--        <item name="android:padding">5dp</item>-->
-<!--    </style>-->
-
 </resources>

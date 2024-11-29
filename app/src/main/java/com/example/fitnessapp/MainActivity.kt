@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.viewpager2.widget.ViewPager2
 import com.example.fitnessapp.adapters.PanelAdapter
+import com.example.fitnessapp.dialogs.ChangePasswordDialog
 import com.example.fitnessapp.dialogs.SaveWorkoutTemplateDialog
 import com.example.fitnessapp.network.repositories.UserRepository
 import com.example.fitnessapp.panels.BaseExercisePanel
@@ -150,6 +151,10 @@ class MainActivity : AppCompatActivity() {
                     startActivity(intent)
                     finish()
                 })
+            }
+            R.id.nav_change_pass -> {
+                // Open change password dialog
+                ChangePasswordDialog(this).show()
             }
         }
     }
