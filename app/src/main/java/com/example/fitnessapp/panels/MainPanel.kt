@@ -21,18 +21,6 @@ class MainPanel: PanelFragment() {
     private lateinit var workoutsRecycler: RecyclerView
     private lateinit var newWorkoutBtn: Button
 
-    override fun initializePanel() {
-        // Find the views in the panel
-        workoutsRecycler = panel.findViewById(R.id.workouts_recycler)
-        newWorkoutBtn = panel.findViewById(R.id.new_workout_btn)
-
-        // Add click button click listener
-        newWorkoutBtn.setOnClickListener { AddEditWorkoutDialog(requireContext(), AddEditWorkoutDialog.Mode.ADD).show() }
-
-        // Populate the panel
-        populatePanel()
-    }
-
     override fun onResume() {
         super.onResume()
 
@@ -41,8 +29,12 @@ class MainPanel: PanelFragment() {
         }
     }
 
-    /** Populates the data in the panel with the latest workouts */
-    fun populatePanel() {
+    override fun findViews() {
+        workoutsRecycler = panel.findViewById(R.id.workouts_recycler)
+        newWorkoutBtn = panel.findViewById(R.id.new_workout_btn)
+    }
+
+    override fun populatePanel() {
         WorkoutRepository().getWorkouts(onSuccess = { returnData ->
             workoutsRecycler.layoutManager = LinearLayoutManager(context)
             workoutsRecycler.adapter = WorkoutRecyclerAdapter(
@@ -53,5 +45,9 @@ class MainPanel: PanelFragment() {
             // The most recent data with workouts is now displayed
             StateEngine.refreshWorkouts = false
         })
+    }
+
+    override fun addClickListeners() {
+        newWorkoutBtn.setOnClickListener { AddEditWorkoutDialog(requireContext(), AddEditWorkoutDialog.Mode.ADD).show() }
     }
 }

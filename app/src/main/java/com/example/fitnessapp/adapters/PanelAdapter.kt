@@ -93,7 +93,7 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
         return temporaryPanel as PanelFragment
     }
 
-    /** Return the temporary panel instance as IExercisePanel */
+    /** Return the temporary panel instance as BaseExercisePanel */
     fun getBaseExercisePanel(): BaseExercisePanel? {
         if (temporaryPanel is BaseExercisePanel) {
             return temporaryPanel as BaseExercisePanel
@@ -101,13 +101,9 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
         return null
     }
 
-    /** Return the temporary panel instance as Manage Exercise Panel */
-    fun getManageExercisesPanel(): ManageExercisesPanel? {
-        if (temporaryPanel == null || temporaryPanel !is ManageExercisesPanel) {
-            return null
-        }
-
-        return temporaryPanel as ManageExercisesPanel
+    /** Return true if the current active panel is Manage Exercise, false otherwise */
+    fun isManageExerciseActive(): Boolean {
+        return !(temporaryPanel == null || temporaryPanel !is ManageExercisesPanel)
     }
 
     /** Remove the currently created temporary panel, when navigating away from it
@@ -151,7 +147,7 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
         } else {
             // If the index of the viewPager does not change, this will not trigger onResume(), notify the listener
             // to re-populate the panel
-            (getWorkoutPanel() as SelectedWorkoutPanel).populatePanel()
+            getWorkoutPanel().populatePanel()
         }
     }
 
@@ -170,7 +166,7 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
         } else {
             // If the index of the viewPager does not change, this will not trigger onResume(), notify the listener
             // to re-populate the panel
-            (getMainPanel() as MainPanel).populatePanel()
+            getMainPanel().populatePanel()
         }
     }
 

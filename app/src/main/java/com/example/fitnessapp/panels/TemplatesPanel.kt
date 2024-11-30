@@ -27,21 +27,13 @@ class TemplatesPanel: PanelFragment() {
     private lateinit var closeBtn: Button
     private val startWorkoutIndex = 1
 
-    override fun initializePanel() {
-        // Find the views
+    override fun findViews() {
         actionSpinner = panel.findViewById(R.id.template_list_action_spinner)
         templatesRecycler = panel.findViewById(R.id.templates_recycler)
         closeBtn = panel.findViewById(R.id.cancel_btn)
-
-        // Populate the panel
-        populatePanel()
-
-        // Click listeners
-        closeBtn.setOnClickListener { StateEngine.panelAdapter.displayWorkoutPanel(null) }
     }
 
-    /** Populates the data in the panel */
-    private fun populatePanel() {
+    override fun populatePanel() {
         val ctx = requireContext()
 
         // Create the adapter
@@ -88,5 +80,9 @@ class TemplatesPanel: PanelFragment() {
         }, onError = {
             StateEngine.panelAdapter.displayWorkoutPanel(null)
         })
+    }
+
+    override fun addClickListeners() {
+        closeBtn.setOnClickListener { StateEngine.panelAdapter.displayWorkoutPanel(null) }
     }
 }

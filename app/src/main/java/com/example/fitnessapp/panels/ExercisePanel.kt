@@ -16,7 +16,8 @@ class ExercisePanel(mode: Mode): BaseExercisePanel(mode) {
     override var onlyForUser: String = "N"
     override var noExercisesStringId: Int = R.string.no_exercise_lbl
 
-    override fun additionalPanelInitialization() {
+    override fun addClickListeners() {
+        super.addClickListeners()
         addBtn.setOnClickListener { AddEditMGExerciseDialog(requireContext(), selectedMuscleGroup!!.id).show() }
     }
 

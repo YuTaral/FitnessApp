@@ -29,13 +29,28 @@ abstract class PanelFragment: Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         panel = inflater.inflate(layoutId, container, false)
 
-        initializePanel()
+        // Execute the logic to find views, populate the data and add click listeners
+        findViews()
+        populatePanel()
+        addClickListeners()
 
         return panel
     }
 
-    /** Find the views in the panel, add click listeners and populate the data */
-    abstract fun initializePanel()
+    /** Find the views in the panel. No need to call the method when the panel is being created,
+     * it is called in the base class
+     */
+    abstract fun findViews()
+
+    /** Populates the data in the panel. No need to call the method when the panel is being created,
+     * it is called in the base class
+     */
+    abstract fun populatePanel()
+
+    /** Add click listeners to the views. No need to call the method when the panel is being created,
+     * it is called in the base class
+     */
+    abstract fun addClickListeners()
 
     /** Returns the panel unique id */
     fun getUniqueId(): Long {

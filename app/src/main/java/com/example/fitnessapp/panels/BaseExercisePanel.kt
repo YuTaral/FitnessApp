@@ -36,11 +36,13 @@ abstract class BaseExercisePanel(mode: Mode): PanelFragment() {
         SELECT_EXERCISE,
     }
 
+    private var muscleGroups: MutableList<MuscleGroupModel> = mutableListOf()
+
     private lateinit var selectedMuscleGroupLbl: TextView
     private lateinit var search: EditText
     private lateinit var buttonsContainer: ConstraintLayout
     private lateinit var backBtn: Button
-    private lateinit var muscleGroups: MutableList<MuscleGroupModel>
+
     protected lateinit var title: TextView
     protected lateinit var actionSpinner: Spinner
     protected lateinit var addBtn: Button
@@ -49,11 +51,7 @@ abstract class BaseExercisePanel(mode: Mode): PanelFragment() {
     protected var selectedMuscleGroup: MuscleGroupModel? = null
     protected var panelMode: Mode = mode
 
-    override fun initializePanel() {
-        // Initialize the common views between all exercise panels
-        muscleGroups = mutableListOf()
-
-        // Find the views
+    override fun findViews() {
         title = panel.findViewById(R.id.exercise_panel_title)
         actionSpinner = panel.findViewById(R.id.exercise_action_spinner)
         search = panel.findViewById(R.id.search)
@@ -63,34 +61,14 @@ abstract class BaseExercisePanel(mode: Mode): PanelFragment() {
         buttonsContainer = panel.findViewById(R.id.buttons_container)
         backBtn = panel.findViewById(R.id.back_btn)
         addBtn = panel.findViewById(R.id.add_btn)
+    }
 
+    /** Populate the data in the panel */
+    override fun populatePanel() {
         // Disable the state restoration in case the exercise panel is recreated, we need
         // the search to be empty on each recreation
         search.isSaveEnabled = false
 
-        // Perform the additional initialization
-        additionalPanelInitialization()
-
-        // Populate the panel
-        populatePanel()
-
-        // Add search functionality
-        addSearch()
-
-        // Click listeners
-        backBtn.setOnClickListener {
-            // Clear the search if it's not empty to reset the data in the currently active adapter
-            clearSearch()
-
-            // Update the mode, reset the selectedMuscleGroupId and update the views
-            panelMode = Mode.SELECT_MUSCLE_GROUP
-            selectedMuscleGroup = null
-            updateViews()
-        }
-    }
-
-    /** Populate the data in the panel */
-    private fun populatePanel() {
         updateViews()
 
         if (muscleGroups.isEmpty()) {
@@ -109,6 +87,21 @@ abstract class BaseExercisePanel(mode: Mode): PanelFragment() {
                     })
             })
         }
+    }
+
+    override fun addClickListeners() {
+        backBtn.setOnClickListener {
+            // Clear the search if it's not empty to reset the data in the currently active adapter
+            clearSearch()
+
+            // Update the mode, reset the selectedMuscleGroupId and update the views
+            panelMode = Mode.SELECT_MUSCLE_GROUP
+            selectedMuscleGroup = null
+            updateViews()
+        }
+
+        // Add search functionality
+        addSearch()
     }
 
     /** Populate the exercises of the given muscle group
@@ -224,9 +217,6 @@ abstract class BaseExercisePanel(mode: Mode): PanelFragment() {
             search.setText("")
         }
     }
-
-    /** Perform the additional initialization specific for the exercise panel */
-    abstract fun additionalPanelInitialization()
 
     /** Perform update on the panel exercise panel specific views */
     abstract fun updateAdditionalViews()

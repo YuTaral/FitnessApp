@@ -28,8 +28,12 @@ class SelectedWorkoutPanel : PanelFragment() {
     private lateinit var newExerciseBtn: Button
     private lateinit var editBtn: Button
 
-    override fun initializePanel() {
-        // Find the views
+    override fun onResume() {
+        super.onResume()
+        populatePanel()
+    }
+
+    override fun findViews() {
         mainContent = panel.findViewById(R.id.main_content)
         noWorkoutContent = panel.findViewById(R.id.no_workout_content)
         currentWorkout = panel.findViewById(R.id.current_workout_label)
@@ -37,35 +41,9 @@ class SelectedWorkoutPanel : PanelFragment() {
         exerciseRecycler = panel.findViewById(R.id.exercises_recycler)
         newExerciseBtn = panel.findViewById(R.id.add_exercise_btn)
         editBtn = panel.findViewById(R.id.edit_btn)
-
-        // Set the click listeners
-        newExerciseBtn.setOnClickListener {
-            StateEngine.panelAdapter
-                .displayTemporaryPanel(ExercisePanel(BaseExercisePanel.Mode.SELECT_MUSCLE_GROUP))
-        }
-
-        editBtn.setOnClickListener {
-            AddEditWorkoutDialog(requireContext(), AddEditWorkoutDialog.Mode.EDIT).show()
-        }
-
-        noWorkoutContent.setOnClickListener {
-            AddEditWorkoutDialog(requireContext(), AddEditWorkoutDialog.Mode.ADD).show()
-        }
-
-        // Set buttons visibility
-        setButtonsVisibility()
-
-        // Populate the panel
-        populatePanel()
     }
 
-    override fun onResume() {
-        super.onResume()
-        populatePanel()
-    }
-
-    /** Populates the data in the panel with the current workout */
-    fun populatePanel() {
+    override fun populatePanel() {
         if (StateEngine.workout != null) {
             mainContent.visibility = View.VISIBLE
             noWorkoutContent.visibility = View.GONE
@@ -89,6 +67,21 @@ class SelectedWorkoutPanel : PanelFragment() {
 
         // Set buttons visibility
         setButtonsVisibility()
+    }
+
+    override fun addClickListeners() {
+        newExerciseBtn.setOnClickListener {
+            StateEngine.panelAdapter
+                .displayTemporaryPanel(ExercisePanel(BaseExercisePanel.Mode.SELECT_MUSCLE_GROUP))
+        }
+
+        editBtn.setOnClickListener {
+            AddEditWorkoutDialog(requireContext(), AddEditWorkoutDialog.Mode.EDIT).show()
+        }
+
+        noWorkoutContent.setOnClickListener {
+            AddEditWorkoutDialog(requireContext(), AddEditWorkoutDialog.Mode.ADD).show()
+        }
     }
 
     /** Return the exercises recycler adapter */

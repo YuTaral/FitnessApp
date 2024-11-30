@@ -62,7 +62,7 @@ class AddEditMGExerciseDialog(ctx: Context, mGroupId: Long, exercise: MGExercise
             addExerciseToWorkout.visibility = View.GONE
         }
 
-        if (StateEngine.panelAdapter.getManageExercisesPanel() != null) {
+        if (StateEngine.panelAdapter.isManageExerciseActive()) {
             // Remove the add exercise to workout checkbox if we are
             // managing the exercises
             addExerciseToWorkout.visibility = View.GONE
@@ -181,7 +181,7 @@ class AddEditMGExerciseDialog(ctx: Context, mGroupId: Long, exercise: MGExercise
     }
     /** Returns "Y" if ManageExercisePanel is active, "N" otherwise */
     private fun getOnlyForUserParam(): String {
-        return if (StateEngine.panelAdapter.getManageExercisesPanel() != null) {
+        return if (StateEngine.panelAdapter.isManageExerciseActive()) {
             "Y"
         } else {
             "N"

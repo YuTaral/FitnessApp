@@ -23,15 +23,22 @@ class ManageExercisesPanel(mode: Mode): BaseExercisePanel(mode) {
 
     private var actionSpinnerEditExIndex: Int = 1
 
-    override fun additionalPanelInitialization() {
+    override fun findViews() {
+        super.findViews()
         actionSpinner = panel.findViewById(R.id.exercise_action_spinner)
+    }
 
+    override fun populatePanel() {
+        super.populatePanel()
         actionSpinner.adapter = CustomSpinnerAdapter(panel.context, true, listOf(
             requireContext().getString(R.string.select_action_lbl),
             requireContext().getString(R.string.action_update_exercise),
             requireContext().getString(R.string.action_delete_exercise))
         )
+    }
 
+    override fun addClickListeners() {
+        super.addClickListeners()
         addBtn.setOnClickListener { AddEditMGExerciseDialog(requireContext(), selectedMuscleGroup!!.id).show() }
     }
 
