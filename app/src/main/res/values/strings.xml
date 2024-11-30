@@ -98,4 +98,10 @@
     <string name="old_password_lbl">Old password</string>
     <string name="q_log_out_title">Log out</string>
     <string name="q_log_out_text">Are you sure you want to Log out?</string>
+    <string name="exercise_default_values_lbl">Exercise default values</string>
+    <string name="default_values_explanation_lbl">Enter the default values which will be used when starting exercise. These values can be override with Manage Exercises function</string>
+    <string name="weight_unit_lbl">Weight unit</string>
+    <string name="weight_unit_lb_lbl">Lb</string>
+    <string name="weight_unit_kg_lbl">Kg</string>
+
 </resources>

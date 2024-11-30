@@ -23,6 +23,13 @@ class CustomSpinnerAdapter(context: Context, selectOptionExists: Boolean, data: 
     /** True if the first item should not be bolded, false otherwise */
     private val removeBoldFirst: Boolean = selectOptionExists
 
+    /** Return the item index
+     * @param item the item text
+     */
+    fun getItemIndex(item: String): Int {
+        return items.indexOf(item)
+    }
+
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view = convertView ?: LayoutInflater.from(context).inflate(R.layout.custom_spinner_style, parent, false)
         val textView = view.findViewById<TextView>(R.id.item_text)

@@ -14,6 +14,9 @@ class UserModel(data: String) {
     @SerializedName("Email")
     val email: String
 
+    @SerializedName("DefaultValues")
+    val defaultValues: UserDefaultValuesModel
+
     /** Init method, deserializes data into UserModel object */
     init {
         val gson = Gson()
@@ -21,5 +24,6 @@ class UserModel(data: String) {
 
         id = model.id
         email = model.email
+        defaultValues = model.defaultValues
     }
 }
