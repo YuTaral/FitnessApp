@@ -37,7 +37,7 @@ class TemplatesPanel: PanelFragment() {
         populatePanel()
 
         // Click listeners
-        closeBtn.setOnClickListener { StateEngine.panelAdapter.displayWorkoutPanel() }
+        closeBtn.setOnClickListener { StateEngine.panelAdapter.displayWorkoutPanel(null) }
     }
 
     /** Populates the data in the panel */
@@ -86,7 +86,7 @@ class TemplatesPanel: PanelFragment() {
                 }
             })
         }, onError = {
-            StateEngine.panelAdapter.displayWorkoutPanel()
+            StateEngine.panelAdapter.displayWorkoutPanel(null)
         })
     }
 }

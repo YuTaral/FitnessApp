@@ -75,7 +75,17 @@ class DefaultValuesDialog(ctx: Context): BaseDialog(ctx) {
 
         UserRepository().changeUserDefaultValues(model, onSuccess = { values ->
             dismiss()
+
+            // Store the old weight unit
+            val oldWeightUnit = StateEngine.user.defaultValues.weightUnitText
+
+            // Update the user
             StateEngine.user.defaultValues = values
+
+            // If weight unit changed, refresh the workouts / workout to update the displayed unit
+            if (values.weightUnitText != oldWeightUnit) {
+                StateEngine.panelAdapter.refreshIfUnitChanged()
+            }
         })
     }
 }

@@ -42,7 +42,7 @@ class MainPanel: PanelFragment() {
     }
 
     /** Populates the data in the panel with the latest workouts */
-    private fun populatePanel() {
+    fun populatePanel() {
         WorkoutRepository().getWorkouts(onSuccess = { returnData ->
             workoutsRecycler.layoutManager = LinearLayoutManager(context)
             workoutsRecycler.adapter = WorkoutRecyclerAdapter(

@@ -122,9 +122,12 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
         }
     }
 
-    /** Display Workout panel  */
-    fun displayWorkoutPanel() {
-        pager.setCurrentItem(getWorkoutPanel().getIndex(), true)
+    /** Display Workout panel
+     * @param refreshWorkouts true if StateEngine variable to refresh workouts should be set to true,
+     * false otherwise. If null provided, the variable is not being changed
+     */
+    fun displayWorkoutPanel(refreshWorkouts: Boolean?) {
+        displayWorkoutPanel(StateEngine.workout!!, refreshWorkouts)
     }
 
     /** Display Workout panel
@@ -158,7 +161,17 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
      */
     fun displayMainPanel(refreshWorkouts: Boolean) {
         StateEngine.refreshWorkouts = refreshWorkouts
-        pager.setCurrentItem(getMainPanel().getIndex(), true)
+        val index = getMainPanel().getIndex()
+
+        if (index != pager.currentItem) {
+            // If the index of the viewPager changes, this will trigger onResume(), which will re-populate
+            // the panel
+            pager.setCurrentItem(index, true)
+        } else {
+            // If the index of the viewPager does not change, this will not trigger onResume(), notify the listener
+            // to re-populate the panel
+            (getMainPanel() as MainPanel).populatePanel()
+        }
     }
 
     /** Display temporary panel
@@ -197,5 +210,22 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
             1 -> { getWorkoutPanel().getTitle() }
             else -> { getTemporaryPanel().getTitle() }
         }
+    }
+
+    /** Return true if the current active panel is the Main */
+    fun refreshIfUnitChanged() {
+       if (pager.currentItem == getMainPanel().getIndex()) {
+           // Refresh the main panel to update the weight unit displayed in the workout summary
+           displayMainPanel(true)
+
+       } else if (pager.currentItem == getWorkoutPanel().getIndex()) {
+           // Refresh the workout panel now and workouts panel later
+           displayWorkoutPanel(true)
+       } else {
+           // If temporary panel is active, refresh only the workouts, the panel is updated only
+           // when refreshWorkouts is set to true. Workout panel is updated each time it is selected
+           // and the units are auto updated
+           StateEngine.refreshWorkouts = true
+       }
     }
 }
