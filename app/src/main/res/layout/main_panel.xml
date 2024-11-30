@@ -24,6 +24,19 @@
         app:layout_constraintTop_toBottomOf="@+id/latest_workouts_lbl"
         app:layout_constraintBottom_toTopOf="@+id/new_workout_btn"/>
 
+    <TextView
+        android:id="@+id/no_workouts_lbl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:text="@string/no_workouts"
+        android:textStyle="italic"
+        android:background="@drawable/background_rounded_transparent"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <Button
         android:id="@+id/new_workout_btn"
         android:layout_width="130dp"
