@@ -21,7 +21,7 @@ import com.example.fitnessapp.utils.Utils
  * the workout name when starting workout from Template
  */
 @SuppressLint("InflateParams")
-class AddEditWorkoutDialog(ctx: Context, mode: Mode, workoutModel: WorkoutModel? = null): BaseAlertDialog(ctx) {
+class AddEditWorkoutDialog(ctx: Context, mode: Mode, workoutModel: WorkoutModel? = null): BaseDialog(ctx) {
     /** The dialog mode - add / edit */
     enum class Mode {
         ADD,

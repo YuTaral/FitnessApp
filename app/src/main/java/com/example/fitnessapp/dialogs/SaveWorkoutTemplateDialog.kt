@@ -13,7 +13,7 @@ import com.example.fitnessapp.utils.Utils
 
 /** Save workout template dialog to hold the logic to save the current workout as template */
 @SuppressLint("InflateParams")
-class SaveWorkoutTemplateDialog(ctx: Context): BaseAlertDialog(ctx) {
+class SaveWorkoutTemplateDialog(ctx: Context): BaseDialog(ctx) {
     override var layoutId = R.layout.save_workout_template_dialog
 
     private lateinit var templateName: EditText

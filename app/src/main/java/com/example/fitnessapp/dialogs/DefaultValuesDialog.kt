@@ -10,7 +10,7 @@ import com.example.fitnessapp.utils.StateEngine
 import com.example.fitnessapp.utils.Utils
 
 /** DefaultValuesDialog to enter user default values for exercise (sets, reps and weights) */
-class DefaultValuesDialog(ctx: Context): BaseAlertDialog(ctx) {
+class DefaultValuesDialog(ctx: Context): BaseDialog(ctx) {
     override var layoutId = R.layout.exercise_default_values_dialog
 
     private lateinit var sets: EditText

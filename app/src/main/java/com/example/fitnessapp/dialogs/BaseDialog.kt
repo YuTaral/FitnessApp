@@ -1,6 +1,6 @@
 package com.example.fitnessapp.dialogs
 
-import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,8 +9,8 @@ import android.widget.ImageView
 import com.example.fitnessapp.R
 import com.example.fitnessapp.utils.Utils
 
-/** Base Alert dialog class to implement the common logic for all alert dialogs */
-abstract class BaseAlertDialog(ctx: Context): AlertDialog(ctx, R.style.Theme_FitnessApp_AlertDialog) {
+/** Base dialog class to implement the common logic for all alert dialogs */
+abstract class BaseDialog(ctx: Context): Dialog(ctx, R.style.Theme_FitnessApp_AlertDialog) {
     /** The dialog layout */
     protected open var layoutId = 0
 

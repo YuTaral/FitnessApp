@@ -19,7 +19,7 @@ import com.example.fitnessapp.utils.Utils
 
 /** Edit Exercise dialog to hold the logic to edit exercise */
 @SuppressLint("InflateParams")
-class EditExerciseFromWorkoutDialog(ctx: Context, exerciseModel: ExerciseModel): BaseAlertDialog(ctx) {
+class EditExerciseFromWorkoutDialog(ctx: Context, exerciseModel: ExerciseModel): BaseDialog(ctx) {
     override var layoutId = R.layout.edit_exercise_dialog
 
     private var exercise = exerciseModel

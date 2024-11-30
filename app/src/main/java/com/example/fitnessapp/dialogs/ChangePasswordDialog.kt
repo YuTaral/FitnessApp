@@ -12,7 +12,7 @@ import com.example.fitnessapp.utils.Utils
  * @param ctx the context
  */
 @SuppressLint("InflateParams")
-class ChangePasswordDialog(ctx: Context): BaseAlertDialog(ctx) {
+class ChangePasswordDialog(ctx: Context): BaseDialog(ctx) {
     override var layoutId = R.layout.change_password_dialog
 
     private lateinit var oldPassword: EditText
