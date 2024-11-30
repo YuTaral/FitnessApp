@@ -2,9 +2,9 @@ package com.example.fitnessapp.dialogs
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.view.View
 import android.widget.Button
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import com.example.fitnessapp.R
 import com.example.fitnessapp.models.BaseModel
 import com.example.fitnessapp.models.MGExerciseModel
@@ -13,14 +13,15 @@ import com.example.fitnessapp.utils.Utils
 
 /** Dialog used to ask a question and execute a callback on confirm */
 @SuppressLint("InflateParams")
-class DialogAskQuestion(ctx: Context, q: Question, d: BaseModel): BaseAlertDialog(ctx) {
+class DialogAskQuestion(ctx: Context, q: Question, d: BaseModel? = null): BaseAlertDialog(ctx) {
     /** Enum to hold all questions */
     enum class Question(private val titleId: Int, private val questionId: Int,
                         private val yesBtnTextId: Int, private val noBtnTextId: Int) {
 
         DELETE_TEMPLATE(R.string.question_delete_template_title, R.string.question_delete_template_text, R.string.yes_btn, R.string.no_btn),
         DELETE_MG_EXERCISE(R.string.question_delete_exercise_title, R.string.question_delete_exercise_text, R.string.yes_btn, R.string.no_btn),
-        OVERRIDE_EXISTING_EXERCISE(R.string.question_override_exercise_title, R.string.question_override_exercise_text, R.string.override_btn, R.string.create_new_btn);
+        OVERRIDE_EXISTING_EXERCISE(R.string.question_override_exercise_title, R.string.question_override_exercise_text, R.string.override_btn, R.string.create_new_btn),
+        LOG_OUT(R.string.q_log_out_title, R.string.q_log_out_text, R.string.yes_btn, R.string.no_btn);
 
         /** Returns the question title */
         fun getTitle(): String {
@@ -55,7 +56,6 @@ class DialogAskQuestion(ctx: Context, q: Question, d: BaseModel): BaseAlertDialo
     private lateinit var questionAdditionalInfo: TextView
     private lateinit var yesBtn: Button
     private lateinit var noBtn: Button
-    private lateinit var alertDialog: AlertDialog
 
     /** Setter for the callback which will be executed on confirm button click */
     fun setYesCallback(callback: () -> Unit) {
@@ -95,7 +95,10 @@ class DialogAskQuestion(ctx: Context, q: Question, d: BaseModel): BaseAlertDialo
                 val model = data as MGExerciseModel
 
                 formatName = model.name
+                questionAdditionalInfo.visibility = View.VISIBLE
                 questionAdditionalInfo.text = String.format(Utils.getContext().getString(R.string.mg_exercise_description), model.description)
+            } else -> {
+                // Nothing to do
             }
         }
 
@@ -112,7 +115,7 @@ class DialogAskQuestion(ctx: Context, q: Question, d: BaseModel): BaseAlertDialo
         if (::onNoCallback.isInitialized) {
             noBtn.setOnClickListener { onNoCallback() }
         } else {
-            noBtn.setOnClickListener { alertDialog.dismiss() }
+            noBtn.setOnClickListener { dismiss() }
         }
     }
 }

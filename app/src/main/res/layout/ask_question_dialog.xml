@@ -44,7 +44,8 @@
         android:maxLines="10"
         android:ellipsize="end"
         android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@+id/question_lbl" />
+        app:layout_constraintTop_toBottomOf="@+id/question_lbl"
+        android:visibility="gone"/>
 
     <Button
         android:id="@+id/no_btn"

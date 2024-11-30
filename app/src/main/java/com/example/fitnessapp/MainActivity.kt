@@ -11,6 +11,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.viewpager2.widget.ViewPager2
 import com.example.fitnessapp.adapters.PanelAdapter
 import com.example.fitnessapp.dialogs.ChangePasswordDialog
+import com.example.fitnessapp.dialogs.DialogAskQuestion
 import com.example.fitnessapp.dialogs.SaveWorkoutTemplateDialog
 import com.example.fitnessapp.network.repositories.UserRepository
 import com.example.fitnessapp.panels.BaseExercisePanel
@@ -144,13 +145,19 @@ class MainActivity : AppCompatActivity() {
     private fun leftDrawerSelected(menuItem: MenuItem) {
         when (menuItem.itemId) {
             R.id.nav_logout -> {
-                // Handle Logout
-                UserRepository().logout(onSuccess = {
-                    StateEngine.workout = null
-                    val intent = Intent(this, LoginActivity::class.java)
-                    startActivity(intent)
-                    finish()
-                })
+                // Handle Log Out, ask for confirmation first
+                val dialog = DialogAskQuestion(this, DialogAskQuestion.Question.LOG_OUT)
+
+                dialog.setYesCallback {
+                    UserRepository().logout(onSuccess = {
+                        StateEngine.workout = null
+                        val intent = Intent(this, LoginActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    })
+                }
+
+                dialog.show()
             }
             R.id.nav_change_pass -> {
                 // Open change password dialog

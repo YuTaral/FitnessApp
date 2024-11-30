@@ -87,7 +87,7 @@
     <string name="target_lbl">Target: %s</string>
     <string name="action_update_exercise">Update exercise</string>
     <string name="action_delete_exercise">Delete exercise</string>
-    <string name="question_delete_exercise_title">Delete Exercise</string>
+    <string name="question_delete_exercise_title">Delete exercise</string>
     <string name="question_delete_exercise_text">Are you sure you want to delete exercise \"%s\"</string>
     <string name="question_override_exercise_text">Exercise \"%s\" already exists. Do you want to override it by changing the description?</string>
     <string name="question_override_exercise_title">Override Exercise</string>
@@ -96,4 +96,6 @@
     <string name="complete_all_sets_lbl">Complete all sets</string>
     <string name="change_password_lbl">Change password</string>
     <string name="old_password_lbl">Old password</string>
+    <string name="q_log_out_title">Log out</string>
+    <string name="q_log_out_text">Are you sure you want to Log out?</string>
 </resources>
