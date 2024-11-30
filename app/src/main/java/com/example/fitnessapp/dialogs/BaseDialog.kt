@@ -9,7 +9,7 @@ import android.widget.ImageView
 import com.example.fitnessapp.R
 import com.example.fitnessapp.utils.Utils
 
-/** Base dialog class to implement the common logic for all alert dialogs */
+/** Base dialog class to implement the common logic for all dialogs */
 abstract class BaseDialog(ctx: Context): Dialog(ctx, R.style.Theme_FitnessApp_AlertDialog) {
     /** The dialog layout */
     protected open var layoutId = 0
