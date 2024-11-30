@@ -44,9 +44,18 @@ class DefaultValuesDialog(ctx: Context): BaseDialog(ctx) {
             spinnerDefaultIndex = 0
         }
 
-        sets.setText(StateEngine.user.defaultValues.sets.toString())
-        reps.setText(StateEngine.user.defaultValues.reps.toString())
-        weight.setText(StateEngine.user.defaultValues.weight.toString())
+        if (StateEngine.user.defaultValues.sets > 0) {
+            sets.setText(StateEngine.user.defaultValues.sets.toString())
+        }
+
+        if (StateEngine.user.defaultValues.reps > 0) {
+            reps.setText(StateEngine.user.defaultValues.reps.toString())
+        }
+
+        if (StateEngine.user.defaultValues.weight > 0) {
+            weight.setText(StateEngine.user.defaultValues.weight.toString())
+        }
+
         weightUnit.setSelection(spinnerDefaultIndex)
     }
 

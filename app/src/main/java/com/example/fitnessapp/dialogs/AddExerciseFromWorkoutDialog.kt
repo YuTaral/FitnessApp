@@ -40,6 +40,19 @@ class AddExerciseFromWorkoutDialog(ctx: Context, exercise: MGExerciseModel): Bas
 
     override fun populateDialog() {
         name.setText(exerciseToAdd.name)
+
+        if (StateEngine.user.defaultValues.sets > 0) {
+            sets.setText(StateEngine.user.defaultValues.sets.toString())
+        }
+
+        if (StateEngine.user.defaultValues.reps > 0) {
+            reps.setText(StateEngine.user.defaultValues.reps.toString())
+        }
+
+        if (StateEngine.user.defaultValues.weight > 0) {
+            weight.setText(StateEngine.user.defaultValues.weight.toString())
+        }
+
     }
 
     override fun addClickListeners() {
