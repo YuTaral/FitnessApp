@@ -90,7 +90,7 @@
                 android:id="@+id/weight_lbl"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:text="@string/weight_kg_lbl"
+                android:text="@string/weight_in_unit_lbl"
                 app:layout_constraintStart_toEndOf="@+id/reps_number_lbl"
                 app:layout_constraintTop_toTopOf="parent"/>
 

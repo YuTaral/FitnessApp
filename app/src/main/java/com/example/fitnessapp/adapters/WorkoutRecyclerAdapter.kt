@@ -10,6 +10,7 @@ import com.example.fitnessapp.R
 import com.example.fitnessapp.models.ExerciseModel
 import com.example.fitnessapp.models.SetModel
 import com.example.fitnessapp.models.WorkoutModel
+import com.example.fitnessapp.utils.StateEngine
 import com.example.fitnessapp.utils.Utils
 
 /** Recycler adapter to control the workouts data shown in the main panel */
@@ -55,20 +56,20 @@ class WorkoutRecyclerAdapter (data: List<WorkoutModel>, onClick: (WorkoutModel) 
         @SuppressLint("SetTextI18n")
         fun bind(item: WorkoutModel, onClickCallback: (WorkoutModel) -> Unit) {
             var exercisesText = ""
-            var totalKg = 0.0
+            var totalWeight = 0.0
             var totalReps = 0
-            var completedKg = 0.0
+            var completedWeight = 0.0
             var completedReps = 0
 
             for (e: ExerciseModel in item.exercises) {
                 exercisesText = exercisesText + e.name + ", "
 
                 for (s : SetModel in e.sets) {
-                    totalKg += s.weight
+                    totalWeight += s.weight
                     totalReps += s.reps
 
                     if (s.completed) {
-                        completedKg += s.weight
+                        completedWeight += s.weight
                         completedReps += s.reps
                     }
                 }
@@ -87,7 +88,7 @@ class WorkoutRecyclerAdapter (data: List<WorkoutModel>, onClick: (WorkoutModel) 
             }
 
             total.text = String.format(Utils.getContext().getText(R.string.workout_summary_lbl).toString(),
-                        completedKg, totalKg, completedReps, totalReps)
+                        completedWeight, totalWeight, StateEngine.user.defaultValues.weightUnitText, completedReps, totalReps)
 
             // Add click listener to select the workout
             itemView.setOnClickListener {

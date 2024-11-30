@@ -9,6 +9,7 @@ import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
 import com.example.fitnessapp.R
 import com.example.fitnessapp.models.ExerciseModel
 import com.example.fitnessapp.models.MuscleGroupModel
@@ -26,6 +27,7 @@ class EditExerciseFromWorkoutDialog(ctx: Context, exerciseModel: ExerciseModel):
     private var allCompleted: Boolean = true
 
     private lateinit var name: EditText
+    private lateinit var weightLbl: TextView
     private lateinit var setsContainer: LinearLayout
     private lateinit var chbCompleteAll: CheckBox
     private lateinit var addSetBtn: Button
@@ -34,6 +36,7 @@ class EditExerciseFromWorkoutDialog(ctx: Context, exerciseModel: ExerciseModel):
 
     override fun findViews() {
         name = dialogView.findViewById(R.id.exercise_name)
+        weightLbl = dialogView.findViewById(R.id.weight_lbl)
         setsContainer = dialogView.findViewById(R.id.set_items_container)
         chbCompleteAll = dialogView.findViewById(R.id.complete_all_sets)
         addSetBtn = dialogView.findViewById(R.id.add_set_btn)
@@ -43,6 +46,9 @@ class EditExerciseFromWorkoutDialog(ctx: Context, exerciseModel: ExerciseModel):
 
     override fun populateDialog() {
         name.setText(exercise.name)
+        weightLbl.text = String.format(Utils.getContext().getString(R.string.weight_in_unit_lbl),
+                                    StateEngine.user.defaultValues.weightUnitText)
+
         exercise.sets.map { addSetToContainer(it, setsContainer, true) }
 
         if (exercise.sets.isEmpty()) {

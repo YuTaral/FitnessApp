@@ -14,6 +14,7 @@ import com.example.fitnessapp.R
 import com.example.fitnessapp.dialogs.EditExerciseFromWorkoutDialog
 import com.example.fitnessapp.models.ExerciseModel
 import com.example.fitnessapp.models.SetModel
+import com.example.fitnessapp.utils.StateEngine
 import com.example.fitnessapp.utils.Utils
 
 /** Recycler adapter to control the data (exercises) shown for each workout */
@@ -50,6 +51,7 @@ class ExerciseRecyclerAdapter(data: List<ExerciseModel>) : RecyclerView.Adapter<
     /** Class to represent exercise item view holder - each exercise */
     class ExerciseItem(view: View) : RecyclerView.ViewHolder(view) {
         private var exerciseName: TextView = itemView.findViewById(R.id.exercise_name_txt)
+        private var weightLbl: TextView = itemView.findViewById(R.id.weight_lbl)
         private var editBtn: ImageView = itemView.findViewById(R.id.exercise_edit_btn)
         private var expandSymbol: ImageView = itemView.findViewById(R.id.exercise_expand_collapse_symbol)
         private var targetMuscleGroup: TextView = itemView.findViewById(R.id.target_muscle_group)
@@ -62,6 +64,10 @@ class ExerciseRecyclerAdapter(data: List<ExerciseModel>) : RecyclerView.Adapter<
         fun bind(item: ExerciseModel) {
             // Set the exercise data
             exerciseName.text = item.name
+
+            weightLbl.text = String.format(Utils.getContext().getString(R.string.weight_in_unit_lbl),
+                StateEngine.user.defaultValues.weightUnitText)
+
             targetMuscleGroup.text = String.format(Utils.getContext().getString(R.string.target_lbl), item.muscleGroup.name)
 
             // Add the sets
