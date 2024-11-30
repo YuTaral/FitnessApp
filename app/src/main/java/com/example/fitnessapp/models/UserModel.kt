@@ -15,7 +15,7 @@ class UserModel(data: String) {
     val email: String
 
     @SerializedName("DefaultValues")
-    val defaultValues: UserDefaultValuesModel
+    var defaultValues: UserDefaultValuesModel
 
     /** Init method, deserializes data into UserModel object */
     init {

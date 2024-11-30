@@ -16,8 +16,8 @@ class UserDefaultValuesModel: BaseModel {
     @SerializedName("Weight")
     val weight: Double
 
-    @SerializedName("WeightUnit")
-    val weightUnit: String
+    @SerializedName("WeightUnitText")
+    val weightUnitText: String
 
     /** Constructor to accept serialized object
      * @param data serialized SetModel object
@@ -29,7 +29,7 @@ class UserDefaultValuesModel: BaseModel {
         sets = model.sets
         reps = model.reps
         weight = model.weight
-        weightUnit = model.weightUnit
+        weightUnitText = model.weightUnitText
     }
 
     /** Constructor to create new object */
@@ -37,6 +37,6 @@ class UserDefaultValuesModel: BaseModel {
         sets = setsVal
         reps = repsVal
         weight = weightVal
-        weightUnit = weightUnitVal
+        weightUnitText = weightUnitVal
     }
 }

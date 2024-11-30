@@ -6,6 +6,8 @@ import android.widget.EditText
 import android.widget.Spinner
 import com.example.fitnessapp.R
 import com.example.fitnessapp.adapters.CustomSpinnerAdapter
+import com.example.fitnessapp.models.UserDefaultValuesModel
+import com.example.fitnessapp.network.repositories.UserRepository
 import com.example.fitnessapp.utils.StateEngine
 import com.example.fitnessapp.utils.Utils
 
@@ -37,7 +39,7 @@ class DefaultValuesDialog(ctx: Context): BaseDialog(ctx) {
         ))
 
         spinnerDefaultIndex = (weightUnit.adapter as CustomSpinnerAdapter)
-            .getItemIndex(StateEngine.user.defaultValues.weightUnit)
+            .getItemIndex(StateEngine.user.defaultValues.weightUnitText)
         if (spinnerDefaultIndex < 0) {
             spinnerDefaultIndex = 0
         }
@@ -54,6 +56,26 @@ class DefaultValuesDialog(ctx: Context): BaseDialog(ctx) {
 
     /** Executed on save button click. Used to save the default values */
     private fun save() {
+        var exerciseSets = 0
+        var setReps = 0
+        var exerciseWeight = 0.0
 
+        if (sets.text.toString().isNotEmpty()) {
+            exerciseSets = sets.text.toString().toInt()
+        }
+        if (reps.text.toString().isNotEmpty()) {
+            setReps = reps.text.toString().toInt()
+        }
+        if (weight.text.toString().isNotEmpty()) {
+            exerciseWeight = weight.text.toString().toDouble()
+        }
+
+        val model = UserDefaultValuesModel(StateEngine.user.defaultValues.id,
+                    exerciseSets, setReps, exerciseWeight, weightUnit.selectedItem.toString())
+
+        UserRepository().changeUserDefaultValues(model, onSuccess = { values ->
+            dismiss()
+            StateEngine.user.defaultValues = values
+        })
     }
 }
