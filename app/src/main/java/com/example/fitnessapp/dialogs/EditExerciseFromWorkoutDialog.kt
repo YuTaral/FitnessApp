@@ -9,6 +9,7 @@ import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ScrollView
 import android.widget.TextView
 import com.example.fitnessapp.R
 import com.example.fitnessapp.models.ExerciseModel
@@ -28,6 +29,7 @@ class EditExerciseFromWorkoutDialog(ctx: Context, exerciseModel: ExerciseModel):
 
     private lateinit var name: EditText
     private lateinit var weightLbl: TextView
+    private lateinit var setsScroller: ScrollView
     private lateinit var setsContainer: LinearLayout
     private lateinit var chbCompleteAll: CheckBox
     private lateinit var addSetBtn: Button
@@ -37,6 +39,7 @@ class EditExerciseFromWorkoutDialog(ctx: Context, exerciseModel: ExerciseModel):
     override fun findViews() {
         name = dialogView.findViewById(R.id.exercise_name)
         weightLbl = dialogView.findViewById(R.id.weight_lbl)
+        setsScroller = dialogView.findViewById(R.id.sets_scroller)
         setsContainer = dialogView.findViewById(R.id.set_items_container)
         chbCompleteAll = dialogView.findViewById(R.id.complete_all_sets)
         addSetBtn = dialogView.findViewById(R.id.add_set_btn)
@@ -62,10 +65,21 @@ class EditExerciseFromWorkoutDialog(ctx: Context, exerciseModel: ExerciseModel):
     }
 
     override fun addClickListeners() {
-        chbCompleteAll.setOnClickListener { changeSetsCompletedState() }
         addSetBtn.setOnClickListener {
-            addSetToContainer(SetModel(), setsContainer, false)
+            // Create set with the default values
+            val set = SetModel(0, StateEngine.user.defaultValues.reps,
+                                        StateEngine.user.defaultValues.weight,
+                                        StateEngine.user.defaultValues.completed)
+
+            addSetToContainer(set, setsContainer, false)
+
+            // Auto scroll to the bottom of the sets container so the newly added set is visible
+            setsScroller.post {
+                setsScroller.fullScroll(View.FOCUS_DOWN)
+            }
         }
+
+        chbCompleteAll.setOnClickListener { changeSetsCompletedState() }
         saveBtn.setOnClickListener { save() }
         deleteBtn.setOnClickListener { delete() }
     }
