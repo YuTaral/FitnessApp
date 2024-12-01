@@ -144,7 +144,9 @@ abstract class BaseExercisePanel(mode: Mode): PanelFragment() {
             })
 
         } else {
-            (exercisesRecycler.adapter as MGExercisesRecyclerAdapter).updateData(exercises)
+            (exercisesRecycler.adapter as MGExercisesRecyclerAdapter).updateData(exercises,callback = { model ->
+                onExerciseSelectCallback(model)
+            })
         }
     }
 
@@ -186,7 +188,7 @@ abstract class BaseExercisePanel(mode: Mode): PanelFragment() {
             exercisesRecycler.layoutManager = LinearLayoutManager(context)
             exercisesRecycler.adapter = MGExercisesRecyclerAdapter(mutableListOf(), callback = {})
         } else {
-            (exercisesRecycler.adapter as MGExercisesRecyclerAdapter).updateData(mutableListOf())
+            (exercisesRecycler.adapter as MGExercisesRecyclerAdapter).updateData(mutableListOf(), callback = {})
         }
     }
 

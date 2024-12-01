@@ -38,11 +38,13 @@ class MGExercisesRecyclerAdapter(data: List<MGExerciseModel>, callback: (MGExerc
 
     /** Updates the exercises with the provided data
      * @param data the new exercises
+     * @param callback the new callback
      */
     @SuppressLint("NotifyDataSetChanged")
-    fun updateData(data: List<MGExerciseModel>) {
+    fun updateData(data: List<MGExerciseModel>, callback: (MGExerciseModel) -> Unit) {
         exercises.clear()
         exercises.addAll(data)
+        onClickCallback = callback
         notifyDataSetChanged()
     }
 
