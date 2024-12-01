@@ -92,8 +92,7 @@ class EditExerciseFromWorkoutDialog(ctx: Context, exerciseModel: ExerciseModel):
         }
 
         if (set.weight > 0) {
-            inflatableView.findViewById<EditText>(R.id.weight_txt)
-                .setText(String.format("%.3f", set.weight))
+            inflatableView.findViewById<EditText>(R.id.weight_txt).setText(Utils.formatDouble(set.weight))
         }
 
         // Add listener to the remove icon

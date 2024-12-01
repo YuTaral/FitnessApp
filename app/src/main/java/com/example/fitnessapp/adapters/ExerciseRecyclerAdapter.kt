@@ -111,7 +111,7 @@ class ExerciseRecyclerAdapter(data: List<ExerciseModel>) : RecyclerView.Adapter<
                 }
 
                 if (set.weight > 0) {
-                    inflatableView.findViewById<TextView>(R.id.weight_lbl).text = String.format("%.3f", set.weight)
+                    inflatableView.findViewById<TextView>(R.id.weight_lbl).text = Utils.formatDouble(set.weight)
                 }
 
                 val completedCheckBox = inflatableView.findViewById<CheckBox>(R.id.completed)

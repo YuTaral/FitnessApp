@@ -195,4 +195,15 @@ object Utils {
 
         view.animate().translationX(0f).alpha(1f).setDuration(350).start()
     }
+
+    /** Format a double value depending on the value after the decimal point.
+     * @param value the value
+     */
+    fun formatDouble(value: Double): String {
+        return if (value % 1 == 0.0) {
+            String.format("%.0f", value)
+        } else {
+            String.format("%.3f", value)
+        }
+    }
 }
