@@ -3,7 +3,7 @@ package com.example.fitnessapp.panels
 import android.view.View
 import com.example.fitnessapp.R
 import com.example.fitnessapp.dialogs.AddEditMGExerciseDialog
-import com.example.fitnessapp.dialogs.AddExerciseFromWorkoutDialog
+import com.example.fitnessapp.dialogs.AddExerciseToWorkoutDialog
 import com.example.fitnessapp.models.MGExerciseModel
 import com.example.fitnessapp.utils.Constants
 
@@ -35,6 +35,6 @@ class ExercisePanel(mode: Mode): BaseExercisePanel(mode) {
     }
 
     override fun onExerciseSelectCallback(model: MGExerciseModel) {
-        AddExerciseFromWorkoutDialog(requireContext(), model).show()
+        AddExerciseToWorkoutDialog(requireContext(), model).show()
     }
 }
