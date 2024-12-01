@@ -64,7 +64,7 @@
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:text="@string/sets_lbl"
-            android:labelFor="@+id/exercise_name"
+            android:labelFor="@+id/exercise_sets"
             app:layout_constraintTop_toTopOf="@+id/exercise_sets"
             app:layout_constraintBottom_toBottomOf="@+id/exercise_sets"
             app:layout_constraintStart_toStartOf="parent"/>
@@ -78,7 +78,7 @@
             android:inputType="number"
             android:autofillHints=""
             android:imeOptions="actionNext"
-            android:nextFocusDown="@+id/exercise_weight"
+            android:nextFocusDown="@+id/exercise_reps"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@+id/exercise_sets_lbl"/>
 
@@ -88,7 +88,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
             android:text="@string/reps_lbl"
-            android:labelFor="@+id/exercise_name"
+            android:labelFor="@+id/set_reps"
             app:layout_constraintTop_toTopOf="@+id/set_reps"
             app:layout_constraintBottom_toBottomOf="@+id/set_reps"
             app:layout_constraintStart_toEndOf="@+id/exercise_sets"/>
@@ -110,7 +110,7 @@
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:text="@string/weight_lbl"
-            android:labelFor="@+id/exercise_name"
+            android:labelFor="@+id/exercise_weight"
             app:layout_constraintTop_toTopOf="@+id/exercise_weight"
             app:layout_constraintBottom_toBottomOf="@+id/exercise_weight"
             app:layout_constraintStart_toStartOf="parent"/>
@@ -131,7 +131,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:checked="true"
             android:text="@string/exercise_completed_lbl"
             app:layout_constraintStart_toStartOf="@+id/set_reps_lbl"
             app:layout_constraintTop_toTopOf="@+id/exercise_weight"

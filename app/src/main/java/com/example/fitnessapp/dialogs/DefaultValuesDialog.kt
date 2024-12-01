@@ -2,6 +2,7 @@ package com.example.fitnessapp.dialogs
 
 import android.content.Context
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.Spinner
 import com.example.fitnessapp.R
@@ -18,6 +19,7 @@ class DefaultValuesDialog(ctx: Context): BaseDialog(ctx) {
     private lateinit var sets: EditText
     private lateinit var reps: EditText
     private lateinit var weight: EditText
+    private lateinit var completed: CheckBox
     private lateinit var weightUnit: Spinner
     private lateinit var saveBtn: Button
 
@@ -25,6 +27,7 @@ class DefaultValuesDialog(ctx: Context): BaseDialog(ctx) {
         sets = dialogView.findViewById(R.id.exercise_sets)
         reps = dialogView.findViewById(R.id.set_reps)
         weight = dialogView.findViewById(R.id.exercise_weight)
+        completed = dialogView.findViewById(R.id.complete_exercise)
         weightUnit = dialogView.findViewById(R.id.weight_unit)
         saveBtn = dialogView.findViewById(R.id.save_btn)
     }
@@ -51,6 +54,8 @@ class DefaultValuesDialog(ctx: Context): BaseDialog(ctx) {
         if (StateEngine.user.defaultValues.reps > 0) {
             reps.setText(StateEngine.user.defaultValues.reps.toString())
         }
+
+        completed.isChecked = StateEngine.user.defaultValues.completed
 
         if (StateEngine.user.defaultValues.weight > 0) {
             weight.setText(StateEngine.user.defaultValues.weight.toString())
@@ -80,7 +85,7 @@ class DefaultValuesDialog(ctx: Context): BaseDialog(ctx) {
         }
 
         val model = UserDefaultValuesModel(StateEngine.user.defaultValues.id,
-                    exerciseSets, setReps, exerciseWeight, weightUnit.selectedItem.toString())
+                    exerciseSets, setReps, exerciseWeight, completed.isChecked, weightUnit.selectedItem.toString())
 
         UserRepository().changeUserDefaultValues(model, onSuccess = { values ->
             dismiss()
