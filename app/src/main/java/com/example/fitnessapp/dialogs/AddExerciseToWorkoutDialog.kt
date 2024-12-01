@@ -17,7 +17,7 @@ import com.example.fitnessapp.utils.Utils
  * adding exercise / updating exercise as part of workout
  */
 @SuppressLint("InflateParams")
-class AddExerciseFromWorkoutDialog(ctx: Context, exercise: MGExerciseModel): BaseDialog(ctx) {
+class AddExerciseToWorkoutDialog(ctx: Context, exercise: MGExerciseModel): BaseDialog(ctx) {
     override var layoutId = R.layout.add_exercise_dialog
 
     private var exerciseToAdd = exercise
