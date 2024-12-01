@@ -58,7 +58,7 @@ class DefaultValuesDialog(ctx: Context): BaseDialog(ctx) {
         completed.isChecked = StateEngine.user.defaultValues.completed
 
         if (StateEngine.user.defaultValues.weight > 0) {
-            weight.setText(StateEngine.user.defaultValues.weight.toString())
+            weight.setText(Utils.formatDouble(StateEngine.user.defaultValues.weight))
         }
 
         weightUnit.setSelection(spinnerDefaultIndex)
