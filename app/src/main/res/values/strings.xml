@@ -70,7 +70,7 @@
     <string name="manage_templates_lbl">Manage Templates</string>
     <string name="manage_exercises_lbl">Manage Exercises</string>
     <string name="question_delete_template_title">Delete Template</string>
-    <string name="question_delete_template_text">Are you sure you want to delete template \"%s\"</string>
+    <string name="question_delete_template_text">Are you sure you want to delete template \"%s\" ?</string>
     <string name="template_deleted">Template successfully deleted</string>
     <string name="action_start_workout_from_template">Start workout</string>
     <string name="action_delete_template">Delete template</string>
@@ -88,7 +88,7 @@
     <string name="action_update_exercise">Update exercise</string>
     <string name="action_delete_exercise">Delete exercise</string>
     <string name="question_delete_exercise_title">Delete exercise</string>
-    <string name="question_delete_exercise_text">Are you sure you want to delete exercise \"%s\"</string>
+    <string name="question_delete_exercise_text">Are you sure you want to delete exercise \"%s\" ?</string>
     <string name="question_override_exercise_text">Exercise \"%s\" already exists. Do you want to override it by changing the description?</string>
     <string name="question_override_exercise_title">Override Exercise</string>
     <string name="search_hint_lbl">Search…</string>
@@ -97,7 +97,7 @@
     <string name="change_password_lbl">Change password</string>
     <string name="old_password_lbl">Old password</string>
     <string name="q_log_out_title">Log out</string>
-    <string name="q_log_out_text">Are you sure you want to Log out?</string>
+    <string name="q_log_out_text">Are you sure you want to Log out ?</string>
     <string name="exercise_default_values_lbl">Exercise default values</string>
     <string name="default_values_explanation_lbl">Enter the default values which will be used when starting exercise. These values can be override with Manage Exercises function</string>
     <string name="weight_unit_lbl">Weight unit</string>
@@ -105,5 +105,8 @@
     <string name="weight_unit_kg_lbl">Kg</string>
     <string name="no_workouts">You don\'t have any workouts yet.\nClick New Workout to start a workout</string>
     <string name="completed_def_value_lbl">Completed</string>
-
+    <string name="question_delete_workout_title">Delete Workout</string>
+    <string name="question_delete_workout_text">Are you sure you want to delete workout \"%s\" ?</string>
+    <string name="question_delete_exercise_from_workout_title">Delete exercise from workout</string>
+    <string name="question_delete_exercise_from_workout_text">Are you sure you want to delete exercise \"%s\" from the current workout ?</string>
 </resources>

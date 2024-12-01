@@ -131,11 +131,18 @@ class AddEditWorkoutDialog(ctx: Context, mode: Mode, workoutModel: WorkoutModel?
 
     /** Executed on Delete button click */
     private fun delete() {
-        // Send a request to delete the workout
-        WorkoutRepository().deleteWorkout(StateEngine.workout!!.id, onSuccess = {
-            dismiss()
-            StateEngine.workout = null
-            StateEngine.panelAdapter.displayMainPanel(true)
-        })
+        val dialog = AskQuestionDialog(Utils.getContext(), AskQuestionDialog.Question.DELETE_WORKOUT, StateEngine.workout!!)
+
+        dialog.setYesCallback {
+            // Send a request to delete the workout
+            WorkoutRepository().deleteWorkout(StateEngine.workout!!.id, onSuccess = {
+                dialog.dismiss()
+                dismiss()
+                StateEngine.workout = null
+                StateEngine.panelAdapter.displayMainPanel(true)
+            })
+        }
+
+        dialog.show()
     }
 }

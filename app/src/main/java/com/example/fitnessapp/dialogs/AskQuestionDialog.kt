@@ -7,6 +7,7 @@ import android.widget.Button
 import android.widget.TextView
 import com.example.fitnessapp.R
 import com.example.fitnessapp.models.BaseModel
+import com.example.fitnessapp.models.ExerciseModel
 import com.example.fitnessapp.models.MGExerciseModel
 import com.example.fitnessapp.models.WorkoutModel
 import com.example.fitnessapp.utils.Utils
@@ -21,7 +22,9 @@ class AskQuestionDialog(ctx: Context, q: Question, d: BaseModel? = null): BaseDi
         DELETE_TEMPLATE(R.string.question_delete_template_title, R.string.question_delete_template_text, R.string.yes_btn, R.string.no_btn),
         DELETE_MG_EXERCISE(R.string.question_delete_exercise_title, R.string.question_delete_exercise_text, R.string.yes_btn, R.string.no_btn),
         OVERRIDE_EXISTING_EXERCISE(R.string.question_override_exercise_title, R.string.question_override_exercise_text, R.string.override_btn, R.string.create_new_btn),
-        LOG_OUT(R.string.q_log_out_title, R.string.q_log_out_text, R.string.yes_btn, R.string.no_btn);
+        LOG_OUT(R.string.q_log_out_title, R.string.q_log_out_text, R.string.yes_btn, R.string.no_btn),
+        DELETE_WORKOUT(R.string.question_delete_workout_title, R.string.question_delete_workout_text, R.string.yes_btn, R.string.no_btn),
+        DELETE_EXERCISE_FROM_WORKOUT(R.string.question_delete_exercise_from_workout_title, R.string.question_delete_exercise_from_workout_text, R.string.yes_btn, R.string.no_btn);
 
         /** Returns the question title */
         fun getTitle(): String {
@@ -97,7 +100,17 @@ class AskQuestionDialog(ctx: Context, q: Question, d: BaseModel? = null): BaseDi
                 formatName = model.name
                 questionAdditionalInfo.visibility = View.VISIBLE
                 questionAdditionalInfo.text = String.format(Utils.getContext().getString(R.string.mg_exercise_description), model.description)
-            } else -> {
+            }
+
+            Question.DELETE_WORKOUT -> {
+                formatName = (data as WorkoutModel).name
+            }
+
+            Question.DELETE_EXERCISE_FROM_WORKOUT -> {
+                formatName = (data as ExerciseModel).name
+            }
+
+            else -> {
                 // Nothing to do
             }
         }
