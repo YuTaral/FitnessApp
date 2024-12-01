@@ -8,7 +8,7 @@ import com.example.fitnessapp.R
 import com.example.fitnessapp.adapters.CustomSpinnerAdapter
 import com.example.fitnessapp.adapters.WorkoutRecyclerAdapter
 import com.example.fitnessapp.dialogs.AddEditWorkoutDialog
-import com.example.fitnessapp.dialogs.DialogAskQuestion
+import com.example.fitnessapp.dialogs.AskQuestionDialog
 import com.example.fitnessapp.models.WorkoutModel
 import com.example.fitnessapp.network.repositories.WorkoutTemplateRepository
 import com.example.fitnessapp.utils.Constants
@@ -65,7 +65,7 @@ class TemplatesPanel: PanelFragment() {
 
                 } else  {
                     // Delete the question otherwise
-                    val dialog = DialogAskQuestion(requireContext(), DialogAskQuestion.Question.DELETE_TEMPLATE, template)
+                    val dialog = AskQuestionDialog(requireContext(), AskQuestionDialog.Question.DELETE_TEMPLATE, template)
 
                     dialog.setYesCallback(callback = {
                         WorkoutTemplateRepository().deleteWorkoutTemplate(template.id, onSuccess = {

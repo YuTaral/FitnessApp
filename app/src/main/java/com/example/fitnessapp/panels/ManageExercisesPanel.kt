@@ -4,7 +4,7 @@ import android.view.View
 import com.example.fitnessapp.R
 import com.example.fitnessapp.adapters.CustomSpinnerAdapter
 import com.example.fitnessapp.dialogs.AddEditMGExerciseDialog
-import com.example.fitnessapp.dialogs.DialogAskQuestion
+import com.example.fitnessapp.dialogs.AskQuestionDialog
 import com.example.fitnessapp.models.MGExerciseModel
 import com.example.fitnessapp.network.repositories.ExerciseRepository
 import com.example.fitnessapp.utils.Constants
@@ -69,7 +69,7 @@ class ManageExercisesPanel(mode: Mode): BaseExercisePanel(mode) {
 
         } else {
             // Delete exercise
-            val dialog = DialogAskQuestion(requireContext(), DialogAskQuestion.Question.DELETE_MG_EXERCISE, model)
+            val dialog = AskQuestionDialog(requireContext(), AskQuestionDialog.Question.DELETE_MG_EXERCISE, model)
 
             dialog.setYesCallback {
                 ExerciseRepository().deleteExercise(model.id, onSuccess = { mGExercises ->

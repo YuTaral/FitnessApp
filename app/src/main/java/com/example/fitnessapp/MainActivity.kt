@@ -12,7 +12,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.fitnessapp.adapters.PanelAdapter
 import com.example.fitnessapp.dialogs.ChangePasswordDialog
 import com.example.fitnessapp.dialogs.DefaultValuesDialog
-import com.example.fitnessapp.dialogs.DialogAskQuestion
+import com.example.fitnessapp.dialogs.AskQuestionDialog
 import com.example.fitnessapp.dialogs.SaveWorkoutTemplateDialog
 import com.example.fitnessapp.network.repositories.UserRepository
 import com.example.fitnessapp.panels.BaseExercisePanel
@@ -154,7 +154,7 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.nav_logout -> {
                 // Handle Log Out, ask for confirmation first
-                val dialog = DialogAskQuestion(this, DialogAskQuestion.Question.LOG_OUT)
+                val dialog = AskQuestionDialog(this, AskQuestionDialog.Question.LOG_OUT)
 
                 dialog.setYesCallback {
                     UserRepository().logout(onSuccess = {
