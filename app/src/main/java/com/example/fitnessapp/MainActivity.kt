@@ -148,7 +148,7 @@ class MainActivity : AppCompatActivity() {
         when (menuItem.itemId) {
             R.id.exercise_default_values -> {
                 UserProfileRepository().getWeightUnits(onSuccess = { weighUnits ->
-                    DefaultValuesDialog(this, weighUnits).show()
+                    DefaultValuesDialog(this, StateEngine.user.defaultValues, weighUnits).show()
                 })
             }
             R.id.nav_change_pass -> {

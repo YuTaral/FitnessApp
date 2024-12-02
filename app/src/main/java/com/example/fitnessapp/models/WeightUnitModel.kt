@@ -19,4 +19,9 @@ class WeightUnitModel: BaseModel {
 
         text = model.text
     }
+
+    /** Empty constructor */
+    constructor(): super(0) {
+        text = ""
+    }
 }

@@ -30,6 +30,9 @@ interface IAPIService {
     @GET("user-profile/get-weight-units")
     fun getWeightUnits(): Call<CustomResponse>
 
+    @GET("user-profile/get-user-default-values")
+    fun getUserDefaultValues(@Query("mgExerciseId") workoutId: Long): Call<CustomResponse>
+
     /** WORKOUT POST REQUESTS
      * -------------------------------------------------------------------------------- */
     @POST("workout/add")

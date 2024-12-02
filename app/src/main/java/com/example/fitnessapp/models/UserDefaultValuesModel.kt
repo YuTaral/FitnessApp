@@ -22,6 +22,10 @@ class UserDefaultValuesModel: BaseModel {
     @SerializedName("WeightUnit")
     val weightUnit: WeightUnitModel
 
+    @SerializedName("MGExerciseId")
+    val mGExerciseId: Long
+
+
     /** Constructor to accept serialized object
      * @param data serialized SetModel object
      */
@@ -34,14 +38,16 @@ class UserDefaultValuesModel: BaseModel {
         weight = model.weight
         completed = model.completed
         weightUnit = model.weightUnit
+        mGExerciseId = model.mGExerciseId
     }
 
     /** Constructor to create new object */
-    constructor(idVal: Long, setsVal: Int, repsVal: Int, weightVal: Double, completedVal: Boolean, weightUnitVal: WeightUnitModel): super(idVal) {
+    constructor(idVal: Long, setsVal: Int, repsVal: Int, weightVal: Double, completedVal: Boolean, weightUnitVal: WeightUnitModel, mGExerciseIdVal: Long): super(idVal) {
         sets = setsVal
         reps = repsVal
         weight = weightVal
         completed = completedVal
         weightUnit = weightUnitVal
+        mGExerciseId = mGExerciseIdVal
     }
 }

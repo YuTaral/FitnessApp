@@ -87,6 +87,7 @@
     <string name="target_lbl">Target: %s</string>
     <string name="action_update_exercise">Update exercise</string>
     <string name="action_delete_exercise">Delete exercise</string>
+    <string name="action_exercise_default_values">Update default values</string>
     <string name="question_delete_exercise_title">Delete exercise</string>
     <string name="question_delete_exercise_text">Are you sure you want to delete exercise \"%s\" ?</string>
     <string name="question_override_exercise_text">Exercise \"%s\" already exists. Do you want to override it by changing the description?</string>

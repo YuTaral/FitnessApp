@@ -14,10 +14,11 @@ import com.example.fitnessapp.utils.StateEngine
 import com.example.fitnessapp.utils.Utils
 
 /** DefaultValuesDialog to enter user default values for exercise (sets, reps and weights) */
-class DefaultValuesDialog(ctx: Context, weightUnits: List<WeightUnitModel>): BaseDialog(ctx) {
+class DefaultValuesDialog(ctx: Context, values: UserDefaultValuesModel, weightUnits: List<WeightUnitModel>?): BaseDialog(ctx) {
     override var layoutId = R.layout.exercise_default_values_dialog
 
     private var weightUnitsData = weightUnits
+    private var defaultValues = values
 
     private lateinit var sets: EditText
     private lateinit var reps: EditText
@@ -39,24 +40,39 @@ class DefaultValuesDialog(ctx: Context, weightUnits: List<WeightUnitModel>): Bas
         val ctx = Utils.getContext()
         var spinnerDefaultIndex: Int
 
-        if (StateEngine.user.defaultValues.sets > 0) {
-            sets.setText(StateEngine.user.defaultValues.sets.toString())
+        if (defaultValues.sets > 0) {
+            sets.setText(defaultValues.sets.toString())
         }
 
-        if (StateEngine.user.defaultValues.reps > 0) {
-            reps.setText(StateEngine.user.defaultValues.reps.toString())
+        if (defaultValues.reps > 0) {
+            reps.setText(defaultValues.reps.toString())
         }
 
-        completed.isChecked = StateEngine.user.defaultValues.completed
+        completed.isChecked = defaultValues.completed
 
-        if (StateEngine.user.defaultValues.weight > 0) {
-            weight.setText(Utils.formatDouble(StateEngine.user.defaultValues.weight))
+        if (defaultValues.weight > 0) {
+            weight.setText(Utils.formatDouble(defaultValues.weight))
         }
 
-        weightUnit.adapter = CustomSpinnerAdapter(ctx, false, weightUnitsData.map { it.text })
+        // Create the units displayed in the spinner
+        // If we are editing non-exercise specific values, display the data from the weightUnitsData
+        // If we are editing values for specific exercise, just display the user default weight unit,
+        // as we cannot change it - the spinner must be disabled.
+        val units: MutableList<String> = mutableListOf()
 
-        spinnerDefaultIndex = (weightUnit.adapter as CustomSpinnerAdapter)
-            .getItemIndex(StateEngine.user.defaultValues.weightUnit.text)
+        if (defaultValues.mGExerciseId == 0L) {
+            units.addAll(weightUnitsData!!.map { it.text })
+        } else {
+            units.add(StateEngine.user.defaultValues.weightUnit.text)
+
+            // Add opacity to make sure the spinner looks like it's disabled
+            weightUnit.alpha = 0.5f
+            weightUnit.isEnabled = false
+        }
+
+        weightUnit.adapter = CustomSpinnerAdapter(ctx, false, units)
+
+        spinnerDefaultIndex = (weightUnit.adapter as CustomSpinnerAdapter).getItemIndex(defaultValues.weightUnit.text)
 
         if (spinnerDefaultIndex < 0) {
             spinnerDefaultIndex = 0
@@ -85,24 +101,37 @@ class DefaultValuesDialog(ctx: Context, weightUnits: List<WeightUnitModel>): Bas
             exerciseWeight = weight.text.toString().toDouble()
         }
 
-        // Find the selected weight unit model by filtering the list, using the selected value from the spinner
-        val selectedWeightUnit = weightUnitsData.find { it.text ==  weightUnit.selectedItem.toString() }
+        // Assume we are editing values for specific exercise, in this case weightUnit cannot be changed
+        var selectedWeightUnit: WeightUnitModel? = StateEngine.user.defaultValues.weightUnit
 
-        val model = UserDefaultValuesModel(StateEngine.user.defaultValues.id,
-                    exerciseSets, setReps, exerciseWeight, completed.isChecked, selectedWeightUnit!!)
+        if (defaultValues.mGExerciseId == 0L) {
+            // If we are editing non-exercise specific values,
+            // get the selected weight unit as it can be changed
+            selectedWeightUnit = weightUnitsData!!.find { it.text == weightUnit.selectedItem.toString() }
+        }
 
-        UserProfileRepository().updateUserDefaultValues(model, onSuccess = { values ->
+        val model = UserDefaultValuesModel(defaultValues.id,
+                    exerciseSets, setReps, exerciseWeight, completed.isChecked, selectedWeightUnit!!, defaultValues.mGExerciseId)
+
+        UserProfileRepository().updateUserDefaultValues(model, onSuccess = { response ->
             dismiss()
 
-            // Store the old weight unit
-            val oldWeightUnit = StateEngine.user.defaultValues.weightUnit.id
+            // If we just edited default user value, it is returned to update the StateEngine
+            if (response.responseData.isNotEmpty() && defaultValues.mGExerciseId == 0L) {
+                // Store the old weight unit
+                val oldWeightUnit = defaultValues.weightUnit.id
+                val newValues = UserDefaultValuesModel(response.responseData[0])
 
-            // Update the user
-            StateEngine.user.defaultValues = values
+                // Update the user if we have just updated the default values, not
+                // exercise specific default values
+                if (defaultValues.mGExerciseId == 0L) {
+                    StateEngine.user.defaultValues = newValues
 
-            // If weight unit changed, refresh the workouts / workout to update the displayed unit
-            if (values.weightUnit.id != oldWeightUnit) {
-                StateEngine.panelAdapter.refreshIfUnitChanged()
+                    // If weight unit changed, refresh the workouts / workout to update the displayed unit
+                    if (newValues.weightUnit.id != oldWeightUnit) {
+                        StateEngine.panelAdapter.refreshIfUnitChanged()
+                    }
+                }
             }
         })
     }
