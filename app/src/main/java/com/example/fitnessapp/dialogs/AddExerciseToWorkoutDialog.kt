@@ -52,7 +52,7 @@ class AddExerciseToWorkoutDialog(ctx: Context, exercise: MGExerciseModel): BaseD
         exerciseCompleted.isChecked = StateEngine.user.defaultValues.completed
 
         if (StateEngine.user.defaultValues.weight > 0) {
-            weight.setText(StateEngine.user.defaultValues.weight.toString())
+            weight.setText(Utils.formatDouble(StateEngine.user.defaultValues.weight))
         }
 
     }

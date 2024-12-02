@@ -19,8 +19,11 @@ interface IAPIService {
     fun logout(): Call<CustomResponse>
     @POST("user/change-password")
     fun changePassword(@Body params: Map<String, String>): Call<CustomResponse>
-    @POST("user/change-default_values")
-    fun changeUserDefaultValues(@Body params: Map<String, String>): Call<CustomResponse>
+
+    /** USER PROFILE POST REQUESTS
+     * -------------------------------------------------------------------------------- */
+    @POST("user-profile/update-default-values")
+    fun updateUserDefaultValues(@Body params: Map<String, String>): Call<CustomResponse>
 
     /** WORKOUT POST REQUESTS
      * -------------------------------------------------------------------------------- */

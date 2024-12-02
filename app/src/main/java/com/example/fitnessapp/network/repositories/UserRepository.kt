@@ -1,10 +1,8 @@
 package com.example.fitnessapp.network.repositories
 
-import com.example.fitnessapp.models.UserDefaultValuesModel
 import com.example.fitnessapp.network.APIService
 import com.example.fitnessapp.network.CustomResponse
 import com.example.fitnessapp.network.NetworkManager
-import com.example.fitnessapp.utils.Utils
 
 /** UserRepository class, used to execute all requests related to User */
 class UserRepository {
@@ -55,15 +53,5 @@ class UserRepository {
         NetworkManager.sendRequest(
             APIService.instance.changePassword(mapOf("oldPassword" to oldPassword, "password" to password)),
             onSuccessCallback = { onSuccess() })
-    }
-
-    /** Change user default exercise values
-     * @param values the data
-     * @param onSuccess callback to execute if request is successful
-     */
-    fun changeUserDefaultValues(values: UserDefaultValuesModel, onSuccess: (UserDefaultValuesModel) -> Unit) {
-        NetworkManager.sendRequest(
-            APIService.instance.changeUserDefaultValues(mapOf("values" to Utils.serializeObject(values))),
-            onSuccessCallback = { response -> onSuccess(UserDefaultValuesModel(response.responseData[0])) })
     }
 }

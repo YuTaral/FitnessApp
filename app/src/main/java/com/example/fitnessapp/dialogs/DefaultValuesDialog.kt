@@ -8,7 +8,7 @@ import android.widget.Spinner
 import com.example.fitnessapp.R
 import com.example.fitnessapp.adapters.CustomSpinnerAdapter
 import com.example.fitnessapp.models.UserDefaultValuesModel
-import com.example.fitnessapp.network.repositories.UserRepository
+import com.example.fitnessapp.network.repositories.UserProfileRepository
 import com.example.fitnessapp.utils.StateEngine
 import com.example.fitnessapp.utils.Utils
 
@@ -87,7 +87,7 @@ class DefaultValuesDialog(ctx: Context): BaseDialog(ctx) {
         val model = UserDefaultValuesModel(StateEngine.user.defaultValues.id,
                     exerciseSets, setReps, exerciseWeight, completed.isChecked, weightUnit.selectedItem.toString())
 
-        UserRepository().changeUserDefaultValues(model, onSuccess = { values ->
+        UserProfileRepository().updateUserDefaultValues(model, onSuccess = { values ->
             dismiss()
 
             // Store the old weight unit
