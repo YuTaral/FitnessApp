@@ -8,13 +8,16 @@ import android.widget.Spinner
 import com.example.fitnessapp.R
 import com.example.fitnessapp.adapters.CustomSpinnerAdapter
 import com.example.fitnessapp.models.UserDefaultValuesModel
+import com.example.fitnessapp.models.WeightUnitModel
 import com.example.fitnessapp.network.repositories.UserProfileRepository
 import com.example.fitnessapp.utils.StateEngine
 import com.example.fitnessapp.utils.Utils
 
 /** DefaultValuesDialog to enter user default values for exercise (sets, reps and weights) */
-class DefaultValuesDialog(ctx: Context): BaseDialog(ctx) {
+class DefaultValuesDialog(ctx: Context, weightUnits: List<WeightUnitModel>): BaseDialog(ctx) {
     override var layoutId = R.layout.exercise_default_values_dialog
+
+    private var weightUnitsData = weightUnits
 
     private lateinit var sets: EditText
     private lateinit var reps: EditText
@@ -36,17 +39,6 @@ class DefaultValuesDialog(ctx: Context): BaseDialog(ctx) {
         val ctx = Utils.getContext()
         var spinnerDefaultIndex: Int
 
-        weightUnit.adapter = CustomSpinnerAdapter(ctx, false, listOf(
-            ctx.getString(R.string.weight_unit_kg_lbl),
-            ctx.getString(R.string.weight_unit_lb_lbl)
-        ))
-
-        spinnerDefaultIndex = (weightUnit.adapter as CustomSpinnerAdapter)
-            .getItemIndex(StateEngine.user.defaultValues.weightUnitText)
-        if (spinnerDefaultIndex < 0) {
-            spinnerDefaultIndex = 0
-        }
-
         if (StateEngine.user.defaultValues.sets > 0) {
             sets.setText(StateEngine.user.defaultValues.sets.toString())
         }
@@ -59,6 +51,15 @@ class DefaultValuesDialog(ctx: Context): BaseDialog(ctx) {
 
         if (StateEngine.user.defaultValues.weight > 0) {
             weight.setText(Utils.formatDouble(StateEngine.user.defaultValues.weight))
+        }
+
+        weightUnit.adapter = CustomSpinnerAdapter(ctx, false, weightUnitsData.map { it.text })
+
+        spinnerDefaultIndex = (weightUnit.adapter as CustomSpinnerAdapter)
+            .getItemIndex(StateEngine.user.defaultValues.weightUnit.text)
+
+        if (spinnerDefaultIndex < 0) {
+            spinnerDefaultIndex = 0
         }
 
         weightUnit.setSelection(spinnerDefaultIndex)
@@ -84,20 +85,23 @@ class DefaultValuesDialog(ctx: Context): BaseDialog(ctx) {
             exerciseWeight = weight.text.toString().toDouble()
         }
 
+        // Find the selected weight unit model by filtering the list, using the selected value from the spinner
+        val selectedWeightUnit = weightUnitsData.find { it.text ==  weightUnit.selectedItem.toString() }
+
         val model = UserDefaultValuesModel(StateEngine.user.defaultValues.id,
-                    exerciseSets, setReps, exerciseWeight, completed.isChecked, weightUnit.selectedItem.toString())
+                    exerciseSets, setReps, exerciseWeight, completed.isChecked, selectedWeightUnit!!)
 
         UserProfileRepository().updateUserDefaultValues(model, onSuccess = { values ->
             dismiss()
 
             // Store the old weight unit
-            val oldWeightUnit = StateEngine.user.defaultValues.weightUnitText
+            val oldWeightUnit = StateEngine.user.defaultValues.weightUnit.id
 
             // Update the user
             StateEngine.user.defaultValues = values
 
             // If weight unit changed, refresh the workouts / workout to update the displayed unit
-            if (values.weightUnitText != oldWeightUnit) {
+            if (values.weightUnit.id != oldWeightUnit) {
                 StateEngine.panelAdapter.refreshIfUnitChanged()
             }
         })

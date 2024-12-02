@@ -66,7 +66,7 @@ class ExerciseRecyclerAdapter(data: List<ExerciseModel>) : RecyclerView.Adapter<
             exerciseName.text = item.name
 
             weightLbl.text = String.format(Utils.getContext().getString(R.string.weight_in_unit_lbl),
-                StateEngine.user.defaultValues.weightUnitText)
+                StateEngine.user.defaultValues.weightUnit.text)
 
             targetMuscleGroup.text = String.format(Utils.getContext().getString(R.string.target_lbl), item.muscleGroup.name)
 

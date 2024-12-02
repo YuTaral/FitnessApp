@@ -50,7 +50,7 @@ class EditExerciseFromWorkoutDialog(ctx: Context, exerciseModel: ExerciseModel):
     override fun populateDialog() {
         name.setText(exercise.name)
         weightLbl.text = String.format(Utils.getContext().getString(R.string.weight_in_unit_lbl),
-                                    StateEngine.user.defaultValues.weightUnitText)
+                                    StateEngine.user.defaultValues.weightUnit.text)
 
         exercise.sets.map { addSetToContainer(it, setsContainer, true) }
 

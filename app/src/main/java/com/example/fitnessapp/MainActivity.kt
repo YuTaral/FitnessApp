@@ -10,10 +10,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.viewpager2.widget.ViewPager2
 import com.example.fitnessapp.adapters.PanelAdapter
+import com.example.fitnessapp.dialogs.AskQuestionDialog
 import com.example.fitnessapp.dialogs.ChangePasswordDialog
 import com.example.fitnessapp.dialogs.DefaultValuesDialog
-import com.example.fitnessapp.dialogs.AskQuestionDialog
 import com.example.fitnessapp.dialogs.SaveWorkoutTemplateDialog
+import com.example.fitnessapp.network.repositories.UserProfileRepository
 import com.example.fitnessapp.network.repositories.UserRepository
 import com.example.fitnessapp.panels.BaseExercisePanel
 import com.example.fitnessapp.panels.ManageExercisesPanel
@@ -146,7 +147,9 @@ class MainActivity : AppCompatActivity() {
     private fun leftDrawerSelected(menuItem: MenuItem) {
         when (menuItem.itemId) {
             R.id.exercise_default_values -> {
-                DefaultValuesDialog(this).show()
+                UserProfileRepository().getWeightUnits(onSuccess = { weighUnits ->
+                    DefaultValuesDialog(this, weighUnits).show()
+                })
             }
             R.id.nav_change_pass -> {
                 // Open change password dialog

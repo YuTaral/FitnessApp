@@ -25,6 +25,11 @@ interface IAPIService {
     @POST("user-profile/update-default-values")
     fun updateUserDefaultValues(@Body params: Map<String, String>): Call<CustomResponse>
 
+    /** USER PROFILE GET REQUESTS
+     * -------------------------------------------------------------------------------- */
+    @GET("user-profile/get-weight-units")
+    fun getWeightUnits(): Call<CustomResponse>
+
     /** WORKOUT POST REQUESTS
      * -------------------------------------------------------------------------------- */
     @POST("workout/add")

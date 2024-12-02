@@ -19,8 +19,8 @@ class UserDefaultValuesModel: BaseModel {
     @SerializedName("Completed")
     val completed: Boolean
 
-    @SerializedName("WeightUnitText")
-    val weightUnitText: String
+    @SerializedName("WeightUnit")
+    val weightUnit: WeightUnitModel
 
     /** Constructor to accept serialized object
      * @param data serialized SetModel object
@@ -33,15 +33,15 @@ class UserDefaultValuesModel: BaseModel {
         reps = model.reps
         weight = model.weight
         completed = model.completed
-        weightUnitText = model.weightUnitText
+        weightUnit = model.weightUnit
     }
 
     /** Constructor to create new object */
-    constructor(idVal: Long, setsVal: Int, repsVal: Int, weightVal: Double, completedVal: Boolean, weightUnitVal: String): super(idVal) {
+    constructor(idVal: Long, setsVal: Int, repsVal: Int, weightVal: Double, completedVal: Boolean, weightUnitVal: WeightUnitModel): super(idVal) {
         sets = setsVal
         reps = repsVal
         weight = weightVal
         completed = completedVal
-        weightUnitText = weightUnitVal
+        weightUnit = weightUnitVal
     }
 }
