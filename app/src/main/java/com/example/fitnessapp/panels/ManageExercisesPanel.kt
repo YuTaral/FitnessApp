@@ -35,6 +35,8 @@ class ManageExercisesPanel(mode: Mode): BaseExercisePanel(mode) {
         }
     }
 
+    private var isSpinnerInitialized = false
+
     override fun findViews() {
         super.findViews()
         actionSpinner = panel.findViewById(R.id.exercise_action_spinner)
@@ -57,6 +59,13 @@ class ManageExercisesPanel(mode: Mode): BaseExercisePanel(mode) {
         actionSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (!isSpinnerInitialized) {
+                    // Ignore the initial call which is triggered when the spinner is initialized
+                    // with the adapter
+                    isSpinnerInitialized = true
+                    return
+                }
+
                 // Assume we must use "Y" when fetching the exercise
                 // which will fetch only the user defined exercises. Operations update and delete
                 // are valid only for those exercises

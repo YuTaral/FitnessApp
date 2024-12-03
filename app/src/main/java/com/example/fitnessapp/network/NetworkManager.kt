@@ -58,6 +58,7 @@ object NetworkManager {
                         }
                     }
                 } catch (e: Exception) {
+                    progressDialog.hide()
                     Utils.showMessage(response.raw().toString())
                 }
             }
