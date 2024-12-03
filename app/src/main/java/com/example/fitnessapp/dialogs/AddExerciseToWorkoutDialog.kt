@@ -9,6 +9,7 @@ import com.example.fitnessapp.R
 import com.example.fitnessapp.models.ExerciseModel
 import com.example.fitnessapp.models.MGExerciseModel
 import com.example.fitnessapp.models.MuscleGroupModel
+import com.example.fitnessapp.models.UserDefaultValuesModel
 import com.example.fitnessapp.network.repositories.ExerciseRepository
 import com.example.fitnessapp.utils.StateEngine
 import com.example.fitnessapp.utils.Utils
@@ -17,10 +18,11 @@ import com.example.fitnessapp.utils.Utils
  * adding exercise / updating exercise as part of workout
  */
 @SuppressLint("InflateParams")
-class AddExerciseToWorkoutDialog(ctx: Context, exercise: MGExerciseModel): BaseDialog(ctx) {
+class AddExerciseToWorkoutDialog(ctx: Context, exercise: MGExerciseModel, values: UserDefaultValuesModel): BaseDialog(ctx) {
     override var layoutId = R.layout.add_exercise_dialog
 
     private var exerciseToAdd = exercise
+    private var defaultValues = values
 
     private lateinit var name: EditText
     private lateinit var sets: EditText
@@ -41,18 +43,18 @@ class AddExerciseToWorkoutDialog(ctx: Context, exercise: MGExerciseModel): BaseD
     override fun populateDialog() {
         name.setText(exerciseToAdd.name)
 
-        if (StateEngine.user.defaultValues.sets > 0) {
-            sets.setText(StateEngine.user.defaultValues.sets.toString())
+        if (defaultValues.sets > 0) {
+            sets.setText(defaultValues.sets.toString())
         }
 
-        if (StateEngine.user.defaultValues.reps > 0) {
-            reps.setText(StateEngine.user.defaultValues.reps.toString())
+        if (defaultValues.reps > 0) {
+            reps.setText(defaultValues.reps.toString())
         }
 
-        exerciseCompleted.isChecked = StateEngine.user.defaultValues.completed
+        exerciseCompleted.isChecked = defaultValues.completed
 
-        if (StateEngine.user.defaultValues.weight > 0) {
-            weight.setText(Utils.formatDouble(StateEngine.user.defaultValues.weight))
+        if (defaultValues.weight > 0) {
+            weight.setText(Utils.formatDouble(defaultValues.weight))
         }
 
     }

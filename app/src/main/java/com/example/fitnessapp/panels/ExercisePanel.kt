@@ -5,6 +5,7 @@ import com.example.fitnessapp.R
 import com.example.fitnessapp.dialogs.AddEditMGExerciseDialog
 import com.example.fitnessapp.dialogs.AddExerciseToWorkoutDialog
 import com.example.fitnessapp.models.MGExerciseModel
+import com.example.fitnessapp.network.repositories.UserProfileRepository
 import com.example.fitnessapp.utils.Constants
 
 /** Exercise Panel class to implement the logic for selecting exercises for workout */
@@ -35,6 +36,9 @@ class ExercisePanel(mode: Mode): BaseExercisePanel(mode) {
     }
 
     override fun onExerciseSelectCallback(model: MGExerciseModel) {
-        AddExerciseToWorkoutDialog(requireContext(), model).show()
+        // Fetch the default values for this exercise and open the add exercise dialog
+        UserProfileRepository().getUserDefaultValues(model.id, onSuccess = { values ->
+            AddExerciseToWorkoutDialog(requireContext(), model, values).show()
+        })
     }
 }
