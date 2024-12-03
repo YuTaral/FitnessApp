@@ -13,10 +13,13 @@ interface IAPIService {
      * -------------------------------------------------------------------------------- */
     @POST("user/login")
     fun login(@Body params: Map<String, String>): Call<CustomResponse>
+
     @POST("user/register")
     fun register(@Body params: Map<String, String>): Call<CustomResponse>
+
     @POST("user/logout")
     fun logout(): Call<CustomResponse>
+
     @POST("user/change-password")
     fun changePassword(@Body params: Map<String, String>): Call<CustomResponse>
 
@@ -37,8 +40,10 @@ interface IAPIService {
      * -------------------------------------------------------------------------------- */
     @POST("workout/add")
     fun addWorkout(@Body params: Map<String, String>): Call<CustomResponse>
+
     @POST("workout/edit")
     fun editWorkout(@Body params: Map<String, String>): Call<CustomResponse>
+
     @POST("workout/delete")
     fun deleteWorkout(@Query("workoutId") workoutId: Long): Call<CustomResponse>
 
@@ -46,6 +51,7 @@ interface IAPIService {
      * -------------------------------------------------------------------------------- */
     @GET("workout/get-workouts")
     fun getWorkouts(): Call<CustomResponse>
+
     @GET("workout/get-workout")
     fun getWorkout(@Query("workoutId") workoutId: Long): Call<CustomResponse>
 
@@ -53,14 +59,19 @@ interface IAPIService {
      * -------------------------------------------------------------------------------- */
     @POST("exercise/add-to-workout")
     fun addExerciseToWorkout(@Body params: Map<String, String>): Call<CustomResponse>
+
     @POST("exercise/update-exercise-from-workout")
     fun updateExerciseFromWorkout(@Body params: Map<String, String>): Call<CustomResponse>
+
     @POST("exercise/delete-exercise-from-workout")
     fun deleteExerciseFromWorkout(@Query("exerciseId") params: Long): Call<CustomResponse>
+
     @POST("exercise/add")
     fun addExercise(@Body params: Map<String, String>): Call<CustomResponse>
+
     @POST("exercise/update")
     fun updateExercise(@Body params: Map<String, String>): Call<CustomResponse>
+
     @POST("exercise/delete")
     fun deleteExercise(@Query("MGExerciseId") params: Long): Call<CustomResponse>
 
@@ -78,6 +89,7 @@ interface IAPIService {
      * -------------------------------------------------------------------------------- */
     @POST("workout-template/add")
     fun addWorkoutTemplate(@Body params: Map<String, String>): Call<CustomResponse>
+
     @POST("workout-template/delete")
     fun deleteWorkoutTemplate(@Query("templateId") params: Long): Call<CustomResponse>
 
