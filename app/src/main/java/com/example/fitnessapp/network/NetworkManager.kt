@@ -25,7 +25,7 @@ object NetworkManager {
         request.enqueue(object : Callback<CustomResponse> {
             override fun onResponse(call: Call<CustomResponse>, response: Response<CustomResponse>) {
                 try {
-                    progressDialog.hide()
+                    progressDialog.dismiss()
                     val body = response.body()!!
 
                     // Process the response
@@ -58,13 +58,13 @@ object NetworkManager {
                         }
                     }
                 } catch (e: Exception) {
-                    progressDialog.hide()
+                    progressDialog.dismiss()
                     Utils.showMessage(response.raw().toString())
                 }
             }
 
             override fun onFailure(call: Call<CustomResponse>, t: Throwable) {
-                progressDialog.hide()
+                progressDialog.dismiss()
                 Utils.showMessage(R.string.error_msg_unexpected_network_problem)
             }
         })

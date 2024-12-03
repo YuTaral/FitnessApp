@@ -33,6 +33,9 @@ abstract class BaseDialog(ctx: Context): Dialog(ctx, R.style.Theme_FitnessApp_Al
 
         // Set the content
         setContentView(dialogView)
+
+        // Set cancelable to false, we have close icon on each dialog
+        setCancelable(false)
     }
 
     /** Find the common views and call the method to find the dialog specific views */
