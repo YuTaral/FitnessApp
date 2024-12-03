@@ -72,6 +72,11 @@ class ChangePasswordDialog(ctx: Context): BaseDialog(ctx) {
             return false
         }
 
+        if (oldPassword.text.toString() == newPassword.text.toString()) {
+            Utils.validationFailed(newPassword, R.string.error_msg_pass_matches)
+            return false
+        }
+
         return true
     }
 }
