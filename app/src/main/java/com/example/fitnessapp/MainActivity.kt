@@ -14,6 +14,7 @@ import com.example.fitnessapp.dialogs.AskQuestionDialog
 import com.example.fitnessapp.dialogs.ChangePasswordDialog
 import com.example.fitnessapp.dialogs.DefaultValuesDialog
 import com.example.fitnessapp.dialogs.SaveWorkoutTemplateDialog
+import com.example.fitnessapp.network.APIService
 import com.example.fitnessapp.network.repositories.UserProfileRepository
 import com.example.fitnessapp.network.repositories.UserRepository
 import com.example.fitnessapp.panels.BaseExercisePanel
@@ -82,7 +83,7 @@ class MainActivity : AppCompatActivity() {
     /** Add click listeners for selecting item from the drawer and back button pressed */
     private fun initialiseDrawerLogic() {
         profileIcon.setOnClickListener {
-            findViewById<TextView>(R.id.txt_username).text = StateEngine.user.email
+            findViewById<TextView>(R.id.txt_username).text = StateEngine.user!!.email
             drawerLayout.openDrawer(navView)
         }
         menuIcon.setOnClickListener {
@@ -148,7 +149,7 @@ class MainActivity : AppCompatActivity() {
         when (menuItem.itemId) {
             R.id.exercise_default_values -> {
                 UserProfileRepository().getWeightUnits(onSuccess = { weighUnits ->
-                    DefaultValuesDialog(this, StateEngine.user.defaultValues, weighUnits).show()
+                    DefaultValuesDialog(this, StateEngine.user!!.defaultValues, weighUnits).show()
                 })
             }
             R.id.nav_change_pass -> {
@@ -161,7 +162,14 @@ class MainActivity : AppCompatActivity() {
 
                 dialog.setYesCallback {
                     UserRepository().logout(onSuccess = {
+                        // Update the service by removing the token
+                        APIService.updateToken("")
+
+                        // Update the State engine
+                        StateEngine.user = null
                         StateEngine.workout = null
+
+                        // Start the logic activity
                         val intent = Intent(this, LoginActivity::class.java)
                         startActivity(intent)
                         finish()

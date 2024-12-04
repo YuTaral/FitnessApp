@@ -23,6 +23,9 @@ interface IAPIService {
     @POST("user/change-password")
     fun changePassword(@Body params: Map<String, String>): Call<CustomResponse>
 
+    @POST("user/validate-token")
+    fun validateToken(@Body params: Map<String, String>): Call<CustomResponse>
+
     /** USER PROFILE POST REQUESTS
      * -------------------------------------------------------------------------------- */
     @POST("user-profile/update-default-values")

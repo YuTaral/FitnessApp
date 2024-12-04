@@ -89,7 +89,7 @@ class WorkoutRecyclerAdapter (data: List<WorkoutModel>, onClick: (WorkoutModel) 
 
             total.text = String.format(Utils.getContext().getText(R.string.workout_summary_lbl).toString(),
                         Utils.formatDouble(completedWeight),  Utils.formatDouble(totalWeight),
-                        StateEngine.user.defaultValues.weightUnit.text, completedReps, totalReps)
+                        StateEngine.user!!.defaultValues.weightUnit.text, completedReps, totalReps)
 
             // Add click listener to select the workout
             itemView.setOnClickListener {

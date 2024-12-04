@@ -208,7 +208,7 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
         }
     }
 
-    /** Return true if the current active panel is the Main */
+    /** Refresh the panel when the current weight unit has been changed */
     fun refreshIfUnitChanged() {
        if (pager.currentItem == getMainPanel().getIndex()) {
            // Refresh the main panel to update the weight unit displayed in the workout summary

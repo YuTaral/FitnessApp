@@ -65,6 +65,7 @@ android {
 }
 
 dependencies {
+    implementation ("androidx.security:security-crypto:1.1.0-alpha06")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.constraintlayout:constraintlayout-compose-android:1.1.0-alpha13")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")

@@ -63,7 +63,7 @@ class DefaultValuesDialog(ctx: Context, values: UserDefaultValuesModel, weightUn
         if (defaultValues.mGExerciseId == 0L) {
             units.addAll(weightUnitsData!!.map { it.text })
         } else {
-            units.add(StateEngine.user.defaultValues.weightUnit.text)
+            units.add(StateEngine.user!!.defaultValues.weightUnit.text)
 
             // Add opacity to make sure the spinner looks like it's disabled
             weightUnit.alpha = 0.5f
@@ -102,7 +102,7 @@ class DefaultValuesDialog(ctx: Context, values: UserDefaultValuesModel, weightUn
         }
 
         // Assume we are editing values for specific exercise, in this case weightUnit cannot be changed
-        var selectedWeightUnit: WeightUnitModel? = StateEngine.user.defaultValues.weightUnit
+        var selectedWeightUnit: WeightUnitModel? = StateEngine.user!!.defaultValues.weightUnit
 
         if (defaultValues.mGExerciseId == 0L) {
             // If we are editing non-exercise specific values,
@@ -125,7 +125,12 @@ class DefaultValuesDialog(ctx: Context, values: UserDefaultValuesModel, weightUn
                 // Update the user if we have just updated the default values, not
                 // exercise specific default values
                 if (defaultValues.mGExerciseId == 0L) {
-                    StateEngine.user.defaultValues = newValues
+                    // Simulate user update to trigger update in the shared prefs to update the
+                    // default values there
+                    val newUser = StateEngine.user
+                    newUser!!.defaultValues = newValues
+
+                    StateEngine.user = newUser
 
                     // If weight unit changed, refresh the workouts / workout to update the displayed unit
                     if (newValues.weightUnit.id != oldWeightUnit) {

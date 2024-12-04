@@ -28,7 +28,6 @@ class UserRepository {
             APIService.instance.login(mapOf("email" to email, "password" to password)),
             onSuccessCallback = { response ->
                 onSuccess(response)
-                APIService.updateToken(response.responseData[1])
             })
     }
 
@@ -40,7 +39,6 @@ class UserRepository {
             APIService.instance.logout(),
             onSuccessCallback = {
                 onSuccess()
-                APIService.updateToken("")
             })
     }
 
@@ -53,5 +51,17 @@ class UserRepository {
         NetworkManager.sendRequest(
             APIService.instance.changePassword(mapOf("oldPassword" to oldPassword, "password" to password)),
             onSuccessCallback = { onSuccess() })
+    }
+
+    /** Validate the token
+     * @param token the token
+     * @param onSuccess callback to execute if request is successful
+     */
+    fun validateToken(token: String, onSuccess: () -> Unit, onFailure: () -> Unit) {
+        NetworkManager.sendRequest(
+            APIService.instance.validateToken(mapOf("token" to token)),
+            onSuccessCallback = { onSuccess() },
+            onErrorCallback = { onFailure() }
+        )
     }
 }

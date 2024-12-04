@@ -50,7 +50,7 @@ class EditExerciseFromWorkoutDialog(ctx: Context, exerciseModel: ExerciseModel):
     override fun populateDialog() {
         name.setText(exercise.name)
         weightLbl.text = String.format(Utils.getContext().getString(R.string.weight_in_unit_lbl),
-                                    StateEngine.user.defaultValues.weightUnit.text)
+                                    StateEngine.user!!.defaultValues.weightUnit.text)
 
         exercise.sets.map { addSetToContainer(it, setsContainer, true) }
 
@@ -67,9 +67,9 @@ class EditExerciseFromWorkoutDialog(ctx: Context, exerciseModel: ExerciseModel):
     override fun addClickListeners() {
         addSetBtn.setOnClickListener {
             // Create set with the default values
-            val set = SetModel(0, StateEngine.user.defaultValues.reps,
-                                        StateEngine.user.defaultValues.weight,
-                                        StateEngine.user.defaultValues.completed)
+            val set = SetModel(0, StateEngine.user!!.defaultValues.reps,
+                                        StateEngine.user!!.defaultValues.weight,
+                                        StateEngine.user!!.defaultValues.completed)
 
             addSetToContainer(set, setsContainer, false)
 

@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.fitnessapp.models.UserModel
 import com.example.fitnessapp.models.WorkoutModel
+import com.example.fitnessapp.network.APIService
 import com.example.fitnessapp.network.repositories.UserRepository
 import com.example.fitnessapp.utils.StateEngine
 import com.example.fitnessapp.utils.Utils
@@ -24,13 +25,45 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var emailReg: EditText
     private lateinit var passwordReg: EditText
     private lateinit var passwordConfirm: EditText
+    private lateinit var clickForRegisterLbl: TextView
+    private lateinit var clickForLoginLbl: TextView
+    private lateinit var registerBtn: Button
+    private lateinit var loginBtn: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.login_activity)
         StateEngine.activeActivity = this
 
-        // Find the views
+        // Try to login automatically
+        val token = Utils.getStoredToken()
+        val userModel = Utils.getStoredUser()
+
+        if (token.isNotEmpty() && userModel != null) {
+            // Validate the token
+            UserRepository().validateToken(token, onSuccess = {
+                // Update the API service with the token
+                APIService.updateToken(token)
+
+                // Set the logged in user and start the main activity
+                StateEngine.user = userModel
+                startMainActivity()
+            }, onFailure = {
+                initializeLoginActivity()
+            })
+        } else {
+            initializeLoginActivity()
+        }
+    }
+
+    /** Initialize and display the login activity */
+    private fun initializeLoginActivity() {
+        setContentView(R.layout.login_activity)
+        findViews()
+        addClickListeners()
+    }
+
+    /** Find the views in the activity */
+    private fun findViews() {
         loginContainer = findViewById(R.id.login_container)
         registerContainer = findViewById(R.id.register_container)
         email = findViewById(R.id.email)
@@ -38,12 +71,18 @@ class LoginActivity : AppCompatActivity() {
         emailReg = findViewById(R.id.email_reg)
         passwordReg = findViewById(R.id.password_reg)
         passwordConfirm = findViewById(R.id.confirm_password)
+        clickForRegisterLbl = findViewById(R.id.click_for_register_lbl)
+        clickForLoginLbl = findViewById(R.id.click_for_login_lbl)
+        registerBtn = findViewById(R.id.register_btn)
+        loginBtn = findViewById(R.id.login_btn)
+    }
 
-        // Add click listeners
-        findViewById<TextView>(R.id.click_for_register_lbl).setOnClickListener { displayRegister() }
-        findViewById<TextView>(R.id.click_for_login_lbl).setOnClickListener { displayLogin() }
-        findViewById<Button>(R.id.register_btn).setOnClickListener { register() }
-        findViewById<Button>(R.id.login_btn).setOnClickListener{ login() }
+    /** Add click listeners to the views in the activity */
+    private fun addClickListeners() {
+        clickForRegisterLbl.setOnClickListener { displayRegister() }
+        clickForLoginLbl.setOnClickListener { displayLogin() }
+        registerBtn.setOnClickListener { register() }
+        loginBtn.setOnClickListener{ login() }
 
         password.setOnEditorActionListener { v, actionId, event ->
             // Check if the action is the "Done" action
@@ -145,14 +184,22 @@ class LoginActivity : AppCompatActivity() {
             // Set the logged in user and start the Main Activity
             StateEngine.user = UserModel(response.responseData[0])
 
+            // Update the service with the token
+            APIService.updateToken(response.responseData[1])
+
             if (response.responseData.size > 2) {
                 StateEngine.workout = WorkoutModel(response.responseData[2])
             }
 
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            finish()
+            startMainActivity()
         })
+    }
+
+    /** Start the app main activity */
+    private fun startMainActivity() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 }
 
