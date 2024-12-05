@@ -12,8 +12,9 @@ object Constants {
         SUCCESS,
         FAIL,
         UNEXPECTED_ERROR,
-        EXERCISE_ALREADY_EXISTS
-
+        EXERCISE_ALREADY_EXISTS,
+        TOKEN_EXPIRED,
+        REFRESH_TOKEN
     }
 
     /** Enum to hold the panel unique ids */

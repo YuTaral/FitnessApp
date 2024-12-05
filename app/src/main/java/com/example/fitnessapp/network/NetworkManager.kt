@@ -2,6 +2,7 @@ package com.example.fitnessapp.network
 
 import android.app.AlertDialog
 import com.example.fitnessapp.R
+import com.example.fitnessapp.network.repositories.UserRepository
 import com.example.fitnessapp.utils.Utils
 import retrofit2.Call
 import retrofit2.Callback
@@ -29,13 +30,27 @@ object NetworkManager {
                     val body = response.body()!!
 
                     // Process the response
-                    if (response.isSuccessful && Utils.isSuccessRespCode(body.responseCode)) {
+                    if (response.isSuccessful) {
+
                         try {
-                            // Execute the callback and show the message if it's different from
-                            // success
-                            onSuccessCallback(body)
-                            if (body.responseMessage != "Success") {
-                                Utils.showToast(body.responseMessage)
+
+                            if (Utils.isSuccessResponse(body.responseCode)) {
+                                // Execute the callback and show the message if it's different from success
+                                onSuccessCallback(body)
+                                if (body.responseMessage != "Success") {
+                                    Utils.showToast(body.responseMessage)
+                                }
+
+                            } else if (Utils.istTokenExpiredResponse(body.responseCode)) {
+                                // Token expired, logout
+                                UserRepository().logout(onSuccess = { Utils.onLogout() })
+
+                            } else if (Utils.isTokenRefreshResponse(body.responseCode) && body.responseData.isNotEmpty()) {
+                                // Update the token using the returned token
+                                APIService.updateToken(body.responseData[0])
+
+                                // Execute the callback
+                                onSuccessCallback(body)
                             }
                         } catch (ex: Exception) {
                             // Show unexpected error message in case something goes wrong
@@ -59,7 +74,7 @@ object NetworkManager {
                     }
                 } catch (e: Exception) {
                     progressDialog.dismiss()
-                    Utils.showMessage(response.raw().toString())
+                    Utils.showMessage(response.message())
                 }
             }
 

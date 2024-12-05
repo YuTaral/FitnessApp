@@ -11,19 +11,16 @@ object APIService {
     var instance: IAPIService
 
     init {
-        val retrofit = Retrofit.Builder()
-            .baseUrl(Constants.URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-        instance = retrofit.create(IAPIService::class.java)
+        // Create the instance with update token. If the token is already stored, it will create instance
+        // attaching the token to the authorization header
+        instance = updateToken(Utils.getStoredToken())
     }
 
     /**
      * Update the API service to include the Authorization header with the JWT token if requested.
      * @param token - the token, may be empty (in case of logout)
      */
-    fun updateToken(token: String) {
+    fun updateToken(token: String): IAPIService {
         val service: Retrofit
 
         if (token != "") {
@@ -48,5 +45,7 @@ object APIService {
 
         // Update the token in shared prefs
         Utils.updateTokenInPrefs(token)
+
+        return instance
     }
 }

@@ -1,6 +1,5 @@
 package com.example.fitnessapp
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.ImageView
@@ -14,7 +13,6 @@ import com.example.fitnessapp.dialogs.AskQuestionDialog
 import com.example.fitnessapp.dialogs.ChangePasswordDialog
 import com.example.fitnessapp.dialogs.DefaultValuesDialog
 import com.example.fitnessapp.dialogs.SaveWorkoutTemplateDialog
-import com.example.fitnessapp.network.APIService
 import com.example.fitnessapp.network.repositories.UserProfileRepository
 import com.example.fitnessapp.network.repositories.UserRepository
 import com.example.fitnessapp.panels.BaseExercisePanel
@@ -161,19 +159,7 @@ class MainActivity : AppCompatActivity() {
                 val dialog = AskQuestionDialog(this, AskQuestionDialog.Question.LOG_OUT)
 
                 dialog.setYesCallback {
-                    UserRepository().logout(onSuccess = {
-                        // Update the service by removing the token
-                        APIService.updateToken("")
-
-                        // Update the State engine
-                        StateEngine.user = null
-                        StateEngine.workout = null
-
-                        // Start the logic activity
-                        val intent = Intent(this, LoginActivity::class.java)
-                        startActivity(intent)
-                        finish()
-                    })
+                    UserRepository().logout(onSuccess = { Utils.onLogout() })
                 }
 
                 dialog.show()

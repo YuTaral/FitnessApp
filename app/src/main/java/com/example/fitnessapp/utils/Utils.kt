@@ -4,6 +4,7 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.view.View
 import android.view.animation.DecelerateInterpolator
@@ -13,9 +14,11 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
+import com.example.fitnessapp.LoginActivity
 import com.example.fitnessapp.MainActivity
 import com.example.fitnessapp.R
 import com.example.fitnessapp.models.UserModel
+import com.example.fitnessapp.network.APIService
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
@@ -75,11 +78,25 @@ object Utils {
         Toast.makeText(getContext(), message, duration).show()
     }
 
-    /** Checks whether the value is ResponseCode.Success
+    /** Check whether the value is ResponseCode.Success
      * @param value the value to check
      */
-    fun isSuccessRespCode(value:Int ): Boolean {
+    fun isSuccessResponse(value:Int ): Boolean {
         return value == Constants.ResponseCode.SUCCESS.ordinal
+    }
+
+    /** Check whether the value is ResponseCode.TOKEN_EXPIRED
+     * @param value the value to check
+     */
+    fun istTokenExpiredResponse(value:Int ): Boolean {
+        return value == Constants.ResponseCode.TOKEN_EXPIRED.ordinal
+    }
+
+    /** Check whether the value is ResponseCode.Success
+     * @param value the value to check
+     */
+    fun isTokenRefreshResponse(value:Int ): Boolean {
+        return value == Constants.ResponseCode.REFRESH_TOKEN.ordinal
     }
 
     /** Return the current activity when context is needed */
@@ -256,6 +273,21 @@ object Utils {
         } else {
             sharedPref.edit().putString(SERIALIZED_USER_KEY, serializeObject(model)).apply()
         }
+    }
+
+    /** Execute the callback when user logout */
+    fun onLogout() {
+        // Update the service by removing the token
+        APIService.updateToken("")
+
+        // Update the State engine
+        StateEngine.user = null
+        StateEngine.workout = null
+
+        // Start the logic activity
+        val intent = Intent(getActivity(), LoginActivity::class.java)
+        getActivity().startActivity(intent)
+        getActivity().finish()
     }
 
     /** Create and return SharedPreferences object using encryption */

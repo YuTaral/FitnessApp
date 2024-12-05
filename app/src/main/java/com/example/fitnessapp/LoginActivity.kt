@@ -41,9 +41,6 @@ class LoginActivity : AppCompatActivity() {
         if (token.isNotEmpty() && userModel != null) {
             // Validate the token
             UserRepository().validateToken(token, onSuccess = {
-                // Update the API service with the token
-                APIService.updateToken(token)
-
                 // Set the logged in user and start the main activity
                 StateEngine.user = userModel
                 startMainActivity()
