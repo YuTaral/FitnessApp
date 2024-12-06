@@ -78,7 +78,7 @@ object Utils {
         Toast.makeText(getContext(), message, duration).show()
     }
 
-    /** Check whether the value is ResponseCode.Success
+    /** Check whether the value is ResponseCode.SUCCESS
      * @param value the value to check
      */
     fun isSuccessResponse(value:Int ): Boolean {
@@ -92,11 +92,19 @@ object Utils {
         return value == Constants.ResponseCode.TOKEN_EXPIRED.ordinal
     }
 
-    /** Check whether the value is ResponseCode.Success
+    /** Check whether the value is ResponseCode.REFRESH_TOKEN
      * @param value the value to check
      */
     fun isTokenRefreshResponse(value:Int ): Boolean {
         return value == Constants.ResponseCode.REFRESH_TOKEN.ordinal
+    }
+
+    /** Check whether the value is ResponseCode.Fail or ResponseCode.UNEXPECTED_ERROR
+     * @param value the value to check
+     */
+    fun isFail(value:Int ): Boolean {
+        return value == Constants.ResponseCode.FAIL.ordinal ||
+               value == Constants.ResponseCode.UNEXPECTED_ERROR.ordinal
     }
 
     /** Return the current activity when context is needed */

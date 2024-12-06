@@ -123,7 +123,7 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
      * false otherwise. If null provided, the variable is not being changed
      */
     fun displayWorkoutPanel(refreshWorkouts: Boolean?) {
-        displayWorkoutPanel(StateEngine.workout!!, refreshWorkouts)
+        displayWorkoutPanel(StateEngine.workout, refreshWorkouts)
     }
 
     /** Display Workout panel
@@ -131,7 +131,7 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
      * @param refreshWorkouts true if StateEngine variable to refresh workouts should be set to true,
      * false otherwise. If null provided, the variable is not being changed
      */
-    fun displayWorkoutPanel(workout: WorkoutModel, refreshWorkouts: Boolean?) {
+    fun displayWorkoutPanel(workout: WorkoutModel?, refreshWorkouts: Boolean?) {
         val index = getWorkoutPanel().getIndex()
 
         StateEngine.workout = workout

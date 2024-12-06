@@ -51,22 +51,20 @@ object NetworkManager {
 
                                 // Execute the callback
                                 onSuccessCallback(body)
+
+                            } else if (Utils.isFail(body.code)) {
+                                // Execute on error callback
+                                onError(body, onErrorCallback)
                             }
+
                         } catch (ex: Exception) {
                             // Show unexpected error message in case something goes wrong
                             Utils.showMessage(R.string.error_msg_unexpected)
                         }
                     } else {
                         try {
-                            // Execute the callback
-                            onErrorCallback(body)
-
-                            // Show error message
-                            if (body.message.isNotEmpty()) {
-                                Utils.showMessage(body.message)
-                            } else {
-                                Utils.showMessage(R.string.error_msg_unexpected)
-                            }
+                            // Execute on error callback
+                            onError(body, onErrorCallback)
                         } catch (ex: Exception) {
                             // Show unexpected error message in case something goes wrong
                             Utils.showMessage(R.string.error_msg_unexpected)
@@ -101,5 +99,21 @@ object NetworkManager {
 
         progressDialog = dialogBuilder.create()
         progressDialog.show()
+    }
+
+    /** Executes the logic when request error occurs
+     * @param body the request's response body
+     * @param onErrorCallback the callback to execute
+     */
+    private fun onError(body: CustomResponse, onErrorCallback: (CustomResponse) -> Unit) {
+        // Show error message
+        if (body.message.isNotEmpty()) {
+            Utils.showMessage(body.message)
+        } else {
+            Utils.showMessage(R.string.error_msg_unexpected)
+        }
+
+        // Execute the callback
+        onErrorCallback(body)
     }
 }
