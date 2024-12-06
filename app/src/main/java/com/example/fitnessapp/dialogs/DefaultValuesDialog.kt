@@ -117,10 +117,10 @@ class DefaultValuesDialog(ctx: Context, values: UserDefaultValuesModel, weightUn
             dismiss()
 
             // If we just edited default user value, it is returned to update the StateEngine
-            if (response.responseData.isNotEmpty() && defaultValues.mGExerciseId == 0L) {
+            if (response.data.isNotEmpty() && defaultValues.mGExerciseId == 0L) {
                 // Store the old weight unit
                 val oldWeightUnit = defaultValues.weightUnit.id
-                val newValues = UserDefaultValuesModel(response.responseData[0])
+                val newValues = UserDefaultValuesModel(response.data[0])
 
                 // Update the user if we have just updated the default values, not
                 // exercise specific default values

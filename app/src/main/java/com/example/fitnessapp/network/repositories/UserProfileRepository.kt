@@ -28,7 +28,7 @@ class UserProfileRepository {
     fun getUserDefaultValues(mgExerciseId: Long, onSuccess: (UserDefaultValuesModel) -> Unit) {
         NetworkManager.sendRequest(
             APIService.instance.getUserDefaultValues(mgExerciseId),
-            onSuccessCallback = { response -> onSuccess(UserDefaultValuesModel(response.responseData[0]))}
+            onSuccessCallback = { response -> onSuccess(UserDefaultValuesModel(response.data[0]))}
         )
     }
 
@@ -38,7 +38,7 @@ class UserProfileRepository {
     fun getWeightUnits(onSuccess: (List<WeightUnitModel>) -> Unit) {
         NetworkManager.sendRequest(
             APIService.instance.getWeightUnits(),
-            onSuccessCallback = { response -> onSuccess(response.responseData.map{ WeightUnitModel(it) })}
+            onSuccessCallback = { response -> onSuccess(response.data.map{ WeightUnitModel(it) })}
         )
     }
 }

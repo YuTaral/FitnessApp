@@ -22,7 +22,7 @@ class ExerciseRepository {
 
         NetworkManager.sendRequest(
             APIService.instance.addExerciseToWorkout(params),
-            onSuccessCallback = { response -> onSuccess(WorkoutModel(response.responseData[0])) }
+            onSuccessCallback = { response -> onSuccess(WorkoutModel(response.data[0])) }
         )
     }
 
@@ -35,7 +35,7 @@ class ExerciseRepository {
 
         NetworkManager.sendRequest(
             APIService.instance.updateExerciseFromWorkout(params),
-            onSuccessCallback = { response -> onSuccess(WorkoutModel(response.responseData[0])) }
+            onSuccessCallback = { response -> onSuccess(WorkoutModel(response.data[0])) }
         )
     }
 
@@ -46,7 +46,7 @@ class ExerciseRepository {
     fun deleteExerciseFromWorkout(exerciseId: Long, onSuccess: (WorkoutModel) -> Unit) {
         NetworkManager.sendRequest(
             APIService.instance.deleteExerciseFromWorkout(exerciseId),
-            onSuccessCallback = { response -> onSuccess(WorkoutModel(response.responseData[0])) }
+            onSuccessCallback = { response -> onSuccess(WorkoutModel(response.data[0])) }
         )
     }
 
@@ -59,7 +59,7 @@ class ExerciseRepository {
     fun getMuscleGroupExercises(muscleGroupId: Long, onlyForUser: String,onSuccess:(MutableList<MGExerciseModel>) -> Unit) {
         NetworkManager.sendRequest(
             APIService.instance.getExerciseByMGId(muscleGroupId, onlyForUser),
-            onSuccessCallback = { response -> onSuccess(response.responseData.map { MGExerciseModel(it) }.toMutableList()) }
+            onSuccessCallback = { response -> onSuccess(response.data.map { MGExerciseModel(it) }.toMutableList()) }
         )
     }
 
@@ -81,7 +81,7 @@ class ExerciseRepository {
 
         NetworkManager.sendRequest(
             APIService.instance.addExercise(params),
-            onSuccessCallback = { response -> onSuccess(response.responseData) },
+            onSuccessCallback = { response -> onSuccess(response.data) },
             onErrorCallback = { response -> onFailure(response) }
         )
     }
@@ -97,7 +97,7 @@ class ExerciseRepository {
         NetworkManager.sendRequest(
             APIService.instance.updateExercise(params),
             onSuccessCallback = { response ->
-                onSuccess(response.responseData)
+                onSuccess(response.data)
             }
         )
     }
@@ -110,7 +110,7 @@ class ExerciseRepository {
         NetworkManager.sendRequest(
             APIService.instance.deleteExercise(mGExerciseId),
             onSuccessCallback = { response ->
-                onSuccess(response.responseData.map { MGExerciseModel(it) })
+                onSuccess(response.data.map { MGExerciseModel(it) })
             }
         )
     }

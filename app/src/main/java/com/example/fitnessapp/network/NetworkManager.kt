@@ -34,20 +34,20 @@ object NetworkManager {
 
                         try {
 
-                            if (Utils.isSuccessResponse(body.responseCode)) {
+                            if (Utils.isSuccessResponse(body.code)) {
                                 // Execute the callback and show the message if it's different from success
                                 onSuccessCallback(body)
-                                if (body.responseMessage != "Success") {
-                                    Utils.showToast(body.responseMessage)
+                                if (body.message != "Success") {
+                                    Utils.showToast(body.message)
                                 }
 
-                            } else if (Utils.istTokenExpiredResponse(body.responseCode)) {
+                            } else if (Utils.istTokenExpiredResponse(body.code)) {
                                 // Token expired, logout
                                 UserRepository().logout(onSuccess = { Utils.onLogout() })
 
-                            } else if (Utils.isTokenRefreshResponse(body.responseCode) && body.responseData.isNotEmpty()) {
+                            } else if (Utils.isTokenRefreshResponse(body.code) && body.data.isNotEmpty()) {
                                 // Update the token using the returned token
-                                APIService.updateToken(body.responseData[0])
+                                APIService.updateToken(body.data[0])
 
                                 // Execute the callback
                                 onSuccessCallback(body)
@@ -62,8 +62,8 @@ object NetworkManager {
                             onErrorCallback(body)
 
                             // Show error message
-                            if (body.responseMessage.isNotEmpty()) {
-                                Utils.showMessage(body.responseMessage)
+                            if (body.message.isNotEmpty()) {
+                                Utils.showMessage(body.message)
                             } else {
                                 Utils.showMessage(R.string.error_msg_unexpected)
                             }
