@@ -1,7 +1,6 @@
 package com.example.fitnessapp.network.repositories
 
 import com.example.fitnessapp.models.UserDefaultValuesModel
-import com.example.fitnessapp.models.WeightUnitModel
 import com.example.fitnessapp.network.APIService
 import com.example.fitnessapp.network.CustomResponse
 import com.example.fitnessapp.network.NetworkManager
@@ -29,16 +28,6 @@ class UserProfileRepository {
         NetworkManager.sendRequest(
             APIService.instance.getUserDefaultValues(mgExerciseId),
             onSuccessCallback = { response -> onSuccess(UserDefaultValuesModel(response.data[0]))}
-        )
-    }
-
-    /** Send a request to fetch the weight units
-     * @param onSuccess callback to execute if request is successful
-     */
-    fun getWeightUnits(onSuccess: (List<WeightUnitModel>) -> Unit) {
-        NetworkManager.sendRequest(
-            APIService.instance.getWeightUnits(),
-            onSuccessCallback = { response -> onSuccess(response.data.map{ WeightUnitModel(it) })}
         )
     }
 }

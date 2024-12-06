@@ -46,6 +46,7 @@ object Constants {
         const val DELETE_WORKOUT = "$WORKOUT/delete"
         const val GET_WORKOUTS = "$WORKOUT/get-workouts"
         const val GET_WORKOUT = "$WORKOUT/get-workout"
+        const val GET_WEIGHT_UNITS  = "$WORKOUT/get-weight-units"
 
         const val ADD_EXERCISE_TO_WORKOUT = "$EXERCISE/add-to-workout"
         const val UPDATE_EXERCISE_FROM_WORKOUT = "$EXERCISE/update-exercise-from-workout"
@@ -59,7 +60,6 @@ object Constants {
 
         const val UPDATE_USER_DEFAULT_VALUES = "$USER_PROFILE/update-default-values"
         const val GET_USER_DEFAULT_VALUES = "$USER_PROFILE/get-default-values"
-        const val GET_WEIGHT_UNITS  = "$USER_PROFILE/get-weight-units"
 
         const val ADD_WORKOUT_TEMPLATE  = "$WORKOUT_TEMPLATE/add"
         const val DELETE_WORKOUT_TEMPLATE  = "$WORKOUT_TEMPLATE/delete"

@@ -34,9 +34,6 @@ interface IAPIService {
 
     /** USER PROFILE GET REQUESTS
      * -------------------------------------------------------------------------------- */
-    @GET(Constants.RequestEndPoints.GET_WEIGHT_UNITS)
-    fun getWeightUnits(): Call<CustomResponse>
-
     @GET(Constants.RequestEndPoints.GET_USER_DEFAULT_VALUES)
     fun getUserDefaultValues(@Query("mgExerciseId") workoutId: Long): Call<CustomResponse>
 
@@ -58,6 +55,9 @@ interface IAPIService {
 
     @GET(Constants.RequestEndPoints.GET_WORKOUT)
     fun getWorkout(@Query("workoutId") workoutId: Long): Call<CustomResponse>
+
+    @GET(Constants.RequestEndPoints.GET_WEIGHT_UNITS)
+    fun getWeightUnits(): Call<CustomResponse>
 
     /** EXERCISE POST REQUESTS
      * -------------------------------------------------------------------------------- */

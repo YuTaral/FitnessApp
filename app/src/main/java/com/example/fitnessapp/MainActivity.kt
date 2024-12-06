@@ -13,8 +13,8 @@ import com.example.fitnessapp.dialogs.AskQuestionDialog
 import com.example.fitnessapp.dialogs.ChangePasswordDialog
 import com.example.fitnessapp.dialogs.DefaultValuesDialog
 import com.example.fitnessapp.dialogs.SaveWorkoutTemplateDialog
-import com.example.fitnessapp.network.repositories.UserProfileRepository
 import com.example.fitnessapp.network.repositories.UserRepository
+import com.example.fitnessapp.network.repositories.WorkoutRepository
 import com.example.fitnessapp.panels.BaseExercisePanel
 import com.example.fitnessapp.panels.ManageExercisesPanel
 import com.example.fitnessapp.panels.TemplatesPanel
@@ -146,7 +146,7 @@ class MainActivity : AppCompatActivity() {
     private fun leftDrawerSelected(menuItem: MenuItem) {
         when (menuItem.itemId) {
             R.id.exercise_default_values -> {
-                UserProfileRepository().getWeightUnits(onSuccess = { weighUnits ->
+                WorkoutRepository().getWeightUnits(onSuccess = { weighUnits ->
                     DefaultValuesDialog(this, StateEngine.user!!.defaultValues, weighUnits).show()
                 })
             }
