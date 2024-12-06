@@ -29,7 +29,7 @@ class WorkoutRepository {
         // Send a request to add the workout
         val params = mapOf("workout" to Utils.serializeObject(workout))
 
-        NetworkManager.sendRequest(APIService.instance.editWorkout(params),
+        NetworkManager.sendRequest(APIService.instance.updateWorkout(params),
             onSuccessCallback = { response -> onSuccess(WorkoutModel(response.data[0])) }
         )
     }
