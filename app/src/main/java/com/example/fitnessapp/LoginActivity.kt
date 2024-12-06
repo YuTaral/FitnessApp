@@ -3,6 +3,7 @@ package com.example.fitnessapp
 import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
@@ -29,10 +30,12 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var clickForLoginLbl: TextView
     private lateinit var registerBtn: Button
     private lateinit var loginBtn: Button
+    private lateinit var welcomeLbl: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         StateEngine.activeActivity = this
+        setContentView(R.layout.login_activity)
 
         // Try to login automatically
         val token = Utils.getStoredToken()
@@ -54,8 +57,9 @@ class LoginActivity : AppCompatActivity() {
 
     /** Initialize and display the login activity */
     private fun initializeLoginActivity() {
-        setContentView(R.layout.login_activity)
         findViews()
+        welcomeLbl.visibility = View.GONE
+        displayLogin()
         addClickListeners()
     }
 
@@ -72,6 +76,7 @@ class LoginActivity : AppCompatActivity() {
         clickForLoginLbl = findViewById(R.id.click_for_login_lbl)
         registerBtn = findViewById(R.id.register_btn)
         loginBtn = findViewById(R.id.login_btn)
+        welcomeLbl = findViewById(R.id.welcome_lbl)
     }
 
     /** Add click listeners to the views in the activity */

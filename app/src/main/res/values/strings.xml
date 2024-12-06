@@ -111,4 +111,5 @@
     <string name="question_delete_workout_text">Are you sure you want to delete workout \"%s\" ?</string>
     <string name="question_delete_exercise_from_workout_title">Delete exercise from workout</string>
     <string name="question_delete_exercise_from_workout_text">Are you sure you want to delete exercise \"%s\" from the current workout ?</string>
+    <string name="welcome_lbl">Welcome</string>
 </resources>
