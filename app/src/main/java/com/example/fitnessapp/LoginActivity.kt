@@ -8,7 +8,6 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.fitnessapp.models.UserModel
 import com.example.fitnessapp.models.WorkoutModel
@@ -18,7 +17,9 @@ import com.example.fitnessapp.utils.StateEngine
 import com.example.fitnessapp.utils.Utils
 
 /** Class to hold the logic for Login / Register */
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : BaseActivity() {
+    override var layoutId = R.layout.login_activity
+
     private lateinit var loginContainer: ConstraintLayout
     private lateinit var registerContainer: ConstraintLayout
     private lateinit var email: EditText
@@ -34,8 +35,6 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        StateEngine.activeActivity = this
-        setContentView(R.layout.login_activity)
 
         // Try to login automatically
         val token = Utils.getStoredToken()
@@ -48,23 +47,15 @@ class LoginActivity : AppCompatActivity() {
                 StateEngine.user = userModel
                 startMainActivity()
             }, onFailure = {
-                initializeLoginActivity()
+                displayLogin()
             })
         } else {
-            initializeLoginActivity()
+            displayLogin()
         }
     }
 
-    /** Initialize and display the login activity */
-    private fun initializeLoginActivity() {
-        findViews()
-        welcomeLbl.visibility = View.GONE
-        displayLogin()
-        addClickListeners()
-    }
-
     /** Find the views in the activity */
-    private fun findViews() {
+    override fun findViews() {
         loginContainer = findViewById(R.id.login_container)
         registerContainer = findViewById(R.id.register_container)
         email = findViewById(R.id.email)
@@ -80,7 +71,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     /** Add click listeners to the views in the activity */
-    private fun addClickListeners() {
+    override fun addClickListeners() {
         clickForRegisterLbl.setOnClickListener { displayRegister() }
         clickForLoginLbl.setOnClickListener { displayLogin() }
         registerBtn.setOnClickListener { register() }
@@ -117,6 +108,7 @@ class LoginActivity : AppCompatActivity() {
 
     /** Display Register page */
     private fun displayRegister() {
+        welcomeLbl.visibility = View.GONE
         Utils.hideViewWithFade(loginContainer)
 
         email.setText("")
@@ -127,6 +119,7 @@ class LoginActivity : AppCompatActivity() {
 
     /** Display Login page */
     private fun displayLogin() {
+        welcomeLbl.visibility = View.GONE
         Utils.hideViewWithFade(registerContainer)
 
         emailReg.setText("")

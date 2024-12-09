@@ -1,11 +1,9 @@
 package com.example.fitnessapp
 
-import android.os.Bundle
 import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
-import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.viewpager2.widget.ViewPager2
 import com.example.fitnessapp.adapters.PanelAdapter
@@ -27,7 +25,9 @@ import com.google.android.material.tabs.TabLayoutMediator
 /** Main Activity class to hold the main logic of the application.
  * Displayed after successful login
  */
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
+    override var layoutId = R.layout.main_activity
+
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navView: NavigationView
     private lateinit var actionsNavView: NavigationView
@@ -36,12 +36,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var viewPager: ViewPager2
     private lateinit var tabLayout: TabLayout
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.main_activity)
-        StateEngine.activeActivity = this
-
-        // Find the views
+    override fun findViews() {
         drawerLayout = findViewById(R.id.drawer_layout)
         navView = findViewById(R.id.nav_view)
         actionsNavView = findViewById(R.id.action_nav_view)
@@ -49,11 +44,10 @@ class MainActivity : AppCompatActivity() {
         tabLayout = findViewById(R.id.tabLayout)
         profileIcon = findViewById(R.id.profile_img)
         menuIcon = findViewById(R.id.menu_img)
+    }
 
-        // Set up the pager adapter
+    override fun addClickListeners() {
         initialisePager()
-
-        // Initialise drawer logic - adds click listeners and overrides back button press
         initialiseDrawerLogic()
     }
 
