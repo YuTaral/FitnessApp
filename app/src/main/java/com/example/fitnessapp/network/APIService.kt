@@ -21,29 +21,21 @@ object APIService {
      * @param token - the token, may be empty (in case of logout)
      */
     fun updateToken(token: String): IAPIService {
-        val service: Retrofit
+        val client = OkHttpClient.Builder()
+            .apply {
+                if (token.isNotEmpty()) {
+                    addInterceptor(AuthorizationInterceptor(token))
+                }
+            }
+            .build()
 
-        if (token != "") {
-            val client = OkHttpClient.Builder()
-                .addInterceptor(AuthorizationInterceptor(token))
-                .build()
-
-            service = Retrofit.Builder()
-                .baseUrl(Constants.URL)
-                .client(client)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-
-        } else {
-            service = Retrofit.Builder()
-                .baseUrl(Constants.URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-        }
+        val service = Retrofit.Builder()
+            .baseUrl(Constants.URL)
+            .client(client)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
 
         instance = service.create(IAPIService::class.java)
-
-        // Update the token in shared prefs
         Utils.updateTokenInPrefs(token)
 
         return instance
