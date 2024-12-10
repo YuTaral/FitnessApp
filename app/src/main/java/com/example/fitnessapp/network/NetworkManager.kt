@@ -1,6 +1,8 @@
 package com.example.fitnessapp.network
 
 import android.app.AlertDialog
+import android.os.Handler
+import android.os.Looper
 import com.example.fitnessapp.R
 import com.example.fitnessapp.network.repositories.UserRepository
 import com.example.fitnessapp.utils.StateEngine
@@ -122,6 +124,15 @@ object NetworkManager {
 
         progressDialog = dialogBuilder.create()
         progressDialog.show()
+
+        // Create a handler to dismiss the progressDialog after 30 seconds in case something goes wrong
+        Handler(Looper.getMainLooper()).postDelayed({
+            // Check if the dialog is still showing, and dismiss it if so
+            if (progressDialog.isShowing) {
+                progressDialog.dismiss()
+                Utils.showMessage(R.string.error_msg_unexpected_network_problem)
+            }
+        }, 30000) // 30000 milliseconds = 30 seconds
     }
 
     /** Executes the logic when request error occurs
