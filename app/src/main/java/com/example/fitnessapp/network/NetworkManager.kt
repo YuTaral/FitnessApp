@@ -57,7 +57,7 @@ object NetworkManager {
         call.enqueue(object : Callback<CustomResponse> {
             override fun onResponse(call: Call<CustomResponse>, response: Response<CustomResponse>) {
                 try {
-                    progressDialog.dismiss()
+                    //progressDialog.dismiss()
                     val body = response.body()
 
                     // Process the response
@@ -132,7 +132,7 @@ object NetworkManager {
                 progressDialog.dismiss()
                 Utils.showMessage(R.string.error_msg_unexpected_network_problem)
             }
-        }, 30000) // 30000 milliseconds = 30 seconds
+        }, 30000)
     }
 
     /** Executes the logic when request error occurs
