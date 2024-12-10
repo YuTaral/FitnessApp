@@ -12,7 +12,7 @@ class MuscleGroupRepository {
      */
     fun getMuscleGroups(onSuccess: (MutableList<MuscleGroupModel>) -> Unit) {
         NetworkManager.sendRequest(
-            APIService.instance.getMuscleGroups(),
+            request = { APIService.instance.getMuscleGroups() },
             onSuccessCallback = { response ->
                 onSuccess(response.data.map { MuscleGroupModel(it) }.toMutableList())
             }

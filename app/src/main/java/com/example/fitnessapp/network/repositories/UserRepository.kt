@@ -14,7 +14,7 @@ class UserRepository {
      */
     fun register(email: String, password: String, onSuccess: () -> Unit) {
         NetworkManager.sendRequest(
-            APIService.instance.register(mapOf("email" to email, "password" to password)),
+            request = { APIService.instance.register(mapOf("email" to email, "password" to password)) },
             onSuccessCallback = { onSuccess() })
     }
 
@@ -25,7 +25,7 @@ class UserRepository {
      */
     fun login(email: String, password: String, onSuccess: (CustomResponse) -> Unit) {
         NetworkManager.sendRequest(
-            APIService.instance.login(mapOf("email" to email, "password" to password)),
+            request = { APIService.instance.login(mapOf("email" to email, "password" to password)) },
             onSuccessCallback = { response ->
                 onSuccess(response)
             })
@@ -36,7 +36,7 @@ class UserRepository {
      */
     fun logout(onSuccess: () -> Unit) {
         NetworkManager.sendRequest(
-            APIService.instance.logout(),
+            request = { APIService.instance.logout() },
             onSuccessCallback = {
                 onSuccess()
             })
@@ -49,7 +49,7 @@ class UserRepository {
      */
     fun changePassword(oldPassword: String, password: String, onSuccess: () -> Unit) {
         NetworkManager.sendRequest(
-            APIService.instance.changePassword(mapOf("oldPassword" to oldPassword, "password" to password)),
+            request = { APIService.instance.changePassword(mapOf("oldPassword" to oldPassword, "password" to password)) },
             onSuccessCallback = { onSuccess() })
     }
 
@@ -59,7 +59,7 @@ class UserRepository {
      */
     fun validateToken(token: String, onSuccess: () -> Unit, onFailure: () -> Unit) {
         NetworkManager.sendRequest(
-            APIService.instance.validateToken(mapOf("token" to token)),
+            request = { APIService.instance.validateToken(mapOf("token" to token)) },
             onSuccessCallback = { onSuccess() },
             onErrorCallback = { onFailure() }
         )

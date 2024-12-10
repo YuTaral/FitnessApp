@@ -15,7 +15,7 @@ object StateEngine {
 
     /** Getter and Setter for the logged-in user */
     var user: UserModel?
-        get() = _user ?: throw UninitializedPropertyAccessException("User is not initialized")
+        get() = _user
         set(value) {
             _user = value
             Utils.updateUserInPrefs(_user)

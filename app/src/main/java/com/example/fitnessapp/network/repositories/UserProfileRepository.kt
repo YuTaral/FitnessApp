@@ -15,7 +15,7 @@ class UserProfileRepository {
      */
     fun updateUserDefaultValues(values: UserDefaultValuesModel, onSuccess: (CustomResponse) -> Unit) {
         NetworkManager.sendRequest(
-            APIService.instance.updateUserDefaultValues(mapOf("values" to Utils.serializeObject(values))),
+            request = { APIService.instance.updateUserDefaultValues(mapOf("values" to Utils.serializeObject(values))) },
             onSuccessCallback = { response -> onSuccess(response) })
     }
 
@@ -26,7 +26,7 @@ class UserProfileRepository {
      */
     fun getUserDefaultValues(mgExerciseId: Long, onSuccess: (UserDefaultValuesModel) -> Unit) {
         NetworkManager.sendRequest(
-            APIService.instance.getUserDefaultValues(mgExerciseId),
+            request = { APIService.instance.getUserDefaultValues(mgExerciseId) },
             onSuccessCallback = { response -> onSuccess(UserDefaultValuesModel(response.data[0]))}
         )
     }

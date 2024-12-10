@@ -17,7 +17,8 @@ class WorkoutRepository {
         // Send a request to add the workout
         val params = mapOf("workout" to Utils.serializeObject(workout))
 
-        NetworkManager.sendRequest(APIService.instance.addWorkout(params),
+        NetworkManager.sendRequest(
+            request = { APIService.instance.addWorkout(params) },
             onSuccessCallback = { response -> onSuccess(WorkoutModel(response.data[0])) }
         )
     }
@@ -30,7 +31,8 @@ class WorkoutRepository {
         // Send a request to add the workout
         val params = mapOf("workout" to Utils.serializeObject(workout))
 
-        NetworkManager.sendRequest(APIService.instance.updateWorkout(params),
+        NetworkManager.sendRequest(
+            request = { APIService.instance.updateWorkout(params) },
             onSuccessCallback = { response -> onSuccess(WorkoutModel(response.data[0])) }
         )
     }
@@ -40,7 +42,8 @@ class WorkoutRepository {
      * @param onSuccess callback to execute if request is successful
      */
     fun deleteWorkout(workoutId: Long, onSuccess: () -> Unit) {
-        NetworkManager.sendRequest(APIService.instance.deleteWorkout(workoutId),
+        NetworkManager.sendRequest(
+            request = { APIService.instance.deleteWorkout(workoutId) },
             onSuccessCallback = { onSuccess() })
     }
 
@@ -49,7 +52,7 @@ class WorkoutRepository {
      */
     fun getWorkouts(onSuccess: (List<String>) -> Unit) {
         NetworkManager.sendRequest(
-            APIService.instance.getWorkouts(),
+            request = { APIService.instance.getWorkouts() },
             onSuccessCallback = { response ->
                 onSuccess(response.data)
             }
@@ -62,7 +65,7 @@ class WorkoutRepository {
      */
     fun getWorkout(workoutId: Long, onSuccess: (WorkoutModel) -> Unit) {
         NetworkManager.sendRequest(
-            APIService.instance.getWorkout(workoutId),
+            request = { APIService.instance.getWorkout(workoutId) },
             onSuccessCallback = { response ->
                 onSuccess(WorkoutModel(response.data[0]))
             }
@@ -74,7 +77,7 @@ class WorkoutRepository {
      */
     fun getWeightUnits(onSuccess: (List<WeightUnitModel>) -> Unit) {
         NetworkManager.sendRequest(
-            APIService.instance.getWeightUnits(),
+            request = { APIService.instance.getWeightUnits() },
             onSuccessCallback = { response -> onSuccess(response.data.map{ WeightUnitModel(it) })}
         )
     }
