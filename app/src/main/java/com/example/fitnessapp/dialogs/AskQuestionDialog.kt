@@ -26,7 +26,8 @@ class AskQuestionDialog(ctx: Context, q: Question, d: BaseModel? = null): BaseDi
         LOG_OUT(R.string.q_log_out_title, R.string.q_log_out_text, R.string.yes_btn, R.string.no_btn),
         DELETE_WORKOUT(R.string.question_delete_workout_title, R.string.question_delete_workout_text, R.string.yes_btn, R.string.no_btn),
         DELETE_EXERCISE_FROM_WORKOUT(R.string.question_delete_exercise_from_workout_title, R.string.question_delete_exercise_from_workout_text, R.string.yes_btn, R.string.no_btn),
-        FINISH_WORKOUT(R.string.question_finish_workout_title, R.string.question_finish_workout_text, R.string.yes_btn, R.string.no_btn);
+        FINISH_WORKOUT(R.string.question_finish_workout_title, R.string.question_finish_workout_text, R.string.yes_btn, R.string.no_btn),
+        WORKOUT_ALREADY_FINISHED(R.string.question_workout_already_finished_title, R.string.question_workout_already_finished_text, R.string.yes_btn, R.string.no_btn);
 
         /** Returns the question title */
         fun getTitle(): String {

@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.fitnessapp.R
 import com.example.fitnessapp.adapters.ExerciseRecyclerAdapter
 import com.example.fitnessapp.dialogs.AddEditWorkoutDialog
+import com.example.fitnessapp.dialogs.AskQuestionDialog
+import com.example.fitnessapp.network.repositories.WorkoutRepository
 import com.example.fitnessapp.utils.Constants
 import com.example.fitnessapp.utils.StateEngine
 import com.example.fitnessapp.utils.Utils
@@ -87,8 +89,35 @@ class SelectedWorkoutPanel : PanelFragment() {
 
     override fun addClickListeners() {
         newExerciseBtn.setOnClickListener {
-            StateEngine.panelAdapter
-                .displayTemporaryPanel(ExercisePanel(BaseExercisePanel.Mode.SELECT_MUSCLE_GROUP))
+            if (StateEngine.workout!!.finishDateTime != null) {
+                // Workout finished, ask the user whether to remove the finished time
+                val dialog = AskQuestionDialog(requireContext(), AskQuestionDialog.Question.WORKOUT_ALREADY_FINISHED)
+
+                dialog.setYesCallback {
+                    val unFinishedWorkout = StateEngine.workout!!
+                    unFinishedWorkout.finishDateTime = null
+
+                    WorkoutRepository().editWorkout(unFinishedWorkout, onSuccess = { workout ->
+                        // Refresh the workout panel
+                        StateEngine.panelAdapter.displayWorkoutPanel(workout, true)
+
+                        // Close the ask question dialog
+                        dialog.dismiss()
+
+                        // Display the add exercise panel after user confirmation and workout marked
+                        // as unfinished
+                        StateEngine.panelAdapter
+                            .displayTemporaryPanel(ExercisePanel(BaseExercisePanel.Mode.SELECT_MUSCLE_GROUP))
+                    })
+                }
+
+                dialog.show()
+
+            } else {
+                // Workout not finished, display the exercise panel
+                StateEngine.panelAdapter
+                    .displayTemporaryPanel(ExercisePanel(BaseExercisePanel.Mode.SELECT_MUSCLE_GROUP))
+            }
         }
 
         editBtn.setOnClickListener {
