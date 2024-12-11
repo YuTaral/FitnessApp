@@ -58,8 +58,7 @@ class MainPanel: PanelFragment() {
                 workoutsRecycler.visibility = View.VISIBLE
 
                 workoutsRecycler.layoutManager = LinearLayoutManager(context)
-                workoutsRecycler.adapter = WorkoutRecyclerAdapter(
-                    workouts) { workout ->
+                workoutsRecycler.adapter = WorkoutRecyclerAdapter(workouts) { workout ->
                     StateEngine.panelAdapter.displayWorkoutPanel(workout, null)
                 }
             }

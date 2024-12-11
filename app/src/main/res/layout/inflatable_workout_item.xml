@@ -27,13 +27,33 @@
         tools:text="22.09.2024"/>
 
     <TextView
+        android:id="@+id/current_workout_status_lbl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/status_lbl"
+        android:textStyle="italic"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/workout_name_txt" />
+
+    <TextView
+        android:id="@+id/current_workout_status_value_lbl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text="@string/in_progress_lbl"
+        android:textColor="@color/orange"
+        android:textStyle="italic"
+        app:layout_constraintTop_toBottomOf="@+id/workout_name_txt"
+        app:layout_constraintStart_toEndOf="@+id/current_workout_status_lbl" />
+
+    <TextView
         android:id="@+id/exercises_lbl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/exercises_lbl"
         android:textStyle="italic"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/workout_name_txt"/>
+        app:layout_constraintTop_toBottomOf="@+id/current_workout_status_value_lbl"/>
 
     <TextView
         android:id="@+id/workout_exercises_summary_txt"
@@ -42,7 +62,7 @@
         android:layout_marginStart="5dp"
         android:maxLines="1"
         android:ellipsize="end"
-        app:layout_constraintTop_toBottomOf="@+id/workout_name_txt"
+        app:layout_constraintTop_toBottomOf="@+id/current_workout_status_value_lbl"
         app:layout_constraintStart_toEndOf="@+id/exercises_lbl"
         app:layout_constraintEnd_toEndOf="parent"
         tools:text="Calves, Squats, Dead Lift"/>

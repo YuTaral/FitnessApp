@@ -49,12 +49,16 @@ class WorkoutRecyclerAdapter (data: List<WorkoutModel>, onClick: (WorkoutModel) 
     class WorkoutItem(view: View): RecyclerView.ViewHolder(view)  {
         private var name: TextView = itemView.findViewById(R.id.workout_name_txt)
         private var date: TextView = itemView.findViewById(R.id.workout_date_txt)
+        private var statusLbl: TextView = itemView.findViewById(R.id.current_workout_status_lbl)
+        private var statusValue: TextView = itemView.findViewById(R.id.current_workout_status_value_lbl)
         private var exercisesLlb: TextView = itemView.findViewById(R.id.exercises_lbl)
         private var exercises: TextView = itemView.findViewById(R.id.workout_exercises_summary_txt)
         private var total: TextView = itemView.findViewById(R.id.workout_total_txt)
 
         @SuppressLint("SetTextI18n")
         fun bind(item: WorkoutModel, onClickCallback: (WorkoutModel) -> Unit) {
+            val statusStringId: Int
+            val statusColorId: Int
             var exercisesText = ""
             var totalWeight = 0.0
             var totalReps = 0
@@ -78,10 +82,26 @@ class WorkoutRecyclerAdapter (data: List<WorkoutModel>, onClick: (WorkoutModel) 
             name.text = item.name
 
             if (item.template) {
-                // Templates have no start date time
+                // Templates have no start date time and status
                 date.visibility = View.GONE
+                statusLbl.visibility = View.GONE
+                statusValue.visibility = View.GONE
             } else {
                 date.visibility = View.VISIBLE
+                statusLbl.visibility = View.VISIBLE
+                statusValue.visibility = View.VISIBLE
+
+                if (item.finishDateTime == null) {
+                    statusStringId = R.string.in_progress_lbl
+                    statusColorId = R.color.orange
+                } else {
+                    statusStringId = R.string.finished_lbl
+                    statusColorId = R.color.green
+                }
+
+                statusValue.text = Utils.getContext().getString(statusStringId)
+                statusValue.setTextColor(Utils.getContext().getColor(statusColorId))
+
                 date.text = Utils.defaultFormatDate(item.startDateTime!!)
             }
 
