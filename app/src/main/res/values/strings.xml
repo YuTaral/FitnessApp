@@ -119,5 +119,7 @@
     <string name="question_finish_workout_title">Finish workout</string>
     <string name="question_finish_workout_text">Are you sure you want to mark your workout as finished ? %s</string>
     <string name="exercises_not_finished_lbl">There are still uncompleted exercises</string>
+    <string name="started_time_lbl">Started:</string>
+    <string name="finished_date_time_lbl">Finished:</string>
 
 </resources>

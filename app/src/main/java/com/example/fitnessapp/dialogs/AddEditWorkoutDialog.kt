@@ -8,6 +8,7 @@ import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams
 import com.example.fitnessapp.R
 import com.example.fitnessapp.models.WorkoutModel
@@ -35,6 +36,9 @@ class AddEditWorkoutDialog(ctx: Context, mode: Mode, workoutModel: WorkoutModel?
 
     private lateinit  var title: TextView
     private lateinit var name: EditText
+    private lateinit var startEndTimeContainer: ConstraintLayout
+    private lateinit  var startLbl: TextView
+    private lateinit  var endLbl: TextView
     private lateinit var saveBtn: Button
     private lateinit var deleteBtn: Button
 
@@ -51,6 +55,9 @@ class AddEditWorkoutDialog(ctx: Context, mode: Mode, workoutModel: WorkoutModel?
         title = dialogView.findViewById(R.id.add_workout_title)
         closeIcon = dialogView.findViewById(R.id.dialog_close)
         name = dialogView.findViewById(R.id.workout_name_txt)
+        startEndTimeContainer = dialogView.findViewById(R.id.start_end_date_time_container)
+        startLbl = dialogView.findViewById(R.id.workout_start_date_time_txt)
+        endLbl = dialogView.findViewById(R.id.workout_finish_date_time_txt)
         saveBtn = dialogView.findViewById(R.id.save_btn)
         deleteBtn = dialogView.findViewById(R.id.delete_btn)
     }
@@ -59,8 +66,6 @@ class AddEditWorkoutDialog(ctx: Context, mode: Mode, workoutModel: WorkoutModel?
         if (dialogMode == Mode.ADD) {
 
             if (template != null) {
-                // If we only need to confirm the Workout name, set the name
-                // and disable the muscle groups
                 name.setText(template!!.name)
             }
 
@@ -68,8 +73,16 @@ class AddEditWorkoutDialog(ctx: Context, mode: Mode, workoutModel: WorkoutModel?
             title.text = Utils.getContext().getString(R.string.edit_workout_panel_title)
             setEditModeButtons()
 
-            if (StateEngine.workout != null) {
-                name.setText(StateEngine.workout!!.name)
+            name.setText(StateEngine.workout!!.name)
+
+            // Show start and end time
+            startEndTimeContainer.visibility = View.VISIBLE
+            startLbl.text = Utils.defaultFormatDateTime(StateEngine.workout!!.startDateTime!!)
+
+            if (StateEngine.workout!!.finishDateTime == null)  {
+                endLbl.visibility = View.GONE
+            } else {
+                endLbl.text = Utils.defaultFormatDateTime(StateEngine.workout!!.finishDateTime!!)
             }
         }
     }

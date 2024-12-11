@@ -162,6 +162,13 @@ object Utils {
         return SimpleDateFormat("dd MMM yyyy", Locale.US).format(date)
     }
 
+    /** Convert the date to default app format date and time - dd/MMM/yyyy
+     * @param date the date to format
+     */
+    fun defaultFormatDateTime(date: Date): String {
+        return SimpleDateFormat("dd MMM yyyy, HH:mm", Locale.US).format(date)
+    }
+
     /** Used to smoothly expand view
      * @param view the view to expand
      */
