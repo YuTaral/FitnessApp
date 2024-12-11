@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+        android:id="@+id/nav_finish_workout"
+        android:title="@string/finish_workout_lbl" />
+
+    <item
         android:id="@+id/nav_save_workout_template"
         android:title="@string/save_workout_as_template_lbl" />
+
     <item
         android:id="@+id/nav_manage_templates"
         android:title="@string/manage_templates_lbl" />

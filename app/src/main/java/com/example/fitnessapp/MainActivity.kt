@@ -21,6 +21,7 @@ import com.example.fitnessapp.utils.Utils
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import java.util.Date
 
 /** Main Activity class to hold the main logic of the application.
  * Displayed after successful login
@@ -116,22 +117,60 @@ class MainActivity : BaseActivity() {
      * */
     private fun rightDrawerSelected(menuItem: MenuItem) {
         when (menuItem.itemId) {
-            R.id.nav_save_workout_template -> {
-                if (StateEngine.workout == null) {
-                    Utils.showToast(R.string.error_msg_no_workout_selected)
+            R.id.nav_finish_workout -> {
+                // Perform a check whether there is selected workout
+                if (!checkWorkoutSelected()) {
                     return
                 }
 
+                // Ask question to finish the workout
+                val dialog = AskQuestionDialog(this, AskQuestionDialog.Question.FINISH_WORKOUT)
+
+                // Send the request on yes
+                dialog.setYesCallback {
+                    // Create new workout object, changing the finish date tame
+                    val updatedWorkout = StateEngine.workout!!
+                    updatedWorkout.finishDateTime = Date()
+
+                    WorkoutRepository().editWorkout(updatedWorkout, onSuccess = { workout ->
+                        dialog.dismiss()
+                        StateEngine.panelAdapter.displayWorkoutPanel(workout, true)
+                    })
+                }
+
+                dialog.show()
+            }
+            R.id.nav_save_workout_template -> {
+                // Check if there is selected workout
+                if (!checkWorkoutSelected()) {
+                    return
+                }
+
+                // Open the dialog to save the workout as template
                 SaveWorkoutTemplateDialog(this).show()
             }
             R.id.nav_manage_templates -> {
+                // Display the Templates as temporary panel
                 StateEngine.panelAdapter.displayTemporaryPanel(TemplatesPanel())
             }
             R.id.nav_manage_exercises -> {
+                // Display the Muscle Groups and Exercises as temporary panel
                 StateEngine.panelAdapter
                     .displayTemporaryPanel(ManageExercisesPanel(BaseExercisePanel.Mode.SELECT_MUSCLE_GROUP))
             }
         }
+    }
+
+    /** Perform a check whether there is selected workout. Show toast and return false if there isn't,
+     * return true otherwise
+     */
+    private fun checkWorkoutSelected(): Boolean {
+        if (StateEngine.workout == null) {
+            Utils.showToast(R.string.error_msg_no_workout_selected)
+            return false
+        }
+
+        return true
     }
 
     /** Execute the action based on the selected action in the left Drawer

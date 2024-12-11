@@ -112,4 +112,12 @@
     <string name="question_delete_exercise_from_workout_title">Delete exercise from workout</string>
     <string name="question_delete_exercise_from_workout_text">Are you sure you want to delete exercise \"%s\" from the current workout ?</string>
     <string name="welcome_lbl">Welcome</string>
+    <string name="finish_workout_lbl">Finish workout</string>
+    <string name="status_lbl">Status:</string>
+    <string name="in_progress_lbl">In progress</string>
+    <string name="finished_lbl">Finished</string>
+    <string name="question_finish_workout_title">Finish workout</string>
+    <string name="question_finish_workout_text">Are you sure you want to mark your workout as finished ? %s</string>
+    <string name="exercises_not_finished_lbl">There are still uncompleted exercises</string>
+
 </resources>

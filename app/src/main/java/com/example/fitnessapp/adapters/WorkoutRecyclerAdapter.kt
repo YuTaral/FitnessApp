@@ -76,7 +76,14 @@ class WorkoutRecyclerAdapter (data: List<WorkoutModel>, onClick: (WorkoutModel) 
             }
 
             name.text = item.name
-            date.text = Utils.defaultFormatDate(item.date)
+
+            if (item.template) {
+                // Templates have no start date time
+                date.visibility = View.GONE
+            } else {
+                date.visibility = View.VISIBLE
+                date.text = Utils.defaultFormatDate(item.startDateTime!!)
+            }
 
             if (exercisesText.length > 2) {
                 exercisesLlb.visibility = View.VISIBLE

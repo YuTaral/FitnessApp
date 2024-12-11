@@ -22,8 +22,9 @@ class SelectedWorkoutPanel : PanelFragment() {
 
     private lateinit var mainContent: ConstraintLayout
     private lateinit var noWorkoutContent: ConstraintLayout
-    private lateinit var currentWorkout: TextView
-    private lateinit var currentWorkoutDate: TextView
+    private lateinit var workoutName: TextView
+    private lateinit var workoutDate: TextView
+    private lateinit var workoutStatus: TextView
     private lateinit var exerciseRecycler: RecyclerView
     private lateinit var newExerciseBtn: Button
     private lateinit var editBtn: Button
@@ -36,20 +37,35 @@ class SelectedWorkoutPanel : PanelFragment() {
     override fun findViews() {
         mainContent = panel.findViewById(R.id.main_content)
         noWorkoutContent = panel.findViewById(R.id.no_workout_content)
-        currentWorkout = panel.findViewById(R.id.current_workout_label)
-        currentWorkoutDate = panel.findViewById(R.id.current_workout_date_label)
+        workoutName = panel.findViewById(R.id.current_workout_label)
+        workoutStatus = panel.findViewById(R.id.current_workout_status_value_lbl)
+        workoutDate = panel.findViewById(R.id.current_workout_date_label)
         exerciseRecycler = panel.findViewById(R.id.exercises_recycler)
         newExerciseBtn = panel.findViewById(R.id.add_exercise_btn)
         editBtn = panel.findViewById(R.id.edit_btn)
     }
 
     override fun populatePanel() {
+        val statusStringId: Int
+        val statusColorId: Int
+
         if (StateEngine.workout != null) {
             mainContent.visibility = View.VISIBLE
             noWorkoutContent.visibility = View.GONE
 
-            currentWorkout.text = StateEngine.workout!!.name
-            currentWorkoutDate.text = Utils.defaultFormatDate(StateEngine.workout!!.date)
+            workoutName.text = StateEngine.workout!!.name
+            workoutDate.text = Utils.defaultFormatDate(StateEngine.workout!!.startDateTime!!)
+
+             if (StateEngine.workout!!.finishDateTime == null) {
+                 statusStringId = R.string.in_progress_lbl
+                 statusColorId = R.color.orange
+            } else {
+                 statusStringId = R.string.finished_lbl
+                 statusColorId = R.color.green
+            }
+
+            workoutStatus.text = Utils.getContext().getString(statusStringId)
+            workoutStatus.setTextColor(requireContext().getColor(statusColorId))
 
         } else {
             mainContent.visibility = View.GONE

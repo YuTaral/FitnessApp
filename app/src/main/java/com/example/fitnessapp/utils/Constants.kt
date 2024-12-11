@@ -47,6 +47,7 @@ object Constants {
         const val GET_WORKOUTS = "$WORKOUT/get-workouts"
         const val GET_WORKOUT = "$WORKOUT/get-workout"
         const val GET_WEIGHT_UNITS  = "$WORKOUT/get-weight-units"
+        const val FINISH_WORKOUT = "$WORKOUT/finish"
 
         const val ADD_EXERCISE_TO_WORKOUT = "$EXERCISE/add-to-workout"
         const val UPDATE_EXERCISE_FROM_WORKOUT = "$EXERCISE/update-exercise-from-workout"

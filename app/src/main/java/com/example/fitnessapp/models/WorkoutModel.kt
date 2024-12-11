@@ -11,8 +11,11 @@ class WorkoutModel: BaseModel {
     @SerializedName("Name")
     var name: String
 
-    @SerializedName("Date")
-    val date: Date
+    @SerializedName("StartDateTime")
+    val startDateTime: Date?
+
+    @SerializedName("FinishDateTime")
+    var finishDateTime: Date?
 
     @SerializedName("Template")
     val template: Boolean
@@ -28,7 +31,8 @@ class WorkoutModel: BaseModel {
         val model: WorkoutModel = gson.fromJson(data, WorkoutModel::class.java)
 
         name = model.name
-        date = model.date
+        startDateTime = model.startDateTime
+        finishDateTime = model.finishDateTime
         template = model.template
         exercises = model.exercises
     }
@@ -41,7 +45,14 @@ class WorkoutModel: BaseModel {
      */
     constructor(idVal: Long, nameVal: String, templateVal: Boolean, exercisesVal: MutableList<ExerciseModel>) : super (idVal) {
         name = nameVal
-        date = Date()
+
+        startDateTime = if (templateVal) {
+            null
+        } else {
+            Date()
+        }
+
+        finishDateTime = null
         template = templateVal
         exercises = exercisesVal
     }

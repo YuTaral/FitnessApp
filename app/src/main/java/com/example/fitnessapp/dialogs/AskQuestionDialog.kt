@@ -10,6 +10,7 @@ import com.example.fitnessapp.models.BaseModel
 import com.example.fitnessapp.models.ExerciseModel
 import com.example.fitnessapp.models.MGExerciseModel
 import com.example.fitnessapp.models.WorkoutModel
+import com.example.fitnessapp.utils.StateEngine
 import com.example.fitnessapp.utils.Utils
 
 /** Dialog used to ask a question and execute a callback on confirm */
@@ -24,7 +25,8 @@ class AskQuestionDialog(ctx: Context, q: Question, d: BaseModel? = null): BaseDi
         OVERRIDE_EXISTING_EXERCISE(R.string.question_override_exercise_title, R.string.question_override_exercise_text, R.string.override_btn, R.string.create_new_btn),
         LOG_OUT(R.string.q_log_out_title, R.string.q_log_out_text, R.string.yes_btn, R.string.no_btn),
         DELETE_WORKOUT(R.string.question_delete_workout_title, R.string.question_delete_workout_text, R.string.yes_btn, R.string.no_btn),
-        DELETE_EXERCISE_FROM_WORKOUT(R.string.question_delete_exercise_from_workout_title, R.string.question_delete_exercise_from_workout_text, R.string.yes_btn, R.string.no_btn);
+        DELETE_EXERCISE_FROM_WORKOUT(R.string.question_delete_exercise_from_workout_title, R.string.question_delete_exercise_from_workout_text, R.string.yes_btn, R.string.no_btn),
+        FINISH_WORKOUT(R.string.question_finish_workout_title, R.string.question_finish_workout_text, R.string.yes_btn, R.string.no_btn);
 
         /** Returns the question title */
         fun getTitle(): String {
@@ -110,6 +112,14 @@ class AskQuestionDialog(ctx: Context, q: Question, d: BaseModel? = null): BaseDi
                 formatName = (data as ExerciseModel).name
             }
 
+            Question.FINISH_WORKOUT -> {
+                formatName = if (workoutAllSetsCompleted()) {
+                    ""
+                } else {
+                    Utils.getContext().getString(R.string.exercises_not_finished_lbl)
+                }
+            }
+
             else -> {
                 // Nothing to do
             }
@@ -130,5 +140,19 @@ class AskQuestionDialog(ctx: Context, q: Question, d: BaseModel? = null): BaseDi
         } else {
             noBtn.setOnClickListener { dismiss() }
         }
+    }
+
+    /** Perform a check whether all exercises sets in the current workout are completed and
+     * return true or false
+     */
+    private fun workoutAllSetsCompleted(): Boolean {
+
+        for (e: ExerciseModel in StateEngine.workout!!.exercises) {
+            if (e.sets.any { !it.completed }) {
+                return false
+            }
+        }
+
+        return true
     }
 }
