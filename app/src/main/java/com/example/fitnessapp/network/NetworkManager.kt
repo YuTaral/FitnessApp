@@ -57,7 +57,7 @@ object NetworkManager {
         call.enqueue(object : Callback<CustomResponse> {
             override fun onResponse(call: Call<CustomResponse>, response: Response<CustomResponse>) {
                 try {
-                    //progressDialog.dismiss()
+                    progressDialog.dismiss()
                     val body = response.body()
 
                     // Process the response
