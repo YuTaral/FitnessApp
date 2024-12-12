@@ -11,9 +11,8 @@ import com.example.fitnessapp.dialogs.AddEditWorkoutDialog
 import com.example.fitnessapp.dialogs.AskQuestionDialog
 import com.example.fitnessapp.models.WorkoutModel
 import com.example.fitnessapp.network.repositories.WorkoutTemplateRepository
-import com.example.fitnessapp.utils.Constants
 import com.example.fitnessapp.utils.AppStateManager
-import com.example.fitnessapp.utils.Utils
+import com.example.fitnessapp.utils.Constants
 
 /** Templates Panel class to implement the logic for managing templates */
 class TemplatesPanel: PanelFragment() {
@@ -25,7 +24,7 @@ class TemplatesPanel: PanelFragment() {
     private lateinit var actionSpinner: Spinner
     private lateinit var templatesRecycler: RecyclerView
     private lateinit var closeBtn: Button
-    private val startWorkoutIndex = 1
+    private val startWorkoutIndex = 0
 
     override fun findViews() {
         actionSpinner = panel.findViewById(R.id.template_list_action_spinner)
@@ -37,8 +36,7 @@ class TemplatesPanel: PanelFragment() {
         val ctx = requireContext()
 
         // Create the adapter
-        actionSpinner.adapter = CustomSpinnerAdapter(panel.context, true, listOf(
-            ctx.getString(R.string.select_action_lbl),
+        actionSpinner.adapter = CustomSpinnerAdapter(panel.context, false, listOf(
             ctx.getString(R.string.action_start_workout_from_template),
             ctx.getString(R.string.action_delete_template))
         )
@@ -52,12 +50,6 @@ class TemplatesPanel: PanelFragment() {
 
             templatesRecycler.layoutManager = LinearLayoutManager(context)
             templatesRecycler.adapter = WorkoutRecyclerAdapter(templates, onClick = { template ->
-
-                // Validate there is selected action
-                if (actionSpinner.selectedItemPosition == 0) {
-                    Utils.showToast(R.string.error_select_action)
-                    return@WorkoutRecyclerAdapter
-                }
 
                 if (actionSpinner.selectedItemPosition == startWorkoutIndex) {
                     // Start workout is at index 1
