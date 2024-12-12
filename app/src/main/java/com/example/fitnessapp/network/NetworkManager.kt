@@ -6,6 +6,7 @@ import android.os.Looper
 import com.example.fitnessapp.R
 import com.example.fitnessapp.network.repositories.UserRepository
 import com.example.fitnessapp.utils.AppStateManager
+import com.example.fitnessapp.utils.Constants
 import com.example.fitnessapp.utils.Utils
 import retrofit2.Call
 import retrofit2.Callback
@@ -16,6 +17,7 @@ import retrofit2.Response
  */
 object NetworkManager {
     private lateinit var progressDialog: AlertDialog
+    private lateinit var responseBody: CustomResponse
 
     /** Use Factory pattern to create the call object. This is needed, because when
      * we need to refresh the token, the new token is returned as response from the server.
@@ -58,40 +60,40 @@ object NetworkManager {
             override fun onResponse(call: Call<CustomResponse>, response: Response<CustomResponse>) {
                 try {
                     progressDialog.dismiss()
-                    val body = response.body()
+                    responseBody = response.body()!!
 
                     // Process the response
-                    if (body != null && response.isSuccessful) {
+                    if (::responseBody.isInitialized && response.isSuccessful) {
 
                         try {
 
-                            if (Utils.isSuccessResponse(body.code)) {
+                            if (Utils.isSuccessResponse(responseBody.code)) {
                                 // Execute the callback and show the message if it's different from success
-                                onSuccessCallback(body)
-                                if (body.message != "Success") {
-                                    Utils.showToast(body.message)
+                                onSuccessCallback(responseBody)
+                                if (responseBody.message != "Success") {
+                                    Utils.showToast(responseBody.message)
                                 }
 
-                            } else if (Utils.istTokenExpiredResponse(body.code)) {
+                            } else if (Utils.istTokenExpiredResponse(responseBody.code)) {
                                 if (AppStateManager.user != null) {
                                     // Token expired, logout
                                     UserRepository().logout(onSuccess = { Utils.onLogout() })
                                 } else {
                                     // If user is not logged in, execute the onError which will display
                                     // the login page
-                                    onError(body, onErrorCallback)
+                                    onError(onErrorCallback)
                                 }
 
-                            } else if (Utils.isTokenRefreshResponse(body.code) && body.data.isNotEmpty()) {
+                            } else if (Utils.isTokenRefreshResponse(responseBody.code) && responseBody.data.isNotEmpty()) {
                                 // Update the token using the returned token
-                                APIService.updateToken(body.data[0])
+                                APIService.updateToken(responseBody.data[0])
 
                                 // Resend the original request by recreating the Call<CustomResponse> object
                                 executeCall(requestFactory(), onSuccessCallback, onErrorCallback)
 
-                            } else if (Utils.isFail(body.code)) {
+                            } else if (Utils.isFail(responseBody.code)) {
                                 // Execute on error callback
-                                onError(body, onErrorCallback)
+                                onError(onErrorCallback)
                             }
 
                         } catch (ex: Exception) {
@@ -99,7 +101,7 @@ object NetworkManager {
                         }
                     } else {
                         try {
-                            onError(body, onErrorCallback)
+                            onError(onErrorCallback)
                         } catch (ex: Exception) {
                             onException(Utils.getContext().getString(R.string.error_msg_unexpected), ex)
                         }
@@ -111,7 +113,20 @@ object NetworkManager {
             }
 
             override fun onFailure(call: Call<CustomResponse>, t: Throwable) {
+                // Display network problem error
                 onException(Utils.getContext().getString(R.string.error_msg_unexpected_network_problem), t as Exception)
+
+                try {
+                    if (!::responseBody.isInitialized) {
+                        responseBody = CustomResponse(Constants.ResponseCode.FAIL.ordinal, "", listOf())
+                    }
+
+                    // Try to execute the on error callback
+                    onErrorCallback(responseBody)
+
+                } catch (exception: Exception) {
+                    Utils.logException(exception)
+                }
             }
         })
     }
@@ -125,29 +140,28 @@ object NetworkManager {
         progressDialog = dialogBuilder.create()
         progressDialog.show()
 
-        // Create a handler to dismiss the progressDialog after 30 seconds in case something goes wrong
+        // Create a handler to dismiss the progressDialog after 15 seconds in case something goes wrong
         Handler(Looper.getMainLooper()).postDelayed({
             // Check if the dialog is still showing, and dismiss it if so
             if (progressDialog.isShowing) {
                 progressDialog.dismiss()
                 Utils.showMessage(R.string.error_msg_unexpected_network_problem)
             }
-        }, 30000)
+        }, 15000)
     }
 
     /** Executes the logic when request error occurs
-     * @param body the request's response body
      * @param onErrorCallback the callback to execute
      */
-    private fun onError(body: CustomResponse?, onErrorCallback: (CustomResponse) -> Unit) {
+    private fun onError(onErrorCallback: (CustomResponse) -> Unit) {
         var message = Utils.getContext().getString(R.string.error_msg_unexpected)
 
-        if (body != null) {
+        if (::responseBody.isInitialized) {
             // Execute the callback
-            onErrorCallback(body)
+            onErrorCallback(responseBody)
 
-            if (body.message.isNotEmpty()) {
-                message = body.message
+            if (responseBody.message.isNotEmpty()) {
+                message = responseBody.message
             }
         }
 
