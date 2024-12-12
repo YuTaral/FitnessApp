@@ -19,8 +19,10 @@ import androidx.security.crypto.MasterKey
 import com.example.fitnessapp.LoginActivity
 import com.example.fitnessapp.MainActivity
 import com.example.fitnessapp.R
+import com.example.fitnessapp.dialogs.AskQuestionDialog
 import com.example.fitnessapp.models.UserModel
 import com.example.fitnessapp.network.APIService
+import com.example.fitnessapp.network.repositories.WorkoutRepository
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
@@ -310,6 +312,39 @@ object Utils {
     /** Log the error */
     fun logException(exception: Exception) {
         Log.e(ContentValues.TAG, "Error: ${exception.message}", exception)
+    }
+
+    /** The click listener for Add Exercise and Edit Exercise Buttons
+     * @param question the question to ask if the current workout is already finished
+     * @param callback the callback to execute
+     */
+    fun addEditExerciseClick(question: AskQuestionDialog.Question, callback: () -> Unit) {
+        if (StateEngine.workout!!.finishDateTime != null) {
+            // Workout finished, ask the user whether to remove the finished time
+            val dialog = AskQuestionDialog(getContext(), question)
+
+            dialog.setYesCallback {
+                val unFinishedWorkout = StateEngine.workout!!
+                unFinishedWorkout.finishDateTime = null
+
+                WorkoutRepository().editWorkout(unFinishedWorkout, onSuccess = { workout ->
+                    // Refresh the workout panel
+                    StateEngine.panelAdapter.displayWorkoutPanel(workout, true)
+
+                    // Close the ask question dialog
+                    dialog.dismiss()
+
+                    // Execute the callback
+                    callback()
+                })
+            }
+
+            dialog.show()
+
+        } else {
+            // Execute the callback without asking question
+            callback()
+        }
     }
 
     /** Create and return SharedPreferences object using encryption */

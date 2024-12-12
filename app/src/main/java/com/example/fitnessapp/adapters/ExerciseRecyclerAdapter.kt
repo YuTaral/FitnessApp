@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fitnessapp.R
+import com.example.fitnessapp.dialogs.AskQuestionDialog
 import com.example.fitnessapp.dialogs.EditExerciseFromWorkoutDialog
 import com.example.fitnessapp.models.ExerciseModel
 import com.example.fitnessapp.models.SetModel
@@ -75,7 +76,10 @@ class ExerciseRecyclerAdapter(data: List<ExerciseModel>) : RecyclerView.Adapter<
 
             // Add Edit click listener
             editBtn.setOnClickListener {
-                EditExerciseFromWorkoutDialog(Utils.getContext(), item).show()
+                Utils.addEditExerciseClick(AskQuestionDialog.Question.WORKOUT_ALREADY_FINISHED_WHEN_EDIT_EXERCISE, callback = {
+                    // Display the edit exercise dialog
+                    EditExerciseFromWorkoutDialog(Utils.getContext(), item).show()
+                })
             }
 
             // Add expand mechanism
