@@ -17,7 +17,7 @@ import com.example.fitnessapp.network.repositories.WorkoutRepository
 import com.example.fitnessapp.panels.BaseExercisePanel
 import com.example.fitnessapp.panels.ManageExercisesPanel
 import com.example.fitnessapp.panels.TemplatesPanel
-import com.example.fitnessapp.utils.StateEngine
+import com.example.fitnessapp.utils.AppStateManager
 import com.example.fitnessapp.utils.Utils
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayout
@@ -68,17 +68,17 @@ class MainActivity : BaseActivity() {
             }
         })
 
-        StateEngine.panelAdapter = viewPager.adapter as PanelAdapter
+        AppStateManager.panelAdapter = viewPager.adapter as PanelAdapter
 
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-            tab.text = StateEngine.panelAdapter.getPanelTitle(position)
+            tab.text = AppStateManager.panelAdapter.getPanelTitle(position)
         }.attach()
     }
 
     /** Add click listeners for selecting item from the drawer and back button pressed */
     private fun initialiseDrawerLogic() {
         profileIcon.setOnClickListener {
-            findViewById<TextView>(R.id.txt_username).text = StateEngine.user!!.email
+            findViewById<TextView>(R.id.txt_username).text = AppStateManager.user!!.email
             drawerLayout.openDrawer(navView)
         }
         menuIcon.setOnClickListener {
@@ -126,7 +126,7 @@ class MainActivity : BaseActivity() {
                 }
 
                 // Check if the workout is already finished
-                if (StateEngine.workout!!.finishDateTime != null) {
+                if (AppStateManager.workout!!.finishDateTime != null) {
                     Utils.showToast(R.string.workout_already_finished)
                     return
                 }
@@ -137,7 +137,7 @@ class MainActivity : BaseActivity() {
                 // Send the request on yes
                 dialog.setYesCallback {
                     // Create new workout object, changing the finish date time
-                    val updatedWorkout = StateEngine.workout!!
+                    val updatedWorkout = AppStateManager.workout!!
 
                     if (updatedWorkout.durationSeconds == 0) {
                         // This is the first time the workout is being marked as finished,
@@ -145,13 +145,13 @@ class MainActivity : BaseActivity() {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                             // Duration.between is supported after Android Oreo
                             updatedWorkout.durationSeconds = Duration.between(
-                                            StateEngine.workout!!.startDateTime!!.toInstant(), Date().toInstant())
+                                            AppStateManager.workout!!.startDateTime!!.toInstant(), Date().toInstant())
                                             .seconds.toInt()
                         }
                     } else {
                         // The workout was already finished once, then marked as unfinished(in progress)
                         // In this case calculate the duration adding the new duration to the old one
-                        updatedWorkout.durationSeconds = updatedWorkout.durationSeconds!! + StateEngine.panelAdapter.getWorkoutPanel().getNewTimeElapsed()
+                        updatedWorkout.durationSeconds = updatedWorkout.durationSeconds!! + AppStateManager.panelAdapter.getWorkoutPanel().getNewTimeElapsed()
                     }
 
                     // Set the finish dateTime
@@ -159,7 +159,7 @@ class MainActivity : BaseActivity() {
 
                     WorkoutRepository().editWorkout(updatedWorkout, onSuccess = { workout ->
                         dialog.dismiss()
-                        StateEngine.panelAdapter.displayWorkoutPanel(workout, true)
+                        AppStateManager.panelAdapter.displayWorkoutPanel(workout, true)
                     })
                 }
 
@@ -176,11 +176,11 @@ class MainActivity : BaseActivity() {
             }
             R.id.nav_manage_templates -> {
                 // Display the Templates as temporary panel
-                StateEngine.panelAdapter.displayTemporaryPanel(TemplatesPanel())
+                AppStateManager.panelAdapter.displayTemporaryPanel(TemplatesPanel())
             }
             R.id.nav_manage_exercises -> {
                 // Display the Muscle Groups and Exercises as temporary panel
-                StateEngine.panelAdapter
+                AppStateManager.panelAdapter
                     .displayTemporaryPanel(ManageExercisesPanel(BaseExercisePanel.Mode.SELECT_MUSCLE_GROUP))
             }
         }
@@ -190,7 +190,7 @@ class MainActivity : BaseActivity() {
      * return true otherwise
      */
     private fun checkWorkoutSelected(): Boolean {
-        if (StateEngine.workout == null) {
+        if (AppStateManager.workout == null) {
             Utils.showToast(R.string.error_msg_no_workout_selected)
             return false
         }
@@ -205,7 +205,7 @@ class MainActivity : BaseActivity() {
         when (menuItem.itemId) {
             R.id.exercise_default_values -> {
                 WorkoutRepository().getWeightUnits(onSuccess = { weighUnits ->
-                    DefaultValuesDialog(this, StateEngine.user!!.defaultValues, weighUnits).show()
+                    DefaultValuesDialog(this, AppStateManager.user!!.defaultValues, weighUnits).show()
                 })
             }
             R.id.nav_change_pass -> {

@@ -13,7 +13,7 @@ import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams
 import com.example.fitnessapp.R
 import com.example.fitnessapp.models.WorkoutModel
 import com.example.fitnessapp.network.repositories.WorkoutRepository
-import com.example.fitnessapp.utils.StateEngine
+import com.example.fitnessapp.utils.AppStateManager
 import com.example.fitnessapp.utils.Utils
 
 /** Add / Edit Workout dialog to hold the logic for add / edit workout
@@ -73,16 +73,16 @@ class AddEditWorkoutDialog(ctx: Context, mode: Mode, workoutModel: WorkoutModel?
             title.text = Utils.getContext().getString(R.string.edit_workout_panel_title)
             setEditModeButtons()
 
-            name.setText(StateEngine.workout!!.name)
+            name.setText(AppStateManager.workout!!.name)
 
             // Show start and end time
             startEndTimeContainer.visibility = View.VISIBLE
-            startLbl.text = Utils.defaultFormatDateTime(StateEngine.workout!!.startDateTime!!)
+            startLbl.text = Utils.defaultFormatDateTime(AppStateManager.workout!!.startDateTime!!)
 
-            if (StateEngine.workout!!.finishDateTime == null)  {
+            if (AppStateManager.workout!!.finishDateTime == null)  {
                 endLbl.visibility = View.GONE
             } else {
-                endLbl.text = Utils.defaultFormatDateTime(StateEngine.workout!!.finishDateTime!!)
+                endLbl.text = Utils.defaultFormatDateTime(AppStateManager.workout!!.finishDateTime!!)
             }
         }
     }
@@ -131,28 +131,28 @@ class AddEditWorkoutDialog(ctx: Context, mode: Mode, workoutModel: WorkoutModel?
 
             WorkoutRepository().addWorkout(newWorkout, onSuccess = { workout ->
                 dismiss()
-                StateEngine.panelAdapter.displayWorkoutPanel(workout, true)
+                AppStateManager.panelAdapter.displayWorkoutPanel(workout, true)
             })
         } else {
-            WorkoutRepository().editWorkout(WorkoutModel(StateEngine.workout!!.id, name.text.toString(), false, mutableListOf()),
+            WorkoutRepository().editWorkout(WorkoutModel(AppStateManager.workout!!.id, name.text.toString(), false, mutableListOf()),
                 onSuccess = { workout ->
                     dismiss()
-                    StateEngine.panelAdapter.displayWorkoutPanel(workout, true)
+                    AppStateManager.panelAdapter.displayWorkoutPanel(workout, true)
                 })
         }
     }
 
     /** Executed on Delete button click */
     private fun delete() {
-        val dialog = AskQuestionDialog(Utils.getContext(), AskQuestionDialog.Question.DELETE_WORKOUT, StateEngine.workout!!)
+        val dialog = AskQuestionDialog(Utils.getContext(), AskQuestionDialog.Question.DELETE_WORKOUT, AppStateManager.workout!!)
 
         dialog.setYesCallback {
             // Send a request to delete the workout
-            WorkoutRepository().deleteWorkout(StateEngine.workout!!.id, onSuccess = {
+            WorkoutRepository().deleteWorkout(AppStateManager.workout!!.id, onSuccess = {
                 dialog.dismiss()
                 dismiss()
-                StateEngine.workout = null
-                StateEngine.panelAdapter.displayMainPanel(true)
+                AppStateManager.workout = null
+                AppStateManager.panelAdapter.displayMainPanel(true)
             })
         }
 

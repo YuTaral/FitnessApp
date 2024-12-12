@@ -5,7 +5,7 @@ import android.os.Handler
 import android.os.Looper
 import com.example.fitnessapp.R
 import com.example.fitnessapp.network.repositories.UserRepository
-import com.example.fitnessapp.utils.StateEngine
+import com.example.fitnessapp.utils.AppStateManager
 import com.example.fitnessapp.utils.Utils
 import retrofit2.Call
 import retrofit2.Callback
@@ -73,7 +73,7 @@ object NetworkManager {
                                 }
 
                             } else if (Utils.istTokenExpiredResponse(body.code)) {
-                                if (StateEngine.user != null) {
+                                if (AppStateManager.user != null) {
                                     // Token expired, logout
                                     UserRepository().logout(onSuccess = { Utils.onLogout() })
                                 } else {

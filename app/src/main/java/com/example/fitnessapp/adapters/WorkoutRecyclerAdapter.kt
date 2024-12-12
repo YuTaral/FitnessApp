@@ -10,7 +10,7 @@ import com.example.fitnessapp.R
 import com.example.fitnessapp.models.ExerciseModel
 import com.example.fitnessapp.models.SetModel
 import com.example.fitnessapp.models.WorkoutModel
-import com.example.fitnessapp.utils.StateEngine
+import com.example.fitnessapp.utils.AppStateManager
 import com.example.fitnessapp.utils.Utils
 
 /** Recycler adapter to control the workouts data shown in the main panel */
@@ -116,7 +116,7 @@ class WorkoutRecyclerAdapter (data: List<WorkoutModel>, onClick: (WorkoutModel) 
 
             total.text = String.format(Utils.getContext().getText(R.string.workout_summary_lbl).toString(),
                         Utils.formatDouble(completedWeight),  Utils.formatDouble(totalWeight),
-                        StateEngine.user!!.defaultValues.weightUnit.text, completedReps, totalReps)
+                        AppStateManager.user!!.defaultValues.weightUnit.text, completedReps, totalReps)
 
             // Add click listener to select the workout
             itemView.setOnClickListener {

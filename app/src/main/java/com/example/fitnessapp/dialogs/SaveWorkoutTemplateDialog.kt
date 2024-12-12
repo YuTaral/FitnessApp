@@ -8,7 +8,7 @@ import android.widget.TextView
 import com.example.fitnessapp.R
 import com.example.fitnessapp.models.WorkoutModel
 import com.example.fitnessapp.network.repositories.WorkoutTemplateRepository
-import com.example.fitnessapp.utils.StateEngine
+import com.example.fitnessapp.utils.AppStateManager
 import com.example.fitnessapp.utils.Utils
 
 /** Save workout template dialog to hold the logic to save the current workout as template */
@@ -27,8 +27,8 @@ class SaveWorkoutTemplateDialog(ctx: Context): BaseDialog(ctx) {
     }
 
     override fun populateDialog() {
-        templateName.setText(StateEngine.workout!!.name)
-        exercises.text = StateEngine.workout!!.exercises.joinToString (separator = ", ") { it.name }
+        templateName.setText(AppStateManager.workout!!.name)
+        exercises.text = AppStateManager.workout!!.exercises.joinToString (separator = ", ") { it.name }
     }
 
     override fun addClickListeners() {
@@ -44,7 +44,7 @@ class SaveWorkoutTemplateDialog(ctx: Context): BaseDialog(ctx) {
         }
 
         // Create template, changing the name and adding only the selected Muscle Groups
-        val template = WorkoutModel(0, templateName.text.toString(), true, StateEngine.workout!!.exercises)
+        val template = WorkoutModel(0, templateName.text.toString(), true, AppStateManager.workout!!.exercises)
 
         WorkoutTemplateRepository().addWorkoutTemplate(template, onSuccess =  {
             dismiss()

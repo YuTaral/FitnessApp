@@ -12,7 +12,7 @@ import com.example.fitnessapp.adapters.ExerciseRecyclerAdapter
 import com.example.fitnessapp.dialogs.AddEditWorkoutDialog
 import com.example.fitnessapp.dialogs.AskQuestionDialog
 import com.example.fitnessapp.utils.Constants
-import com.example.fitnessapp.utils.StateEngine
+import com.example.fitnessapp.utils.AppStateManager
 import com.example.fitnessapp.utils.Utils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -70,14 +70,14 @@ class SelectedWorkoutPanel : PanelFragment() {
         val statusStringId: Int
         val statusColorId: Int
 
-        if (StateEngine.workout != null) {
+        if (AppStateManager.workout != null) {
             mainContent.visibility = View.VISIBLE
             noWorkoutContent.visibility = View.GONE
 
-            workoutName.text = StateEngine.workout!!.name
-            workoutDate.text = Utils.defaultFormatDate(StateEngine.workout!!.startDateTime!!)
+            workoutName.text = AppStateManager.workout!!.name
+            workoutDate.text = Utils.defaultFormatDate(AppStateManager.workout!!.startDateTime!!)
 
-             if (StateEngine.workout!!.finishDateTime == null) {
+             if (AppStateManager.workout!!.finishDateTime == null) {
                  statusStringId = R.string.in_progress_lbl
                  statusColorId = R.color.orange
             } else {
@@ -98,15 +98,15 @@ class SelectedWorkoutPanel : PanelFragment() {
             exerciseRecycler.adapter = ExerciseRecyclerAdapter(listOf())
         }
 
-        if (StateEngine.workout != null) {
-            getExercisesRecyclerAdapter().updateData(StateEngine.workout!!.exercises)
+        if (AppStateManager.workout != null) {
+            getExercisesRecyclerAdapter().updateData(AppStateManager.workout!!.exercises)
         }
 
         // Set buttons visibility
         setButtonsVisibility()
 
         // Set the duration timer
-        if (StateEngine.workout != null) {
+        if (AppStateManager.workout != null) {
            initializeDurationTimer()
         }
     }
@@ -114,7 +114,7 @@ class SelectedWorkoutPanel : PanelFragment() {
     override fun addClickListeners() {
         newExerciseBtn.setOnClickListener {
             Utils.addEditExerciseClick(AskQuestionDialog.Question.WORKOUT_ALREADY_FINISHED_WHEN_ADD_EXERCISE, callback = {
-                StateEngine.panelAdapter
+                AppStateManager.panelAdapter
                     .displayTemporaryPanel(ExercisePanel(BaseExercisePanel.Mode.SELECT_MUSCLE_GROUP))
             })
         }
@@ -140,7 +140,7 @@ class SelectedWorkoutPanel : PanelFragment() {
 
     /** Sets buttons visibility based on whether workout is selected */
     private fun setButtonsVisibility() {
-        if (StateEngine.workout == null) {
+        if (AppStateManager.workout == null) {
             newExerciseBtn.visibility = View.GONE
             editBtn.visibility = View.GONE
         } else {
@@ -162,15 +162,15 @@ class SelectedWorkoutPanel : PanelFragment() {
             timerJob!!.cancel()
         }
 
-        if (StateEngine.workout!!.finishDateTime == null) {
+        if (AppStateManager.workout!!.finishDateTime == null) {
             // Workout not finished, add timer
-            if (StateEngine.workout!!.durationSeconds == 0) {
+            if (AppStateManager.workout!!.durationSeconds == 0) {
 
                 // The workout has never been marked as finished, the duration is the time between workout start and now
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     // Duration.between is supported after Android Oreo
                     secondsElapsed = Duration.between(
-                                        StateEngine.workout!!.startDateTime!!.toInstant(), Date().toInstant())
+                                        AppStateManager.workout!!.startDateTime!!.toInstant(), Date().toInstant())
                                         .seconds.toInt()
                 } else {
                     // Do not show the timer on older Android versions
@@ -181,7 +181,7 @@ class SelectedWorkoutPanel : PanelFragment() {
             } else {
                 // The workout was marked as finished, then marked as unfinished (in progress), the duration
                 // to start the timer from is the previous duration
-                secondsElapsed = StateEngine.workout!!.durationSeconds!!
+                secondsElapsed = AppStateManager.workout!!.durationSeconds!!
             }
 
             // Create the timer, refreshing it each second
@@ -203,7 +203,7 @@ class SelectedWorkoutPanel : PanelFragment() {
             }
         } else {
             // Workout finished, just set the duration
-            secondsElapsed = StateEngine.workout!!.durationSeconds!!
+            secondsElapsed = AppStateManager.workout!!.durationSeconds!!
             hours = secondsElapsed / 3600
             minutes = (secondsElapsed % 3600) / 60
             seconds = secondsElapsed % 60

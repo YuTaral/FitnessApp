@@ -10,7 +10,7 @@ import com.example.fitnessapp.adapters.CustomSpinnerAdapter
 import com.example.fitnessapp.models.UserDefaultValuesModel
 import com.example.fitnessapp.models.WeightUnitModel
 import com.example.fitnessapp.network.repositories.UserProfileRepository
-import com.example.fitnessapp.utils.StateEngine
+import com.example.fitnessapp.utils.AppStateManager
 import com.example.fitnessapp.utils.Utils
 
 /** DefaultValuesDialog to enter user default values for exercise (sets, reps and weights) */
@@ -63,7 +63,7 @@ class DefaultValuesDialog(ctx: Context, values: UserDefaultValuesModel, weightUn
         if (defaultValues.mGExerciseId == 0L) {
             units.addAll(weightUnitsData!!.map { it.text })
         } else {
-            units.add(StateEngine.user!!.defaultValues.weightUnit.text)
+            units.add(AppStateManager.user!!.defaultValues.weightUnit.text)
 
             // Add opacity to make sure the spinner looks like it's disabled
             weightUnit.alpha = 0.5f
@@ -102,7 +102,7 @@ class DefaultValuesDialog(ctx: Context, values: UserDefaultValuesModel, weightUn
         }
 
         // Assume we are editing values for specific exercise, in this case weightUnit cannot be changed
-        var selectedWeightUnit: WeightUnitModel? = StateEngine.user!!.defaultValues.weightUnit
+        var selectedWeightUnit: WeightUnitModel? = AppStateManager.user!!.defaultValues.weightUnit
 
         if (defaultValues.mGExerciseId == 0L) {
             // If we are editing non-exercise specific values,
@@ -127,14 +127,14 @@ class DefaultValuesDialog(ctx: Context, values: UserDefaultValuesModel, weightUn
                 if (defaultValues.mGExerciseId == 0L) {
                     // Simulate user update to trigger update in the shared prefs to update the
                     // default values there
-                    val newUser = StateEngine.user
+                    val newUser = AppStateManager.user
                     newUser!!.defaultValues = newValues
 
-                    StateEngine.user = newUser
+                    AppStateManager.user = newUser
 
                     // If weight unit changed, refresh the workouts / workout to update the displayed unit
                     if (newValues.weightUnit.id != oldWeightUnit) {
-                        StateEngine.panelAdapter.refreshIfUnitChanged()
+                        AppStateManager.panelAdapter.refreshIfUnitChanged()
                     }
                 }
             }

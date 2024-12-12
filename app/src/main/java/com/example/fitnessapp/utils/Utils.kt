@@ -7,7 +7,6 @@ import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.os.Build
 import android.util.Log
 import android.view.View
 import android.view.animation.DecelerateInterpolator
@@ -28,7 +27,6 @@ import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import java.text.SimpleDateFormat
-import java.time.Duration
 import java.util.Date
 import java.util.Locale
 
@@ -58,7 +56,7 @@ object Utils {
      * @param duration duration - short / long, long by default
      */
     fun showMessage(message: String, duration: Int = BaseTransientBottomBar.LENGTH_LONG) {
-        val snackBarContainer = Snackbar.make(StateEngine.activeActivity.findViewById(R.id.user_message), message, duration)
+        val snackBarContainer = Snackbar.make(AppStateManager.activeActivity.findViewById(R.id.user_message), message, duration)
 
         val textView = snackBarContainer.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
         textView.maxLines = 4
@@ -115,12 +113,12 @@ object Utils {
 
     /** Return the current activity when context is needed */
     fun getContext(): Context {
-        return StateEngine.activeActivity
+        return AppStateManager.activeActivity
     }
 
     /** Return the current activity */
     fun getActivity(): MainActivity {
-        return StateEngine.activeActivity as MainActivity
+        return AppStateManager.activeActivity as MainActivity
     }
 
     /** Validation failed - focus the field and open the keyboard
@@ -302,8 +300,8 @@ object Utils {
         APIService.updateToken("")
 
         // Update the State engine
-        StateEngine.user = null
-        StateEngine.workout = null
+        AppStateManager.user = null
+        AppStateManager.workout = null
 
         // Start the logic activity
         val intent = Intent(getActivity(), LoginActivity::class.java)
@@ -321,17 +319,17 @@ object Utils {
      * @param callback the callback to execute
      */
     fun addEditExerciseClick(question: AskQuestionDialog.Question, callback: () -> Unit) {
-        if (StateEngine.workout!!.finishDateTime != null) {
+        if (AppStateManager.workout!!.finishDateTime != null) {
             // Workout finished, ask the user whether to remove the finished time
             val dialog = AskQuestionDialog(getContext(), question)
 
             dialog.setYesCallback {
-                val unFinishedWorkout = StateEngine.workout!!
+                val unFinishedWorkout = AppStateManager.workout!!
                 unFinishedWorkout.finishDateTime = null
 
                 WorkoutRepository().editWorkout(unFinishedWorkout, onSuccess = { workout ->
                     // Refresh the workout panel
-                    StateEngine.panelAdapter.displayWorkoutPanel(workout, true)
+                    AppStateManager.panelAdapter.displayWorkoutPanel(workout, true)
 
                     // Close the ask question dialog
                     dialog.dismiss()

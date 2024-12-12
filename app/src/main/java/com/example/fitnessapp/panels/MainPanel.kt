@@ -11,7 +11,7 @@ import com.example.fitnessapp.dialogs.AddEditWorkoutDialog
 import com.example.fitnessapp.models.WorkoutModel
 import com.example.fitnessapp.network.repositories.WorkoutRepository
 import com.example.fitnessapp.utils.Constants
-import com.example.fitnessapp.utils.StateEngine
+import com.example.fitnessapp.utils.AppStateManager
 
 /** Main Panel class to implement the logic in the main panel, where workouts are displayed */
 class MainPanel: PanelFragment() {
@@ -28,7 +28,7 @@ class MainPanel: PanelFragment() {
     override fun onResume() {
         super.onResume()
 
-        if (StateEngine.refreshWorkouts) {
+        if (AppStateManager.refreshWorkouts) {
             populatePanel()
         }
     }
@@ -59,12 +59,12 @@ class MainPanel: PanelFragment() {
 
                 workoutsRecycler.layoutManager = LinearLayoutManager(context)
                 workoutsRecycler.adapter = WorkoutRecyclerAdapter(workouts) { workout ->
-                    StateEngine.panelAdapter.displayWorkoutPanel(workout, null)
+                    AppStateManager.panelAdapter.displayWorkoutPanel(workout, null)
                 }
             }
 
             // The most recent data with workouts is now displayed
-            StateEngine.refreshWorkouts = false
+            AppStateManager.refreshWorkouts = false
         })
     }
 

@@ -10,7 +10,7 @@ import com.example.fitnessapp.models.BaseModel
 import com.example.fitnessapp.models.ExerciseModel
 import com.example.fitnessapp.models.MGExerciseModel
 import com.example.fitnessapp.models.WorkoutModel
-import com.example.fitnessapp.utils.StateEngine
+import com.example.fitnessapp.utils.AppStateManager
 import com.example.fitnessapp.utils.Utils
 
 /** Dialog used to ask a question and execute a callback on confirm */
@@ -149,7 +149,7 @@ class AskQuestionDialog(ctx: Context, q: Question, d: BaseModel? = null): BaseDi
      */
     private fun workoutAllSetsCompleted(): Boolean {
 
-        for (e: ExerciseModel in StateEngine.workout!!.exercises) {
+        for (e: ExerciseModel in AppStateManager.workout!!.exercises) {
             if (e.sets.any { !it.completed }) {
                 return false
             }

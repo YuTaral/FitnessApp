@@ -6,7 +6,7 @@ import com.example.fitnessapp.models.WorkoutModel
 import com.example.fitnessapp.network.APIService
 import com.example.fitnessapp.network.CustomResponse
 import com.example.fitnessapp.network.NetworkManager
-import com.example.fitnessapp.utils.StateEngine
+import com.example.fitnessapp.utils.AppStateManager
 import com.example.fitnessapp.utils.Utils
 
 /** ExerciseRepository class, used to execute all requests related to exercise */
@@ -18,7 +18,7 @@ class ExerciseRepository {
      */
     fun addExerciseToWorkout(exercise: ExerciseModel, onSuccess: (WorkoutModel) -> Unit) {
         // Send a request to add the workout
-        val params = mapOf("exercise" to Utils.serializeObject(exercise), "workoutId" to StateEngine.workout!!.id.toString())
+        val params = mapOf("exercise" to Utils.serializeObject(exercise), "workoutId" to AppStateManager.workout!!.id.toString())
 
         NetworkManager.sendRequest(
             request = { APIService.instance.addExerciseToWorkout(params) },
@@ -31,7 +31,7 @@ class ExerciseRepository {
      * @param onSuccess callback to execute if request is successful
      */
     fun editExerciseFromWorkout(exercise: ExerciseModel, onSuccess: (WorkoutModel) -> Unit) {
-        val params = mapOf("exercise" to Utils.serializeObject(exercise), "workoutId" to StateEngine.workout!!.id.toString())
+        val params = mapOf("exercise" to Utils.serializeObject(exercise), "workoutId" to AppStateManager.workout!!.id.toString())
 
         NetworkManager.sendRequest(
             request = { APIService.instance.updateExerciseFromWorkout(params) },

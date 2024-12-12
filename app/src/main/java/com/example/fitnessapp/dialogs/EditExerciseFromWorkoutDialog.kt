@@ -16,7 +16,7 @@ import com.example.fitnessapp.models.ExerciseModel
 import com.example.fitnessapp.models.MuscleGroupModel
 import com.example.fitnessapp.models.SetModel
 import com.example.fitnessapp.network.repositories.ExerciseRepository
-import com.example.fitnessapp.utils.StateEngine
+import com.example.fitnessapp.utils.AppStateManager
 import com.example.fitnessapp.utils.Utils
 
 /** Edit Exercise dialog to hold the logic to edit exercise */
@@ -50,7 +50,7 @@ class EditExerciseFromWorkoutDialog(ctx: Context, exerciseModel: ExerciseModel):
     override fun populateDialog() {
         name.setText(exercise.name)
         weightLbl.text = String.format(Utils.getContext().getString(R.string.weight_in_unit_lbl),
-                                    StateEngine.user!!.defaultValues.weightUnit.text)
+                                    AppStateManager.user!!.defaultValues.weightUnit.text)
 
         exercise.sets.map { addSetToContainer(it, setsContainer, true) }
 
@@ -67,9 +67,9 @@ class EditExerciseFromWorkoutDialog(ctx: Context, exerciseModel: ExerciseModel):
     override fun addClickListeners() {
         addSetBtn.setOnClickListener {
             // Create set with the default values
-            val set = SetModel(0, StateEngine.user!!.defaultValues.reps,
-                                        StateEngine.user!!.defaultValues.weight,
-                                        StateEngine.user!!.defaultValues.completed)
+            val set = SetModel(0, AppStateManager.user!!.defaultValues.reps,
+                                        AppStateManager.user!!.defaultValues.weight,
+                                        AppStateManager.user!!.defaultValues.completed)
 
             addSetToContainer(set, setsContainer, false)
 
@@ -154,11 +154,11 @@ class EditExerciseFromWorkoutDialog(ctx: Context, exerciseModel: ExerciseModel):
         val dialog = AskQuestionDialog(Utils.getContext(), AskQuestionDialog.Question.DELETE_EXERCISE_FROM_WORKOUT, exercise)
 
         dialog.setYesCallback {
-            if (StateEngine.workout != null) {
+            if (AppStateManager.workout != null) {
                 ExerciseRepository().deleteExerciseFromWorkout(exercise.id, onSuccess = { workout ->
                     dialog.dismiss()
                     dismiss()
-                    StateEngine.panelAdapter.displayWorkoutPanel(workout, true)
+                    AppStateManager.panelAdapter.displayWorkoutPanel(workout, true)
                 })
             }
         }
@@ -179,7 +179,7 @@ class EditExerciseFromWorkoutDialog(ctx: Context, exerciseModel: ExerciseModel):
         ExerciseRepository().editExerciseFromWorkout(ExerciseModel(exercise.id, name.text.toString(), MuscleGroupModel(), getSets(setsContainer)),
             onSuccess = { workout ->
                 dismiss()
-                StateEngine.panelAdapter.displayWorkoutPanel(workout, true)
+                AppStateManager.panelAdapter.displayWorkoutPanel(workout, true)
         })
     }
 

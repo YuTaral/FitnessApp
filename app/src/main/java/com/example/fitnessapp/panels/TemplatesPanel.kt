@@ -12,7 +12,7 @@ import com.example.fitnessapp.dialogs.AskQuestionDialog
 import com.example.fitnessapp.models.WorkoutModel
 import com.example.fitnessapp.network.repositories.WorkoutTemplateRepository
 import com.example.fitnessapp.utils.Constants
-import com.example.fitnessapp.utils.StateEngine
+import com.example.fitnessapp.utils.AppStateManager
 import com.example.fitnessapp.utils.Utils
 
 /** Templates Panel class to implement the logic for managing templates */
@@ -78,11 +78,11 @@ class TemplatesPanel: PanelFragment() {
                 }
             })
         }, onError = {
-            StateEngine.panelAdapter.displayWorkoutPanel(null)
+            AppStateManager.panelAdapter.displayWorkoutPanel(null)
         })
     }
 
     override fun addClickListeners() {
-        closeBtn.setOnClickListener { StateEngine.panelAdapter.displayWorkoutPanel(null) }
+        closeBtn.setOnClickListener { AppStateManager.panelAdapter.displayWorkoutPanel(null) }
     }
 }

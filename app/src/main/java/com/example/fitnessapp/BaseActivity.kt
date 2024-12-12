@@ -2,7 +2,7 @@ package com.example.fitnessapp
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.fitnessapp.utils.StateEngine
+import com.example.fitnessapp.utils.AppStateManager
 
 
 /** Base activity class to hold the common logic for all activities */
@@ -11,7 +11,7 @@ abstract class BaseActivity : AppCompatActivity()  {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        StateEngine.activeActivity = this
+        AppStateManager.activeActivity = this
         setContentView(layoutId)
 
         findViews()

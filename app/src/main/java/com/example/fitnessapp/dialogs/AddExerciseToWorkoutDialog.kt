@@ -11,7 +11,7 @@ import com.example.fitnessapp.models.MGExerciseModel
 import com.example.fitnessapp.models.MuscleGroupModel
 import com.example.fitnessapp.models.UserDefaultValuesModel
 import com.example.fitnessapp.network.repositories.ExerciseRepository
-import com.example.fitnessapp.utils.StateEngine
+import com.example.fitnessapp.utils.AppStateManager
 import com.example.fitnessapp.utils.Utils
 
 /** Add/Edit Exercise dialog to hold the logic for
@@ -68,7 +68,7 @@ class AddExerciseToWorkoutDialog(ctx: Context, exercise: MGExerciseModel, values
         val exercise = validateExercise() ?: return
         ExerciseRepository().addExerciseToWorkout(exercise, onSuccess = { workout ->
             dismiss()
-            StateEngine.panelAdapter.displayWorkoutPanel(workout, true)
+            AppStateManager.panelAdapter.displayWorkoutPanel(workout, true)
         })
     }
 

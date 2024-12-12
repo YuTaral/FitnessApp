@@ -13,7 +13,7 @@ import com.example.fitnessapp.models.UserModel
 import com.example.fitnessapp.models.WorkoutModel
 import com.example.fitnessapp.network.APIService
 import com.example.fitnessapp.network.repositories.UserRepository
-import com.example.fitnessapp.utils.StateEngine
+import com.example.fitnessapp.utils.AppStateManager
 import com.example.fitnessapp.utils.Utils
 
 /** Class to hold the logic for Login / Register */
@@ -44,7 +44,7 @@ class LoginActivity : BaseActivity() {
             // Validate the token
             UserRepository().validateToken(token, onSuccess = {
                 // Set the logged in user and start the main activity
-                StateEngine.user = userModel
+                AppStateManager.user = userModel
                 startMainActivity()
             }, onFailure = {
                 displayLogin()
@@ -177,13 +177,13 @@ class LoginActivity : BaseActivity() {
         // Client-side validation passed, send the register request
         UserRepository().login(email, password, onSuccess = { response ->
             // Set the logged in user and start the Main Activity
-            StateEngine.user = UserModel(response.data[0])
+            AppStateManager.user = UserModel(response.data[0])
 
             // Update the service with the token
             APIService.updateToken(response.data[1])
 
             if (response.data.size > 2) {
-                StateEngine.workout = WorkoutModel(response.data[2])
+                AppStateManager.workout = WorkoutModel(response.data[2])
             }
 
             startMainActivity()

@@ -11,7 +11,7 @@ import com.example.fitnessapp.panels.MainPanel
 import com.example.fitnessapp.panels.ManageExercisesPanel
 import com.example.fitnessapp.panels.PanelFragment
 import com.example.fitnessapp.panels.SelectedWorkoutPanel
-import com.example.fitnessapp.utils.StateEngine
+import com.example.fitnessapp.utils.AppStateManager
 
 /** FragmentStateAdapter used to manage the panels */
 class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, count: Int) : FragmentStateAdapter(fragmentActivity) {
@@ -123,7 +123,7 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
      * false otherwise. If null provided, the variable is not being changed
      */
     fun displayWorkoutPanel(refreshWorkouts: Boolean?) {
-        displayWorkoutPanel(StateEngine.workout, refreshWorkouts)
+        displayWorkoutPanel(AppStateManager.workout, refreshWorkouts)
     }
 
     /** Display Workout panel
@@ -134,10 +134,10 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
     fun displayWorkoutPanel(workout: WorkoutModel?, refreshWorkouts: Boolean?) {
         val index = getWorkoutPanel().getIndex()
 
-        StateEngine.workout = workout
+        AppStateManager.workout = workout
 
         if (refreshWorkouts != null) {
-            StateEngine.refreshWorkouts = refreshWorkouts
+            AppStateManager.refreshWorkouts = refreshWorkouts
         }
 
         if (index != pager.currentItem) {
@@ -156,7 +156,7 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
      * false otherwise
      */
     fun displayMainPanel(refreshWorkouts: Boolean) {
-        StateEngine.refreshWorkouts = refreshWorkouts
+        AppStateManager.refreshWorkouts = refreshWorkouts
         val index = getMainPanel().getIndex()
 
         if (index != pager.currentItem) {
@@ -221,7 +221,7 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
            // If temporary panel is active, refresh only the workouts, the panel is updated only
            // when refreshWorkouts is set to true. Workout panel is updated each time it is selected
            // and the units are auto updated
-           StateEngine.refreshWorkouts = true
+           AppStateManager.refreshWorkouts = true
        }
     }
 }

@@ -15,7 +15,7 @@ import com.example.fitnessapp.models.WorkoutModel
 import com.example.fitnessapp.network.CustomResponse
 import com.example.fitnessapp.network.repositories.ExerciseRepository
 import com.example.fitnessapp.utils.Constants
-import com.example.fitnessapp.utils.StateEngine
+import com.example.fitnessapp.utils.AppStateManager
 import com.example.fitnessapp.utils.Utils
 
 /** Add / Edit Muscle group Exercise dialog to hold the logic for
@@ -62,7 +62,7 @@ class AddEditMGExerciseDialog(ctx: Context, mGroupId: Long, exercise: MGExercise
             addExerciseToWorkout.visibility = View.GONE
         }
 
-        if (StateEngine.panelAdapter.isManageExerciseActive()) {
+        if (AppStateManager.panelAdapter.isManageExerciseActive()) {
             // Remove the add exercise to workout checkbox if we are
             // managing the exercises
             addExerciseToWorkout.visibility = View.GONE
@@ -82,11 +82,11 @@ class AddEditMGExerciseDialog(ctx: Context, mGroupId: Long, exercise: MGExercise
             var workoutId = "0"
 
             if (addExerciseToWorkout.visibility == View.VISIBLE) {
-                updateWorkout = addExerciseToWorkout.isChecked && StateEngine.workout != null
+                updateWorkout = addExerciseToWorkout.isChecked && AppStateManager.workout != null
             }
 
             if (updateWorkout) {
-                workoutId = StateEngine.workout!!.id.toString()
+                workoutId = AppStateManager.workout!!.id.toString()
             }
 
             // Add the exercise
@@ -100,7 +100,7 @@ class AddEditMGExerciseDialog(ctx: Context, mGroupId: Long, exercise: MGExercise
                 dismiss()
 
                 // Response contains the updated muscle group exercises
-                StateEngine.panelAdapter.getBaseExercisePanel()!!
+                AppStateManager.panelAdapter.getBaseExercisePanel()!!
                     .populateExercises(returnData.map{ MGExerciseModel(it) }, false)
             })
 
@@ -114,12 +114,12 @@ class AddEditMGExerciseDialog(ctx: Context, mGroupId: Long, exercise: MGExercise
     private fun onSuccessCallback(updateWorkout: Boolean, returnData: List<String>) {
         if (updateWorkout) {
             // Response contains the updated workout
-            StateEngine.panelAdapter
+            AppStateManager.panelAdapter
                 .displayWorkoutPanel(WorkoutModel(returnData[0]), true)
 
         } else {
             // Response contains the updated muscle group exercises
-            StateEngine.panelAdapter.getBaseExercisePanel()!!
+            AppStateManager.panelAdapter.getBaseExercisePanel()!!
                 .populateExercises(returnData.map { MGExerciseModel(it) }, false)
 
         }
@@ -146,7 +146,7 @@ class AddEditMGExerciseDialog(ctx: Context, mGroupId: Long, exercise: MGExercise
                     dismiss()
 
                     // Updated the exercises
-                    StateEngine.panelAdapter.getBaseExercisePanel()!!
+                    AppStateManager.panelAdapter.getBaseExercisePanel()!!
                         .populateExercises(returnData.map { MGExerciseModel(it) }, false)
                 })
             }
@@ -181,7 +181,7 @@ class AddEditMGExerciseDialog(ctx: Context, mGroupId: Long, exercise: MGExercise
     }
     /** Returns "Y" if ManageExercisePanel is active, "N" otherwise */
     private fun getOnlyForUserParam(): String {
-        return if (StateEngine.panelAdapter.isManageExerciseActive()) {
+        return if (AppStateManager.panelAdapter.isManageExerciseActive()) {
             "Y"
         } else {
             "N"

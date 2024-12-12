@@ -15,7 +15,7 @@ import com.example.fitnessapp.dialogs.AskQuestionDialog
 import com.example.fitnessapp.dialogs.EditExerciseFromWorkoutDialog
 import com.example.fitnessapp.models.ExerciseModel
 import com.example.fitnessapp.models.SetModel
-import com.example.fitnessapp.utils.StateEngine
+import com.example.fitnessapp.utils.AppStateManager
 import com.example.fitnessapp.utils.Utils
 
 /** Recycler adapter to control the data (exercises) shown for each workout */
@@ -67,7 +67,7 @@ class ExerciseRecyclerAdapter(data: List<ExerciseModel>) : RecyclerView.Adapter<
             exerciseName.text = item.name
 
             weightLbl.text = String.format(Utils.getContext().getString(R.string.weight_in_unit_lbl),
-                StateEngine.user!!.defaultValues.weightUnit.text)
+                AppStateManager.user!!.defaultValues.weightUnit.text)
 
             targetMuscleGroup.text = String.format(Utils.getContext().getString(R.string.target_lbl), item.muscleGroup.name)
 
