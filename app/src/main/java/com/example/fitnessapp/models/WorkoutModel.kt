@@ -23,6 +23,9 @@ class WorkoutModel: BaseModel {
     @SerializedName("Exercises")
     val exercises: MutableList<ExerciseModel>
 
+    @SerializedName("DurationSeconds")
+    var durationSeconds: Int?
+
     /** Constructor to accept serialized object
      * @param data serialized WorkoutModel object
      */
@@ -35,6 +38,7 @@ class WorkoutModel: BaseModel {
         finishDateTime = model.finishDateTime
         template = model.template
         exercises = model.exercises
+        durationSeconds = model.durationSeconds
     }
 
     /** Constructor used when new workout is created
@@ -55,5 +59,6 @@ class WorkoutModel: BaseModel {
         finishDateTime = null
         template = templateVal
         exercises = exercisesVal
+        durationSeconds = 0
     }
 }

@@ -124,5 +124,6 @@
     <string name="question_workout_already_finished_title">Workout already finished</string>
     <string name="question_workout_already_finished_text">If you want to add new exercise the workout status will be changed to not finished. Do you with to continue</string>
     <string name="question_workout_already_finished_when_edit_text">If you want to edit the exercise the workout status will be changed to not finished. Do you with to continue</string>
+    <string name="workout_already_finished">Your workout is already marked as finished</string>
 
 </resources>

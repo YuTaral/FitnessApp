@@ -1,5 +1,6 @@
 package com.example.fitnessapp.panels
 
+import android.os.Build
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
@@ -13,6 +14,14 @@ import com.example.fitnessapp.dialogs.AskQuestionDialog
 import com.example.fitnessapp.utils.Constants
 import com.example.fitnessapp.utils.StateEngine
 import com.example.fitnessapp.utils.Utils
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
+import java.time.Duration
+import java.util.Date
 
 /** New Workout Panel class to display and manage the selected workout */
 class SelectedWorkoutPanel : PanelFragment() {
@@ -23,12 +32,22 @@ class SelectedWorkoutPanel : PanelFragment() {
 
     private lateinit var mainContent: ConstraintLayout
     private lateinit var noWorkoutContent: ConstraintLayout
+    private lateinit var workoutDuration: TextView
     private lateinit var workoutName: TextView
     private lateinit var workoutDate: TextView
     private lateinit var workoutStatus: TextView
     private lateinit var exerciseRecycler: RecyclerView
     private lateinit var newExerciseBtn: Button
     private lateinit var editBtn: Button
+
+    private var timerJob: Job? = null
+    private var secondsElapsed: Int = 0
+    private var newSecondsElapsed: Int = 0
+
+    /** Get the seconds elapsed value */
+    fun getNewTimeElapsed(): Int {
+        return newSecondsElapsed
+    }
 
     override fun onResume() {
         super.onResume()
@@ -38,6 +57,7 @@ class SelectedWorkoutPanel : PanelFragment() {
     override fun findViews() {
         mainContent = panel.findViewById(R.id.main_content)
         noWorkoutContent = panel.findViewById(R.id.no_workout_content)
+        workoutDuration = panel.findViewById(R.id.duration)
         workoutName = panel.findViewById(R.id.current_workout_label)
         workoutStatus = panel.findViewById(R.id.current_workout_status_value_lbl)
         workoutDate = panel.findViewById(R.id.current_workout_date_label)
@@ -84,6 +104,11 @@ class SelectedWorkoutPanel : PanelFragment() {
 
         // Set buttons visibility
         setButtonsVisibility()
+
+        // Set the duration timer
+        if (StateEngine.workout != null) {
+           initializeDurationTimer()
+        }
     }
 
     override fun addClickListeners() {
@@ -103,6 +128,11 @@ class SelectedWorkoutPanel : PanelFragment() {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        timerJob!!.cancel()
+    }
+
     /** Return the exercises recycler adapter */
     private fun getExercisesRecyclerAdapter(): ExerciseRecyclerAdapter {
         return exerciseRecycler.adapter as ExerciseRecyclerAdapter
@@ -116,6 +146,68 @@ class SelectedWorkoutPanel : PanelFragment() {
         } else {
             newExerciseBtn.visibility = View.VISIBLE
             editBtn.visibility = View.VISIBLE
+        }
+    }
+
+    /** Initialize the workout duration timer */
+    private fun initializeDurationTimer() {
+        var hours: Int
+        var minutes: Int
+        var seconds: Int
+        secondsElapsed = 0
+        newSecondsElapsed = 0
+
+        if (timerJob != null) {
+            // Cancel the timer if it was initialized for previously selected workout
+            timerJob!!.cancel()
+        }
+
+        if (StateEngine.workout!!.finishDateTime == null) {
+            // Workout not finished, add timer
+            if (StateEngine.workout!!.durationSeconds == 0) {
+
+                // The workout has never been marked as finished, the duration is the time between workout start and now
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    // Duration.between is supported after Android Oreo
+                    secondsElapsed = Duration.between(
+                                        StateEngine.workout!!.startDateTime!!.toInstant(), Date().toInstant())
+                                        .seconds.toInt()
+                } else {
+                    // Do not show the timer on older Android versions
+                    workoutDuration.visibility = View.GONE
+                    return
+                }
+
+            } else {
+                // The workout was marked as finished, then marked as unfinished (in progress), the duration
+                // to start the timer from is the previous duration
+                secondsElapsed = StateEngine.workout!!.durationSeconds!!
+            }
+
+            // Create the timer, refreshing it each second
+            timerJob = CoroutineScope(Dispatchers.Main).launch {
+                while (isActive) {
+                    // Calculate the values and set the text
+                    hours = secondsElapsed / 3600
+                    minutes = (secondsElapsed % 3600) / 60
+                    seconds = secondsElapsed % 60
+
+                    workoutDuration.text = String.format("%02d:%02d:%02d", hours, minutes, seconds)
+
+                    // Increment the counters
+                    secondsElapsed++
+                    newSecondsElapsed++
+
+                    delay(1000) // Wait for 1 second before update
+                }
+            }
+        } else {
+            // Workout finished, just set the duration
+            secondsElapsed = StateEngine.workout!!.durationSeconds!!
+            hours = secondsElapsed / 3600
+            minutes = (secondsElapsed % 3600) / 60
+            seconds = secondsElapsed % 60
+            workoutDuration.text = String.format("%02d:%02d:%02d", hours, minutes, seconds)
         }
     }
 }

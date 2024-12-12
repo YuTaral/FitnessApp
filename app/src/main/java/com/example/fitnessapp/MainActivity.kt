@@ -1,5 +1,6 @@
 package com.example.fitnessapp
 
+import android.os.Build
 import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
@@ -21,6 +22,7 @@ import com.example.fitnessapp.utils.Utils
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import java.time.Duration
 import java.util.Date
 
 /** Main Activity class to hold the main logic of the application.
@@ -123,13 +125,36 @@ class MainActivity : BaseActivity() {
                     return
                 }
 
+                // Check if the workout is already finished
+                if (StateEngine.workout!!.finishDateTime != null) {
+                    Utils.showToast(R.string.workout_already_finished)
+                    return
+                }
+
                 // Ask question to finish the workout
                 val dialog = AskQuestionDialog(this, AskQuestionDialog.Question.FINISH_WORKOUT)
 
                 // Send the request on yes
                 dialog.setYesCallback {
-                    // Create new workout object, changing the finish date tame
+                    // Create new workout object, changing the finish date time
                     val updatedWorkout = StateEngine.workout!!
+
+                    if (updatedWorkout.durationSeconds == 0) {
+                        // This is the first time the workout is being marked as finished,
+                        // calculate the duration time
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            // Duration.between is supported after Android Oreo
+                            updatedWorkout.durationSeconds = Duration.between(
+                                            StateEngine.workout!!.startDateTime!!.toInstant(), Date().toInstant())
+                                            .seconds.toInt()
+                        }
+                    } else {
+                        // The workout was already finished once, then marked as unfinished(in progress)
+                        // In this case calculate the duration adding the new duration to the old one
+                        updatedWorkout.durationSeconds = updatedWorkout.durationSeconds!! + StateEngine.panelAdapter.getWorkoutPanel().getNewTimeElapsed()
+                    }
+
+                    // Set the finish dateTime
                     updatedWorkout.finishDateTime = Date()
 
                     WorkoutRepository().editWorkout(updatedWorkout, onSuccess = { workout ->

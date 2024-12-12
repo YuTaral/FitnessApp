@@ -80,7 +80,7 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
     }
 
     /** Initialize the workout panel if it's not and returns the instance */
-    private fun getWorkoutPanel(): PanelFragment {
+    fun getWorkoutPanel(): SelectedWorkoutPanel {
         if (!::workoutPanel.isInitialized) {
             workoutPanel = SelectedWorkoutPanel()
         }
