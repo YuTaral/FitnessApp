@@ -48,11 +48,12 @@ class WorkoutRepository {
     }
 
     /** Fetch the workouts
+     * @param filterBy the filter value - ALL, IN_PROGRESS or COMPLETED
      * @param onSuccess callback to execute if request is successful
      */
-    fun getWorkouts(onSuccess: (List<String>) -> Unit) {
+    fun getWorkouts(filterBy: String, onSuccess: (List<String>) -> Unit) {
         NetworkManager.sendRequest(
-            request = { APIService.instance.getWorkouts() },
+            request = { APIService.instance.getWorkouts(filterBy) },
             onSuccessCallback = { response ->
                 onSuccess(response.data)
             }

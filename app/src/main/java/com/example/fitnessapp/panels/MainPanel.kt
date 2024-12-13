@@ -1,17 +1,22 @@
 package com.example.fitnessapp.panels
 
 import android.view.View
+import android.widget.AdapterView
 import android.widget.Button
+import android.widget.Spinner
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fitnessapp.R
+import com.example.fitnessapp.adapters.CustomSpinnerAdapter
 import com.example.fitnessapp.adapters.WorkoutRecyclerAdapter
 import com.example.fitnessapp.dialogs.AddEditWorkoutDialog
 import com.example.fitnessapp.models.WorkoutModel
 import com.example.fitnessapp.network.repositories.WorkoutRepository
-import com.example.fitnessapp.utils.Constants
 import com.example.fitnessapp.utils.AppStateManager
+import com.example.fitnessapp.utils.Constants
+import com.example.fitnessapp.utils.Utils
 
 /** Main Panel class to implement the logic in the main panel, where workouts are displayed */
 class MainPanel: PanelFragment() {
@@ -20,10 +25,26 @@ class MainPanel: PanelFragment() {
     override var panelIndex: Int = 0
     override var titleId: Int = R.string.main_panel_title
 
+    private var selectedFilter = Filters.ALL
+    private var isSpinnerInitialized = false
+
+    private lateinit var workoutsContainer: ConstraintLayout
     private lateinit var titleLbl: TextView
     private lateinit var noWorkoutsLbl: TextView
     private lateinit var workoutsRecycler: RecyclerView
     private lateinit var newWorkoutBtn: Button
+    private lateinit var filterSpinner: Spinner
+
+    /** Workout filter values */
+    enum class Filters(private val stringId: Int) {
+        ALL(R.string.workout_filter_all),
+        IN_PROGRESS(R.string.workout_filter_in_progress),
+        COMPLETED(R.string.workout_filter_completed);
+
+        override fun toString(): String {
+            return Utils.getContext().getString(stringId)
+        }
+    }
 
     override fun onResume() {
         super.onResume()
@@ -34,6 +55,8 @@ class MainPanel: PanelFragment() {
     }
 
     override fun findViews() {
+        workoutsContainer = panel.findViewById(R.id.workouts_container)
+        filterSpinner = panel.findViewById(R.id.workout_filter_spinner)
         titleLbl = panel.findViewById(R.id.latest_workouts_lbl)
         noWorkoutsLbl = panel.findViewById(R.id.no_workouts_lbl)
         workoutsRecycler = panel.findViewById(R.id.workouts_recycler)
@@ -41,21 +64,56 @@ class MainPanel: PanelFragment() {
     }
 
     override fun populatePanel() {
-        WorkoutRepository().getWorkouts(onSuccess = { returnData ->
+        if (filterSpinner.adapter != null && filterSpinner.selectedItemPosition != Filters.ALL.ordinal) {
+            // Change the selected filter value if it's not All
+            selectedFilter = Filters.valueOf(filterSpinner.selectedItem.toString().uppercase().replace(" ", "_"))
+        }
+
+        populateWorkouts()
+    }
+
+    override fun addClickListeners() {
+        filterSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (!isSpinnerInitialized) {
+                    // Ignore the initial call which is triggered when the spinner is initialized
+                    // with the adapter
+                    isSpinnerInitialized = true
+                    return
+                }
+
+                // Change the selected filter value and fetch the workouts
+                selectedFilter = Filters.entries[position]
+                populateWorkouts()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+
+        newWorkoutBtn.setOnClickListener { AddEditWorkoutDialog(requireContext(), AddEditWorkoutDialog.Mode.ADD).show() }
+    }
+
+    /** Send request to fetch the workouts */
+    private fun populateWorkouts() {
+        WorkoutRepository().getWorkouts(selectedFilter.name, onSuccess = { returnData ->
             val workouts = returnData.map { WorkoutModel(it) }.toMutableList()
 
             if (workouts.isEmpty()) {
-                // Hide/display the views to show that there are no workouts
-                titleLbl.visibility = View.GONE
-                workoutsRecycler.visibility = View.GONE
-
+                workoutsContainer.visibility = View.GONE
                 noWorkoutsLbl.visibility = View.VISIBLE
-            } else {
-                // Hide/display the views to show to workouts
-                noWorkoutsLbl.visibility = View.GONE
 
-                titleLbl.visibility = View.VISIBLE
-                workoutsRecycler.visibility = View.VISIBLE
+            } else {
+                noWorkoutsLbl.visibility = View.GONE
+                workoutsContainer.visibility = View.VISIBLE
+
+                if (filterSpinner.adapter == null) {
+                    filterSpinner.adapter = CustomSpinnerAdapter(requireContext(), false, listOf(
+                        Filters.ALL.toString(),
+                        Filters.IN_PROGRESS.toString(),
+                        Filters.COMPLETED.toString(),
+                    ))
+                }
 
                 workoutsRecycler.layoutManager = LinearLayoutManager(context)
                 workoutsRecycler.adapter = WorkoutRecyclerAdapter(workouts) { workout ->
@@ -66,9 +124,5 @@ class MainPanel: PanelFragment() {
             // The most recent data with workouts is now displayed
             AppStateManager.refreshWorkouts = false
         })
-    }
-
-    override fun addClickListeners() {
-        newWorkoutBtn.setOnClickListener { AddEditWorkoutDialog(requireContext(), AddEditWorkoutDialog.Mode.ADD).show() }
     }
 }

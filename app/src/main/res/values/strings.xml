@@ -128,5 +128,9 @@
     <string name="select_date_lbl">Select date</string>
     <string name="previous_btn">Previous</string>
     <string name="error_msg_finish_time">The selected finish time is earlier than the workout start time</string>
+    <string name="workouts_filter_lbl">Workouts filter</string>
+    <string name="workout_filter_all">All</string>
+    <string name="workout_filter_in_progress">In progress</string>
+    <string name="workout_filter_completed">Completed</string>
 
 </resources>
