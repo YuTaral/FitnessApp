@@ -341,6 +341,7 @@ object Utils {
             dialog.setYesCallback {
                 val unFinishedWorkout = AppStateManager.workout!!
                 unFinishedWorkout.finishDateTime = null
+                unFinishedWorkout.durationSeconds = 0
 
                 WorkoutRepository().editWorkout(unFinishedWorkout, onSuccess = { workout ->
                     // Refresh the workout panel
