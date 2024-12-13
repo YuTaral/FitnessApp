@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="ButtonStyle" parent="Widget.AppCompat.Button">
+    <style name="ButtonStyle" parent="Widget.MaterialComponents.Button">
         <item name="android:background">@drawable/background_rounded_button</item>
+        <item name="android:height">50dp</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:padding">0dp</item>
     </style>
 
     <style name="DialogButtonStyle" parent="Widget.AppCompat.Button">
         <item name="android:textColor">@color/colorAccent</item>
-        <item name="android:background">@android:color/transparent</item>
     </style>
 
     <style name="EditTextStyle" parent="Widget.AppCompat.EditText">
@@ -38,6 +40,19 @@
         <item name="tabTextColor">@color/white</item>
         <item name="tabSelectedTextColor">@color/colorAccent</item>
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="CustomCalenderStyle" parent="android:Widget.Material.DatePicker">
+        <item name="android:dateTextAppearance">@color/white</item>
+        <item name="android:weekDayTextAppearance">@color/white</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textColorPrimary">@color/white</item>
+    </style>
+
+    <style name="CustomTimePickerStyle" parent="Widget.MaterialComponents.TimePicker.Clock">
+        <item name="clockFaceBackgroundColor">@color/black</item>
+        <item name="clockHandColor">@color/colorAccent</item>
+        <item name="clockNumberTextColor">@color/white</item>
     </style>
 
 </resources>

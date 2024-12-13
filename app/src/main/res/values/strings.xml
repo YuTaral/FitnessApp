@@ -125,5 +125,8 @@
     <string name="question_workout_already_finished_text">If you want to add new exercise the workout status will be changed to not finished. Do you with to continue</string>
     <string name="question_workout_already_finished_when_edit_text">If you want to edit the exercise the workout status will be changed to not finished. Do you with to continue</string>
     <string name="workout_already_finished">Your workout is already marked as finished</string>
+    <string name="select_date_lbl">Select date</string>
+    <string name="previous_btn">Previous</string>
+    <string name="error_msg_finish_time">The selected finish time is earlier than the workout start time</string>
 
 </resources>

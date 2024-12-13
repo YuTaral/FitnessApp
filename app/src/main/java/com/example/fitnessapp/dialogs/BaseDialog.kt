@@ -10,7 +10,7 @@ import com.example.fitnessapp.R
 import com.example.fitnessapp.utils.Utils
 
 /** Base dialog class to implement the common logic for all dialogs */
-abstract class BaseDialog(ctx: Context): Dialog(ctx, R.style.Theme_FitnessApp_AlertDialog) {
+abstract class BaseDialog(ctx: Context): Dialog(ctx, R.style.Theme_FitnessApp_Dialog) {
     /** The dialog layout */
     protected open var layoutId = 0
 

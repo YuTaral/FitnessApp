@@ -1,6 +1,5 @@
 package com.example.fitnessapp
 
-import android.os.Build
 import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
@@ -11,6 +10,7 @@ import com.example.fitnessapp.adapters.PanelAdapter
 import com.example.fitnessapp.dialogs.AskQuestionDialog
 import com.example.fitnessapp.dialogs.ChangePasswordDialog
 import com.example.fitnessapp.dialogs.DefaultValuesDialog
+import com.example.fitnessapp.dialogs.FinishWorkoutDialog
 import com.example.fitnessapp.dialogs.SaveWorkoutTemplateDialog
 import com.example.fitnessapp.network.repositories.UserRepository
 import com.example.fitnessapp.network.repositories.WorkoutRepository
@@ -22,8 +22,6 @@ import com.example.fitnessapp.utils.Utils
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import java.time.Duration
-import java.util.Date
 
 /** Main Activity class to hold the main logic of the application.
  * Displayed after successful login
@@ -131,39 +129,8 @@ class MainActivity : BaseActivity() {
                     return
                 }
 
-                // Ask question to finish the workout
-                val dialog = AskQuestionDialog(this, AskQuestionDialog.Question.FINISH_WORKOUT)
-
-                // Send the request on yes
-                dialog.setYesCallback {
-                    // Create new workout object, changing the finish date time
-                    val updatedWorkout = AppStateManager.workout!!
-
-                    if (updatedWorkout.durationSeconds == 0) {
-                        // This is the first time the workout is being marked as finished,
-                        // calculate the duration time
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            // Duration.between is supported after Android Oreo
-                            updatedWorkout.durationSeconds = Duration.between(
-                                            AppStateManager.workout!!.startDateTime!!.toInstant(), Date().toInstant())
-                                            .seconds.toInt()
-                        }
-                    } else {
-                        // The workout was already finished once, then marked as unfinished(in progress)
-                        // In this case calculate the duration adding the new duration to the old one
-                        updatedWorkout.durationSeconds = updatedWorkout.durationSeconds!! + AppStateManager.panelAdapter.getWorkoutPanel().getNewTimeElapsed()
-                    }
-
-                    // Set the finish dateTime
-                    updatedWorkout.finishDateTime = Date()
-
-                    WorkoutRepository().editWorkout(updatedWorkout, onSuccess = { workout ->
-                        dialog.dismiss()
-                        AppStateManager.panelAdapter.displayWorkoutPanel(workout, true)
-                    })
-                }
-
-                dialog.show()
+                // Open finish workout dialog
+                FinishWorkoutDialog(this).show()
             }
             R.id.nav_save_workout_template -> {
                 // Check if there is selected workout

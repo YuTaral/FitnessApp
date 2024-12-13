@@ -11,8 +11,8 @@ import com.example.fitnessapp.R
 import com.example.fitnessapp.adapters.ExerciseRecyclerAdapter
 import com.example.fitnessapp.dialogs.AddEditWorkoutDialog
 import com.example.fitnessapp.dialogs.AskQuestionDialog
-import com.example.fitnessapp.utils.Constants
 import com.example.fitnessapp.utils.AppStateManager
+import com.example.fitnessapp.utils.Constants
 import com.example.fitnessapp.utils.Utils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -42,12 +42,6 @@ class SelectedWorkoutPanel : PanelFragment() {
 
     private var timerJob: Job? = null
     private var secondsElapsed: Int = 0
-    private var newSecondsElapsed: Int = 0
-
-    /** Get the seconds elapsed value */
-    fun getNewTimeElapsed(): Int {
-        return newSecondsElapsed
-    }
 
     override fun onResume() {
         super.onResume()
@@ -130,7 +124,10 @@ class SelectedWorkoutPanel : PanelFragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        timerJob!!.cancel()
+
+        if (timerJob != null) {
+            timerJob!!.cancel()
+        }
     }
 
     /** Return the exercises recycler adapter */
@@ -155,7 +152,6 @@ class SelectedWorkoutPanel : PanelFragment() {
         var minutes: Int
         var seconds: Int
         secondsElapsed = 0
-        newSecondsElapsed = 0
 
         if (timerJob != null) {
             // Cancel the timer if it was initialized for previously selected workout
@@ -194,9 +190,8 @@ class SelectedWorkoutPanel : PanelFragment() {
 
                     workoutDuration.text = String.format("%02d:%02d:%02d", hours, minutes, seconds)
 
-                    // Increment the counters
+                    // Increment the counter
                     secondsElapsed++
-                    newSecondsElapsed++
 
                     delay(1000) // Wait for 1 second before update
                 }

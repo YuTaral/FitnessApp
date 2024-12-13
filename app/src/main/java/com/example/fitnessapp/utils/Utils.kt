@@ -26,6 +26,7 @@ import com.example.fitnessapp.network.repositories.WorkoutRepository
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -169,6 +170,20 @@ object Utils {
      */
     fun defaultFormatDateTime(date: Date): String {
         return SimpleDateFormat("dd MMM yyyy, HH:mm", Locale.US).format(date)
+    }
+
+    /** Convert the string to date
+     * @param dateString the date as string
+     */
+    fun parseDateTime(dateString: String): Date? {
+        val dateFormat = SimpleDateFormat("dd MMM yyyy, HH:mm", Locale.US)
+        return try {
+            dateFormat.parse(dateString)
+        } catch (e: ParseException) {
+            // Handle the error if parsing fails
+            e.printStackTrace()
+            null
+        }
     }
 
     /** Used to smoothly expand view
