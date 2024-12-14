@@ -67,17 +67,17 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView
-        android:id="@+id/nav_view"
+        android:id="@+id/nav_profile_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/menu_header"
-        app:menu="@menu/nav_menu"
+        app:menu="@menu/nav_profile_menu"
         app:itemTextAppearance="@style/MenuItemStyle" />
 
     <com.google.android.material.navigation.NavigationView
-        android:id="@+id/action_nav_view"
+        android:id="@+id/nav_action_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="end"

@@ -30,8 +30,8 @@ class MainActivity : BaseActivity() {
     override var layoutId = R.layout.main_activity
 
     private lateinit var drawerLayout: DrawerLayout
-    private lateinit var navView: NavigationView
-    private lateinit var actionsNavView: NavigationView
+    private lateinit var navProfileView: NavigationView
+    private lateinit var navActionView: NavigationView
     private lateinit var profileIcon: ImageView
     private lateinit var menuIcon: ImageView
     private lateinit var viewPager: ViewPager2
@@ -39,8 +39,8 @@ class MainActivity : BaseActivity() {
 
     override fun findViews() {
         drawerLayout = findViewById(R.id.drawer_layout)
-        navView = findViewById(R.id.nav_view)
-        actionsNavView = findViewById(R.id.action_nav_view)
+        navProfileView = findViewById(R.id.nav_profile_view)
+        navActionView = findViewById(R.id.nav_action_view)
         viewPager = findViewById(R.id.viewPager)
         tabLayout = findViewById(R.id.tabLayout)
         profileIcon = findViewById(R.id.profile_img)
@@ -56,14 +56,14 @@ class MainActivity : BaseActivity() {
     fun updateActions() {
         if (AppStateManager.workout == null) {
             // Hide the workout related actions
-            actionsNavView.menu.findItem(R.id.nav_finish_workout).setVisible(false)
-            actionsNavView.menu.findItem(R.id.nav_save_workout_template).setVisible(false)
+            navActionView.menu.findItem(R.id.nav_finish_workout).setVisible(false)
+            navActionView.menu.findItem(R.id.nav_save_workout_template).setVisible(false)
         } else {
             // Display the workout related actions
             if (AppStateManager.workout!!.finishDateTime == null) {
-                actionsNavView.menu.findItem(R.id.nav_finish_workout).setVisible(true)
+                navActionView.menu.findItem(R.id.nav_finish_workout).setVisible(true)
             }
-            actionsNavView.menu.findItem(R.id.nav_save_workout_template).setVisible(true)
+            navActionView.menu.findItem(R.id.nav_save_workout_template).setVisible(true)
         }
     }
 
@@ -92,20 +92,20 @@ class MainActivity : BaseActivity() {
     private fun initialiseDrawerLogic() {
         profileIcon.setOnClickListener {
             findViewById<TextView>(R.id.txt_username).text = AppStateManager.user!!.email
-            drawerLayout.openDrawer(navView)
+            drawerLayout.openDrawer(navProfileView)
         }
 
         menuIcon.setOnClickListener {
-            drawerLayout.openDrawer(actionsNavView)
+            drawerLayout.openDrawer(navActionView)
         }
 
-        navView.setNavigationItemSelectedListener { menuItem ->
+        navProfileView.setNavigationItemSelectedListener { menuItem ->
             leftDrawerSelected(menuItem)
             drawerLayout.closeDrawers()
             true
         }
 
-        actionsNavView.setNavigationItemSelectedListener { menuItem ->
+        navActionView.setNavigationItemSelectedListener { menuItem ->
             rightDrawerSelected(menuItem)
             drawerLayout.closeDrawers()
             true
@@ -117,11 +117,11 @@ class MainActivity : BaseActivity() {
         // Close drawer on back button press
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                if (drawerLayout.isDrawerOpen(navView)) {
-                    drawerLayout.closeDrawer(navView)
+                if (drawerLayout.isDrawerOpen(navProfileView)) {
+                    drawerLayout.closeDrawer(navProfileView)
 
-                } else if (drawerLayout.isDrawerOpen(actionsNavView)) {
-                    drawerLayout.closeDrawer(actionsNavView)
+                } else if (drawerLayout.isDrawerOpen(navActionView)) {
+                    drawerLayout.closeDrawer(navActionView)
 
                 } else {
                     // Pass the back press event to the system default handler
