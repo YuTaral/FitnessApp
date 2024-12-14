@@ -4,7 +4,9 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fitnessapp.R
 import com.example.fitnessapp.models.ExerciseModel
@@ -35,7 +37,13 @@ class WorkoutRecyclerAdapter (data: List<WorkoutModel>, onClick: (WorkoutModel) 
     }
 
     override fun onBindViewHolder(holder: WorkoutItem, position: Int) {
-        holder.bind(workouts[position], onClickCallback)
+        val workout = workouts[position]
+
+        if (workout.template) {
+            holder.bindTemplate(workout, onClickCallback)
+        } else {
+            holder.bindWorkout(workout, onClickCallback)
+        }
     }
 
     /** Remove the specified template and re-populates the recycler */
@@ -47,16 +55,22 @@ class WorkoutRecyclerAdapter (data: List<WorkoutModel>, onClick: (WorkoutModel) 
 
     /** Class to represent workout item view holder - each workout */
     class WorkoutItem(view: View): RecyclerView.ViewHolder(view)  {
+        private var workoutContainer: ConstraintLayout = itemView.findViewById(R.id.workout_container)
+        private var templateContainer: ConstraintLayout = itemView.findViewById(R.id.template_container)
+        private var templateExercisesContainer: LinearLayout = itemView.findViewById(R.id.template_exercises_container)
         private var name: TextView = itemView.findViewById(R.id.workout_name_txt)
         private var date: TextView = itemView.findViewById(R.id.workout_date_txt)
-        private var statusLbl: TextView = itemView.findViewById(R.id.current_workout_status_lbl)
         private var statusValue: TextView = itemView.findViewById(R.id.current_workout_status_value_lbl)
         private var exercisesLlb: TextView = itemView.findViewById(R.id.exercises_lbl)
         private var exercises: TextView = itemView.findViewById(R.id.workout_exercises_summary_txt)
         private var total: TextView = itemView.findViewById(R.id.workout_total_txt)
 
+        /** Bind the workout item to the view
+         * @param item the workout
+         * @param onClickCallback callback to execute on click
+         */
         @SuppressLint("SetTextI18n")
-        fun bind(item: WorkoutModel, onClickCallback: (WorkoutModel) -> Unit) {
+        fun bindWorkout(item: WorkoutModel, onClickCallback: (WorkoutModel) -> Unit) {
             val statusStringId: Int
             val statusColorId: Int
             var exercisesText = ""
@@ -64,6 +78,9 @@ class WorkoutRecyclerAdapter (data: List<WorkoutModel>, onClick: (WorkoutModel) 
             var totalReps = 0
             var completedWeight = 0.0
             var completedReps = 0
+
+            templateContainer.visibility = View.GONE
+            workoutContainer.visibility = View.VISIBLE
 
             for (e: ExerciseModel in item.exercises) {
                 exercisesText = exercisesText + e.name + ", "
@@ -81,29 +98,18 @@ class WorkoutRecyclerAdapter (data: List<WorkoutModel>, onClick: (WorkoutModel) 
 
             name.text = item.name
 
-            if (item.template) {
-                // Templates have no start date time and status
-                date.visibility = View.GONE
-                statusLbl.visibility = View.GONE
-                statusValue.visibility = View.GONE
+            if (item.finishDateTime == null) {
+                statusStringId = R.string.in_progress_lbl
+                statusColorId = R.color.orange
             } else {
-                date.visibility = View.VISIBLE
-                statusLbl.visibility = View.VISIBLE
-                statusValue.visibility = View.VISIBLE
-
-                if (item.finishDateTime == null) {
-                    statusStringId = R.string.in_progress_lbl
-                    statusColorId = R.color.orange
-                } else {
-                    statusStringId = R.string.finished_lbl
-                    statusColorId = R.color.green
-                }
-
-                statusValue.text = Utils.getContext().getString(statusStringId)
-                statusValue.setTextColor(Utils.getContext().getColor(statusColorId))
-
-                date.text = Utils.defaultFormatDate(item.startDateTime!!)
+                statusStringId = R.string.finished_lbl
+                statusColorId = R.color.green
             }
+
+            statusValue.text = Utils.getContext().getString(statusStringId)
+            statusValue.setTextColor(Utils.getContext().getColor(statusColorId))
+
+            date.text = Utils.defaultFormatDate(item.startDateTime!!)
 
             if (exercisesText.length > 2) {
                 exercisesLlb.visibility = View.VISIBLE
@@ -123,6 +129,35 @@ class WorkoutRecyclerAdapter (data: List<WorkoutModel>, onClick: (WorkoutModel) 
                 onClickCallback(item)
             }
         }
-    }
 
+        /** Bind the template item to the view
+         * @param item the template
+         * @param onClickCallback callback to execute on click
+         */
+        @SuppressLint("SetTextI18n", "InflateParams")
+        fun bindTemplate(item: WorkoutModel, onClickCallback: (WorkoutModel) -> Unit) {
+            workoutContainer.visibility = View.GONE
+            templateContainer.visibility = View.VISIBLE
+
+            name.text = item.name
+
+            for (e: ExerciseModel in item.exercises) {
+                // Inflate the view
+                val inflatableView: View = LayoutInflater.from(Utils.getContext())
+                    .inflate(R.layout.inflatable_template_exercise_item, null)
+
+                // Populate the text
+                inflatableView.findViewById<TextView>(R.id.exercise_summary).text =
+                    String.format(Utils.getContext().getString(R.string.template_exercise_summary),
+                        e.name, e.sets.count())
+
+                templateExercisesContainer.addView(inflatableView)
+            }
+
+            // Add click listener to select the workout
+            itemView.setOnClickListener {
+                onClickCallback(item)
+            }
+        }
+    }
 }
