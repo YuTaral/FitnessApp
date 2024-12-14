@@ -52,6 +52,21 @@ class MainActivity : BaseActivity() {
         initialiseDrawerLogic()
     }
 
+    /** Update the selected actions in the right drawer based on whether there is selected workout */
+    fun updateActions() {
+        if (AppStateManager.workout == null) {
+            // Hide the workout related actions
+            actionsNavView.menu.findItem(R.id.nav_finish_workout).setVisible(false)
+            actionsNavView.menu.findItem(R.id.nav_save_workout_template).setVisible(false)
+        } else {
+            // Display the workout related actions
+            if (AppStateManager.workout!!.finishDateTime == null) {
+                actionsNavView.menu.findItem(R.id.nav_finish_workout).setVisible(true)
+            }
+            actionsNavView.menu.findItem(R.id.nav_save_workout_template).setVisible(true)
+        }
+    }
+
     /** Set the view pager */
     private fun initialisePager() {
         // Set offscreenPageLimit to ensure all non temporary panels are created upon initialization
@@ -79,6 +94,7 @@ class MainActivity : BaseActivity() {
             findViewById<TextView>(R.id.txt_username).text = AppStateManager.user!!.email
             drawerLayout.openDrawer(navView)
         }
+
         menuIcon.setOnClickListener {
             drawerLayout.openDrawer(actionsNavView)
         }
@@ -88,11 +104,15 @@ class MainActivity : BaseActivity() {
             drawerLayout.closeDrawers()
             true
         }
+
         actionsNavView.setNavigationItemSelectedListener { menuItem ->
             rightDrawerSelected(menuItem)
             drawerLayout.closeDrawers()
             true
         }
+
+        // Update the actions in the right drawer
+        updateActions()
 
         // Close drawer on back button press
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
@@ -118,26 +138,10 @@ class MainActivity : BaseActivity() {
     private fun rightDrawerSelected(menuItem: MenuItem) {
         when (menuItem.itemId) {
             R.id.nav_finish_workout -> {
-                // Perform a check whether there is selected workout
-                if (!checkWorkoutSelected()) {
-                    return
-                }
-
-                // Check if the workout is already finished
-                if (AppStateManager.workout!!.finishDateTime != null) {
-                    Utils.showToast(R.string.workout_already_finished)
-                    return
-                }
-
                 // Open finish workout dialog
                 FinishWorkoutDialog(this).show()
             }
             R.id.nav_save_workout_template -> {
-                // Check if there is selected workout
-                if (!checkWorkoutSelected()) {
-                    return
-                }
-
                 // Open the dialog to save the workout as template
                 SaveWorkoutTemplateDialog(this).show()
             }
