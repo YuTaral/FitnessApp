@@ -5,7 +5,6 @@ import android.widget.AdapterView
 import android.widget.Button
 import android.widget.Spinner
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fitnessapp.R
@@ -28,8 +27,6 @@ class MainPanel: PanelFragment() {
     private var selectedFilter = Filters.ALL
     private var isSpinnerInitialized = false
 
-    private lateinit var workoutsContainer: ConstraintLayout
-    private lateinit var titleLbl: TextView
     private lateinit var noWorkoutsLbl: TextView
     private lateinit var workoutsRecycler: RecyclerView
     private lateinit var newWorkoutBtn: Button
@@ -55,9 +52,7 @@ class MainPanel: PanelFragment() {
     }
 
     override fun findViews() {
-        workoutsContainer = panel.findViewById(R.id.workouts_container)
         filterSpinner = panel.findViewById(R.id.workout_filter_spinner)
-        titleLbl = panel.findViewById(R.id.latest_workouts_lbl)
         noWorkoutsLbl = panel.findViewById(R.id.no_workouts_lbl)
         workoutsRecycler = panel.findViewById(R.id.workouts_recycler)
         newWorkoutBtn = panel.findViewById(R.id.new_workout_btn)
@@ -100,12 +95,12 @@ class MainPanel: PanelFragment() {
             val workouts = returnData.map { WorkoutModel(it) }.toMutableList()
 
             if (workouts.isEmpty()) {
-                workoutsContainer.visibility = View.GONE
+                workoutsRecycler.visibility = View.GONE
                 noWorkoutsLbl.visibility = View.VISIBLE
 
             } else {
                 noWorkoutsLbl.visibility = View.GONE
-                workoutsContainer.visibility = View.VISIBLE
+                workoutsRecycler.visibility = View.VISIBLE
 
                 if (filterSpinner.adapter == null) {
                     filterSpinner.adapter = CustomSpinnerAdapter(requireContext(), false, listOf(
