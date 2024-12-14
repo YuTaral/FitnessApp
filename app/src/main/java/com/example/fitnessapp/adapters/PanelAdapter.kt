@@ -210,18 +210,21 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
 
     /** Refresh the panel when the current weight unit has been changed */
     fun refreshIfUnitChanged() {
-       if (pager.currentItem == getMainPanel().getIndex()) {
-           // Refresh the main panel to update the weight unit displayed in the workout summary
-           displayMainPanel(true)
-
-       } else if (pager.currentItem == getWorkoutPanel().getIndex()) {
-           // Refresh the workout panel now and workouts panel later
-           displayWorkoutPanel(true)
-       } else {
-           // If temporary panel is active, refresh only the workouts, the panel is updated only
-           // when refreshWorkouts is set to true. Workout panel is updated each time it is selected
-           // and the units are auto updated
-           AppStateManager.refreshWorkouts = true
-       }
+        when (pager.currentItem) {
+            getMainPanel().getIndex() -> {
+                // Refresh the main panel to update the weight unit displayed in the workout summary
+                displayMainPanel(true)
+            }
+            getWorkoutPanel().getIndex() -> {
+                // Refresh the workout panel now and workouts panel later
+                displayWorkoutPanel(true)
+            }
+            else -> {
+                // If temporary panel is active, refresh only the workouts, the panel is updated only
+                // when refreshWorkouts is set to true. Workout panel is updated each time it is selected
+                // and the units are auto updated
+                AppStateManager.refreshWorkouts = true
+            }
+        }
     }
 }
