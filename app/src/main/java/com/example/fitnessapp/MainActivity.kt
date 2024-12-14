@@ -157,18 +157,6 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    /** Perform a check whether there is selected workout. Show toast and return false if there isn't,
-     * return true otherwise
-     */
-    private fun checkWorkoutSelected(): Boolean {
-        if (AppStateManager.workout == null) {
-            Utils.showToast(R.string.error_msg_no_workout_selected)
-            return false
-        }
-
-        return true
-    }
-
     /** Execute the action based on the selected action in the left Drawer
      * @param menuItem the selected menu item
      * */
