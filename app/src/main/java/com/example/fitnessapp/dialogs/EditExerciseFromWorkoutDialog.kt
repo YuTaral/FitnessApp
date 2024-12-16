@@ -23,6 +23,7 @@ import com.example.fitnessapp.utils.Utils
 @SuppressLint("InflateParams")
 class EditExerciseFromWorkoutDialog(ctx: Context, exerciseModel: ExerciseModel): BaseDialog(ctx) {
     override var layoutId = R.layout.edit_exercise_dialog
+    override var dialogTitleId = R.string.edit_exercise_lbl
 
     private var exercise = exerciseModel
     private var allCompleted: Boolean = true

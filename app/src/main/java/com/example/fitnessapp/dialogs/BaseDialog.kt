@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import com.example.fitnessapp.R
 import com.example.fitnessapp.utils.Utils
 
@@ -14,8 +15,14 @@ abstract class BaseDialog(ctx: Context): Dialog(ctx, R.style.Theme_FitnessApp_Di
     /** The dialog layout */
     protected open var layoutId = 0
 
+    /** The dialog title id */
+    protected open var dialogTitleId: Int = 0
+
     /** The dialog view */
     protected lateinit var dialogView: View
+
+    /** The dialog title */
+    protected lateinit var title: TextView
 
     /** The close icon displayed at the top right */
     protected lateinit var closeIcon: ImageView
@@ -26,9 +33,18 @@ abstract class BaseDialog(ctx: Context): Dialog(ctx, R.style.Theme_FitnessApp_Di
         // Inflate the dialog layout
         dialogView = LayoutInflater.from(Utils.getContext()).inflate(layoutId, null)
 
-        // Execute the logic to find views, populate the data and add click listeners
+        // Find the views
         findCommonAndSpecificViews()
+
+        // Set the title
+        if (dialogTitleId > 0) {
+            title.text = Utils.getContext().getString(dialogTitleId)
+        }
+
+        // Populate the dialog
         populateDialog()
+
+        // Add click listeners
         addCommonAndSpecificClickListeners()
 
         // Set the content
@@ -40,6 +56,7 @@ abstract class BaseDialog(ctx: Context): Dialog(ctx, R.style.Theme_FitnessApp_Di
 
     /** Find the common views and call the method to find the dialog specific views */
     private fun findCommonAndSpecificViews() {
+        title = dialogView.findViewById(R.id.dialog_title)
         closeIcon = dialogView.findViewById(R.id.dialog_close)
 
         findViews()

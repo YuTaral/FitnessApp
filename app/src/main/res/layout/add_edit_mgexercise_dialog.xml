@@ -5,26 +5,14 @@
     android:paddingTop="10dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:id="@+id/add_exercise_dialog_title"
-        android:layout_width="200dp"
+    <LinearLayout
+        android:id="@+id/dialog_header"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/add_exercise_lbl"
-        android:textSize="20sp"
-        android:gravity="center"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent">
 
-    <ImageView
-        android:id="@+id/dialog_close"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_marginEnd="10dp"
-        android:importantForAccessibility="no"
-        android:background="@drawable/icon_close_dialog"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        <include layout="@layout/dialog_header"/>
+    </LinearLayout>
 
     <TextView
         android:id="@+id/exercise_name_lbl"
@@ -48,7 +36,7 @@
         android:imeOptions="actionNext"
         android:nextFocusDown="@+id/exercise_sets"
         android:maxLength="50"
-        app:layout_constraintTop_toBottomOf="@+id/add_exercise_dialog_title"
+        app:layout_constraintTop_toBottomOf="@+id/dialog_header"
         app:layout_constraintStart_toEndOf="@+id/exercise_name_lbl"
         app:layout_constraintEnd_toEndOf="parent"/>
 

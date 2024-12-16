@@ -15,6 +15,7 @@ import com.example.fitnessapp.utils.Utils
 @SuppressLint("InflateParams")
 class SaveWorkoutTemplateDialog(ctx: Context): BaseDialog(ctx) {
     override var layoutId = R.layout.save_workout_template_dialog
+    override var dialogTitleId = R.string.save_template_lbl
 
     private lateinit var templateName: EditText
     private lateinit var exercises: TextView

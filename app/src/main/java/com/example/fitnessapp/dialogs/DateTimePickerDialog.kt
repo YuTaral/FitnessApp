@@ -4,7 +4,6 @@ import android.content.Context
 import android.view.View
 import android.widget.Button
 import android.widget.CalendarView
-import android.widget.TextView
 import android.widget.TimePicker
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.fitnessapp.R
@@ -17,7 +16,6 @@ class DateTimePickerDialog(ctx: Context): BaseDialog(ctx) {
     override var layoutId = R.layout.date_picker_dialog
 
     private lateinit var onSaveCallback: (Date) -> Unit
-    private lateinit var title: TextView
     private lateinit var datePicker: CalendarView
     private lateinit var timePicker: TimePicker
     private lateinit var datePickerContainer: ConstraintLayout
@@ -27,7 +25,6 @@ class DateTimePickerDialog(ctx: Context): BaseDialog(ctx) {
     private lateinit var saveBtn: Button
 
     override fun findViews() {
-        title = dialogView.findViewById(R.id.select_date_time_title)
         datePickerContainer = dialogView.findViewById(R.id.date_picker_container)
         timePickerContainer = dialogView.findViewById(R.id.time_picker_container)
         datePicker = dialogView.findViewById(R.id.date_picker)

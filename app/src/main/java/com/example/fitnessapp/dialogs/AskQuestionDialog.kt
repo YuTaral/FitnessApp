@@ -58,7 +58,6 @@ class AskQuestionDialog(ctx: Context, q: Question, d: BaseModel? = null): BaseDi
 
     private lateinit var onYesCallback: () -> Unit
     private lateinit var onNoCallback: () -> Unit
-    private lateinit var title: TextView
     private lateinit var questionText: TextView
     private lateinit var questionAdditionalInfo: TextView
     private lateinit var yesBtn: Button
@@ -75,7 +74,6 @@ class AskQuestionDialog(ctx: Context, q: Question, d: BaseModel? = null): BaseDi
     }
 
     override fun findViews() {
-        title = dialogView.findViewById(R.id.ask_question_title)
         closeIcon = dialogView.findViewById(R.id.dialog_close)
         questionText = dialogView.findViewById(R.id.question_lbl)
         questionAdditionalInfo = dialogView.findViewById(R.id.question_additional_info)

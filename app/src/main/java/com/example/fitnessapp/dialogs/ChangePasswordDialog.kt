@@ -14,6 +14,7 @@ import com.example.fitnessapp.utils.Utils
 @SuppressLint("InflateParams")
 class ChangePasswordDialog(ctx: Context): BaseDialog(ctx) {
     override var layoutId = R.layout.change_password_dialog
+    override var dialogTitleId = R.string.change_password_lbl
 
     private lateinit var oldPassword: EditText
     private lateinit var newPassword: EditText

@@ -30,11 +30,11 @@ class AddEditWorkoutDialog(ctx: Context, mode: Mode, workoutModel: WorkoutModel?
     }
 
     override var layoutId = R.layout.add_edit_workout_dialog
+    override var dialogTitleId = R.string.add_workout_panel_title
 
     private var dialogMode: Mode = mode
     private var template: WorkoutModel? = workoutModel
 
-    private lateinit  var title: TextView
     private lateinit var name: EditText
     private lateinit var startEndTimeContainer: ConstraintLayout
     private lateinit  var startLbl: TextView
@@ -52,7 +52,6 @@ class AddEditWorkoutDialog(ctx: Context, mode: Mode, workoutModel: WorkoutModel?
     }
 
     override fun findViews() {
-        title = dialogView.findViewById(R.id.add_workout_title)
         closeIcon = dialogView.findViewById(R.id.dialog_close)
         name = dialogView.findViewById(R.id.workout_name_txt)
         startEndTimeContainer = dialogView.findViewById(R.id.start_end_date_time_container)

@@ -8,14 +8,13 @@ import android.view.WindowManager
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
-import android.widget.TextView
 import com.example.fitnessapp.R
 import com.example.fitnessapp.models.MGExerciseModel
 import com.example.fitnessapp.models.WorkoutModel
 import com.example.fitnessapp.network.CustomResponse
 import com.example.fitnessapp.network.repositories.ExerciseRepository
-import com.example.fitnessapp.utils.Constants
 import com.example.fitnessapp.utils.AppStateManager
+import com.example.fitnessapp.utils.Constants
 import com.example.fitnessapp.utils.Utils
 
 /** Add / Edit Muscle group Exercise dialog to hold the logic for
@@ -24,11 +23,11 @@ import com.example.fitnessapp.utils.Utils
 @SuppressLint("InflateParams")
 class AddEditMGExerciseDialog(ctx: Context, mGroupId: Long, exercise: MGExerciseModel? = null): BaseDialog(ctx) {
     override var layoutId = R.layout.add_edit_mgexercise_dialog
+    override var dialogTitleId = R.string.add_exercise_lbl
 
     private var muscleGroupId = mGroupId
     private var exerciseToEdit = exercise
 
-    private lateinit var title: TextView
     private lateinit var name: EditText
     private lateinit var description: EditText
     private lateinit var addExerciseToWorkout: CheckBox
@@ -46,7 +45,6 @@ class AddEditMGExerciseDialog(ctx: Context, mGroupId: Long, exercise: MGExercise
     }
 
     override fun findViews() {
-        title = dialogView.findViewById(R.id.add_exercise_dialog_title)
         name = dialogView.findViewById(R.id.exercise_name)
         description = dialogView.findViewById(R.id.exercise_description)
         addExerciseToWorkout = dialogView.findViewById(R.id.add_exercise_to_workout)

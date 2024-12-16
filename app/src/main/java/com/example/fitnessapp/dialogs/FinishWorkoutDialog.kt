@@ -14,6 +14,7 @@ import java.util.Date
 /** Dialog to select date and time when the workout is finished */
 class FinishWorkoutDialog(ctx: Context): BaseDialog(ctx) {
     override var layoutId = R.layout.finish_workout_dialog
+    override var dialogTitleId = R.string.finish_workout_lbl
 
     private lateinit var dateTime: TextView
     private lateinit var saveBtn: Button
