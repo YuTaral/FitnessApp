@@ -19,4 +19,8 @@
         <item name="android:checkboxStyle">@style/CircleCheckBoxStyle</item>
         <item name="android:background">@drawable/background_alert_dialog_border</item>
     </style>
+
+    <style name="LoadingDialog" parent="Theme.MaterialComponents.Dialog">
+        <item name="android:windowBackground">@drawable/background_loading_dialog</item>
+    </style>
 </resources>

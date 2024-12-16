@@ -4,6 +4,7 @@
     <color name="colorHeader">#302F2F</color>
     <color name="colorBackground">#191919</color>
     <color name="colorDialogBackground">#2E2E2E</color>
+    <color name="colorLoadingDialogBackground">#777676</color>
     <color name="colorEditTextLine">#BEBFBF</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
