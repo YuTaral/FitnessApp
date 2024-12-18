@@ -20,7 +20,9 @@ abstract class BaseActivity : AppCompatActivity()  {
         AppStateManager.activeActivity = this
         setContentView(layoutId)
 
-        if (savedInstanceState != null && AppStateManager.user == null) {
+        if (this is MainActivity && AppStateManager.user == null && savedInstanceState != null) {
+            // If this is the main activity, the user is not logged in and savedInstanceState is
+            // non-null, app restart occurred, handle the case
             onAppRestart()
         }
 
