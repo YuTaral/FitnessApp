@@ -60,7 +60,7 @@ class MuscleGroupRecyclerAdapter(data: MutableList<MuscleGroupModel>, callback: 
          */
         @SuppressLint("DiscouragedApi")
         fun bind(item: MuscleGroupModel, onSelectCallback: (muscleGroup: MuscleGroupModel) -> Unit) {
-            val ctx = Utils.getContext()
+            val ctx = Utils.getActivity()
             val resourceId = ctx.resources.getIdentifier(item.imageName, "drawable", ctx.packageName)
 
             if (resourceId != 0) { // Check if resource exists

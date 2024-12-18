@@ -91,7 +91,7 @@ class EditProfileDialog(ctx: Context): BaseDialog(ctx) {
 
     /** Show dialog to select from where to upload the image */
     private fun showImagePicker() {
-        val dialog = AskQuestionDialog(Utils.getContext(), AskQuestionDialog.Question.PROFILE_IMAGE_SELECTION)
+        val dialog = AskQuestionDialog(Utils.getActivity(), AskQuestionDialog.Question.PROFILE_IMAGE_SELECTION)
 
         dialog.setLeftButtonCallback {
             openCamera()
@@ -114,12 +114,12 @@ class EditProfileDialog(ctx: Context): BaseDialog(ctx) {
 
     /** Open the camera to allow image capture */
     private fun openCamera() {
-        if (Utils.getMainActivity().activityResultHandler.checkPermissionGranted(Constants.Permissions.CAMERA)) {
+        if (Utils.getActivityResultHandler().checkPermissionGranted(Constants.Permissions.CAMERA)) {
             // Permission granted, open the camera
-            Utils.getMainActivity().activityResultHandler.cameraLauncher.launch(Intent(MediaStore.ACTION_IMAGE_CAPTURE))
+            Utils.getActivityResultHandler().cameraLauncher.launch(Intent(MediaStore.ACTION_IMAGE_CAPTURE))
         } else {
             // Ask for the permission
-            Utils.getMainActivity().activityResultHandler.cameraPermLauncher.launch(Constants.Permissions.CAMERA)
+            Utils.getActivityResultHandler().cameraPermLauncher.launch(Constants.Permissions.CAMERA)
         }
     }
 
@@ -128,32 +128,32 @@ class EditProfileDialog(ctx: Context): BaseDialog(ctx) {
         var permissionGranted = false
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) { // Android 13+
-            if (Utils.getMainActivity().activityResultHandler.checkPermissionGranted(Constants.Permissions.READ_MEDIA_IMAGES)) {
+            if (Utils.getActivityResultHandler().checkPermissionGranted(Constants.Permissions.READ_MEDIA_IMAGES)) {
                 permissionGranted = true
             } else {
                 // Ask for the permission
-                Utils.getMainActivity().activityResultHandler.readMediaImagesPermLauncher.launch(Constants.Permissions.READ_MEDIA_IMAGES)
+                Utils.getActivityResultHandler().readMediaImagesPermLauncher.launch(Constants.Permissions.READ_MEDIA_IMAGES)
             }
 
         } else { // Below Android 13
-            if (Utils.getMainActivity().activityResultHandler.checkPermissionGranted(Constants.Permissions.READ_EXTERNAL_STORAGE)) {
+            if (Utils.getActivityResultHandler().checkPermissionGranted(Constants.Permissions.READ_EXTERNAL_STORAGE)) {
                 permissionGranted = true
             } else {
                 // Ask for the permission
-                Utils.getMainActivity().activityResultHandler.readExternalStoragePermLauncher.launch(Constants.Permissions.READ_EXTERNAL_STORAGE)
+                Utils.getActivityResultHandler().readExternalStoragePermLauncher.launch(Constants.Permissions.READ_EXTERNAL_STORAGE)
             }
         }
 
         if (permissionGranted) {
             // Permission granted, open the gallery
-            Utils.getMainActivity().activityResultHandler.galleryLauncher.launch(Intent(Intent.ACTION_PICK,
+            Utils.getActivityResultHandler().galleryLauncher.launch(Intent(Intent.ACTION_PICK,
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI))
         }
     }
 
     /** Open the photo picker */
     private fun openPhotoPicker() {
-        Utils.getMainActivity().activityResultHandler.photoPickerLauncher
+        Utils.getActivityResultHandler().photoPickerLauncher
             .launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
     }
 

@@ -79,7 +79,7 @@ class SelectedWorkoutPanel : BasePanel() {
                  statusColorId = R.color.green
             }
 
-            workoutStatus.text = Utils.getContext().getString(statusStringId)
+            workoutStatus.text = Utils.getActivity().getString(statusStringId)
             workoutStatus.setTextColor(requireContext().getColor(statusColorId))
 
         } else {

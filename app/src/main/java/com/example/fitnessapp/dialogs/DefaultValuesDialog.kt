@@ -40,7 +40,7 @@ class DefaultValuesDialog(ctx: Context, values: UserDefaultValuesModel, weightUn
     }
 
     override fun populateDialog() {
-        val ctx = Utils.getContext()
+        val ctx = Utils.getActivity()
         var spinnerDefaultIndex: Int
 
         if (defaultValues.sets > 0) {

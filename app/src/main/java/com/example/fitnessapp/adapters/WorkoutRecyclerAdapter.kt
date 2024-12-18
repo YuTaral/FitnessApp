@@ -106,8 +106,8 @@ class WorkoutRecyclerAdapter (data: List<WorkoutModel>, onClick: (WorkoutModel) 
                 statusColorId = R.color.green
             }
 
-            statusValue.text = Utils.getContext().getString(statusStringId)
-            statusValue.setTextColor(Utils.getContext().getColor(statusColorId))
+            statusValue.text = Utils.getActivity().getString(statusStringId)
+            statusValue.setTextColor(Utils.getActivity().getColor(statusColorId))
 
             date.text = Utils.defaultFormatDate(item.startDateTime!!)
 
@@ -120,7 +120,7 @@ class WorkoutRecyclerAdapter (data: List<WorkoutModel>, onClick: (WorkoutModel) 
                 exercises.visibility = View.GONE
             }
 
-            total.text = String.format(Utils.getContext().getText(R.string.workout_summary_lbl).toString(),
+            total.text = String.format(Utils.getActivity().getText(R.string.workout_summary_lbl).toString(),
                         Utils.formatDouble(completedWeight),  Utils.formatDouble(totalWeight),
                         AppStateManager.user!!.defaultValues.weightUnit.text, completedReps, totalReps)
 
@@ -143,12 +143,12 @@ class WorkoutRecyclerAdapter (data: List<WorkoutModel>, onClick: (WorkoutModel) 
 
             for (e: ExerciseModel in item.exercises) {
                 // Inflate the view
-                val inflatableView: View = LayoutInflater.from(Utils.getContext())
+                val inflatableView: View = LayoutInflater.from(Utils.getActivity())
                     .inflate(R.layout.inflatable_template_exercise_item, null)
 
                 // Populate the text
                 inflatableView.findViewById<TextView>(R.id.exercise_summary).text =
-                    String.format(Utils.getContext().getString(R.string.template_exercise_summary),
+                    String.format(Utils.getActivity().getString(R.string.template_exercise_summary),
                         e.name, e.sets.count())
 
                 templateExercisesContainer.addView(inflatableView)

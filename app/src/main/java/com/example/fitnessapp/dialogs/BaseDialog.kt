@@ -31,14 +31,14 @@ abstract class BaseDialog(ctx: Context): Dialog(ctx, R.style.Theme_FitnessApp_Di
         super.onCreate(savedInstanceState)
 
         // Inflate the dialog layout
-        dialogView = LayoutInflater.from(Utils.getContext()).inflate(layoutId, null)
+        dialogView = LayoutInflater.from(Utils.getActivity()).inflate(layoutId, null)
 
         // Find the views
         findViews()
 
         // Set the title
         if (dialogTitleId > 0) {
-            title.text = Utils.getContext().getString(dialogTitleId)
+            title.text = Utils.getActivity().getString(dialogTitleId)
         }
 
         // Populate the dialog
@@ -53,12 +53,12 @@ abstract class BaseDialog(ctx: Context): Dialog(ctx, R.style.Theme_FitnessApp_Di
         // Set cancelable to false, we have close icon on each dialog
         setCancelable(false)
 
-        Utils.getMainActivity().activeDialogs.add(this)
+        Utils.getActivity().activeDialogs.add(this)
     }
 
     override fun dismiss() {
         super.dismiss()
-        Utils.getMainActivity().activeDialogs.remove(this)
+        Utils.getActivity().activeDialogs.remove(this)
     }
 
     /** Find the views in the dialog*/

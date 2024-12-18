@@ -31,7 +31,7 @@ class ManageExercisesPanel(mode: Mode): BaseExercisePanel(mode) {
         CHANGE_EXERCISE_DEFAULT_VALUES(R.string.action_exercise_default_values);
 
         override fun toString(): String {
-            return Utils.getContext().getString(stringId)
+            return Utils.getActivity().getString(stringId)
         }
     }
 

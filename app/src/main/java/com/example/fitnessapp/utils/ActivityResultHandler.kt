@@ -12,14 +12,14 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale
 import androidx.core.content.ContextCompat
-import com.example.fitnessapp.MainActivity
+import com.example.fitnessapp.BaseActivity
 import com.example.fitnessapp.R
 import com.example.fitnessapp.dialogs.AskQuestionDialog
 import com.example.fitnessapp.dialogs.EditProfileDialog
 
 /** Class to handle the logic when requesting permissions / launching specific result launcher */
 class ActivityResultHandler {
-    private var activity: MainActivity = Utils.getMainActivity()
+    private var activity: BaseActivity = Utils.getActivity()
 
     var cameraPermLauncher: ActivityResultLauncher<String>
     var readMediaImagesPermLauncher: ActivityResultLauncher<String>

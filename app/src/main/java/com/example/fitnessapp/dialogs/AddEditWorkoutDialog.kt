@@ -71,7 +71,7 @@ class AddEditWorkoutDialog(ctx: Context, mode: Mode, workoutModel: WorkoutModel?
             }
 
         } else {
-            title.text = Utils.getContext().getString(R.string.edit_workout_panel_title)
+            title.text = Utils.getActivity().getString(R.string.edit_workout_panel_title)
             setEditModeButtons()
 
             name.setText(AppStateManager.workout!!.name)
@@ -148,7 +148,7 @@ class AddEditWorkoutDialog(ctx: Context, mode: Mode, workoutModel: WorkoutModel?
 
     /** Executed on Delete button click */
     private fun delete() {
-        val dialog = AskQuestionDialog(Utils.getContext(), AskQuestionDialog.Question.DELETE_WORKOUT, AppStateManager.workout!!)
+        val dialog = AskQuestionDialog(Utils.getActivity(), AskQuestionDialog.Question.DELETE_WORKOUT, AppStateManager.workout!!)
 
         dialog.setLeftButtonCallback {
             // Send a request to delete the workout

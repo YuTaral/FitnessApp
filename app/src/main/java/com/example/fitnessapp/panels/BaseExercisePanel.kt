@@ -123,7 +123,7 @@ abstract class BaseExercisePanel(mode: Mode): BasePanel() {
             // Show no exercises
             showViewsWhenNoExercises(initializeAdapter)
         } else {
-            selectedMuscleGroupLbl.text = String.format(Utils.getContext()
+            selectedMuscleGroupLbl.text = String.format(Utils.getActivity()
                 .getString(R.string.exercises_for_mg_lbl), selectedMuscleGroup!!.name)
 
             // Display the exercises
@@ -181,7 +181,7 @@ abstract class BaseExercisePanel(mode: Mode): BasePanel() {
      */
     private fun showViewsWhenNoExercises(initializeAdapter: Boolean) {
         // Show title that there is no exercises for this muscle group
-        selectedMuscleGroupLbl.text = String.format(Utils.getContext()
+        selectedMuscleGroupLbl.text = String.format(Utils.getActivity()
                 .getString(noExercisesStringId), selectedMuscleGroup!!.name)
 
         if (initializeAdapter) {

@@ -66,10 +66,10 @@ class ExerciseRecyclerAdapter(data: List<ExerciseModel>) : RecyclerView.Adapter<
             // Set the exercise data
             exerciseName.text = item.name
 
-            weightLbl.text = String.format(Utils.getContext().getString(R.string.weight_in_unit_lbl),
+            weightLbl.text = String.format(Utils.getActivity().getString(R.string.weight_in_unit_lbl),
                 AppStateManager.user!!.defaultValues.weightUnit.text)
 
-            targetMuscleGroup.text = String.format(Utils.getContext().getString(R.string.target_lbl), item.muscleGroup.name)
+            targetMuscleGroup.text = String.format(Utils.getActivity().getString(R.string.target_lbl), item.muscleGroup.name)
 
             // Add the sets
             bindSets(item)
@@ -78,7 +78,7 @@ class ExerciseRecyclerAdapter(data: List<ExerciseModel>) : RecyclerView.Adapter<
             editBtn.setOnClickListener {
                 Utils.addEditExerciseClick(AskQuestionDialog.Question.WORKOUT_ALREADY_FINISHED_WHEN_EDIT_EXERCISE, callback = {
                     // Display the edit exercise dialog
-                    EditExerciseFromWorkoutDialog(Utils.getContext(), item).show()
+                    EditExerciseFromWorkoutDialog(Utils.getActivity(), item).show()
                 })
             }
 
@@ -99,7 +99,7 @@ class ExerciseRecyclerAdapter(data: List<ExerciseModel>) : RecyclerView.Adapter<
          */
         @SuppressLint("InflateParams")
         private fun bindSets(item: ExerciseModel) {
-            val inflater = LayoutInflater.from(Utils.getContext())
+            val inflater = LayoutInflater.from(Utils.getActivity())
             var setCounter = 1
 
             // Clear the views from the previous bind

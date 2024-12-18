@@ -95,13 +95,13 @@ object NetworkManager {
                             }
 
                         } catch (ex: Exception) {
-                            onException(Utils.getContext().getString(R.string.error_msg_unexpected), ex)
+                            onException(Utils.getActivity().getString(R.string.error_msg_unexpected), ex)
                         }
                     } else {
                         try {
                             onError(onErrorCallback)
                         } catch (ex: Exception) {
-                            onException(Utils.getContext().getString(R.string.error_msg_unexpected), ex)
+                            onException(Utils.getActivity().getString(R.string.error_msg_unexpected), ex)
                         }
                     }
 
@@ -117,7 +117,7 @@ object NetworkManager {
 
             override fun onFailure(call: Call<CustomResponse>, t: Throwable) {
                 // Display network problem error
-                onException(Utils.getContext().getString(R.string.error_msg_unexpected_network_problem), t as Exception)
+                onException(Utils.getActivity().getString(R.string.error_msg_unexpected_network_problem), t as Exception)
 
                 try {
                     if (!::responseBody.isInitialized) {
@@ -136,7 +136,7 @@ object NetworkManager {
 
     /** Show request in progress dialog when the request is sent */
     private fun showRequestInProgressDialog() {
-        val dialogBuilder = AlertDialog.Builder(Utils.getContext(), R.style.LoadingDialog)
+        val dialogBuilder = AlertDialog.Builder(Utils.getActivity(), R.style.LoadingDialog)
                             .setView(R.layout.progress_dialog)
                             .setCancelable(false)
 
@@ -148,7 +148,7 @@ object NetworkManager {
      * @param onErrorCallback the callback to execute
      */
     private fun onError(onErrorCallback: (CustomResponse) -> Unit) {
-        var message = Utils.getContext().getString(R.string.error_msg_unexpected)
+        var message = Utils.getActivity().getString(R.string.error_msg_unexpected)
 
         if (::responseBody.isInitialized) {
             // Execute the callback

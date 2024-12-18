@@ -52,7 +52,7 @@ class EditExerciseFromWorkoutDialog(ctx: Context, exerciseModel: ExerciseModel):
 
     override fun populateDialog() {
         name.setText(exercise.name)
-        weightLbl.text = String.format(Utils.getContext().getString(R.string.weight_in_unit_lbl),
+        weightLbl.text = String.format(Utils.getActivity().getString(R.string.weight_in_unit_lbl),
                                     AppStateManager.user!!.defaultValues.weightUnit.text)
 
         exercise.sets.map { addSetToContainer(it, setsContainer, true) }
@@ -100,7 +100,7 @@ class EditExerciseFromWorkoutDialog(ctx: Context, exerciseModel: ExerciseModel):
             allCompleted = false
         }
 
-        val inflatableView: View = LayoutInflater.from(Utils.getContext())
+        val inflatableView: View = LayoutInflater.from(Utils.getActivity())
             .inflate(R.layout.inflatable_edit_set, null)
 
         inflatableView.findViewById<CheckBox>(R.id.completed).isChecked = set.completed
@@ -156,7 +156,7 @@ class EditExerciseFromWorkoutDialog(ctx: Context, exerciseModel: ExerciseModel):
 
     /** Execute Edit Exercise Dialog button Delete clicked to send a request and delete the exercise */
     private fun delete() {
-        val dialog = AskQuestionDialog(Utils.getContext(), AskQuestionDialog.Question.DELETE_EXERCISE_FROM_WORKOUT, exercise)
+        val dialog = AskQuestionDialog(Utils.getActivity(), AskQuestionDialog.Question.DELETE_EXERCISE_FROM_WORKOUT, exercise)
 
         dialog.setLeftButtonCallback {
             if (AppStateManager.workout != null) {

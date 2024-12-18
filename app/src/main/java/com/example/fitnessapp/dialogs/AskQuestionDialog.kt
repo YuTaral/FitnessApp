@@ -34,22 +34,22 @@ class AskQuestionDialog(ctx: Context, q: Question, d: BaseModel? = null): BaseDi
 
         /** Returns the question title */
         fun getTitle(): String {
-            return Utils.getMainActivity().getString(titleId)
+            return Utils.getActivity().getString(titleId)
         }
 
         /** Returns the question text */
         fun getQuestionText(): String {
-            return Utils.getMainActivity().getString(questionId)
+            return Utils.getActivity().getString(questionId)
         }
 
         /** Returns the left button text */
         fun getLeftButtonText(): String {
-            return Utils.getMainActivity().getString(yesBtnTextId)
+            return Utils.getActivity().getString(yesBtnTextId)
         }
 
         /** Returns the right button text */
         fun getRightButtonText(): String {
-            return Utils.getMainActivity().getString(noBtnTextId)
+            return Utils.getActivity().getString(noBtnTextId)
         }
     }
 
@@ -105,7 +105,7 @@ class AskQuestionDialog(ctx: Context, q: Question, d: BaseModel? = null): BaseDi
 
                 formatName = model.name
                 questionAdditionalInfo.visibility = View.VISIBLE
-                questionAdditionalInfo.text = String.format(Utils.getContext().getString(R.string.mg_exercise_description), model.description)
+                questionAdditionalInfo.text = String.format(Utils.getActivity().getString(R.string.mg_exercise_description), model.description)
             }
 
             Question.DELETE_WORKOUT -> {
@@ -120,7 +120,7 @@ class AskQuestionDialog(ctx: Context, q: Question, d: BaseModel? = null): BaseDi
                 formatName = if (workoutAllSetsCompleted()) {
                     ""
                 } else {
-                    Utils.getContext().getString(R.string.exercises_not_finished_lbl)
+                    Utils.getActivity().getString(R.string.exercises_not_finished_lbl)
                 }
             }
 

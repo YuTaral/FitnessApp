@@ -39,7 +39,7 @@ class MainPanel: BasePanel() {
         COMPLETED(R.string.workout_filter_completed);
 
         override fun toString(): String {
-            return Utils.getContext().getString(stringId)
+            return Utils.getActivity().getString(stringId)
         }
     }
 

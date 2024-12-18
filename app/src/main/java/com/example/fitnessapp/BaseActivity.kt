@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.fitnessapp.dialogs.BaseDialog
+import com.example.fitnessapp.utils.ActivityResultHandler
 import com.example.fitnessapp.utils.AppStateManager
 import com.example.fitnessapp.utils.Utils
 
@@ -14,6 +15,9 @@ abstract class BaseActivity : AppCompatActivity()  {
 
     /** List to store the currently active dialogs */
     var activeDialogs: MutableList<BaseDialog> = mutableListOf()
+
+    /** The activity result handler for permission / intents */
+    lateinit var activityResultHandler: ActivityResultHandler
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +32,13 @@ abstract class BaseActivity : AppCompatActivity()  {
 
         findViews()
         addClickListeners()
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        // Make sure the correct activity is set (error occur when in the following edge case:
+        // Open camera from the app -> minimize the app -> return to the app -> close camera)
+        AppStateManager.activeActivity = this
     }
 
     override fun onResume() {

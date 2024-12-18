@@ -34,7 +34,7 @@ class FinishWorkoutDialog(ctx: Context): BaseDialog(ctx) {
     override fun addClickListeners() {
         dateTime.setOnClickListener {
             // Open the date picker dialog
-            val dialog = DateTimePickerDialog(Utils.getContext())
+            val dialog = DateTimePickerDialog(Utils.getActivity())
 
             dialog.setOnSaveCallback{ date ->
                 // Change the value on save

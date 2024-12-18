@@ -20,7 +20,7 @@ object AppStateManager {
             Utils.updateUserInPrefs(_user)
 
             if (_user != null && activeActivity is MainActivity) {
-                Utils.getMainActivity().setUserInDrawer()
+                (Utils.getActivity() as MainActivity).setUserInDrawer()
             }
         }
 

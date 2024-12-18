@@ -75,7 +75,7 @@ class MGExercisesRecyclerAdapter(data: List<MGExerciseModel>, callback: (MGExerc
             name.text = item.name
 
             if (item.description.isEmpty()) {
-                description.text = Utils.getContext().getString(R.string.no_description_for_ex_lbl)
+                description.text = Utils.getActivity().getString(R.string.no_description_for_ex_lbl)
                 description.setTypeface(null, Typeface.ITALIC)
             } else {
                 description.text = item.description
