@@ -7,11 +7,12 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.example.fitnessapp.models.WorkoutModel
 import com.example.fitnessapp.panels.BaseExercisePanel
+import com.example.fitnessapp.panels.BasePanel
 import com.example.fitnessapp.panels.MainPanel
 import com.example.fitnessapp.panels.ManageExercisesPanel
-import com.example.fitnessapp.panels.BasePanel
 import com.example.fitnessapp.panels.SelectedWorkoutPanel
 import com.example.fitnessapp.utils.AppStateManager
+import com.example.fitnessapp.utils.Utils
 
 /** FragmentStateAdapter used to manage the panels */
 class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, count: Int) : FragmentStateAdapter(fragmentActivity) {
@@ -137,7 +138,7 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
         AppStateManager.workout = workout
 
         if (refreshWorkouts != null) {
-            AppStateManager.refreshWorkouts = refreshWorkouts
+            Utils.setRefreshWorkouts(refreshWorkouts)
         }
 
         if (index != pager.currentItem) {
@@ -156,7 +157,8 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
      * false otherwise
      */
     fun displayMainPanel(refreshWorkouts: Boolean) {
-        AppStateManager.refreshWorkouts = refreshWorkouts
+        Utils.setRefreshWorkouts(refreshWorkouts)
+
         val index = getMainPanel().getIndex()
 
         if (index != pager.currentItem) {
@@ -223,7 +225,7 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
                 // If temporary panel is active, refresh only the workouts, the panel is updated only
                 // when refreshWorkouts is set to true. Workout panel is updated each time it is selected
                 // and the units are auto updated
-                AppStateManager.refreshWorkouts = true
+                Utils.setRefreshWorkouts(true)
             }
         }
     }

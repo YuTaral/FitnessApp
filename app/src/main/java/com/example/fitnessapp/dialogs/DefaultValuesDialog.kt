@@ -139,7 +139,7 @@ class DefaultValuesDialog(ctx: Context, values: UserDefaultValuesModel, weightUn
 
                     // If weight unit changed, refresh the workouts / workout to update the displayed unit
                     if (newValues.weightUnit.id != oldWeightUnit) {
-                        AppStateManager.panelAdapter!!.refreshIfUnitChanged()
+                        Utils.getPanelAdapter().refreshIfUnitChanged()
                     }
                 }
             }

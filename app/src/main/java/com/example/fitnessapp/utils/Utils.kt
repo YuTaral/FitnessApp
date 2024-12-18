@@ -27,6 +27,7 @@ import com.example.fitnessapp.BaseActivity
 import com.example.fitnessapp.LoginActivity
 import com.example.fitnessapp.MainActivity
 import com.example.fitnessapp.R
+import com.example.fitnessapp.adapters.PanelAdapter
 import com.example.fitnessapp.dialogs.AskQuestionDialog
 import com.example.fitnessapp.models.UserModel
 import com.example.fitnessapp.network.APIService
@@ -129,9 +130,24 @@ object Utils {
         return AppStateManager.activeActivity!!
     }
 
+    /** Return the current panel adapter */
+    fun getPanelAdapter(): PanelAdapter {
+        return (AppStateManager.activeActivity!! as MainActivity).panelAdapter
+    }
+
     /** Return the current activity result handler */
     fun getActivityResultHandler(): ActivityResultHandler {
         return (AppStateManager.activeActivity!! as MainActivity).activityResultHandler
+    }
+
+    /** Set the refreshWorkouts variable stored in the MainActivity to the provided value */
+    fun setRefreshWorkouts(value: Boolean) {
+        (AppStateManager.activeActivity!! as MainActivity).refreshWorkouts = value
+    }
+
+    /** Get the refreshWorkouts variable stored in the MainActivity*/
+    fun getRefreshWorkouts(): Boolean {
+        return (AppStateManager.activeActivity!! as MainActivity).refreshWorkouts
     }
 
     /** Validation failed - focus the field and open the keyboard
@@ -352,7 +368,7 @@ object Utils {
 
                 WorkoutRepository().editWorkout(unFinishedWorkout, onSuccess = { workout ->
                     // Refresh the workout panel
-                    AppStateManager.panelAdapter!!.displayWorkoutPanel(workout, true)
+                    getPanelAdapter().displayWorkoutPanel(workout, true)
 
                     // Close the ask question dialog
                     dialog.dismiss()

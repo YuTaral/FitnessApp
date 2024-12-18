@@ -108,7 +108,7 @@ class SelectedWorkoutPanel : BasePanel() {
     override fun addClickListeners() {
         newExerciseBtn.setOnClickListener {
             Utils.addEditExerciseClick(AskQuestionDialog.Question.WORKOUT_ALREADY_FINISHED_WHEN_ADD_EXERCISE, callback = {
-                AppStateManager.panelAdapter!!
+                Utils.getPanelAdapter()
                     .displayTemporaryPanel(ExercisePanel(BaseExercisePanel.Mode.SELECT_MUSCLE_GROUP))
             })
         }

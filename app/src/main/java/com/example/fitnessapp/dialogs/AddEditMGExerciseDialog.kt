@@ -62,7 +62,7 @@ class AddEditMGExerciseDialog(ctx: Context, mGroupId: Long, exercise: MGExercise
             addExerciseToWorkout.visibility = View.GONE
         }
 
-        if (AppStateManager.panelAdapter!!.isManageExerciseActive()) {
+        if (Utils.getPanelAdapter().isManageExerciseActive()) {
             // Remove the add exercise to workout checkbox if we are
             // managing the exercises
             addExerciseToWorkout.visibility = View.GONE
@@ -102,7 +102,7 @@ class AddEditMGExerciseDialog(ctx: Context, mGroupId: Long, exercise: MGExercise
                 dismiss()
 
                 // Response contains the updated muscle group exercises
-                AppStateManager.panelAdapter!!.getBaseExercisePanel()!!
+                Utils.getPanelAdapter().getBaseExercisePanel()!!
                     .populateExercises(returnData.map{ MGExerciseModel(it) }, false)
             })
 
@@ -116,12 +116,12 @@ class AddEditMGExerciseDialog(ctx: Context, mGroupId: Long, exercise: MGExercise
     private fun onSuccessCallback(updateWorkout: Boolean, returnData: List<String>) {
         if (updateWorkout) {
             // Response contains the updated workout
-            AppStateManager.panelAdapter!!
+            Utils.getPanelAdapter()
                 .displayWorkoutPanel(WorkoutModel(returnData[0]), true)
 
         } else {
             // Response contains the updated muscle group exercises
-            AppStateManager.panelAdapter!!.getBaseExercisePanel()!!
+            Utils.getPanelAdapter().getBaseExercisePanel()!!
                 .populateExercises(returnData.map { MGExerciseModel(it) }, false)
 
         }
@@ -148,7 +148,7 @@ class AddEditMGExerciseDialog(ctx: Context, mGroupId: Long, exercise: MGExercise
                     dismiss()
 
                     // Updated the exercises
-                    AppStateManager.panelAdapter!!.getBaseExercisePanel()!!
+                    Utils.getPanelAdapter().getBaseExercisePanel()!!
                         .populateExercises(returnData.map { MGExerciseModel(it) }, false)
                 })
             }
@@ -183,7 +183,7 @@ class AddEditMGExerciseDialog(ctx: Context, mGroupId: Long, exercise: MGExercise
     }
     /** Returns "Y" if ManageExercisePanel is active, "N" otherwise */
     private fun getOnlyForUserParam(): String {
-        return if (AppStateManager.panelAdapter!!.isManageExerciseActive()) {
+        return if (Utils.getPanelAdapter().isManageExerciseActive()) {
             "Y"
         } else {
             "N"

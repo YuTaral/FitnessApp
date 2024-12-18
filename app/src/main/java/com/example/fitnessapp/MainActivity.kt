@@ -40,7 +40,17 @@ class MainActivity : BaseActivity() {
     private lateinit var viewPager: ViewPager2
     private lateinit var tabLayout: TabLayout
 
+    /** The ActivityResultHandler class instance to handle permissions / intents */
     lateinit var activityResultHandler: ActivityResultHandler
+
+    /** The PanelAdapter class instance to manage the panels */
+    lateinit var panelAdapter: PanelAdapter
+
+    /** Used to track when change in the selected workout occurred and
+     *  latest workouts refresh is needed
+     */
+    var refreshWorkouts = false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -123,10 +133,10 @@ class MainActivity : BaseActivity() {
             }
         })
 
-        AppStateManager.panelAdapter = viewPager.adapter as PanelAdapter
+        panelAdapter = viewPager.adapter as PanelAdapter
 
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-            tab.text = AppStateManager.panelAdapter!!.getPanelTitle(position)
+            tab.text = panelAdapter.getPanelTitle(position)
         }.attach()
     }
 
@@ -191,12 +201,11 @@ class MainActivity : BaseActivity() {
             }
             R.id.nav_manage_templates -> {
                 // Display the Templates as temporary panel
-                AppStateManager.panelAdapter!!.displayTemporaryPanel(TemplatesPanel())
+                panelAdapter.displayTemporaryPanel(TemplatesPanel())
             }
             R.id.nav_manage_exercises -> {
                 // Display the Muscle Groups and Exercises as temporary panel
-                AppStateManager.panelAdapter!!
-                    .displayTemporaryPanel(ManageExercisesPanel(BaseExercisePanel.Mode.SELECT_MUSCLE_GROUP))
+                panelAdapter.displayTemporaryPanel(ManageExercisesPanel(BaseExercisePanel.Mode.SELECT_MUSCLE_GROUP))
             }
         }
     }

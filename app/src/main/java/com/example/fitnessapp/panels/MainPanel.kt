@@ -13,7 +13,6 @@ import com.example.fitnessapp.adapters.WorkoutRecyclerAdapter
 import com.example.fitnessapp.dialogs.AddEditWorkoutDialog
 import com.example.fitnessapp.models.WorkoutModel
 import com.example.fitnessapp.network.repositories.WorkoutRepository
-import com.example.fitnessapp.utils.AppStateManager
 import com.example.fitnessapp.utils.Constants
 import com.example.fitnessapp.utils.Utils
 
@@ -46,7 +45,7 @@ class MainPanel: BasePanel() {
     override fun onResume() {
         super.onResume()
 
-        if (AppStateManager.refreshWorkouts) {
+        if (Utils.getRefreshWorkouts()) {
             populatePanel()
         }
     }
@@ -112,12 +111,12 @@ class MainPanel: BasePanel() {
 
                 workoutsRecycler.layoutManager = LinearLayoutManager(context)
                 workoutsRecycler.adapter = WorkoutRecyclerAdapter(workouts) { workout ->
-                    AppStateManager.panelAdapter!!.displayWorkoutPanel(workout, null)
+                    Utils.getPanelAdapter().displayWorkoutPanel(workout, null)
                 }
             }
 
             // The most recent data with workouts is now displayed
-            AppStateManager.refreshWorkouts = false
+            Utils.setRefreshWorkouts(false)
         })
     }
 }
