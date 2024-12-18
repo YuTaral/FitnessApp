@@ -17,7 +17,7 @@ abstract class BaseActivity : AppCompatActivity()  {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        AppStateManager.activeActivity = this
+        updateActivity(this)
         setContentView(layoutId)
 
         if (this is MainActivity && AppStateManager.user == null && savedInstanceState != null) {
@@ -34,20 +34,20 @@ abstract class BaseActivity : AppCompatActivity()  {
         super.onRestart()
         // Make sure the correct activity is set (error occur when in the following edge case:
         // Open camera from the app -> minimize the app -> return to the app -> close camera)
-        AppStateManager.activeActivity = this
+        updateActivity(this)
     }
 
     override fun onResume() {
         super.onResume()
         // Make sure the correct activity is set
-        AppStateManager.activeActivity = this
+        updateActivity(this)
     }
 
     override fun onPause() {
         super.onPause()
         // Make sure to clear the activity onPause(e.g app is backgrounded) - the AppStateManager
         // must not hold inactive activity
-        AppStateManager.activeActivity = null
+        updateActivity(null)
     }
 
     /** Find the views in the activity layout. Called by the base activity in onCreate */
@@ -74,5 +74,10 @@ abstract class BaseActivity : AppCompatActivity()  {
             finish()
 
         }
+    }
+
+    /** Update the activity in the AppStateManager */
+    private fun updateActivity(value: BaseActivity?) {
+        AppStateManager.activeActivity = value
     }
 }

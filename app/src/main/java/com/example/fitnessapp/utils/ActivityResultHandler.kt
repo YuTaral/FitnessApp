@@ -106,6 +106,13 @@ class ActivityResultHandler {
 
         // Initialize photo picker launcher
         photoPickerLauncher = activity.registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+            // The PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+            // does not trigger BaseActivity.onResume(), but triggers
+            // BaseActivity.onPause(), probably because the activity is not fully closed and the
+            // gallery is partially opened, so the currently activeActivity remains null.
+            // Manually update it here
+            AppStateManager.activeActivity = activity
+
             if (uri != null) {
                 onLauncherResultOk(uri)
             } else {
