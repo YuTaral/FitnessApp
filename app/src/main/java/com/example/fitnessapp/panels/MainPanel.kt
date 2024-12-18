@@ -59,6 +59,14 @@ class MainPanel: PanelFragment() {
     }
 
     override fun populatePanel() {
+        if (filterSpinner.adapter == null) {
+            filterSpinner.adapter = CustomSpinnerAdapter(requireContext(), false, listOf(
+                Filters.ALL.toString(),
+                Filters.IN_PROGRESS.toString(),
+                Filters.COMPLETED.toString(),
+            ))
+        }
+
         if (filterSpinner.adapter != null && filterSpinner.selectedItemPosition != Filters.ALL.ordinal) {
             // Change the selected filter value if it's not All
             selectedFilter = Filters.valueOf(filterSpinner.selectedItem.toString().uppercase().replace(" ", "_"))
@@ -101,14 +109,6 @@ class MainPanel: PanelFragment() {
             } else {
                 noWorkoutsLbl.visibility = View.GONE
                 workoutsRecycler.visibility = View.VISIBLE
-
-                if (filterSpinner.adapter == null) {
-                    filterSpinner.adapter = CustomSpinnerAdapter(requireContext(), false, listOf(
-                        Filters.ALL.toString(),
-                        Filters.IN_PROGRESS.toString(),
-                        Filters.COMPLETED.toString(),
-                    ))
-                }
 
                 workoutsRecycler.layoutManager = LinearLayoutManager(context)
                 workoutsRecycler.adapter = WorkoutRecyclerAdapter(workouts) { workout ->
