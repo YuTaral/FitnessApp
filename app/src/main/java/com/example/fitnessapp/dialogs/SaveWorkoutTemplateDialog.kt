@@ -22,6 +22,8 @@ class SaveWorkoutTemplateDialog(ctx: Context): BaseDialog(ctx) {
     private lateinit var saveBtn: Button
 
     override fun findViews() {
+        super.findViews()
+
         templateName = dialogView.findViewById(R.id.template_name_txt)
         exercises = dialogView.findViewById(R.id.workout_exercises_summary_txt)
         saveBtn = dialogView.findViewById(R.id.save_btn)
@@ -33,6 +35,8 @@ class SaveWorkoutTemplateDialog(ctx: Context): BaseDialog(ctx) {
     }
 
     override fun addClickListeners() {
+        super.addClickListeners()
+
         saveBtn.setOnClickListener { save() }
     }
 

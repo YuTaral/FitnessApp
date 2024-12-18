@@ -38,6 +38,8 @@ class EditExerciseFromWorkoutDialog(ctx: Context, exerciseModel: ExerciseModel):
     private lateinit var deleteBtn: Button
 
     override fun findViews() {
+        super.findViews()
+
         name = dialogView.findViewById(R.id.exercise_name)
         weightLbl = dialogView.findViewById(R.id.weight_lbl)
         setsScroller = dialogView.findViewById(R.id.sets_scroller)
@@ -66,6 +68,8 @@ class EditExerciseFromWorkoutDialog(ctx: Context, exerciseModel: ExerciseModel):
     }
 
     override fun addClickListeners() {
+        super.addClickListeners()
+
         addSetBtn.setOnClickListener {
             // Create set with the default values
             val set = SetModel(0, AppStateManager.user!!.defaultValues.reps,

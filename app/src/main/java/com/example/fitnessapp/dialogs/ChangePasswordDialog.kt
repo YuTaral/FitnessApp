@@ -22,6 +22,8 @@ class ChangePasswordDialog(ctx: Context): BaseDialog(ctx) {
     private lateinit var saveBtn: Button
 
     override fun findViews() {
+        super.findViews()
+
         oldPassword = dialogView.findViewById(R.id.old_pass_txt)
         newPassword = dialogView.findViewById(R.id.new_pass_txt)
         confirmPassword = dialogView.findViewById(R.id.confirm_new_pass_txt)
@@ -31,6 +33,8 @@ class ChangePasswordDialog(ctx: Context): BaseDialog(ctx) {
     override fun populateDialog() {}
 
     override fun addClickListeners() {
+        super.addClickListeners()
+
         saveBtn.setOnClickListener{ save() }
     }
 

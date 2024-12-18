@@ -76,6 +76,8 @@ class AskQuestionDialog(ctx: Context, q: Question, d: BaseModel? = null): BaseDi
     }
 
     override fun findViews() {
+        super.findViews()
+
         closeIcon = dialogView.findViewById(R.id.dialog_close)
         questionText = dialogView.findViewById(R.id.question_lbl)
         questionAdditionalInfo = dialogView.findViewById(R.id.question_additional_info)
@@ -135,6 +137,8 @@ class AskQuestionDialog(ctx: Context, q: Question, d: BaseModel? = null): BaseDi
     }
 
     override fun addClickListeners() {
+        super.addClickListeners()
+
         yesBtn.setOnClickListener { onYesCallback() }
 
         if (::onNoCallback.isInitialized) {

@@ -25,6 +25,8 @@ class DateTimePickerDialog(ctx: Context): BaseDialog(ctx) {
     private lateinit var saveBtn: Button
 
     override fun findViews() {
+        super.findViews()
+
         datePickerContainer = dialogView.findViewById(R.id.date_picker_container)
         timePickerContainer = dialogView.findViewById(R.id.time_picker_container)
         datePicker = dialogView.findViewById(R.id.date_picker)
@@ -40,6 +42,8 @@ class DateTimePickerDialog(ctx: Context): BaseDialog(ctx) {
     }
 
     override fun addClickListeners() {
+        super.addClickListeners()
+
         datePicker.setOnDateChangeListener { _, year, month, dayOfMonth ->
             // Create calendar object, setting the year, month and day
             val calendar = Calendar.getInstance()

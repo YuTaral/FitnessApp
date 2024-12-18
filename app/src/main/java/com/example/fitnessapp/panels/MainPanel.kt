@@ -18,7 +18,7 @@ import com.example.fitnessapp.utils.Constants
 import com.example.fitnessapp.utils.Utils
 
 /** Main Panel class to implement the logic in the main panel, where workouts are displayed */
-class MainPanel: PanelFragment() {
+class MainPanel: BasePanel() {
     override var id: Long = Constants.PanelUniqueId.MAIN.ordinal.toLong()
     override var layoutId: Int = R.layout.main_panel
     override var panelIndex: Int = 0

@@ -23,7 +23,7 @@ import com.example.fitnessapp.utils.Utils
  * - ExercisePanel where exercise can be selected and added to the current workout
  * - ManageExercisesPanel, where exercises can be edited
  */
-abstract class BaseExercisePanel(mode: Mode): PanelFragment() {
+abstract class BaseExercisePanel(mode: Mode): BasePanel() {
     /** Parameter value which is send when fetching the exercises for muscle group */
     protected open lateinit var onlyForUser: String
 

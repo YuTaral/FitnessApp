@@ -52,6 +52,8 @@ class AddEditWorkoutDialog(ctx: Context, mode: Mode, workoutModel: WorkoutModel?
     }
 
     override fun findViews() {
+        super.findViews()
+
         closeIcon = dialogView.findViewById(R.id.dialog_close)
         name = dialogView.findViewById(R.id.workout_name_txt)
         startEndTimeContainer = dialogView.findViewById(R.id.start_end_date_time_container)
@@ -87,8 +89,11 @@ class AddEditWorkoutDialog(ctx: Context, mode: Mode, workoutModel: WorkoutModel?
     }
 
     override fun addClickListeners() {
+        super.addClickListeners()
+
         closeIcon.setOnClickListener { dismiss() }
         saveBtn.setOnClickListener { save() }
+
         if (deleteBtn.visibility == View.VISIBLE) {
             deleteBtn.setOnClickListener { delete() }
         }

@@ -9,7 +9,7 @@ import com.example.fitnessapp.models.WorkoutModel
 import com.example.fitnessapp.panels.BaseExercisePanel
 import com.example.fitnessapp.panels.MainPanel
 import com.example.fitnessapp.panels.ManageExercisesPanel
-import com.example.fitnessapp.panels.PanelFragment
+import com.example.fitnessapp.panels.BasePanel
 import com.example.fitnessapp.panels.SelectedWorkoutPanel
 import com.example.fitnessapp.utils.AppStateManager
 
@@ -25,7 +25,7 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
     private lateinit var workoutPanel: SelectedWorkoutPanel
 
     /** The temporary panel instance */
-    private var temporaryPanel: PanelFragment? = null
+    private var temporaryPanel: BasePanel? = null
 
     /** Holds the number of initial fragments count*/
     private var initialFragmentCount: Int = count
@@ -71,7 +71,7 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
 
 
     /** Initialize the main panel if it's not and returns the instance */
-    private fun getMainPanel(): PanelFragment {
+    private fun getMainPanel(): BasePanel {
         if (!::mainPanel.isInitialized) {
             mainPanel = MainPanel()
         }
@@ -89,8 +89,8 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
     }
 
     /** Return the temporary panel instance */
-    private fun getTemporaryPanel(): PanelFragment {
-        return temporaryPanel as PanelFragment
+    private fun getTemporaryPanel(): BasePanel {
+        return temporaryPanel as BasePanel
     }
 
     /** Return the temporary panel instance as BaseExercisePanel */
@@ -174,7 +174,7 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
      * @param panel - the temporary panel panel
      */
     @SuppressLint("NotifyDataSetChanged")
-    fun displayTemporaryPanel(panel: PanelFragment) {
+    fun displayTemporaryPanel(panel: BasePanel) {
         // Remove the previous temporary panel
         removeTemporaryPanel()
 

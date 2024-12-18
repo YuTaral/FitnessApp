@@ -33,6 +33,8 @@ class AddExerciseToWorkoutDialog(ctx: Context, exercise: MGExerciseModel, values
     private lateinit var saveBtn: Button
 
     override fun findViews() {
+        super.findViews()
+
         name = dialogView.findViewById(R.id.exercise_name)
         sets = dialogView.findViewById(R.id.exercise_sets)
         reps = dialogView.findViewById(R.id.set_reps)
@@ -61,6 +63,8 @@ class AddExerciseToWorkoutDialog(ctx: Context, exercise: MGExerciseModel, values
     }
 
     override fun addClickListeners() {
+        super.addClickListeners()
+
         saveBtn.setOnClickListener { save() }
     }
 

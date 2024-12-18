@@ -29,6 +29,8 @@ class DefaultValuesDialog(ctx: Context, values: UserDefaultValuesModel, weightUn
     private lateinit var saveBtn: Button
 
     override fun findViews() {
+        super.findViews()
+
         sets = dialogView.findViewById(R.id.exercise_sets)
         reps = dialogView.findViewById(R.id.set_reps)
         weight = dialogView.findViewById(R.id.exercise_weight)
@@ -83,6 +85,8 @@ class DefaultValuesDialog(ctx: Context, values: UserDefaultValuesModel, weightUn
     }
 
     override fun addClickListeners() {
+        super.addClickListeners()
+
         saveBtn.setOnClickListener { save() }
     }
 

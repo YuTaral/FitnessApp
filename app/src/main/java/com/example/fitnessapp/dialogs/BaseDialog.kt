@@ -34,7 +34,7 @@ abstract class BaseDialog(ctx: Context): Dialog(ctx, R.style.Theme_FitnessApp_Di
         dialogView = LayoutInflater.from(Utils.getContext()).inflate(layoutId, null)
 
         // Find the views
-        findCommonAndSpecificViews()
+        findViews()
 
         // Set the title
         if (dialogTitleId > 0) {
@@ -45,7 +45,7 @@ abstract class BaseDialog(ctx: Context): Dialog(ctx, R.style.Theme_FitnessApp_Di
         populateDialog()
 
         // Add click listeners
-        addCommonAndSpecificClickListeners()
+        addClickListeners()
 
         // Set the content
         setContentView(dialogView)
@@ -61,28 +61,17 @@ abstract class BaseDialog(ctx: Context): Dialog(ctx, R.style.Theme_FitnessApp_Di
         Utils.getMainActivity().activeDialogs.remove(this)
     }
 
-    /** Find the common views and call the method to find the dialog specific views */
-    private fun findCommonAndSpecificViews() {
+    /** Find the views in the dialog*/
+    open fun findViews() {
         title = dialogView.findViewById(R.id.dialog_title)
         closeIcon = dialogView.findViewById(R.id.dialog_close)
-
-        findViews()
     }
-
-    /** Add click listeners to the common views and call the method to add click listeners for
-     * the dialog specific views */
-    private fun addCommonAndSpecificClickListeners() {
-        closeIcon.setOnClickListener { dismiss() }
-
-        addClickListeners()
-    }
-
-    /** Find the views in the dialog*/
-    abstract fun findViews()
 
     /** Populate the data in the dialog */
     abstract fun populateDialog()
 
     /** Add click listeners to the views */
-    abstract fun addClickListeners()
+    open fun addClickListeners() {
+        closeIcon.setOnClickListener { dismiss() }
+    }
 }

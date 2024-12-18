@@ -45,6 +45,8 @@ class AddEditMGExerciseDialog(ctx: Context, mGroupId: Long, exercise: MGExercise
     }
 
     override fun findViews() {
+        super.findViews()
+
         name = dialogView.findViewById(R.id.exercise_name)
         description = dialogView.findViewById(R.id.exercise_description)
         addExerciseToWorkout = dialogView.findViewById(R.id.add_exercise_to_workout)
@@ -68,6 +70,8 @@ class AddEditMGExerciseDialog(ctx: Context, mGroupId: Long, exercise: MGExercise
     }
 
     override fun addClickListeners() {
+        super.addClickListeners()
+
         saveBtn.setOnClickListener { save("Y") }
     }
 

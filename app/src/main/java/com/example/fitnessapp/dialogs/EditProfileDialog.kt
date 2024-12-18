@@ -28,6 +28,8 @@ class EditProfileDialog(ctx: Context): BaseDialog(ctx) {
     private lateinit var saveBtn: Button
 
     override fun findViews() {
+        super.findViews()
+
         profileImage = dialogView.findViewById(R.id.profile_image)
         fullName = dialogView.findViewById(R.id.full_name_txt)
         removePictureBtn = dialogView.findViewById(R.id.remove_pic_btn)
@@ -53,6 +55,8 @@ class EditProfileDialog(ctx: Context): BaseDialog(ctx) {
     }
 
     override fun addClickListeners() {
+        super.addClickListeners()
+
         profileImage.setOnClickListener {
             showImagePicker()
         }
