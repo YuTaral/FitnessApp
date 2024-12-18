@@ -135,13 +135,13 @@ class AddEditWorkoutDialog(ctx: Context, mode: Mode, workoutModel: WorkoutModel?
 
             WorkoutRepository().addWorkout(newWorkout, onSuccess = { workout ->
                 dismiss()
-                AppStateManager.panelAdapter.displayWorkoutPanel(workout, true)
+                AppStateManager.panelAdapter!!.displayWorkoutPanel(workout, true)
             })
         } else {
             WorkoutRepository().editWorkout(WorkoutModel(AppStateManager.workout!!.id, name.text.toString(), false, mutableListOf()),
                 onSuccess = { workout ->
                     dismiss()
-                    AppStateManager.panelAdapter.displayWorkoutPanel(workout, true)
+                    AppStateManager.panelAdapter!!.displayWorkoutPanel(workout, true)
                 })
         }
     }
@@ -156,7 +156,7 @@ class AddEditWorkoutDialog(ctx: Context, mode: Mode, workoutModel: WorkoutModel?
                 dialog.dismiss()
                 dismiss()
                 AppStateManager.workout = null
-                AppStateManager.panelAdapter.displayMainPanel(true)
+                AppStateManager.panelAdapter!!.displayMainPanel(true)
             })
         }
 

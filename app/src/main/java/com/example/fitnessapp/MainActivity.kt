@@ -126,7 +126,7 @@ class MainActivity : BaseActivity() {
         AppStateManager.panelAdapter = viewPager.adapter as PanelAdapter
 
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-            tab.text = AppStateManager.panelAdapter.getPanelTitle(position)
+            tab.text = AppStateManager.panelAdapter!!.getPanelTitle(position)
         }.attach()
     }
 
@@ -191,11 +191,11 @@ class MainActivity : BaseActivity() {
             }
             R.id.nav_manage_templates -> {
                 // Display the Templates as temporary panel
-                AppStateManager.panelAdapter.displayTemporaryPanel(TemplatesPanel())
+                AppStateManager.panelAdapter!!.displayTemporaryPanel(TemplatesPanel())
             }
             R.id.nav_manage_exercises -> {
                 // Display the Muscle Groups and Exercises as temporary panel
-                AppStateManager.panelAdapter
+                AppStateManager.panelAdapter!!
                     .displayTemporaryPanel(ManageExercisesPanel(BaseExercisePanel.Mode.SELECT_MUSCLE_GROUP))
             }
         }

@@ -68,7 +68,7 @@ object Utils {
      * @param duration duration - short / long, long by default
      */
     fun showMessage(message: String, duration: Int = BaseTransientBottomBar.LENGTH_LONG) {
-        val snackBarContainer = Snackbar.make(AppStateManager.activeActivity.findViewById(R.id.user_message), message, duration)
+        val snackBarContainer = Snackbar.make(AppStateManager.activeActivity!!.findViewById(R.id.user_message), message, duration)
 
         val textView = snackBarContainer.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
         textView.maxLines = 4
@@ -125,12 +125,12 @@ object Utils {
 
     /** Return the current activity when context is needed */
     fun getContext(): Context {
-        return AppStateManager.activeActivity
+        return AppStateManager.activeActivity!!
     }
 
     /** Return the current activity */
     fun getMainActivity(): MainActivity {
-        return AppStateManager.activeActivity as MainActivity
+        return AppStateManager.activeActivity!! as MainActivity
     }
 
     /** Validation failed - focus the field and open the keyboard
@@ -351,7 +351,7 @@ object Utils {
 
                 WorkoutRepository().editWorkout(unFinishedWorkout, onSuccess = { workout ->
                     // Refresh the workout panel
-                    AppStateManager.panelAdapter.displayWorkoutPanel(workout, true)
+                    AppStateManager.panelAdapter!!.displayWorkoutPanel(workout, true)
 
                     // Close the ask question dialog
                     dialog.dismiss()

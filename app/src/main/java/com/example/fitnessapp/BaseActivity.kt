@@ -30,6 +30,19 @@ abstract class BaseActivity : AppCompatActivity()  {
         addClickListeners()
     }
 
+    override fun onResume() {
+        super.onResume()
+        // Make sure the correct activity is set
+        AppStateManager.activeActivity = this
+    }
+
+    override fun onPause() {
+        super.onPause()
+        // Make sure to clear the activity onPause(e.g app is backgrounded) - the AppStateManager
+        // must not hold inactive activity
+        AppStateManager.activeActivity = null
+    }
+
     /** Find the views in the activity layout. Called by the base activity in onCreate */
     abstract fun findViews()
 

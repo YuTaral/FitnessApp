@@ -5,6 +5,7 @@ import com.example.fitnessapp.MainActivity
 import com.example.fitnessapp.adapters.PanelAdapter
 import com.example.fitnessapp.models.UserModel
 import com.example.fitnessapp.models.WorkoutModel
+import java.lang.ref.WeakReference
 
 /** Object to define the current state (hold current activity, logged in user, etc... */
 object AppStateManager {
@@ -23,11 +24,25 @@ object AppStateManager {
             }
         }
 
-    /** The active activity */
-    lateinit var activeActivity: BaseActivity
+    /** The active activity stored as a WeakReference to avoid potential memory leaks */
+    private var _activeActivity: WeakReference<BaseActivity>? = null
 
-    /** The panels pager adapter */
-    lateinit var panelAdapter: PanelAdapter
+    /** Getter and setter for the current active activity */
+    var activeActivity: BaseActivity?
+        get() = _activeActivity?.get()
+        set(value) {
+            _activeActivity = WeakReference(value)
+        }
+
+    /** The panels pager adapter stored as a WeakReference to avoid potential memory leaks */
+    private var _panelAdapter: WeakReference<PanelAdapter>? = null
+
+    /** Getter for the panel adapter */
+    var panelAdapter: PanelAdapter?
+        get() = _panelAdapter?.get()
+        set(value) {
+            _panelAdapter = WeakReference(value)
+        }
 
     /** Backing field for the selected workout */
     private var _workout: WorkoutModel? = null

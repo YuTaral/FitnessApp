@@ -163,7 +163,7 @@ class EditExerciseFromWorkoutDialog(ctx: Context, exerciseModel: ExerciseModel):
                 ExerciseRepository().deleteExerciseFromWorkout(exercise.id, onSuccess = { workout ->
                     dialog.dismiss()
                     dismiss()
-                    AppStateManager.panelAdapter.displayWorkoutPanel(workout, true)
+                    AppStateManager.panelAdapter!!.displayWorkoutPanel(workout, true)
                 })
             }
         }
@@ -184,7 +184,7 @@ class EditExerciseFromWorkoutDialog(ctx: Context, exerciseModel: ExerciseModel):
         ExerciseRepository().editExerciseFromWorkout(ExerciseModel(exercise.id, name.text.toString(), MuscleGroupModel(), getSets(setsContainer)),
             onSuccess = { workout ->
                 dismiss()
-                AppStateManager.panelAdapter.displayWorkoutPanel(workout, true)
+                AppStateManager.panelAdapter!!.displayWorkoutPanel(workout, true)
         })
     }
 

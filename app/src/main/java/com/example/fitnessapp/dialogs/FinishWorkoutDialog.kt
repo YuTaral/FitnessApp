@@ -71,7 +71,7 @@ class FinishWorkoutDialog(ctx: Context): BaseDialog(ctx) {
             // Edit the workout to mark it as finished
             WorkoutRepository().editWorkout(workout, onSuccess = { updatedWorkout ->
                 dismiss()
-                AppStateManager.panelAdapter.displayWorkoutPanel(updatedWorkout, true)
+                AppStateManager.panelAdapter!!.displayWorkoutPanel(updatedWorkout, true)
             })
         }
     }

@@ -112,7 +112,7 @@ class MainPanel: BasePanel() {
 
                 workoutsRecycler.layoutManager = LinearLayoutManager(context)
                 workoutsRecycler.adapter = WorkoutRecyclerAdapter(workouts) { workout ->
-                    AppStateManager.panelAdapter.displayWorkoutPanel(workout, null)
+                    AppStateManager.panelAdapter!!.displayWorkoutPanel(workout, null)
                 }
             }
 

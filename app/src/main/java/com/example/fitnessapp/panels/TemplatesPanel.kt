@@ -70,11 +70,11 @@ class TemplatesPanel: BasePanel() {
                 }
             })
         }, onError = {
-            AppStateManager.panelAdapter.displayWorkoutPanel(null)
+            AppStateManager.panelAdapter!!.displayWorkoutPanel(null)
         })
     }
 
     override fun addClickListeners() {
-        closeBtn.setOnClickListener { AppStateManager.panelAdapter.displayWorkoutPanel(null) }
+        closeBtn.setOnClickListener { AppStateManager.panelAdapter!!.displayWorkoutPanel(null) }
     }
 }
