@@ -337,11 +337,6 @@ object Utils {
         getMainActivity().finish()
     }
 
-    /** Log the error */
-    fun logException(exception: Exception) {
-        Log.e(ContentValues.TAG, "Error: ${exception.message}", exception)
-    }
-
     /** The click listener for Add Exercise and Edit Exercise Buttons
      * @param question the question to ask if the current workout is already finished
      * @param callback the callback to execute

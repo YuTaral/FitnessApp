@@ -128,7 +128,7 @@ object NetworkManager {
                     onErrorCallback(responseBody)
 
                 } catch (exception: Exception) {
-                    Utils.logException(exception)
+                    exception.printStackTrace()
                 }
             }
         })
@@ -172,6 +172,6 @@ object NetworkManager {
 
         // Show the message and log the error
         Utils.showMessage(message)
-        Utils.logException(exception)
+        exception.printStackTrace()
     }
 }
