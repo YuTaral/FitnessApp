@@ -81,6 +81,14 @@ class MainActivity : BaseActivity() {
 
     /** Update the user image and name in the left drawer */
     fun setUserInDrawer() {
+        if (!::navProfileView.isInitialized) {
+            // Workaround to prevent this to throw error, in case the app was restarted - if it was
+            // restarted the user is being set on BaseActivity.onAppRestart, which triggers setUserInDrawer
+            // before findViews() is executed. Just return here, the setUserInDrawer is called later
+            // in initialiseDrawerLogic which is fine to update the views in the drawer
+            return
+        }
+
         val profileImage = navProfileView.getHeaderView(0).findViewById<ImageView>(R.id.profile_image)
         val username = navProfileView.getHeaderView(0).findViewById<TextView>(R.id.txt_username)
 
