@@ -64,6 +64,6 @@ abstract class PanelFragment: Fragment() {
 
     /** Returns the panel title to show in the tab layout */
     fun getTitle(): String {
-        return Utils.getActivity().getString(titleId)
+        return Utils.getMainActivity().getString(titleId)
     }
 }

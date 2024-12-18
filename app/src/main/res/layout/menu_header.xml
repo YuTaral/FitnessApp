@@ -10,7 +10,7 @@
         android:id="@+id/profile_image"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:src="@drawable/icon_icon"
+        android:src="@drawable/icon_profile"
         android:importantForAccessibility="no" />
 
     <TextView

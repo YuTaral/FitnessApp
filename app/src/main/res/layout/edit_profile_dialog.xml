@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="10dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:id="@+id/dialog_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <include layout="@layout/dialog_header"/>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/profile_image"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:padding="5dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/icon_profile"
+        android:background="@drawable/transparent_accent_border"
+        app:layout_constraintTop_toBottomOf="@id/dialog_header"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:importantForAccessibility="no" />
+
+    <Button
+        android:id="@+id/remove_pic_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/remove_picture_btn"
+        android:background="@android:color/transparent"
+        app:layout_constraintTop_toBottomOf="@+id/profile_image"
+        style="@style/DialogButtonStyle"/>
+
+    <EditText
+        android:id="@+id/full_name_txt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:importantForAutofill="no"
+        android:inputType="textCapWords"
+        android:hint="@string/full_name_lbl"
+        android:paddingStart="5dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/remove_pic_btn"
+        tools:ignore="RtlSymmetry" />
+
+    <Button
+        android:id="@+id/save_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/save_btn"
+        android:background="@drawable/background_top_border"
+        app:layout_constraintTop_toBottomOf="@+id/full_name_txt"
+        style="@style/DialogButtonStyle"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

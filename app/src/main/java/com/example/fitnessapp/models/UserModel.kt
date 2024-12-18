@@ -14,6 +14,12 @@ class UserModel(data: String) {
     @SerializedName("Email")
     val email: String
 
+    @SerializedName("FullName")
+    var fullName: String
+
+    @SerializedName("ProfileImage")
+    var profileImage: String
+
     @SerializedName("DefaultValues")
     var defaultValues: UserDefaultValuesModel
 
@@ -24,6 +30,8 @@ class UserModel(data: String) {
 
         id = model.id
         email = model.email
+        fullName = model.fullName
+        profileImage = model.profileImage
         defaultValues = model.defaultValues
     }
 }

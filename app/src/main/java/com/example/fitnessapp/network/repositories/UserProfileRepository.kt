@@ -1,6 +1,7 @@
 package com.example.fitnessapp.network.repositories
 
 import com.example.fitnessapp.models.UserDefaultValuesModel
+import com.example.fitnessapp.models.UserModel
 import com.example.fitnessapp.network.APIService
 import com.example.fitnessapp.network.CustomResponse
 import com.example.fitnessapp.network.NetworkManager
@@ -16,7 +17,8 @@ class UserProfileRepository {
     fun updateUserDefaultValues(values: UserDefaultValuesModel, onSuccess: (CustomResponse) -> Unit) {
         NetworkManager.sendRequest(
             request = { APIService.instance.updateUserDefaultValues(mapOf("values" to Utils.serializeObject(values))) },
-            onSuccessCallback = { response -> onSuccess(response) })
+            onSuccessCallback = { response -> onSuccess(response) }
+        )
     }
 
     /** Send a request to fetch the default values for the exercise. If there are no default values
@@ -28,6 +30,17 @@ class UserProfileRepository {
         NetworkManager.sendRequest(
             request = { APIService.instance.getUserDefaultValues(mgExerciseId) },
             onSuccessCallback = { response -> onSuccess(UserDefaultValuesModel(response.data[0]))}
+        )
+    }
+
+    /** Update the user profile
+     * @param user the user
+     * @param onSuccess callback to execute if request is successful
+     */
+    fun updateUserProfile(user: UserModel, onSuccess: (UserModel) -> Unit) {
+        NetworkManager.sendRequest(
+            request = { APIService.instance.updateUserProfile(mapOf("user" to Utils.serializeObject(user))) },
+            onSuccessCallback = { response -> onSuccess(UserModel(response.data[0]))}
         )
     }
 }

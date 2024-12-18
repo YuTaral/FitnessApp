@@ -7,13 +7,22 @@ import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.ImageDecoder
+import android.graphics.Matrix
+import android.net.Uri
+import android.os.Build
+import android.util.Base64
 import android.util.Log
 import android.view.View
 import android.view.animation.DecelerateInterpolator
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.graphics.drawable.toBitmap
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import com.example.fitnessapp.LoginActivity
@@ -26,6 +35,8 @@ import com.example.fitnessapp.network.repositories.WorkoutRepository
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
+import java.io.ByteArrayOutputStream
+import java.io.InputStream
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -36,6 +47,8 @@ object Utils {
     private const val SECURE_PREFS_FILE_NAME = "secure_prefs"
     private const val AUTH_TOKEN_KEY = "auth_token"
     private const val SERIALIZED_USER_KEY = "serialized_user"
+    private const val IMAGE_WIDTH = 256
+    private const val IMAGE_HEIGHT = 256
 
     /** Email validation
      * @param target the email to check
@@ -118,7 +131,7 @@ object Utils {
     }
 
     /** Return the current activity */
-    fun getActivity(): MainActivity {
+    fun getMainActivity(): MainActivity {
         return AppStateManager.activeActivity as MainActivity
     }
 
@@ -319,9 +332,9 @@ object Utils {
         AppStateManager.workout = null
 
         // Start the logic activity
-        val intent = Intent(getActivity(), LoginActivity::class.java)
-        getActivity().startActivity(intent)
-        getActivity().finish()
+        val intent = Intent(getMainActivity(), LoginActivity::class.java)
+        getMainActivity().startActivity(intent)
+        getMainActivity().finish()
     }
 
     /** Log the error */
@@ -361,6 +374,125 @@ object Utils {
             // Execute the callback without asking question
             callback()
         }
+    }
+
+    /**
+     * Scales a bitmap to fit within the specified width and height while maintaining aspect ratio.
+     * Return the bitmap is success, null otherwise
+     * @param bitmap the image bitmap
+     */
+    fun scaleBitmap(bitmap: Bitmap): Bitmap? {
+        try {
+            val width = bitmap.width
+            val height = bitmap.height
+
+            // Calculate the scaling factor while maintaining the aspect ratio
+            val scaleFactor = minOf(IMAGE_WIDTH.toFloat() / width, IMAGE_HEIGHT.toFloat() / height)
+
+            return if (scaleFactor < 1) {
+                val matrix = Matrix()
+                matrix.postScale(scaleFactor, scaleFactor)
+
+                // Create a new scaled bitmap
+                Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true)
+            } else {
+                // If the bitmap is already small, return it as is
+                bitmap
+            }
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return null
+        }
+    }
+
+    /**
+     * Create and scales a bitmap from the provided uri to fit within the specified width and height
+     * while maintaining aspect ratio. Return the bitmap is success, null otherwise
+     * @param uri the image uri
+     */
+    fun scaleBitmap(uri: Uri): Bitmap? {
+        try {
+            val contentResolver = getMainActivity().contentResolver
+
+            val bitmap: Bitmap = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                // For API 28+ (Pie and above), use ImageDecoder with scaling
+                val source = ImageDecoder.createSource(contentResolver, uri)
+                ImageDecoder.decodeBitmap(source) { decoder, _, _ ->
+                    decoder.setTargetSampleSize(4)
+                }
+
+            } else {
+                // For older APIs, scale down using BitmapFactory
+                val inputStream: InputStream? = contentResolver.openInputStream(uri)
+
+                // Decode only the image dimensions first
+                val options = BitmapFactory.Options()
+                options.inJustDecodeBounds = true
+                BitmapFactory.decodeStream(inputStream, null, options)
+                inputStream?.close()
+
+                // Calculate the appropriate sample size
+                options.inSampleSize = calculateInSampleSize(options.outWidth, options.outHeight)
+                options.inJustDecodeBounds = false
+
+                // Decode the scaled-down bitmap
+                val scaledInputStream: InputStream? = contentResolver.openInputStream(uri)
+                val scaledBitmap = BitmapFactory.decodeStream(scaledInputStream, null, options)
+                scaledInputStream?.close()
+                scaledBitmap!!
+            }
+
+            return bitmap
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return null
+        }
+    }
+
+    /** Return the image content as encoded Base64 string or empty string if image drawable is empty
+     * @param image the image
+     */
+    fun encodeImageToString(image: ImageView): String {
+        val outputStream = ByteArrayOutputStream()
+
+        val bitmap = try {
+            image.drawable.toBitmap()
+        } catch (e: Exception) {
+            return "" // Image drawable is empty, return empty string
+        }
+
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
+
+        return Base64.encodeToString(outputStream.toByteArray(), Base64.DEFAULT)
+    }
+
+    /** Return bitmap from the provided string
+     * @param image the image sa Base64 string
+     */
+    fun convertStringToBitmap(image: String): Bitmap {
+        val imageBytes = Base64.decode(image, Base64.DEFAULT)
+
+        return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+    }
+
+    /** Calculate a sample size to scale down the image.
+     * @param rawWidth the actual image width
+     * @param rawHeight the actual image height
+     */
+    private fun calculateInSampleSize(rawWidth: Int, rawHeight: Int): Int {
+        var inSampleSize = 1
+
+        if (rawHeight > IMAGE_HEIGHT || rawWidth > IMAGE_WIDTH) {
+            val halfHeight = rawHeight / 2
+            val halfWidth = rawWidth / 2
+
+            while ((halfHeight / inSampleSize) >= IMAGE_HEIGHT && (halfWidth / inSampleSize) >= IMAGE_WIDTH) {
+                inSampleSize *= 2
+            }
+        }
+        return inSampleSize
     }
 
     /** Create and return SharedPreferences object using encryption */

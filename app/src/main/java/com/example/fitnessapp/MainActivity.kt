@@ -1,5 +1,6 @@
 package com.example.fitnessapp
 
+import android.os.Bundle
 import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
@@ -10,6 +11,7 @@ import com.example.fitnessapp.adapters.PanelAdapter
 import com.example.fitnessapp.dialogs.AskQuestionDialog
 import com.example.fitnessapp.dialogs.ChangePasswordDialog
 import com.example.fitnessapp.dialogs.DefaultValuesDialog
+import com.example.fitnessapp.dialogs.EditProfileDialog
 import com.example.fitnessapp.dialogs.FinishWorkoutDialog
 import com.example.fitnessapp.dialogs.SaveWorkoutTemplateDialog
 import com.example.fitnessapp.network.repositories.UserRepository
@@ -17,6 +19,7 @@ import com.example.fitnessapp.network.repositories.WorkoutRepository
 import com.example.fitnessapp.panels.BaseExercisePanel
 import com.example.fitnessapp.panels.ManageExercisesPanel
 import com.example.fitnessapp.panels.TemplatesPanel
+import com.example.fitnessapp.utils.ActivityResultHandler
 import com.example.fitnessapp.utils.AppStateManager
 import com.example.fitnessapp.utils.Utils
 import com.google.android.material.navigation.NavigationView
@@ -36,6 +39,15 @@ class MainActivity : BaseActivity() {
     private lateinit var menuIcon: ImageView
     private lateinit var viewPager: ViewPager2
     private lateinit var tabLayout: TabLayout
+
+    lateinit var activityResultHandler: ActivityResultHandler
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        // Initialize the launchers
+        activityResultHandler = ActivityResultHandler()
+    }
 
     override fun findViews() {
         drawerLayout = findViewById(R.id.drawer_layout)
@@ -67,6 +79,28 @@ class MainActivity : BaseActivity() {
         }
     }
 
+    /** Update the user image and name in the left drawer */
+    fun setUserInDrawer() {
+        val profileImage = navProfileView.getHeaderView(0).findViewById<ImageView>(R.id.profile_image)
+        val username = navProfileView.getHeaderView(0).findViewById<TextView>(R.id.txt_username)
+
+        // Set profile image if there is
+        if (AppStateManager.user!!.profileImage.isNotEmpty()) {
+            profileImage.setBackgroundResource(0)
+            profileImage.setImageBitmap(Utils.convertStringToBitmap(AppStateManager.user!!.profileImage))
+        } else {
+            profileImage.setImageBitmap(null)
+            profileImage.setBackgroundResource(R.drawable.icon_profile)
+        }
+
+        // Set username to email or full name
+        if (AppStateManager.user!!.fullName.isEmpty()) {
+            username.text = AppStateManager.user!!.email
+        } else {
+            username.text = AppStateManager.user!!.fullName
+        }
+    }
+
     /** Set the view pager */
     private fun initialisePager() {
         // Set offscreenPageLimit to ensure all non temporary panels are created upon initialization
@@ -91,7 +125,6 @@ class MainActivity : BaseActivity() {
     /** Add click listeners for selecting item from the drawer and back button pressed */
     private fun initialiseDrawerLogic() {
         profileIcon.setOnClickListener {
-            findViewById<TextView>(R.id.txt_username).text = AppStateManager.user!!.email
             drawerLayout.openDrawer(navProfileView)
         }
 
@@ -113,6 +146,9 @@ class MainActivity : BaseActivity() {
 
         // Update the actions in the right drawer
         updateActions()
+
+        // Set the user in the drawer
+        setUserInDrawer()
 
         // Close drawer on back button press
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
@@ -163,9 +199,14 @@ class MainActivity : BaseActivity() {
     private fun leftDrawerSelected(menuItem: MenuItem) {
         when (menuItem.itemId) {
             R.id.exercise_default_values -> {
+                // Fetch weight units and open the dialog
                 WorkoutRepository().getWeightUnits(onSuccess = { weighUnits ->
                     DefaultValuesDialog(this, AppStateManager.user!!.defaultValues, weighUnits).show()
                 })
+            }
+            R.id.edit_profile -> {
+                // Open Edit profile dialog
+                EditProfileDialog(this).show()
             }
             R.id.nav_change_pass -> {
                 // Open change password dialog

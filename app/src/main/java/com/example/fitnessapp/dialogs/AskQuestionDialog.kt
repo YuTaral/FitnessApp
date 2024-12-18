@@ -28,26 +28,28 @@ class AskQuestionDialog(ctx: Context, q: Question, d: BaseModel? = null): BaseDi
         DELETE_EXERCISE_FROM_WORKOUT(R.string.question_delete_exercise_from_workout_title, R.string.question_delete_exercise_from_workout_text, R.string.yes_btn, R.string.no_btn),
         FINISH_WORKOUT(R.string.question_finish_workout_title, R.string.question_finish_workout_text, R.string.yes_btn, R.string.no_btn),
         WORKOUT_ALREADY_FINISHED_WHEN_ADD_EXERCISE(R.string.question_workout_already_finished_title, R.string.question_workout_already_finished_text, R.string.yes_btn, R.string.no_btn),
-        WORKOUT_ALREADY_FINISHED_WHEN_EDIT_EXERCISE(R.string.question_workout_already_finished_title, R.string.question_workout_already_finished_when_edit_text, R.string.yes_btn, R.string.no_btn);
+        WORKOUT_ALREADY_FINISHED_WHEN_EDIT_EXERCISE(R.string.question_workout_already_finished_title, R.string.question_workout_already_finished_when_edit_text, R.string.yes_btn, R.string.no_btn),
+        PROFILE_IMAGE_SELECTION(R.string.question_choose_profile_image_title, R.string.question_choose_profile_image_text, R.string.camera_btn, R.string.gallery_btn),
+        ALLOW_CAMERA_PERMISSION(R.string.question_go_to_settings_title, R.string.question_go_to_settings_text, R.string.go_to_settings_btn, R.string.no_btn);
 
         /** Returns the question title */
         fun getTitle(): String {
-            return Utils.getActivity().getString(titleId)
+            return Utils.getMainActivity().getString(titleId)
         }
 
         /** Returns the question text */
         fun getQuestionText(): String {
-            return Utils.getActivity().getString(questionId)
+            return Utils.getMainActivity().getString(questionId)
         }
 
         /** Returns the Yes button text */
         fun getYesText(): String {
-            return Utils.getActivity().getString(yesBtnTextId)
+            return Utils.getMainActivity().getString(yesBtnTextId)
         }
 
         /** Returns the No button text */
         fun getNoText(): String {
-            return Utils.getActivity().getString(noBtnTextId)
+            return Utils.getMainActivity().getString(noBtnTextId)
         }
     }
 

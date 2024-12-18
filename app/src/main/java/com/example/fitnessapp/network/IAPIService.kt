@@ -32,6 +32,9 @@ interface IAPIService {
     @POST(Constants.RequestEndPoints.UPDATE_USER_DEFAULT_VALUES)
     fun updateUserDefaultValues(@Body params: Map<String, String>): Call<CustomResponse>
 
+    @POST(Constants.RequestEndPoints.UPDATE_USER_PROFILE)
+    fun updateUserProfile(@Body params: Map<String, String>): Call<CustomResponse>
+
     /** USER PROFILE GET REQUESTS
      * -------------------------------------------------------------------------------- */
     @GET(Constants.RequestEndPoints.GET_USER_DEFAULT_VALUES)

@@ -1,6 +1,6 @@
 package com.example.fitnessapp.utils
 
-import androidx.appcompat.app.AppCompatActivity
+import com.example.fitnessapp.BaseActivity
 import com.example.fitnessapp.MainActivity
 import com.example.fitnessapp.adapters.PanelAdapter
 import com.example.fitnessapp.models.UserModel
@@ -17,10 +17,14 @@ object AppStateManager {
         set(value) {
             _user = value
             Utils.updateUserInPrefs(_user)
+
+            if (_user != null && activeActivity is MainActivity) {
+                Utils.getMainActivity().setUserInDrawer()
+            }
         }
 
     /** The active activity */
-    lateinit var activeActivity: AppCompatActivity
+    lateinit var activeActivity: BaseActivity
 
     /** The panels pager adapter */
     lateinit var panelAdapter: PanelAdapter

@@ -4,6 +4,9 @@
         android:id="@+id/exercise_default_values"
         android:title="@string/exercise_default_values_lbl" />
     <item
+        android:id="@+id/edit_profile"
+        android:title="@string/edit_profile_lbl" />
+    <item
         android:id="@+id/nav_change_pass"
         android:title="@string/change_password_lbl" />
     <item

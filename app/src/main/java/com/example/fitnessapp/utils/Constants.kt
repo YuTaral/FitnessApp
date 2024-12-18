@@ -1,6 +1,7 @@
 package com.example.fitnessapp.utils
 
 
+import android.annotation.SuppressLint
 import com.example.fitnessapp.BuildConfig
 
 /** Object to hold all constants. Must correspond with server side Constants static class */
@@ -47,7 +48,6 @@ object Constants {
         const val GET_WORKOUTS = "$WORKOUT/get-workouts"
         const val GET_WORKOUT = "$WORKOUT/get-workout"
         const val GET_WEIGHT_UNITS  = "$WORKOUT/get-weight-units"
-        const val FINISH_WORKOUT = "$WORKOUT/finish"
 
         const val ADD_EXERCISE_TO_WORKOUT = "$EXERCISE/add-to-workout"
         const val UPDATE_EXERCISE_FROM_WORKOUT = "$EXERCISE/update-exercise-from-workout"
@@ -60,10 +60,21 @@ object Constants {
         const val GET_MUSCLE_GROUPS_FOR_USER = "$MUSCLE_GROUP/get-by-user"
 
         const val UPDATE_USER_DEFAULT_VALUES = "$USER_PROFILE/update-default-values"
+        const val UPDATE_USER_PROFILE = "$USER_PROFILE/update-profile"
         const val GET_USER_DEFAULT_VALUES = "$USER_PROFILE/get-default-values"
 
         const val ADD_WORKOUT_TEMPLATE  = "$WORKOUT_TEMPLATE/add"
         const val DELETE_WORKOUT_TEMPLATE  = "$WORKOUT_TEMPLATE/delete"
         const val GET_WORKOUT_TEMPLATES  = "$WORKOUT_TEMPLATE/get-templates"
+    }
+
+    /** Object containing request permission strings */
+    object Permissions {
+        const val CAMERA = android.Manifest.permission.CAMERA
+
+        @SuppressLint("InlinedApi")
+        const val READ_MEDIA_IMAGES = android.Manifest.permission.READ_MEDIA_IMAGES
+
+        const val READ_EXTERNAL_STORAGE = android.Manifest.permission.READ_EXTERNAL_STORAGE
     }
 }

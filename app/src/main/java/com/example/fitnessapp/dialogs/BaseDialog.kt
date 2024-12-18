@@ -52,6 +52,13 @@ abstract class BaseDialog(ctx: Context): Dialog(ctx, R.style.Theme_FitnessApp_Di
 
         // Set cancelable to false, we have close icon on each dialog
         setCancelable(false)
+
+        Utils.getMainActivity().activeDialogs.add(this)
+    }
+
+    override fun dismiss() {
+        super.dismiss()
+        Utils.getMainActivity().activeDialogs.remove(this)
     }
 
     /** Find the common views and call the method to find the dialog specific views */

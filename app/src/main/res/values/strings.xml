@@ -133,5 +133,19 @@
     <string name="workout_filter_in_progress">In progress</string>
     <string name="workout_filter_completed">Completed</string>
     <string name="template_exercise_summary">%s x %d set(s)</string>
+    <string name="edit_profile_lbl">Edit profile</string>
+    <string name="full_name_lbl">Full name…</string>
+    <string name="permission_denied_message">Operation aborted. The requested permission has been denied</string>
+    <string name="error_msg_failed_to_capture_image">Failed to capture image. Please try again</string>
+    <string name="error_msg_failed_to_upload_image">Failed to upload image. Please try again</string>
+    <string name="error_msg_no_media">No media selected</string>
+    <string name="question_choose_profile_image_title">Profile image</string>
+    <string name="question_choose_profile_image_text">Please select from where you want to upload profile image</string>
+    <string name="camera_btn">Camera</string>
+    <string name="gallery_btn">Gallery</string>
+    <string name="question_go_to_settings_title">Permission required</string>
+    <string name="question_go_to_settings_text">This feature requires access to camera. Please enable it in the app settings.</string>
+    <string name="go_to_settings_btn">Go to Settings</string>
+    <string name="remove_picture_btn">Remove picture</string>
 
 </resources>
