@@ -138,7 +138,7 @@ class AddEditMGExerciseDialog(ctx: Context, mGroupId: Long, exercise: MGExercise
                                             AskQuestionDialog.Question.OVERRIDE_EXISTING_EXERCISE,
                                             MGExerciseModel(response.data[0]))
 
-            dialog.setYesCallback {
+            dialog.setLeftButtonCallback {
                 val existingExercise = MGExerciseModel(response.data[0])
                 existingExercise.description = description.text.toString()
 
@@ -153,7 +153,7 @@ class AddEditMGExerciseDialog(ctx: Context, mGroupId: Long, exercise: MGExercise
                 })
             }
 
-            dialog.setNoCallback {
+            dialog.setRightButtonCallback {
                 dialog.dismiss()
                 save("N")
             }

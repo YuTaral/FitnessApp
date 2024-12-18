@@ -42,13 +42,13 @@ class AskQuestionDialog(ctx: Context, q: Question, d: BaseModel? = null): BaseDi
             return Utils.getMainActivity().getString(questionId)
         }
 
-        /** Returns the Yes button text */
-        fun getYesText(): String {
+        /** Returns the left button text */
+        fun getLeftButtonText(): String {
             return Utils.getMainActivity().getString(yesBtnTextId)
         }
 
-        /** Returns the No button text */
-        fun getNoText(): String {
+        /** Returns the right button text */
+        fun getRightButtonText(): String {
             return Utils.getMainActivity().getString(noBtnTextId)
         }
     }
@@ -58,21 +58,21 @@ class AskQuestionDialog(ctx: Context, q: Question, d: BaseModel? = null): BaseDi
     private var question = q
     private var data = d
 
-    private lateinit var onYesCallback: () -> Unit
-    private lateinit var onNoCallback: () -> Unit
+    private lateinit var onLeftButtonClickCallback: () -> Unit
+    private lateinit var onRightButtonClickCallback: () -> Unit
     private lateinit var questionText: TextView
     private lateinit var questionAdditionalInfo: TextView
     private lateinit var yesBtn: Button
     private lateinit var noBtn: Button
 
-    /** Setter for the callback which will be executed on confirm button click */
-    fun setYesCallback(callback: () -> Unit) {
-        onYesCallback = callback
+    /** Setter for the callback which will be executed on left button click */
+    fun setLeftButtonCallback(callback: () -> Unit) {
+        onLeftButtonClickCallback = callback
     }
 
-    /** Setter for the callback which will be executed on cancel button click */
-    fun setNoCallback(callback: () -> Unit) {
-        onNoCallback = callback
+    /** Setter for the callback which will be executed on right button click */
+    fun setRightButtonCallback(callback: () -> Unit) {
+        onRightButtonClickCallback = callback
     }
 
     override fun findViews() {
@@ -132,17 +132,17 @@ class AskQuestionDialog(ctx: Context, q: Question, d: BaseModel? = null): BaseDi
         questionText.text = String.format(question.getQuestionText(), formatName)
 
         // Set button text
-        yesBtn.text = question.getYesText()
-        noBtn.text = question.getNoText()
+        yesBtn.text = question.getLeftButtonText()
+        noBtn.text = question.getRightButtonText()
     }
 
     override fun addClickListeners() {
         super.addClickListeners()
 
-        yesBtn.setOnClickListener { onYesCallback() }
+        yesBtn.setOnClickListener { onLeftButtonClickCallback() }
 
-        if (::onNoCallback.isInitialized) {
-            noBtn.setOnClickListener { onNoCallback() }
+        if (::onRightButtonClickCallback.isInitialized) {
+            noBtn.setOnClickListener { onRightButtonClickCallback() }
         } else {
             noBtn.setOnClickListener { dismiss() }
         }

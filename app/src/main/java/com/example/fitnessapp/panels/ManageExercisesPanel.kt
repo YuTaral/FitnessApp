@@ -111,7 +111,7 @@ class ManageExercisesPanel(mode: Mode): BaseExercisePanel(mode) {
                 // Delete exercise
                 val dialog = AskQuestionDialog(requireContext(), AskQuestionDialog.Question.DELETE_MG_EXERCISE, model)
 
-                dialog.setYesCallback {
+                dialog.setLeftButtonCallback {
                     ExerciseRepository().deleteExercise(model.id, onSuccess = { mGExercises ->
                         // Re-populate on success
                         dialog.dismiss()

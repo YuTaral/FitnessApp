@@ -93,12 +93,12 @@ class EditProfileDialog(ctx: Context): BaseDialog(ctx) {
     private fun showImagePicker() {
         val dialog = AskQuestionDialog(Utils.getContext(), AskQuestionDialog.Question.PROFILE_IMAGE_SELECTION)
 
-        dialog.setYesCallback {
+        dialog.setLeftButtonCallback {
             openCamera()
             dialog.dismiss()
         }
 
-        dialog.setNoCallback {
+        dialog.setRightButtonCallback {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 // Use Photo Picker for Android 13+
                 openPhotoPicker()

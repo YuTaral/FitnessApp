@@ -216,7 +216,7 @@ class MainActivity : BaseActivity() {
                 // Handle Log Out, ask for confirmation first
                 val dialog = AskQuestionDialog(this, AskQuestionDialog.Question.LOG_OUT)
 
-                dialog.setYesCallback {
+                dialog.setLeftButtonCallback {
                     UserRepository().logout(onSuccess = { Utils.onLogout() })
                 }
 

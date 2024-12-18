@@ -3,7 +3,6 @@ package com.example.fitnessapp.utils
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
-import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -14,7 +13,6 @@ import android.graphics.Matrix
 import android.net.Uri
 import android.os.Build
 import android.util.Base64
-import android.util.Log
 import android.view.View
 import android.view.animation.DecelerateInterpolator
 import android.view.inputmethod.InputMethodManager
@@ -346,7 +344,7 @@ object Utils {
             // Workout finished, ask the user whether to remove the finished time
             val dialog = AskQuestionDialog(getContext(), question)
 
-            dialog.setYesCallback {
+            dialog.setLeftButtonCallback {
                 val unFinishedWorkout = AppStateManager.workout!!
                 unFinishedWorkout.finishDateTime = null
                 unFinishedWorkout.durationSeconds = 0
