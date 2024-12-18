@@ -40,7 +40,7 @@ class MainActivity : BaseActivity() {
     private lateinit var viewPager: ViewPager2
     private lateinit var tabLayout: TabLayout
 
-
+    lateinit var activityResultHandler: ActivityResultHandler
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
