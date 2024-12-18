@@ -25,6 +25,7 @@ import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import com.example.fitnessapp.BaseActivity
 import com.example.fitnessapp.LoginActivity
+import com.example.fitnessapp.MainActivity
 import com.example.fitnessapp.R
 import com.example.fitnessapp.dialogs.AskQuestionDialog
 import com.example.fitnessapp.models.UserModel
@@ -60,7 +61,7 @@ object Utils {
      * @param duration duration - short / long, long by default
      */
     fun showMessage(msgId: Int, duration: Int = BaseTransientBottomBar.LENGTH_LONG) {
-        showMessage(this.getActivity().getText(msgId).toString(), duration)
+        showMessage(getActivity().getText(msgId).toString(), duration)
     }
 
     /** Show a snack-bar message
@@ -68,13 +69,13 @@ object Utils {
      * @param duration duration - short / long, long by default
      */
     fun showMessage(message: String, duration: Int = BaseTransientBottomBar.LENGTH_LONG) {
-        val snackBarContainer = Snackbar.make(AppStateManager.activeActivity!!.findViewById(R.id.user_message), message, duration)
+        val snackBarContainer = Snackbar.make(getActivity().findViewById(R.id.user_message), message, duration)
 
         val textView = snackBarContainer.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
         textView.maxLines = 4
         textView.textSize = 18f
 
-        snackBarContainer.setBackgroundTint(this.getActivity().getColor(R.color.colorAccent))
+        snackBarContainer.setBackgroundTint(getActivity().getColor(R.color.colorAccent))
         snackBarContainer.show()
     }
 
@@ -83,7 +84,7 @@ object Utils {
      * @param duration duration - short / long, long by default
      */
     fun showToast(msgId: Int, duration: Int = BaseTransientBottomBar.LENGTH_LONG) {
-        showToast(this.getActivity().getText(msgId).toString(), duration)
+        showToast(getActivity().getText(msgId).toString(), duration)
     }
 
     /** Show a toast message
@@ -91,7 +92,7 @@ object Utils {
     * @param duration duration - short / long, long by default
     * */
     fun showToast(message: String, duration: Int = Toast.LENGTH_LONG) {
-        Toast.makeText(this.getActivity(), message, duration).show()
+        Toast.makeText(getActivity(), message, duration).show()
     }
 
     /** Check whether the value is ResponseCode.SUCCESS
@@ -130,7 +131,7 @@ object Utils {
 
     /** Return the current activity result handler */
     fun getActivityResultHandler(): ActivityResultHandler {
-        return AppStateManager.activeActivity!!.activityResultHandler
+        return (AppStateManager.activeActivity!! as MainActivity).activityResultHandler
     }
 
     /** Validation failed - focus the field and open the keyboard
@@ -146,7 +147,7 @@ object Utils {
      * @param input the input view
      */
     fun openKeyboardOnInput(input: EditText) {
-        val imm = this.getActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val imm = getActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
         // Request focus and open keyboard
         input.requestFocus()
@@ -157,7 +158,7 @@ object Utils {
      * @param view the focused view
      * */
     fun closeKeyboard(view: View) {
-        val imm = this.getActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val imm = getActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
@@ -330,9 +331,9 @@ object Utils {
         AppStateManager.workout = null
 
         // Start the logic activity
-        val intent = Intent(this.getActivity(), LoginActivity::class.java)
-        this.getActivity().startActivity(intent)
-        this.getActivity().finish()
+        val intent = Intent(getActivity(), LoginActivity::class.java)
+        getActivity().startActivity(intent)
+        getActivity().finish()
     }
 
     /** The click listener for Add Exercise and Edit Exercise Buttons
@@ -342,7 +343,7 @@ object Utils {
     fun addEditExerciseClick(question: AskQuestionDialog.Question, callback: () -> Unit) {
         if (AppStateManager.workout!!.finishDateTime != null) {
             // Workout finished, ask the user whether to remove the finished time
-            val dialog = AskQuestionDialog(this.getActivity(), question)
+            val dialog = AskQuestionDialog(getActivity(), question)
 
             dialog.setLeftButtonCallback {
                 val unFinishedWorkout = AppStateManager.workout!!
@@ -406,7 +407,7 @@ object Utils {
      */
     fun scaleBitmap(uri: Uri): Bitmap? {
         try {
-            val contentResolver = this.getActivity().contentResolver
+            val contentResolver = getActivity().contentResolver
 
             val bitmap: Bitmap = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 // For API 28+ (Pie and above), use ImageDecoder with scaling
@@ -490,12 +491,12 @@ object Utils {
 
     /** Create and return SharedPreferences object using encryption */
     private fun getSharedPref(): SharedPreferences {
-        val masterKey = MasterKey.Builder(this.getActivity())
+        val masterKey = MasterKey.Builder(getActivity())
             .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
             .build()
 
         return EncryptedSharedPreferences.create(
-            this.getActivity(),
+            getActivity(),
             SECURE_PREFS_FILE_NAME,
             masterKey,
             EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
