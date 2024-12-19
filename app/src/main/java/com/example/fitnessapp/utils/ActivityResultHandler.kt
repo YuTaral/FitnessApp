@@ -15,7 +15,7 @@ import androidx.core.content.ContextCompat
 import com.example.fitnessapp.BaseActivity
 import com.example.fitnessapp.R
 import com.example.fitnessapp.dialogs.AskQuestionDialog
-import com.example.fitnessapp.dialogs.EditProfileDialog
+import com.example.fitnessapp.interfaces.IImagePickerDialog
 
 /** Class to handle the logic when requesting permissions / launching specific result launcher */
 class ActivityResultHandler {
@@ -125,28 +125,43 @@ class ActivityResultHandler {
      * @param bitmap the bitmap after image successful image capture
      */
     private fun onLauncherResultOk(bitmap: Bitmap) {
-        val editProfileDialog = getEditProfileDialog()
+        val scaledBitmap = ImageUploadManager.scaleBitmap(bitmap)
 
-        if (editProfileDialog == null) {
-            Utils.showToast(R.string.error_msg_unexpected)
+        if (scaledBitmap == null) {
+            Utils.showToast(R.string.error_msg_failed_to_upload_image)
             return
         }
 
-        editProfileDialog.onImageCaptureSuccess(bitmap)
+        executeImageUploadSuccess(bitmap)
     }
 
     /** Execute the callback when launcher result is OK
      * @param uri the image uri
      */
     private fun onLauncherResultOk(uri: Uri) {
-        val editProfileDialog = getEditProfileDialog()
+        val bitmap = ImageUploadManager.scaleBitmap(uri)
 
-        if (editProfileDialog == null) {
+        // Set the scaled bitmap to the ImageView
+        if (bitmap == null) {
+            Utils.showToast(R.string.error_msg_failed_to_upload_image)
+            return
+        }
+
+        executeImageUploadSuccess(bitmap)
+    }
+
+    /** Execute the callback of the active IImageSelector
+     * @param bitmap the bitmap after image successful image capture
+     */
+    private fun executeImageUploadSuccess(bitmap: Bitmap) {
+        val imageSelectorDialog = getActiveIImageSelector()
+
+        if (imageSelectorDialog == null) {
             Utils.showToast(R.string.error_msg_unexpected)
             return
         }
 
-        editProfileDialog.onImagePickSuccess(uri)
+        imageSelectorDialog.onImageUploadSuccess(bitmap)
     }
 
     /** Ask the user to open settings and change the permission */
@@ -166,11 +181,11 @@ class ActivityResultHandler {
         dialog.show()
     }
 
-    /** Return the EditProfileDialog stored in the active dialogs property of the main activity
-     *  If the dialog does not exists, null is returned
+    /** Return the active IImageSelector stored in the active dialogs property of the main activity
+     *  If no such dialog  exists, null is returned
      */
-    private fun getEditProfileDialog(): EditProfileDialog? {
-        val dialogs = activity.activeDialogs.filterIsInstance<EditProfileDialog>()
+    private fun getActiveIImageSelector(): IImagePickerDialog? {
+        val dialogs = activity.activeDialogs.filterIsInstance<IImagePickerDialog>()
 
         if (dialogs.isEmpty()) {
             return null

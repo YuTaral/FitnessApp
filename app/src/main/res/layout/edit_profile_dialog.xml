@@ -16,7 +16,7 @@
     </LinearLayout>
 
     <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/profile_image"
+        android:id="@+id/team_image"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:scaleType="centerCrop"
@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:text="@string/remove_picture_btn"
         android:background="@android:color/transparent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_image"
+        app:layout_constraintTop_toBottomOf="@+id/team_image"
         style="@style/DialogButtonStyle"/>
 
     <EditText

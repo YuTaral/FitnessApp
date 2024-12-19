@@ -8,10 +8,6 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.ImageDecoder
-import android.graphics.Matrix
-import android.net.Uri
-import android.os.Build
 import android.util.Base64
 import android.view.View
 import android.view.animation.DecelerateInterpolator
@@ -36,7 +32,6 @@ import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import java.io.ByteArrayOutputStream
-import java.io.InputStream
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -47,8 +42,7 @@ object Utils {
     private const val SECURE_PREFS_FILE_NAME = "secure_prefs"
     private const val AUTH_TOKEN_KEY = "auth_token"
     private const val SERIALIZED_USER_KEY = "serialized_user"
-    private const val IMAGE_WIDTH = 256
-    private const val IMAGE_HEIGHT = 256
+
 
     /** Email validation
      * @param target the email to check
@@ -386,81 +380,6 @@ object Utils {
         }
     }
 
-    /**
-     * Scales a bitmap to fit within the specified width and height while maintaining aspect ratio.
-     * Return the bitmap is success, null otherwise
-     * @param bitmap the image bitmap
-     */
-    fun scaleBitmap(bitmap: Bitmap): Bitmap? {
-        try {
-            val width = bitmap.width
-            val height = bitmap.height
-
-            // Calculate the scaling factor while maintaining the aspect ratio
-            val scaleFactor = minOf(IMAGE_WIDTH.toFloat() / width, IMAGE_HEIGHT.toFloat() / height)
-
-            return if (scaleFactor < 1) {
-                val matrix = Matrix()
-                matrix.postScale(scaleFactor, scaleFactor)
-
-                // Create a new scaled bitmap
-                Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true)
-            } else {
-                // If the bitmap is already small, return it as is
-                bitmap
-            }
-
-        } catch (e: Exception) {
-            e.printStackTrace()
-            return null
-        }
-    }
-
-    /**
-     * Create and scales a bitmap from the provided uri to fit within the specified width and height
-     * while maintaining aspect ratio. Return the bitmap is success, null otherwise
-     * @param uri the image uri
-     */
-    fun scaleBitmap(uri: Uri): Bitmap? {
-        try {
-            val contentResolver = getActivity().contentResolver
-
-            val bitmap: Bitmap = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                // For API 28+ (Pie and above), use ImageDecoder with scaling
-                val source = ImageDecoder.createSource(contentResolver, uri)
-                ImageDecoder.decodeBitmap(source) { decoder, _, _ ->
-                    decoder.setTargetSampleSize(4)
-                }
-
-            } else {
-                // For older APIs, scale down using BitmapFactory
-                val inputStream: InputStream? = contentResolver.openInputStream(uri)
-
-                // Decode only the image dimensions first
-                val options = BitmapFactory.Options()
-                options.inJustDecodeBounds = true
-                BitmapFactory.decodeStream(inputStream, null, options)
-                inputStream?.close()
-
-                // Calculate the appropriate sample size
-                options.inSampleSize = calculateInSampleSize(options.outWidth, options.outHeight)
-                options.inJustDecodeBounds = false
-
-                // Decode the scaled-down bitmap
-                val scaledInputStream: InputStream? = contentResolver.openInputStream(uri)
-                val scaledBitmap = BitmapFactory.decodeStream(scaledInputStream, null, options)
-                scaledInputStream?.close()
-                scaledBitmap!!
-            }
-
-            return bitmap
-
-        } catch (e: Exception) {
-            e.printStackTrace()
-            return null
-        }
-    }
-
     /** Return the image content as encoded Base64 string or empty string if image drawable is empty
      * @param image the image
      */
@@ -485,24 +404,6 @@ object Utils {
         val imageBytes = Base64.decode(image, Base64.DEFAULT)
 
         return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
-    }
-
-    /** Calculate a sample size to scale down the image.
-     * @param rawWidth the actual image width
-     * @param rawHeight the actual image height
-     */
-    private fun calculateInSampleSize(rawWidth: Int, rawHeight: Int): Int {
-        var inSampleSize = 1
-
-        if (rawHeight > IMAGE_HEIGHT || rawWidth > IMAGE_WIDTH) {
-            val halfHeight = rawHeight / 2
-            val halfWidth = rawWidth / 2
-
-            while ((halfHeight / inSampleSize) >= IMAGE_HEIGHT && (halfWidth / inSampleSize) >= IMAGE_WIDTH) {
-                inSampleSize *= 2
-            }
-        }
-        return inSampleSize
     }
 
     /** Create and return SharedPreferences object using encryption */
