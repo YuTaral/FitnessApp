@@ -16,7 +16,7 @@ class WorkoutTemplateRepository {
         val params = mapOf("workout" to Utils.serializeObject(workout))
 
         NetworkManager.sendRequest(
-            request = { APIService.instance.addWorkoutTemplate(params) },
+            request = { APIService.getInstance().addWorkoutTemplate(params) },
             onSuccessCallback = { onSuccess() }
         )
     }
@@ -27,7 +27,7 @@ class WorkoutTemplateRepository {
      */
     fun getWorkoutTemplates(onSuccess: (List<String>) -> Unit, onError: () -> Unit) {
         NetworkManager.sendRequest(
-            request = { APIService.instance.getWorkoutTemplates() },
+            request = { APIService.getInstance().getWorkoutTemplates() },
             onSuccessCallback = { response -> onSuccess(response.data) },
             onErrorCallback = { onError() }
         )
@@ -39,7 +39,7 @@ class WorkoutTemplateRepository {
      */
     fun deleteWorkoutTemplate(id: Long, onSuccess: () -> Unit) {
         NetworkManager.sendRequest(
-            request = { APIService.instance.deleteWorkoutTemplate(id) },
+            request = { APIService.getInstance().deleteWorkoutTemplate(id) },
             onSuccessCallback = { onSuccess() }
         )
     }

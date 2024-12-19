@@ -8,7 +8,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 /** Singleton object to implement IAPIService interface */
 object APIService {
-    var instance: IAPIService
+    @Volatile
+    private var instance: IAPIService? = null
 
     init {
         // Create the instance with update token. If the token is already stored, it will create instance
@@ -38,6 +39,15 @@ object APIService {
         instance = service.create(IAPIService::class.java)
         Utils.updateTokenInPrefs(token)
 
-        return instance
+        return instance!!
+    }
+
+    /**
+     * Get the current API service instance in a thread-safe manner.
+     */
+    fun getInstance(): IAPIService {
+        return instance ?: synchronized(this) {
+            instance ?: updateToken(Utils.getStoredToken()).also { instance = it }
+        }
     }
 }

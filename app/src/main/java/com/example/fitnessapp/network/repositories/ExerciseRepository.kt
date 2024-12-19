@@ -21,7 +21,7 @@ class ExerciseRepository {
         val params = mapOf("exercise" to Utils.serializeObject(exercise), "workoutId" to AppStateManager.workout!!.id.toString())
 
         NetworkManager.sendRequest(
-            request = { APIService.instance.addExerciseToWorkout(params) },
+            request = { APIService.getInstance().addExerciseToWorkout(params) },
             onSuccessCallback = { response -> onSuccess(WorkoutModel(response.data[0])) }
         )
     }
@@ -34,7 +34,7 @@ class ExerciseRepository {
         val params = mapOf("exercise" to Utils.serializeObject(exercise), "workoutId" to AppStateManager.workout!!.id.toString())
 
         NetworkManager.sendRequest(
-            request = { APIService.instance.updateExerciseFromWorkout(params) },
+            request = { APIService.getInstance().updateExerciseFromWorkout(params) },
             onSuccessCallback = { response -> onSuccess(WorkoutModel(response.data[0])) }
         )
     }
@@ -45,7 +45,7 @@ class ExerciseRepository {
      */
     fun deleteExerciseFromWorkout(exerciseId: Long, onSuccess: (WorkoutModel) -> Unit) {
         NetworkManager.sendRequest(
-            request = { APIService.instance.deleteExerciseFromWorkout(exerciseId) },
+            request = { APIService.getInstance().deleteExerciseFromWorkout(exerciseId) },
             onSuccessCallback = { response -> onSuccess(WorkoutModel(response.data[0])) }
         )
     }
@@ -58,7 +58,7 @@ class ExerciseRepository {
      */
     fun getMuscleGroupExercises(muscleGroupId: Long, onlyForUser: String,onSuccess:(MutableList<MGExerciseModel>) -> Unit) {
         NetworkManager.sendRequest(
-            request = { APIService.instance.getExerciseByMGId(muscleGroupId, onlyForUser) },
+            request = { APIService.getInstance().getExerciseByMGId(muscleGroupId, onlyForUser) },
             onSuccessCallback = { response -> onSuccess(response.data.map { MGExerciseModel(it) }.toMutableList()) }
         )
     }
@@ -80,7 +80,7 @@ class ExerciseRepository {
                             "onlyForUser" to onlyForUser, "checkExistingEx" to checkExistingEx)
 
         NetworkManager.sendRequest(
-            request = { APIService.instance.addExercise(params) },
+            request = { APIService.getInstance().addExercise(params) },
             onSuccessCallback = { response -> onSuccess(response.data) },
             onErrorCallback = { response -> onFailure(response) }
         )
@@ -95,7 +95,7 @@ class ExerciseRepository {
         val params = mapOf("exercise" to Utils.serializeObject(exercise), "onlyForUser" to onlyForUser)
 
         NetworkManager.sendRequest(
-            request = { APIService.instance.updateExercise(params) },
+            request = { APIService.getInstance().updateExercise(params) },
             onSuccessCallback = { response ->
                 onSuccess(response.data)
             }
@@ -108,7 +108,7 @@ class ExerciseRepository {
      */
     fun deleteExercise(mGExerciseId: Long, onSuccess: (List<MGExerciseModel>) -> Unit) {
         NetworkManager.sendRequest(
-            request = { APIService.instance.deleteExercise(mGExerciseId) },
+            request = { APIService.getInstance().deleteExercise(mGExerciseId) },
             onSuccessCallback = { response ->
                 onSuccess(response.data.map { MGExerciseModel(it) })
             }
@@ -121,7 +121,7 @@ class ExerciseRepository {
      */
     fun getMGExercise(mGExerciseId: Long, onSuccess:(MGExerciseModel) -> Unit) {
         NetworkManager.sendRequest(
-            request = { APIService.instance.getMGExercise(mGExerciseId) },
+            request = { APIService.getInstance().getMGExercise(mGExerciseId) },
             onSuccessCallback = { response -> onSuccess(MGExerciseModel(response.data[0])) }
         )
     }
