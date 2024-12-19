@@ -26,8 +26,19 @@
         android:nextFocusDown="@+id/exercise_sets"
         app:layout_constraintTop_toBottomOf="@+id/dialog_header"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/question_mark"
         tools:ignore="LabelFor" />
+
+    <ImageView
+        android:id="@+id/question_mark"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="15dp"
+        android:importantForAccessibility="no"
+        android:background="@drawable/icon_question_mark"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/exercise_name"
+        app:layout_constraintBottom_toBottomOf="@+id/exercise_name"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/sets_container"

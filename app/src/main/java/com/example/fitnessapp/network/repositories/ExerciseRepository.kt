@@ -114,4 +114,15 @@ class ExerciseRepository {
             }
         )
     }
+
+    /** Fetch specific muscle group exercise
+     * @param mGExerciseId the muscle group exercise id
+     * @param onSuccess callback to execute if request is successful
+     */
+    fun getMGExercise(mGExerciseId: Long, onSuccess:(MGExerciseModel) -> Unit) {
+        NetworkManager.sendRequest(
+            request = { APIService.instance.getMGExercise(mGExerciseId) },
+            onSuccessCallback = { response -> onSuccess(MGExerciseModel(response.data[0])) }
+        )
+    }
 }

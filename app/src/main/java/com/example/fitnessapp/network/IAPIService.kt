@@ -87,6 +87,9 @@ interface IAPIService {
     @GET(Constants.RequestEndPoints.GET_EXERCISES_FOR_MG)
     fun getExerciseByMGId(@Query("muscleGroupId") muscleGroupId: Long, @Query("onlyForUser") onlyForUser: String): Call<CustomResponse>
 
+    @GET(Constants.RequestEndPoints.GET_MG_EXERCISE)
+    fun getMGExercise(@Query("mGExerciseId") mGExerciseId: Long): Call<CustomResponse>
+
     /** MUSCLE GROUPS GET REQUESTS
      * -------------------------------------------------------------------------------- */
     @GET(Constants.RequestEndPoints.GET_MUSCLE_GROUPS_FOR_USER)

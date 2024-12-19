@@ -29,6 +29,7 @@ class EditExerciseFromWorkoutDialog(ctx: Context, exerciseModel: ExerciseModel):
     private var allCompleted: Boolean = true
 
     private lateinit var name: EditText
+    private lateinit var questionMark: ImageView
     private lateinit var weightLbl: TextView
     private lateinit var setsScroller: ScrollView
     private lateinit var setsContainer: LinearLayout
@@ -41,6 +42,7 @@ class EditExerciseFromWorkoutDialog(ctx: Context, exerciseModel: ExerciseModel):
         super.findViews()
 
         name = dialogView.findViewById(R.id.exercise_name)
+        questionMark = dialogView.findViewById(R.id.question_mark)
         weightLbl = dialogView.findViewById(R.id.weight_lbl)
         setsScroller = dialogView.findViewById(R.id.sets_scroller)
         setsContainer = dialogView.findViewById(R.id.set_items_container)
@@ -52,6 +54,11 @@ class EditExerciseFromWorkoutDialog(ctx: Context, exerciseModel: ExerciseModel):
 
     override fun populateDialog() {
         name.setText(exercise.name)
+
+        if (exercise.mGExerciseId == null) {
+            questionMark.visibility = View.GONE
+        }
+
         weightLbl.text = String.format(Utils.getActivity().getString(R.string.weight_in_unit_lbl),
                                     AppStateManager.user!!.defaultValues.weightUnit.text)
 
@@ -81,6 +88,12 @@ class EditExerciseFromWorkoutDialog(ctx: Context, exerciseModel: ExerciseModel):
             // Auto scroll to the bottom of the sets container so the newly added set is visible
             setsScroller.post {
                 setsScroller.fullScroll(View.FOCUS_DOWN)
+            }
+        }
+
+        if (exercise.mGExerciseId != null) {
+            questionMark.setOnClickListener {
+                showExerciseDescription()
             }
         }
 
@@ -171,6 +184,13 @@ class EditExerciseFromWorkoutDialog(ctx: Context, exerciseModel: ExerciseModel):
         dialog.show()
     }
 
+    /** Send a request to fetch exercise description and show it */
+    private fun showExerciseDescription() {
+        ExerciseRepository().getMGExercise(exercise.mGExerciseId!!, onSuccess = { mgExerciseModel ->
+            DisplayMGExerciseDialog(Utils.getActivity(), exercise.name, mgExerciseModel).show()
+        })
+    }
+
     /** Executed on Save button click */
     private fun save(){
         // Validate exercise name
@@ -181,11 +201,13 @@ class EditExerciseFromWorkoutDialog(ctx: Context, exerciseModel: ExerciseModel):
         }
 
         // Edit the exercise, passing empty MuscleGroup object, it is not needed server side
-        ExerciseRepository().editExerciseFromWorkout(ExerciseModel(exercise.id, name.text.toString(), MuscleGroupModel(), getSets(setsContainer)),
-            onSuccess = { workout ->
+        val exerciseModel = ExerciseModel(exercise.id, name.text.toString(), MuscleGroupModel(),
+            getSets(setsContainer), exercise.mGExerciseId)
+
+        ExerciseRepository().editExerciseFromWorkout(exerciseModel, onSuccess = { workout ->
                 dismiss()
-                Utils.getPanelAdapter().displayWorkoutPanel(workout, true)
-        })
+                Utils.getPanelAdapter().displayWorkoutPanel(workout, true)}
+        )
     }
 
 

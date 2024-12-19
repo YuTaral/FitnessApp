@@ -104,6 +104,7 @@ class AddExerciseToWorkoutDialog(ctx: Context, exercise: MGExerciseModel, values
         val model = MuscleGroupModel(exerciseToAdd.muscleGroupId)
 
         // Validation passed
-        return ExerciseModel(exerciseName, model, exerciseSets, setReps, exerciseWeight, exerciseCompleted.isChecked)
+        return ExerciseModel(exerciseName, model, exerciseSets, setReps,
+                                exerciseWeight, exerciseCompleted.isChecked, exerciseToAdd.id)
     }
 }

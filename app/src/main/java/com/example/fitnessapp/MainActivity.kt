@@ -84,6 +84,8 @@ class MainActivity : BaseActivity() {
             // Display the workout related actions
             if (AppStateManager.workout!!.finishDateTime == null) {
                 navActionView.menu.findItem(R.id.nav_finish_workout).setVisible(true)
+            } else {
+                navActionView.menu.findItem(R.id.nav_finish_workout).setVisible(false)
             }
             navActionView.menu.findItem(R.id.nav_save_workout_template).setVisible(true)
         }

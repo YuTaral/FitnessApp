@@ -147,5 +147,6 @@
     <string name="question_go_to_settings_text">This feature requires access to camera. Please enable it in the app settings.</string>
     <string name="go_to_settings_btn">Go to Settings</string>
     <string name="remove_picture_btn">Remove picture</string>
+    <string name="original_name_lbl">Original name: %s</string>
 
 </resources>

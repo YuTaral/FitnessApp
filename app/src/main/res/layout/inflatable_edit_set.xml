@@ -40,10 +40,11 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginTop="5dp"
+        android:layout_marginStart="18dp"
         android:layout_marginEnd="10dp"
         android:importantForAccessibility="no"
-        android:background="@drawable/icon_close_dialog"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/icon_delete_set"
+        app:layout_constraintStart_toEndOf="@+id/weight_txt"
         app:layout_constraintTop_toTopOf="@+id/reps_number_txt"
         app:layout_constraintBottom_toBottomOf="@+id/reps_number_txt" />
 
