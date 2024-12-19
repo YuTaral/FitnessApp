@@ -18,7 +18,7 @@ import com.example.fitnessapp.utils.Utils
 class TemplatesPanel: BasePanel() {
     override var id: Long = Constants.PanelUniqueId.TEMPLATES.ordinal.toLong()
     override var layoutId: Int = R.layout.templates_panel
-    override var panelIndex: Int = 2
+    override var panelIndex: Int = Constants.PanelIndices.TEMPORARY.ordinal
     override var titleId: Int = R.string.manage_templates_lbl
 
     private lateinit var actionSpinner: Spinner

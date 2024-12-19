@@ -17,6 +17,7 @@ import com.example.fitnessapp.models.MGExerciseModel
 import com.example.fitnessapp.models.MuscleGroupModel
 import com.example.fitnessapp.network.repositories.ExerciseRepository
 import com.example.fitnessapp.network.repositories.MuscleGroupRepository
+import com.example.fitnessapp.utils.Constants
 import com.example.fitnessapp.utils.Utils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -29,6 +30,8 @@ import kotlinx.coroutines.launch
  * - ManageExercisesPanel, where exercises can be edited
  */
 abstract class BaseExercisePanel(mode: Mode): BasePanel() {
+    override var panelIndex: Int = Constants.PanelIndices.TEMPORARY.ordinal
+
     /** Parameter value which is send when fetching the exercises for muscle group */
     protected open lateinit var onlyForUser: String
 

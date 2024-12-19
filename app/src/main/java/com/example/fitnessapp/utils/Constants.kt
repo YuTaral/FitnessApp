@@ -24,7 +24,15 @@ object Constants {
         WORKOUT,
         TEMPLATES,
         SELECT_EXERCISE,
-        MANAGE_EXERCISE
+        MANAGE_EXERCISE,
+        MANAGE_TEAMS
+    }
+
+    /** Enum to hold the position of the panel in the fragment state adapter  */
+    enum class PanelIndices {
+        MAIN,
+        WORKOUT,
+        TEMPORARY
     }
 
     /** Object containing request end point values */
