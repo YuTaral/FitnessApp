@@ -61,6 +61,9 @@ class EditProfileDialog(ctx: Context): BaseDialog(ctx) {
             showImagePicker()
         }
         saveBtn.setOnClickListener {
+            // Disable the button as this request takes more time and prevent the possibility of
+            // clicking it twice
+            saveBtn.isEnabled = false
             save()
         }
         removePictureBtn.setOnClickListener {
@@ -79,8 +82,9 @@ class EditProfileDialog(ctx: Context): BaseDialog(ctx) {
 
         UserProfileRepository().updateUserProfile(updatedUser, onSuccess = { newUser ->
             dismiss()
-            AppStateManager.user = newUser
-        })
+            AppStateManager.user = newUser },
+            onFailure = { saveBtn.isEnabled = true }
+        )
     }
 
     /** Remove picture button handler to clear the profile picture and return to the default one */

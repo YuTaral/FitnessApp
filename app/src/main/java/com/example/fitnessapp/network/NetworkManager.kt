@@ -1,6 +1,8 @@
 package com.example.fitnessapp.network
 
 import android.app.AlertDialog
+import android.os.Handler
+import android.os.Looper
 import com.example.fitnessapp.R
 import com.example.fitnessapp.network.repositories.UserRepository
 import com.example.fitnessapp.utils.AppStateManager
@@ -144,6 +146,12 @@ object NetworkManager {
 
         progressDialog = dialogBuilder.create()
         progressDialog.show()
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            if (progressDialog.isShowing) {
+                progressDialog.dismiss()
+            }
+        }, 10000)
     }
 
     /** Executes the logic when request error occurs

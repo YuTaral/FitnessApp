@@ -36,11 +36,13 @@ class UserProfileRepository {
     /** Update the user profile
      * @param user the user
      * @param onSuccess callback to execute if request is successful
+     * @param onFailure callback to execute if request failed
      */
-    fun updateUserProfile(user: UserModel, onSuccess: (UserModel) -> Unit) {
+    fun updateUserProfile(user: UserModel, onSuccess: (UserModel) -> Unit, onFailure: () -> Unit) {
         NetworkManager.sendRequest(
             request = { APIService.getInstance().updateUserProfile(mapOf("user" to Utils.serializeObject(user))) },
-            onSuccessCallback = { response -> onSuccess(UserModel(response.data[0]))}
+            onSuccessCallback = { response -> onSuccess(UserModel(response.data[0]))},
+            onErrorCallback = { onFailure() }
         )
     }
 }
