@@ -24,9 +24,9 @@ class SaveWorkoutTemplateDialog(ctx: Context): BaseDialog(ctx) {
     override fun findViews() {
         super.findViews()
 
-        templateName = dialogView.findViewById(R.id.template_name_txt)
-        exercises = dialogView.findViewById(R.id.workout_exercises_summary_txt)
-        saveBtn = dialogView.findViewById(R.id.save_btn)
+        templateName = dialog.findViewById(R.id.template_name_txt)
+        exercises = dialog.findViewById(R.id.workout_exercises_summary_txt)
+        saveBtn = dialog.findViewById(R.id.save_btn)
     }
 
     override fun populateDialog() {

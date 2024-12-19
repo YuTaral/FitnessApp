@@ -31,12 +31,12 @@ class DefaultValuesDialog(ctx: Context, values: UserDefaultValuesModel, weightUn
     override fun findViews() {
         super.findViews()
 
-        sets = dialogView.findViewById(R.id.exercise_sets)
-        reps = dialogView.findViewById(R.id.set_reps)
-        weight = dialogView.findViewById(R.id.exercise_weight)
-        completed = dialogView.findViewById(R.id.complete_exercise)
-        weightUnit = dialogView.findViewById(R.id.weight_unit)
-        saveBtn = dialogView.findViewById(R.id.save_btn)
+        sets = dialog.findViewById(R.id.exercise_sets)
+        reps = dialog.findViewById(R.id.set_reps)
+        weight = dialog.findViewById(R.id.exercise_weight)
+        completed = dialog.findViewById(R.id.complete_exercise)
+        weightUnit = dialog.findViewById(R.id.weight_unit)
+        saveBtn = dialog.findViewById(R.id.save_btn)
     }
 
     override fun populateDialog() {

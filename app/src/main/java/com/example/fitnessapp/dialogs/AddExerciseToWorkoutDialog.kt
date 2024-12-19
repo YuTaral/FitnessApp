@@ -34,12 +34,12 @@ class AddExerciseToWorkoutDialog(ctx: Context, exercise: MGExerciseModel, values
     override fun findViews() {
         super.findViews()
 
-        name = dialogView.findViewById(R.id.exercise_name)
-        sets = dialogView.findViewById(R.id.exercise_sets)
-        reps = dialogView.findViewById(R.id.set_reps)
-        weight = dialogView.findViewById(R.id.exercise_weight)
-        exerciseCompleted = dialogView.findViewById(R.id.complete_exercise)
-        saveBtn = dialogView.findViewById(R.id.save_btn)
+        name = dialog.findViewById(R.id.exercise_name)
+        sets = dialog.findViewById(R.id.exercise_sets)
+        reps = dialog.findViewById(R.id.set_reps)
+        weight = dialog.findViewById(R.id.exercise_weight)
+        exerciseCompleted = dialog.findViewById(R.id.complete_exercise)
+        saveBtn = dialog.findViewById(R.id.save_btn)
     }
 
     override fun populateDialog() {

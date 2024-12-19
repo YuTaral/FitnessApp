@@ -22,8 +22,8 @@ class FinishWorkoutDialog(ctx: Context): BaseDialog(ctx) {
     override fun findViews() {
         super.findViews()
 
-        dateTime = dialogView.findViewById(R.id.workout_finish_date_time_txt)
-        saveBtn = dialogView.findViewById(R.id.save_btn)
+        dateTime = dialog.findViewById(R.id.workout_finish_date_time_txt)
+        saveBtn = dialog.findViewById(R.id.save_btn)
     }
 
     override fun populateDialog() {

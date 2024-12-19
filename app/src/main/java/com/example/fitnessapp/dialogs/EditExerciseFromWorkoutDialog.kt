@@ -41,15 +41,15 @@ class EditExerciseFromWorkoutDialog(ctx: Context, exerciseModel: ExerciseModel):
     override fun findViews() {
         super.findViews()
 
-        name = dialogView.findViewById(R.id.exercise_name)
-        questionMark = dialogView.findViewById(R.id.question_mark)
-        weightLbl = dialogView.findViewById(R.id.weight_lbl)
-        setsScroller = dialogView.findViewById(R.id.sets_scroller)
-        setsContainer = dialogView.findViewById(R.id.set_items_container)
-        chbCompleteAll = dialogView.findViewById(R.id.complete_all_sets)
-        addSetBtn = dialogView.findViewById(R.id.add_set_btn)
-        saveBtn = dialogView.findViewById(R.id.save_btn)
-        deleteBtn = dialogView.findViewById(R.id.delete_btn)
+        name = dialog.findViewById(R.id.exercise_name)
+        questionMark = dialog.findViewById(R.id.question_mark)
+        weightLbl = dialog.findViewById(R.id.weight_lbl)
+        setsScroller = dialog.findViewById(R.id.sets_scroller)
+        setsContainer = dialog.findViewById(R.id.set_items_container)
+        chbCompleteAll = dialog.findViewById(R.id.complete_all_sets)
+        addSetBtn = dialog.findViewById(R.id.add_set_btn)
+        saveBtn = dialog.findViewById(R.id.save_btn)
+        deleteBtn = dialog.findViewById(R.id.delete_btn)
     }
 
     override fun populateDialog() {

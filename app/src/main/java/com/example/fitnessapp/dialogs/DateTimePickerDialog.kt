@@ -27,13 +27,13 @@ class DateTimePickerDialog(ctx: Context): BaseDialog(ctx) {
     override fun findViews() {
         super.findViews()
 
-        datePickerContainer = dialogView.findViewById(R.id.date_picker_container)
-        timePickerContainer = dialogView.findViewById(R.id.time_picker_container)
-        datePicker = dialogView.findViewById(R.id.date_picker)
-        timePicker = dialogView.findViewById(R.id.time_picker)
-        previousBtn = dialogView.findViewById(R.id.previous_btn)
-        nextBtn = dialogView.findViewById(R.id.next_btn)
-        saveBtn = dialogView.findViewById(R.id.save_btn)
+        datePickerContainer = dialog.findViewById(R.id.date_picker_container)
+        timePickerContainer = dialog.findViewById(R.id.time_picker_container)
+        datePicker = dialog.findViewById(R.id.date_picker)
+        timePicker = dialog.findViewById(R.id.time_picker)
+        previousBtn = dialog.findViewById(R.id.previous_btn)
+        nextBtn = dialog.findViewById(R.id.next_btn)
+        saveBtn = dialog.findViewById(R.id.save_btn)
     }
 
     override fun populateDialog() {

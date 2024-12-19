@@ -24,10 +24,10 @@ class ChangePasswordDialog(ctx: Context): BaseDialog(ctx) {
     override fun findViews() {
         super.findViews()
 
-        oldPassword = dialogView.findViewById(R.id.old_pass_txt)
-        newPassword = dialogView.findViewById(R.id.new_pass_txt)
-        confirmPassword = dialogView.findViewById(R.id.confirm_new_pass_txt)
-        saveBtn = dialogView.findViewById(R.id.save_btn)
+        oldPassword = dialog.findViewById(R.id.old_pass_txt)
+        newPassword = dialog.findViewById(R.id.new_pass_txt)
+        confirmPassword = dialog.findViewById(R.id.confirm_new_pass_txt)
+        saveBtn = dialog.findViewById(R.id.save_btn)
     }
 
     override fun populateDialog() {}

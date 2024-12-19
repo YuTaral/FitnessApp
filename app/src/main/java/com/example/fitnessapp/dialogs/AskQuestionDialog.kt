@@ -78,11 +78,11 @@ class AskQuestionDialog(ctx: Context, q: Question, d: BaseModel? = null): BaseDi
     override fun findViews() {
         super.findViews()
 
-        closeIcon = dialogView.findViewById(R.id.dialog_close)
-        questionText = dialogView.findViewById(R.id.question_lbl)
-        questionAdditionalInfo = dialogView.findViewById(R.id.question_additional_info)
-        yesBtn = dialogView.findViewById(R.id.yes_btn)
-        noBtn = dialogView.findViewById(R.id.no_btn)
+        closeIcon = dialog.findViewById(R.id.dialog_close)
+        questionText = dialog.findViewById(R.id.question_lbl)
+        questionAdditionalInfo = dialog.findViewById(R.id.question_additional_info)
+        yesBtn = dialog.findViewById(R.id.yes_btn)
+        noBtn = dialog.findViewById(R.id.no_btn)
     }
 
     override fun populateDialog() {

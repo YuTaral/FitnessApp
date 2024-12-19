@@ -18,8 +18,8 @@ abstract class BaseDialog(ctx: Context): Dialog(ctx, R.style.Theme_FitnessApp_Di
     /** The dialog title id */
     protected open var dialogTitleId: Int = 0
 
-    /** The dialog view */
-    protected lateinit var dialogView: View
+    /** The dialog root view */
+    protected lateinit var dialog: View
 
     /** The dialog title */
     protected lateinit var title: TextView
@@ -31,7 +31,7 @@ abstract class BaseDialog(ctx: Context): Dialog(ctx, R.style.Theme_FitnessApp_Di
         super.onCreate(savedInstanceState)
 
         // Inflate the dialog layout
-        dialogView = LayoutInflater.from(Utils.getActivity()).inflate(layoutId, null)
+        dialog = LayoutInflater.from(Utils.getActivity()).inflate(layoutId, null)
 
         // Find the views
         findViews()
@@ -48,7 +48,7 @@ abstract class BaseDialog(ctx: Context): Dialog(ctx, R.style.Theme_FitnessApp_Di
         addClickListeners()
 
         // Set the content
-        setContentView(dialogView)
+        setContentView(dialog)
 
         // Set cancelable to false, we have close icon on each dialog
         setCancelable(false)
@@ -63,8 +63,8 @@ abstract class BaseDialog(ctx: Context): Dialog(ctx, R.style.Theme_FitnessApp_Di
 
     /** Find the views in the dialog*/
     open fun findViews() {
-        title = dialogView.findViewById(R.id.dialog_title)
-        closeIcon = dialogView.findViewById(R.id.dialog_close)
+        title = dialog.findViewById(R.id.dialog_title)
+        closeIcon = dialog.findViewById(R.id.dialog_close)
     }
 
     /** Populate the data in the dialog */

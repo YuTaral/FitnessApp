@@ -54,13 +54,13 @@ class AddEditWorkoutDialog(ctx: Context, mode: Mode, workoutModel: WorkoutModel?
     override fun findViews() {
         super.findViews()
 
-        closeIcon = dialogView.findViewById(R.id.dialog_close)
-        name = dialogView.findViewById(R.id.workout_name_txt)
-        startEndTimeContainer = dialogView.findViewById(R.id.start_end_date_time_container)
-        startLbl = dialogView.findViewById(R.id.workout_start_date_time_txt)
-        endLbl = dialogView.findViewById(R.id.workout_finish_date_time_txt)
-        saveBtn = dialogView.findViewById(R.id.save_btn)
-        deleteBtn = dialogView.findViewById(R.id.delete_btn)
+        closeIcon = dialog.findViewById(R.id.dialog_close)
+        name = dialog.findViewById(R.id.workout_name_txt)
+        startEndTimeContainer = dialog.findViewById(R.id.start_end_date_time_container)
+        startLbl = dialog.findViewById(R.id.workout_start_date_time_txt)
+        endLbl = dialog.findViewById(R.id.workout_finish_date_time_txt)
+        saveBtn = dialog.findViewById(R.id.save_btn)
+        deleteBtn = dialog.findViewById(R.id.delete_btn)
     }
 
     override fun populateDialog() {

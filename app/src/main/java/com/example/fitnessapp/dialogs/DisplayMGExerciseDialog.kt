@@ -20,8 +20,8 @@ class DisplayMGExerciseDialog(ctx: Context, exName: String, data: MGExerciseMode
     override fun findViews() {
         super.findViews()
 
-        originalName = dialogView.findViewById(R.id.exercise_original_name)
-        description = dialogView.findViewById(R.id.mg_exercise_description)
+        originalName = dialog.findViewById(R.id.exercise_original_name)
+        description = dialog.findViewById(R.id.mg_exercise_description)
     }
 
     override fun populateDialog() {

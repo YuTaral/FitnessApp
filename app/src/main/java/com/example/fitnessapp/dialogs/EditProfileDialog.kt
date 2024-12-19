@@ -30,10 +30,10 @@ class EditProfileDialog(ctx: Context): BaseDialog(ctx) {
     override fun findViews() {
         super.findViews()
 
-        profileImage = dialogView.findViewById(R.id.profile_image)
-        fullName = dialogView.findViewById(R.id.full_name_txt)
-        removePictureBtn = dialogView.findViewById(R.id.remove_pic_btn)
-        saveBtn = dialogView.findViewById(R.id.save_btn)
+        profileImage = dialog.findViewById(R.id.profile_image)
+        fullName = dialog.findViewById(R.id.full_name_txt)
+        removePictureBtn = dialog.findViewById(R.id.remove_pic_btn)
+        saveBtn = dialog.findViewById(R.id.save_btn)
     }
 
     override fun populateDialog() {
