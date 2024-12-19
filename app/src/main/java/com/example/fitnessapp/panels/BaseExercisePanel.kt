@@ -18,6 +18,11 @@ import com.example.fitnessapp.models.MuscleGroupModel
 import com.example.fitnessapp.network.repositories.ExerciseRepository
 import com.example.fitnessapp.network.repositories.MuscleGroupRepository
 import com.example.fitnessapp.utils.Utils
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 /** Base ExercisePanel Class to implement the common logic for exercise panels:
  * - ExercisePanel where exercise can be selected and added to the current workout
@@ -48,8 +53,13 @@ abstract class BaseExercisePanel(mode: Mode): BasePanel() {
     protected lateinit var addBtn: Button
     protected lateinit var muscleGroupRecycler: RecyclerView
     protected lateinit var exercisesRecycler: RecyclerView
+
     protected var selectedMuscleGroup: MuscleGroupModel? = null
     protected var panelMode: Mode = mode
+
+    private val coroutineScope = CoroutineScope(Dispatchers.Main)
+    private var debounceJob: Job? = null
+    private var filterWaitTimeMillis = 500L
 
     override fun findViews() {
         title = panel.findViewById(R.id.exercise_panel_title)
@@ -157,17 +167,18 @@ abstract class BaseExercisePanel(mode: Mode): BasePanel() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 
+            // Use debouncing mechanism to avoid filtering the data on each letter to reduce
+            // unnecessary computation
             override fun afterTextChanged(s: Editable?) {
-                when (panelMode) {
-                    Mode.SELECT_MUSCLE_GROUP -> {
-                        if (muscleGroupRecycler.adapter != null) {
-                            // Filter the muscle groups by the text
+                debounceJob?.cancel() // Cancel any ongoing debounce job
+
+                debounceJob = coroutineScope.launch {
+                    delay(filterWaitTimeMillis)
+                    when (panelMode) {
+                        Mode.SELECT_MUSCLE_GROUP -> {
                             (muscleGroupRecycler.adapter as MuscleGroupRecyclerAdapter).filter(s.toString().lowercase())
                         }
-                    }
-                    Mode.SELECT_EXERCISE -> {
-                        if (exercisesRecycler.adapter != null) {
-                            // Filter the exercises by the provided text
+                        Mode.SELECT_EXERCISE -> {
                             (exercisesRecycler.adapter as MGExercisesRecyclerAdapter).filter(s.toString().lowercase())
                         }
                     }
