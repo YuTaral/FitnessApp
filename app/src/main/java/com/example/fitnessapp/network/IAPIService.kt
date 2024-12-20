@@ -107,4 +107,14 @@ interface IAPIService {
      * -------------------------------------------------------------------------------- */
     @GET(Constants.RequestEndPoints.GET_WORKOUT_TEMPLATES)
     fun getWorkoutTemplates(): Call<CustomResponse>
+
+    /** TEAM POST REQUESTS
+     * -------------------------------------------------------------------------------- */
+    @POST(Constants.RequestEndPoints.ADD_TEAM)
+    fun addTeam(@Body params: Map<String, String>): Call<CustomResponse>
+
+    /** TEAM GET REQUESTS
+     * -------------------------------------------------------------------------------- */
+    @GET(Constants.RequestEndPoints.GET_MY_TEAMS)
+    fun getMyTeams(): Call<CustomResponse>
 }

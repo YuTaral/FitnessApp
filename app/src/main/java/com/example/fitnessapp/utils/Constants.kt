@@ -43,6 +43,7 @@ object Constants {
         private const val MUSCLE_GROUP = "muscle-group"
         private const val USER_PROFILE = "user-profile"
         private const val WORKOUT_TEMPLATE = "workout-template"
+        private const val TEAM = "team"
 
         const val REGISTER = "$USER/register"
         const val LOGIN = "$USER/login"
@@ -75,6 +76,9 @@ object Constants {
         const val ADD_WORKOUT_TEMPLATE  = "$WORKOUT_TEMPLATE/add"
         const val DELETE_WORKOUT_TEMPLATE  = "$WORKOUT_TEMPLATE/delete"
         const val GET_WORKOUT_TEMPLATES  = "$WORKOUT_TEMPLATE/get-templates"
+
+        const val ADD_TEAM  = "$TEAM/add"
+        const val GET_MY_TEAMS  = "$TEAM/my-teams"
     }
 
     /** Object containing request permission strings */

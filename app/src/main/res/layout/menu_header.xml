@@ -12,7 +12,7 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/profile_image"
+            android:id="@+id/team_image"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:scaleType="centerCrop"
@@ -32,7 +32,7 @@
             android:textSize="18sp"
             android:maxLines="2"
             android:ellipsize="end"
-            app:layout_constraintStart_toEndOf="@+id/profile_image"
+            app:layout_constraintStart_toEndOf="@+id/team_image"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>

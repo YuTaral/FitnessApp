@@ -60,7 +60,7 @@
     <string name="no_exercise_to_edit_lbl">There are no editable exercises for %s.\nClick Add to create new exercise</string>
     <string name="exercise_lbl">Exercise</string>
     <string name="select_action_lbl">Select action</string>
-    <string name="logout">Log Out</string>
+    <string name="logout">Log out</string>
     <string name="actions_lbl">Actions</string>
     <string name="save_workout_as_template_lbl">Save workout as template</string>
     <string name="save_template_lbl">Save template</string>
@@ -68,8 +68,8 @@
     <string name="error_msg_no_workout_selected">No workout selected</string>
     <string name="error_msg_enter_template_name">Please enter workout template name</string>
     <string name="templates_lbl">Templates</string>
-    <string name="manage_templates_lbl">Manage Templates</string>
-    <string name="manage_exercises_lbl">Manage Exercises</string>
+    <string name="manage_templates_lbl">Manage templates</string>
+    <string name="manage_exercises_lbl">Manage exercises</string>
     <string name="question_delete_template_title">Delete Template</string>
     <string name="question_delete_template_text">Are you sure you want to delete template \"%s\" ?</string>
     <string name="template_deleted">Template successfully deleted</string>
@@ -148,5 +148,14 @@
     <string name="go_to_settings_btn">Go to Settings</string>
     <string name="remove_picture_btn">Remove picture</string>
     <string name="original_name_lbl">Original name: %s</string>
+    <string name="teams_lbl">Teams</string>
+    <string name="add_team_btn">Add team</string>
+    <string name="add_team_dialog_title">Add team</string>
+    <string name="team_name_lbl">Team name…</string>
+    <string name="describe_the_purpose_of_the_team_lbl">Describe the purpose of the team…</string>
+    <string name="add_private_notes_only_visible_by_you_lbl">Add private notes only visible by you…</string>
+    <string name="error_msg_team_name_mandatory">Please enter team name</string>
+    <string name="my_teams_lbl">My teams</string>
+    <string name="no_members_yet_click_here_to_add_invite_new_members_lbl">Click here to invite new members</string>
 
 </resources>

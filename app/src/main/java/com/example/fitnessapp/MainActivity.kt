@@ -18,6 +18,7 @@ import com.example.fitnessapp.network.repositories.UserRepository
 import com.example.fitnessapp.network.repositories.WorkoutRepository
 import com.example.fitnessapp.panels.BaseExercisePanel
 import com.example.fitnessapp.panels.ManageExercisesPanel
+import com.example.fitnessapp.panels.ManageTeamsPanel
 import com.example.fitnessapp.panels.TemplatesPanel
 import com.example.fitnessapp.utils.ActivityResultHandler
 import com.example.fitnessapp.utils.AppStateManager
@@ -101,7 +102,7 @@ class MainActivity : BaseActivity() {
             return
         }
 
-        val profileImage = navProfileView.getHeaderView(0).findViewById<ImageView>(R.id.profile_image)
+        val profileImage = navProfileView.getHeaderView(0).findViewById<ImageView>(R.id.team_image)
         val username = navProfileView.getHeaderView(0).findViewById<TextView>(R.id.txt_username)
 
         // Set profile image if there is
@@ -208,6 +209,10 @@ class MainActivity : BaseActivity() {
             R.id.nav_manage_exercises -> {
                 // Display the Muscle Groups and Exercises as temporary panel
                 panelAdapter.displayTemporaryPanel(ManageExercisesPanel(BaseExercisePanel.Mode.SELECT_MUSCLE_GROUP))
+            }
+            R.id.nav_manage_teams -> {
+                // Display the Manage Teams panel
+                panelAdapter.displayTemporaryPanel(ManageTeamsPanel())
             }
         }
     }

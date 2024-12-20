@@ -10,6 +10,7 @@ import com.example.fitnessapp.panels.BaseExercisePanel
 import com.example.fitnessapp.panels.BasePanel
 import com.example.fitnessapp.panels.MainPanel
 import com.example.fitnessapp.panels.ManageExercisesPanel
+import com.example.fitnessapp.panels.ManageTeamsPanel
 import com.example.fitnessapp.panels.SelectedWorkoutPanel
 import com.example.fitnessapp.utils.AppStateManager
 import com.example.fitnessapp.utils.Utils
@@ -98,6 +99,14 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
     fun getBaseExercisePanel(): BaseExercisePanel? {
         if (temporaryPanel is BaseExercisePanel) {
             return temporaryPanel as BaseExercisePanel
+        }
+        return null
+    }
+
+    /** Return the temporary panel instance as ManageTeamsPanel */
+    fun getTeamsPanel(): ManageTeamsPanel? {
+        if (temporaryPanel is ManageTeamsPanel) {
+            return temporaryPanel as ManageTeamsPanel
         }
         return null
     }

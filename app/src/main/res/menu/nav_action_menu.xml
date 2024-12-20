@@ -16,4 +16,8 @@
         android:id="@+id/nav_manage_exercises"
         android:title="@string/manage_exercises_lbl" />
 
+    <item
+        android:id="@+id/nav_manage_teams"
+        android:title="@string/teams_lbl" />
+
 </menu>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/dialog_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <include layout="@layout/dialog_header"/>
+    </LinearLayout>
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/team_image"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/icon_team_default_picture"
+        app:layout_constraintTop_toBottomOf="@id/dialog_header"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:shapeAppearanceOverlay="@style/RoundedCorners"/>
+
+    <Button
+        android:id="@+id/remove_pic_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/remove_picture_btn"
+        android:background="@android:color/transparent"
+        app:layout_constraintTop_toBottomOf="@+id/team_image"
+        style="@style/DialogButtonStyle"/>
+
+    <EditText
+        android:id="@+id/team_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:importantForAutofill="no"
+        android:inputType="textCapWords"
+        android:hint="@string/team_name_lbl"
+        android:maxLength="100"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/remove_pic_btn"
+        tools:ignore="RtlSymmetry" />
+
+    <EditText
+        android:id="@+id/team_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:hint="@string/describe_the_purpose_of_the_team_lbl"
+        android:inputType="textMultiLine"
+        android:autofillHints=""
+        android:gravity="top|start"
+        android:lines="6"
+        android:scrollbars="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/team_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="RtlSymmetry"/>
+
+    <EditText
+        android:id="@+id/team_private_note"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:hint="@string/add_private_notes_only_visible_by_you_lbl"
+        android:inputType="textMultiLine"
+        android:autofillHints=""
+        android:gravity="top|start"
+        android:lines="2"
+        android:scrollbars="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/team_description"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="RtlSymmetry"/>
+
+    <Button
+        android:id="@+id/save_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/save_btn"
+        android:background="@drawable/background_top_border"
+        app:layout_constraintTop_toBottomOf="@+id/team_private_note"
+        style="@style/DialogButtonStyle" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
