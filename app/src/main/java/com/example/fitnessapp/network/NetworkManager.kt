@@ -124,7 +124,7 @@ object NetworkManager {
                 onException(Utils.getActivity().getString(R.string.error_msg_unexpected_network_problem), t as Exception)
 
                 try {
-                    if (responseBody != null) {
+                    if (responseBody == null) {
                         responseBody = CustomResponse(Constants.ResponseCode.FAIL.ordinal, "", listOf())
                     }
 
