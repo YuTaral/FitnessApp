@@ -7,6 +7,7 @@ import android.widget.Spinner
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.fitnessapp.MainActivity
 import com.example.fitnessapp.R
 import com.example.fitnessapp.adapters.CustomSpinnerAdapter
 import com.example.fitnessapp.adapters.WorkoutRecyclerAdapter
@@ -45,7 +46,7 @@ class MainPanel: BasePanel() {
     override fun onResume() {
         super.onResume()
 
-        if (Utils.getRefreshWorkouts()) {
+        if ((Utils.getActivity() as MainActivity).refreshWorkouts) {
             populatePanel()
         }
     }

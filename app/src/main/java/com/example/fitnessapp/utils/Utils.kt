@@ -139,11 +139,6 @@ object Utils {
         (AppStateManager.activeActivity!! as MainActivity).refreshWorkouts = value
     }
 
-    /** Get the refreshWorkouts variable stored in the MainActivity*/
-    fun getRefreshWorkouts(): Boolean {
-        return (AppStateManager.activeActivity!! as MainActivity).refreshWorkouts
-    }
-
     /** Validation failed - focus the field and open the keyboard
      * @param input the invalid input view
      * @param errorMsgId the id of the error message
