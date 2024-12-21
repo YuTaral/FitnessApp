@@ -1,7 +1,7 @@
 package com.example.fitnessapp.network
 
 import com.example.fitnessapp.utils.Constants
-import com.example.fitnessapp.utils.Utils
+import com.example.fitnessapp.utils.SharedPrefsManager
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -14,7 +14,7 @@ object APIService {
     init {
         // Create the instance with update token. If the token is already stored, it will create instance
         // attaching the token to the authorization header
-        instance = updateToken(Utils.getStoredToken())
+        instance = updateToken(SharedPrefsManager.getStoredToken())
     }
 
     /**
@@ -37,7 +37,7 @@ object APIService {
             .build()
 
         instance = service.create(IAPIService::class.java)
-        Utils.updateTokenInPrefs(token)
+        SharedPrefsManager.updateTokenInPrefs(token)
 
         return instance!!
     }
@@ -47,7 +47,7 @@ object APIService {
      */
     fun getInstance(): IAPIService {
         return instance ?: synchronized(this) {
-            instance ?: updateToken(Utils.getStoredToken()).also { instance = it }
+            instance ?: updateToken(SharedPrefsManager.getStoredToken()).also { instance = it }
         }
     }
 }

@@ -5,7 +5,6 @@ import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Base64
@@ -17,15 +16,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.graphics.drawable.toBitmap
-import androidx.security.crypto.EncryptedSharedPreferences
-import androidx.security.crypto.MasterKey
 import com.example.fitnessapp.BaseActivity
 import com.example.fitnessapp.LoginActivity
 import com.example.fitnessapp.MainActivity
 import com.example.fitnessapp.R
 import com.example.fitnessapp.adapters.PanelAdapter
 import com.example.fitnessapp.dialogs.AskQuestionDialog
-import com.example.fitnessapp.models.UserModel
 import com.example.fitnessapp.network.APIService
 import com.example.fitnessapp.network.repositories.WorkoutRepository
 import com.google.android.material.snackbar.BaseTransientBottomBar
@@ -39,10 +35,6 @@ import java.util.Locale
 
 /** Object to hold common methods */
 object Utils {
-    private const val SECURE_PREFS_FILE_NAME = "secure_prefs"
-    private const val AUTH_TOKEN_KEY = "auth_token"
-    private const val SERIALIZED_USER_KEY = "serialized_user"
-
 
     /** Email validation
      * @param target the email to check
@@ -283,49 +275,6 @@ object Utils {
         }
     }
 
-    /** Return authorization token stored in the shared prefs, if it does not exist return empty string */
-    fun getStoredToken(): String {
-        return getSharedPref().getString(AUTH_TOKEN_KEY, null) ?: return ""
-    }
-
-    /** Return User model stored in the shared prefs, if it does not exist return null */
-    fun getStoredUser(): UserModel? {
-        val sharedPref = getSharedPref()
-        val serializedUser = sharedPref.getString(SERIALIZED_USER_KEY, null) ?: ""
-
-        if (serializedUser.isEmpty())
-        {
-            return null
-        }
-
-        return UserModel(serializedUser)
-    }
-
-    /** Save / Remove the authorization token in shared prefs
-     * @param token the token if we need to save it, empty string if we need to remove it
-     */
-    fun updateTokenInPrefs(token: String) {
-        val sharedPref = getSharedPref()
-
-        if (token.isEmpty()) {
-            sharedPref.edit().remove(AUTH_TOKEN_KEY).apply()
-        } else {
-            sharedPref.edit().putString(AUTH_TOKEN_KEY, token).apply()
-        }
-    }
-
-    /** Save / Remove serialized user model in shared prefs
-     * @param model the user model if we must save the user, null if we need to remove it
-     */
-    fun updateUserInPrefs(model: UserModel?) {
-        val sharedPref = getSharedPref()
-
-        if (model == null) {
-            sharedPref.edit().remove(SERIALIZED_USER_KEY).apply()
-        } else {
-            sharedPref.edit().putString(SERIALIZED_USER_KEY, serializeObject(model)).apply()
-        }
-    }
 
     /** Execute the callback when user logout */
     fun onLogout() {
@@ -400,20 +349,5 @@ object Utils {
         val imageBytes = Base64.decode(image, Base64.DEFAULT)
 
         return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
-    }
-
-    /** Create and return SharedPreferences object using encryption */
-    private fun getSharedPref(): SharedPreferences {
-        val masterKey = MasterKey.Builder(getActivity())
-            .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
-            .build()
-
-        return EncryptedSharedPreferences.create(
-            getActivity(),
-            SECURE_PREFS_FILE_NAME,
-            masterKey,
-            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-        )
     }
 }

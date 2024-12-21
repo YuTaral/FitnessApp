@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.fitnessapp.dialogs.BaseDialog
 import com.example.fitnessapp.utils.AppStateManager
-import com.example.fitnessapp.utils.Utils
+import com.example.fitnessapp.utils.SharedPrefsManager
 
 
 /** Base activity class to hold the common logic for all activities */
@@ -58,7 +58,7 @@ abstract class BaseActivity : AppCompatActivity()  {
 
     /** Execute the logic to reset the logged in user when app restart occurs */
     private fun onAppRestart() {
-        val user = Utils.getStoredUser()
+        val user = SharedPrefsManager.getStoredUser()
 
         if (user != null) {
             // If the currently logged in user is null, but the MainActivity is being recreated, it means

@@ -14,6 +14,7 @@ import com.example.fitnessapp.models.WorkoutModel
 import com.example.fitnessapp.network.APIService
 import com.example.fitnessapp.network.repositories.UserRepository
 import com.example.fitnessapp.utils.AppStateManager
+import com.example.fitnessapp.utils.SharedPrefsManager
 import com.example.fitnessapp.utils.Utils
 
 /** Class to hold the logic for Login / Register */
@@ -37,8 +38,8 @@ class LoginActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
 
         // Try to login automatically
-        val token = Utils.getStoredToken()
-        val userModel = Utils.getStoredUser()
+        val token = SharedPrefsManager.getStoredToken()
+        val userModel = SharedPrefsManager.getStoredUser()
 
         if (token.isNotEmpty() && userModel != null) {
             // Validate the token

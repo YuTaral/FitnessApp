@@ -16,7 +16,7 @@ object AppStateManager {
         get() = _user
         set(value) {
             _user = value
-            Utils.updateUserInPrefs(_user)
+            SharedPrefsManager.updateUserInPrefs(_user)
 
             if (_user != null && activeActivity is MainActivity) {
                 (Utils.getActivity() as MainActivity).setUserInDrawer()
