@@ -43,12 +43,12 @@ object ImageUploadManager {
 
     /** Open the camera to allow image capture */
     private fun openCamera() {
-        if (Utils.getActivityResultHandler().checkPermissionGranted(Constants.Permissions.CAMERA)) {
+        if (Utils.getActivityResultHandler().checkPermissionGranted(android.Manifest.permission.CAMERA)) {
             // Permission granted, open the camera
             Utils.getActivityResultHandler().cameraLauncher.launch(Intent(MediaStore.ACTION_IMAGE_CAPTURE))
         } else {
             // Ask for the permission
-            Utils.getActivityResultHandler().cameraPermLauncher.launch(Constants.Permissions.CAMERA)
+            Utils.getActivityResultHandler().cameraPermLauncher.launch(android.Manifest.permission.CAMERA)
         }
     }
 
@@ -57,19 +57,19 @@ object ImageUploadManager {
         var permissionGranted = false
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) { // Android 13+
-            if (Utils.getActivityResultHandler().checkPermissionGranted(Constants.Permissions.READ_MEDIA_IMAGES)) {
+            if (Utils.getActivityResultHandler().checkPermissionGranted(android.Manifest.permission.READ_MEDIA_IMAGES)) {
                 permissionGranted = true
             } else {
                 // Ask for the permission
-                Utils.getActivityResultHandler().readMediaImagesPermLauncher.launch(Constants.Permissions.READ_MEDIA_IMAGES)
+                Utils.getActivityResultHandler().readMediaImagesPermLauncher.launch(android.Manifest.permission.READ_MEDIA_IMAGES)
             }
 
         } else { // Below Android 13
-            if (Utils.getActivityResultHandler().checkPermissionGranted(Constants.Permissions.READ_EXTERNAL_STORAGE)) {
+            if (Utils.getActivityResultHandler().checkPermissionGranted(android.Manifest.permission.READ_EXTERNAL_STORAGE)) {
                 permissionGranted = true
             } else {
                 // Ask for the permission
-                Utils.getActivityResultHandler().readExternalStoragePermLauncher.launch(Constants.Permissions.READ_EXTERNAL_STORAGE)
+                Utils.getActivityResultHandler().readExternalStoragePermLauncher.launch(android.Manifest.permission.READ_EXTERNAL_STORAGE)
             }
         }
 

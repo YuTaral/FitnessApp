@@ -30,9 +30,9 @@ class ActivityResultHandler {
 
     init {
         // Initialize the permission launchers
-        cameraPermLauncher = initializeRequestPermissionLaunchers(Constants.Permissions.CAMERA)
-        readMediaImagesPermLauncher = initializeRequestPermissionLaunchers(Constants.Permissions.READ_MEDIA_IMAGES)
-        readExternalStoragePermLauncher = initializeRequestPermissionLaunchers(Constants.Permissions.READ_EXTERNAL_STORAGE)
+        cameraPermLauncher = initializeRequestPermissionLaunchers(android.Manifest.permission.CAMERA)
+        readMediaImagesPermLauncher = initializeRequestPermissionLaunchers(android.Manifest.permission.READ_MEDIA_IMAGES)
+        readExternalStoragePermLauncher = initializeRequestPermissionLaunchers(android.Manifest.permission.READ_EXTERNAL_STORAGE)
 
         // Initialize the activity result launchers
         initializeActivityResultLaunchers()
@@ -44,12 +44,12 @@ class ActivityResultHandler {
             if (isGranted) {
                 when (permission) {
                     // Execute the action based on the current requested permission
-                    (Constants.Permissions.CAMERA) -> {
+                    (android.Manifest.permission.CAMERA) -> {
                         cameraLauncher.launch(Intent(MediaStore.ACTION_IMAGE_CAPTURE))
                     }
 
-                    (Constants.Permissions.READ_MEDIA_IMAGES),
-                    (Constants.Permissions.READ_EXTERNAL_STORAGE) -> {
+                    (android.Manifest.permission.READ_MEDIA_IMAGES),
+                    (android.Manifest.permission.READ_EXTERNAL_STORAGE) -> {
                         galleryLauncher.launch(Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI))
                     }
 

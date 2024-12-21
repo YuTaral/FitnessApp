@@ -1,7 +1,6 @@
 package com.example.fitnessapp.utils
 
 
-import android.annotation.SuppressLint
 import com.example.fitnessapp.BuildConfig
 
 /** Object to hold all constants. Must correspond with server side Constants static class */
@@ -79,15 +78,5 @@ object Constants {
 
         const val ADD_TEAM  = "$TEAM/add"
         const val GET_MY_TEAMS  = "$TEAM/my-teams"
-    }
-
-    /** Object containing request permission strings */
-    object Permissions {
-        const val CAMERA = android.Manifest.permission.CAMERA
-
-        @SuppressLint("InlinedApi")
-        const val READ_MEDIA_IMAGES = android.Manifest.permission.READ_MEDIA_IMAGES
-
-        const val READ_EXTERNAL_STORAGE = android.Manifest.permission.READ_EXTERNAL_STORAGE
     }
 }
