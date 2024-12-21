@@ -71,9 +71,8 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
         return true
     }
 
-
     /** Initialize the main panel if it's not and returns the instance */
-    private fun getMainPanel(): BasePanel {
+    fun getMainPanel(): MainPanel {
         if (!::mainPanel.isInitialized) {
             mainPanel = MainPanel()
         }
@@ -82,7 +81,7 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
     }
 
     /** Initialize the workout panel if it's not and returns the instance */
-    fun getWorkoutPanel(): SelectedWorkoutPanel {
+    private fun getWorkoutPanel(): BasePanel {
         if (!::workoutPanel.isInitialized) {
             workoutPanel = SelectedWorkoutPanel()
         }

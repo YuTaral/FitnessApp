@@ -47,12 +47,6 @@ class MainActivity : BaseActivity() {
     /** The PanelAdapter class instance to manage the panels */
     lateinit var panelAdapter: PanelAdapter
 
-    /** Used to track when change in the selected workout occurred and
-     *  latest workouts refresh is needed
-     */
-    var refreshWorkouts = false
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

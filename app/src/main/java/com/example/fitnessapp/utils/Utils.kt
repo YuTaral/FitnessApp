@@ -136,7 +136,8 @@ object Utils {
 
     /** Set the refreshWorkouts variable stored in the MainActivity to the provided value */
     fun setRefreshWorkouts(value: Boolean) {
-        (AppStateManager.activeActivity!! as MainActivity).refreshWorkouts = value
+        (AppStateManager.activeActivity!! as MainActivity)
+            .panelAdapter.getMainPanel().refreshWorkouts = value
     }
 
     /** Validation failed - focus the field and open the keyboard
