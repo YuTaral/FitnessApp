@@ -20,7 +20,7 @@ object ImageUploadManager {
 
     /** Show dialog to select from where to upload the image */
     fun showImagePicker() {
-        val dialog = AskQuestionDialog(Utils.getActivity(), AskQuestionDialog.Question.PROFILE_IMAGE_SELECTION)
+        val dialog = AskQuestionDialog(Utils.getActivity(), AskQuestionDialog.Question.IMAGE_SELECTION_OPTIONS)
 
         dialog.setLeftButtonCallback {
             openCamera()

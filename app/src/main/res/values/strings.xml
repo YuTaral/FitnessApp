@@ -139,8 +139,8 @@
     <string name="error_msg_failed_to_capture_image">Failed to capture image. Please try again</string>
     <string name="error_msg_failed_to_upload_image">Failed to upload image. Please try again</string>
     <string name="error_msg_no_media">No media selected</string>
-    <string name="question_choose_profile_image_title">Profile image</string>
-    <string name="question_choose_profile_image_text">Please select from where you want to upload profile image</string>
+    <string name="question_choose_image_title">Image selection</string>
+    <string name="question_choose_image_text">Please select from where you want to upload image</string>
     <string name="camera_btn">Camera</string>
     <string name="gallery_btn">Gallery</string>
     <string name="question_go_to_settings_title">Permission required</string>
