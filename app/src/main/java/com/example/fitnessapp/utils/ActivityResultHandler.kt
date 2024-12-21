@@ -29,9 +29,15 @@ class ActivityResultHandler {
     lateinit var photoPickerLauncher: ActivityResultLauncher<PickVisualMediaRequest>
 
     init {
+        val readMediaPermission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            android.Manifest.permission.READ_MEDIA_IMAGES
+        } else {
+            android.Manifest.permission.READ_EXTERNAL_STORAGE
+        }
+
         // Initialize the permission launchers
         cameraPermLauncher = initializeRequestPermissionLaunchers(android.Manifest.permission.CAMERA)
-        readMediaImagesPermLauncher = initializeRequestPermissionLaunchers(android.Manifest.permission.READ_MEDIA_IMAGES)
+        readMediaImagesPermLauncher = initializeRequestPermissionLaunchers(readMediaPermission)
         readExternalStoragePermLauncher = initializeRequestPermissionLaunchers(android.Manifest.permission.READ_EXTERNAL_STORAGE)
 
         // Initialize the activity result launchers
