@@ -153,7 +153,7 @@
     <string name="add_team_dialog_title">Add team</string>
     <string name="team_name_lbl">Team name…</string>
     <string name="describe_the_purpose_of_the_team_lbl">Describe the purpose of the team…</string>
-    <string name="add_private_notes_only_visible_by_you_lbl">Add private notes only visible by you…</string>
+    <string name="add_private_notes_only_visible_to_you_lbl">Add private notes only visible to you…</string>
     <string name="error_msg_team_name_mandatory">Please enter team name</string>
     <string name="my_teams_lbl">My teams</string>
     <string name="no_members_yet_click_here_to_add_invite_new_members_lbl">Click here to invite new members</string>
