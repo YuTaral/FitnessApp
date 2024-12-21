@@ -18,10 +18,12 @@ class ManageTeamsPanel: BasePanel() {
 
     private lateinit var teamsRecycler: RecyclerView
     private lateinit var addTeamBtn: Button
+    private lateinit var editTeamBtn: Button
 
     override fun findViews() {
         teamsRecycler = panel.findViewById(R.id.teams_recycler)
         addTeamBtn = panel.findViewById(R.id.add_team_btn)
+        editTeamBtn = panel.findViewById(R.id.edit_team_btn)
     }
 
     override fun populatePanel() {
@@ -36,12 +38,20 @@ class ManageTeamsPanel: BasePanel() {
         }
     }
 
+    /** Enable disable edit button when teams selection changes
+     */
+    private fun enableDisableEdit() {
+        editTeamBtn.isEnabled = (teamsRecycler.adapter as TeamsRecyclerAdapter).isTeamSelected()
+    }
+
     /** Populate the teams by setting the adapter data
      * @param teams the teams
      */
     fun populateTeams(teams: List<TeamModel>) {
+        editTeamBtn.isEnabled = false
+
         if (teamsRecycler.adapter == null) {
-            teamsRecycler.adapter = TeamsRecyclerAdapter(teams)
+            teamsRecycler.adapter = TeamsRecyclerAdapter(teams, callback = { enableDisableEdit() })
         } else {
             (teamsRecycler.adapter as TeamsRecyclerAdapter).updateTeams(teams)
         }

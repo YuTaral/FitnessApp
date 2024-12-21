@@ -20,6 +20,9 @@ class TeamModel: BaseModel {
     @SerializedName("PrivateNote")
     var privateNote: String
 
+    @SerializedName("SelectedInPanel")
+    var selectedInPanel: Boolean
+
 
     /** Constructor to accept serialized object
      * @param data serialized SetModel object
@@ -32,6 +35,7 @@ class TeamModel: BaseModel {
         name = model.name
         description = model.description
         privateNote = model.privateNote
+        selectedInPanel = model.selectedInPanel
     }
 
     /** Constructor used when new TeamModel object is created */
@@ -40,5 +44,6 @@ class TeamModel: BaseModel {
         name = nameVal
         description = descriptionVal
         privateNote = privateNoteVal
+        selectedInPanel = false
     }
 }

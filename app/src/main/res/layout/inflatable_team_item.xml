@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="10dp"
-    android:background="@drawable/transparent_accent_border"
+    android:background="@drawable/background_transparent_accent_border"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
@@ -61,19 +61,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/name"
             tools:text="The best team ever description"/>
-
-        <TextView
-            android:id="@+id/no_members_lbl"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:paddingTop="5dp"
-            android:textStyle="bold"
-            android:textAlignment="center"
-            android:text="@string/no_members_yet_click_here_to_add_invite_new_members_lbl"
-            app:layout_constraintTop_toBottomOf="@+id/image"
-            app:layout_constraintBottom_toBottomOf="parent"/>
 
         <LinearLayout
             android:id="@+id/members_container"

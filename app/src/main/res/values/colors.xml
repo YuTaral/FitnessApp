@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorAccent">#228F9A</color>
+    <color name="colorAccentDarker">#0E4E55</color>
     <color name="colorHeader">#302F2F</color>
     <color name="colorBackground">#191919</color>
     <color name="colorDialogBackground">#2E2E2E</color>

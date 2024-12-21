@@ -24,7 +24,7 @@
         android:textSize="20sp"
         android:textAlignment="center"
         app:layout_constraintTop_toBottomOf="@+id/dialog_header"
-        android:background="@drawable/transparent_accent_border"
+        android:background="@drawable/background_transparent_accent_border"
         tools:text="12 Dec 2024, 14:30"/>
 
     <Button

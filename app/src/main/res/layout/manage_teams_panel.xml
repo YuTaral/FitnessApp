@@ -28,8 +28,18 @@
         android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
+        android:layout_marginStart="10dp"
         android:text="@string/add_team_btn"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <Button
+        android:id="@+id/edit_team_btn"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="10dp"
+        android:text="@string/edit_btn_lbl"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
