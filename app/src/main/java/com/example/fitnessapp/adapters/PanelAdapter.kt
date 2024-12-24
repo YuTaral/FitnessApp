@@ -98,54 +98,35 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
         return temporaryPanels[getTempPanelPosition(position)]
     }
 
-    /** Return the temporary panel instance as BaseExercisePanel */
-    fun getBaseExercisePanel(): BaseExercisePanel? {
+    /** Retrieve a temporary panel at a specified position and casts it to the specified type.
+     * This method is a generic helper that allows fetching a temporary panel by its position
+     * and ensures the panel is of the desired type. If the type does not match or no panel exists
+     * at the specified position, it returns null
+     * @param T The desired type of the panel (must inherit from BasePanel)
+     * @param position The position of the temporary panel in the adapter
+     */
+    private inline fun <reified T : BasePanel> getTemporaryPanelAs(position: Int): T? {
         if (temporaryPanels.isNotEmpty()) {
-            val exercisePanel = temporaryPanels[getTempPanelPosition(Constants.PanelIndices.TEMPORARY.ordinal)]
-
-            if (exercisePanel is BaseExercisePanel) {
-                return exercisePanel
-            }
+            val panel = getTemporaryPanel(position)
+            if (panel is T) return panel
         }
-
         return null
     }
+
+    /** Return the temporary panel instance as BaseExercisePanel */
+    fun getBaseExercisePanel(): BaseExercisePanel? = getTemporaryPanelAs(Constants.PanelIndices.TEMPORARY.ordinal)
 
     /** Return the temporary panel instance as ManageTeamsPanel */
-    fun getTeamsPanel(): ManageTeamsPanel? {
-        if (temporaryPanels.isNotEmpty()) {
-            val exercisePanel = temporaryPanels[getTempPanelPosition(Constants.PanelIndices.TEMPORARY.ordinal)]
-
-            if (exercisePanel is ManageTeamsPanel) {
-                return exercisePanel
-            }
-        }
-
-        return null
-    }
+    fun getTeamsPanel(): ManageTeamsPanel? = getTemporaryPanelAs(Constants.PanelIndices.TEMPORARY.ordinal)
 
     /** Return the temporary panel instance as AddEditTeamPanel */
-    fun getTeamPanel(): AddEditTeamPanel? {
-        if (temporaryPanels.isNotEmpty()) {
-            val exercisePanel = temporaryPanels[getTempPanelPosition(Constants.PanelIndices.ANOTHER_TEMPORARY.ordinal)]
-
-            if (exercisePanel is AddEditTeamPanel) {
-                return exercisePanel
-            }
-        }
-
-        return null
-    }
+    fun getTeamPanel(): AddEditTeamPanel? = getTemporaryPanelAs(Constants.PanelIndices.ANOTHER_TEMPORARY.ordinal)
 
     /** Return true if the current active panel is Manage Exercise, false otherwise */
     fun isManageExerciseActive(): Boolean {
-        if (temporaryPanels.isNotEmpty()) {
-            val exercisePanel = temporaryPanels[getTempPanelPosition(Constants.PanelIndices.TEMPORARY.ordinal)]
+        val panel: ManageExercisesPanel? = getTemporaryPanelAs(Constants.PanelIndices.TEMPORARY.ordinal)
 
-            return exercisePanel is ManageExercisesPanel
-        }
-
-        return false
+        return panel != null
     }
 
     /** Remove the created temporary panel, when navigating away from it
