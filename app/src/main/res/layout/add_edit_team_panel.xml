@@ -3,16 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/dialog_header"
+    <TextView
+        android:id="@+id/my_teams_lbl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <include layout="@layout/dialog_header"/>
-    </LinearLayout>
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:text="@string/add_team_panel_title"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/team_image"
@@ -20,7 +21,7 @@
         android:layout_height="150dp"
         android:scaleType="centerCrop"
         android:src="@drawable/icon_team_default_picture"
-        app:layout_constraintTop_toBottomOf="@id/dialog_header"
+        app:layout_constraintTop_toBottomOf="@id/my_teams_lbl"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:shapeAppearanceOverlay="@style/RoundedCorners"/>
@@ -63,7 +64,8 @@
         android:inputType="textMultiLine"
         android:autofillHints=""
         android:gravity="top|start"
-        android:lines="6"
+        android:lines="4"
+        android:maxLines="4"
         android:scrollbars="vertical"
         app:layout_constraintTop_toBottomOf="@+id/team_name"
         app:layout_constraintEnd_toEndOf="parent"
@@ -81,20 +83,28 @@
         android:inputType="textMultiLine"
         android:autofillHints=""
         android:gravity="top|start"
-        android:lines="2"
         android:scrollbars="vertical"
+        android:maxLines="2"
         app:layout_constraintTop_toBottomOf="@+id/team_description"
         app:layout_constraintEnd_toEndOf="parent"
         tools:ignore="RtlSymmetry"/>
 
     <Button
-        android:id="@+id/save_btn"
-        android:layout_width="match_parent"
+        android:id="@+id/invite_btn"
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_margin="10dp"
+        android:text="@string/invite_members_btn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <Button
+        android:id="@+id/save_btn"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:text="@string/save_btn"
-        android:background="@drawable/background_top_border"
-        app:layout_constraintTop_toBottomOf="@+id/team_private_note"
-        style="@style/DialogButtonStyle" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

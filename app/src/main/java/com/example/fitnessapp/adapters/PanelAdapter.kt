@@ -5,7 +5,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
+import com.example.fitnessapp.interfaces.ITemporaryPanel
 import com.example.fitnessapp.models.WorkoutModel
+import com.example.fitnessapp.panels.AddEditTeamPanel
 import com.example.fitnessapp.panels.BaseExercisePanel
 import com.example.fitnessapp.panels.BasePanel
 import com.example.fitnessapp.panels.MainPanel
@@ -13,6 +15,7 @@ import com.example.fitnessapp.panels.ManageExercisesPanel
 import com.example.fitnessapp.panels.ManageTeamsPanel
 import com.example.fitnessapp.panels.SelectedWorkoutPanel
 import com.example.fitnessapp.utils.AppStateManager
+import com.example.fitnessapp.utils.Constants
 import com.example.fitnessapp.utils.Utils
 
 /** FragmentStateAdapter used to manage the panels */
@@ -26,8 +29,7 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
     /** The workout panel instance */
     private lateinit var workoutPanel: SelectedWorkoutPanel
 
-    /** The temporary panel instance */
-    private var temporaryPanel: BasePanel? = null
+    private var temporaryPanels: MutableList<BasePanel> = mutableListOf()
 
     /** Holds the number of initial fragments count*/
     private var initialFragmentCount: Int = count
@@ -43,7 +45,7 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
         val fragment: Fragment = when (position) {
             0 -> { getMainPanel() }
             1 -> { getWorkoutPanel() }
-            else -> { getTemporaryPanel() }
+            else -> { getTemporaryPanel(position) }
         }
 
         return fragment
@@ -54,7 +56,7 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
         return when (position) {
             0 -> { getMainPanel().getUniqueId() }
             1 -> { getWorkoutPanel().getUniqueId() }
-            else -> { getTemporaryPanel().getUniqueId() }
+            else -> { getTemporaryPanel(position).getUniqueId() }
         }
     }
 
@@ -64,8 +66,12 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
         // otherwise the FragmentStateAdapter does not recognize the change,
         // because the panels count remains the same, and the new panel is
         // not being created
-        if (temporaryPanel != null) {
-            return getTemporaryPanel().getUniqueId() == itemId
+        if (temporaryPanels.size == 2) {
+            return temporaryPanels[1].getUniqueId() == itemId
+
+        } else if (temporaryPanels.size == 1) {
+            return temporaryPanels[0].getUniqueId() == itemId
+
         }
 
         return true
@@ -89,42 +95,83 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
         return workoutPanel
     }
 
-    /** Return the temporary panel instance */
-    private fun getTemporaryPanel(): BasePanel {
-        return temporaryPanel as BasePanel
+    /** Return the temporary panel instance at the specified position
+     * @param position the position of the panel in the adapter
+     */
+    private fun getTemporaryPanel(position: Int): BasePanel {
+        return temporaryPanels[getTempPanelPosition(position)]
     }
 
     /** Return the temporary panel instance as BaseExercisePanel */
     fun getBaseExercisePanel(): BaseExercisePanel? {
-        if (temporaryPanel is BaseExercisePanel) {
-            return temporaryPanel as BaseExercisePanel
+        if (temporaryPanels.isNotEmpty()) {
+            val exercisePanel = temporaryPanels[getTempPanelPosition(Constants.PanelIndices.TEMPORARY.ordinal)]
+
+            if (exercisePanel is BaseExercisePanel) {
+                return exercisePanel
+            }
         }
+
         return null
     }
 
     /** Return the temporary panel instance as ManageTeamsPanel */
     fun getTeamsPanel(): ManageTeamsPanel? {
-        if (temporaryPanel is ManageTeamsPanel) {
-            return temporaryPanel as ManageTeamsPanel
+        if (temporaryPanels.isNotEmpty()) {
+            val exercisePanel = temporaryPanels[getTempPanelPosition(Constants.PanelIndices.TEMPORARY.ordinal)]
+
+            if (exercisePanel is ManageTeamsPanel) {
+                return exercisePanel
+            }
         }
+
+        return null
+    }
+
+    /** Return the temporary panel instance as AddEditTeamPanel */
+    fun getTeamPanel(): AddEditTeamPanel? {
+        if (temporaryPanels.isNotEmpty()) {
+            val exercisePanel = temporaryPanels[getTempPanelPosition(Constants.PanelIndices.ANOTHER_TEMPORARY.ordinal)]
+
+            if (exercisePanel is AddEditTeamPanel) {
+                return exercisePanel
+            }
+        }
+
         return null
     }
 
     /** Return true if the current active panel is Manage Exercise, false otherwise */
     fun isManageExerciseActive(): Boolean {
-        return !(temporaryPanel == null || temporaryPanel !is ManageExercisesPanel)
+        if (temporaryPanels.isNotEmpty()) {
+            val exercisePanel = temporaryPanels[getTempPanelPosition(Constants.PanelIndices.TEMPORARY.ordinal)]
+
+            return exercisePanel is ManageExercisesPanel
+        }
+
+        return false
     }
 
-    /** Remove the currently created temporary panel, when navigating away from it
+    /** Remove the created temporary panel, when navigating away from it
      * or a new temporary panel must be created
      */
     @SuppressLint("NotifyDataSetChanged")
-    private fun removeTemporaryPanel() {
-        if (temporaryPanel != null) {
-            fragmentCount --
-            notifyDataSetChanged()
-            temporaryPanel = null
+    private fun removeTemporaryPanels() {
+        if (temporaryPanels.isEmpty()) {
+            return
         }
+
+        fragmentCount -= temporaryPanels.size
+        temporaryPanels.clear()
+        notifyDataSetChanged()
+    }
+
+    /** Return the temporary panel position in the temporaryPanels list from it's position in the
+     * fragment state adapter
+     * @param position the panel position in the fragment state adapter
+     */
+    private fun getTempPanelPosition(position: Int): Int {
+        return position - initialFragmentCount
     }
 
     /** Display Workout panel
@@ -185,25 +232,29 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
      */
     @SuppressLint("NotifyDataSetChanged")
     fun displayTemporaryPanel(panel: BasePanel) {
-        // Remove the previous temporary panel
-        removeTemporaryPanel()
+        // Remove the previous temporary panel(s)
+        if ((panel as ITemporaryPanel).removePreviousTemporary) {
+            removeTemporaryPanels()
+        }
 
         // Set the temporary panel
-        temporaryPanel = panel
+        temporaryPanels.add(panel)
 
         // Increase the fragments counter and notify the adapter that change occurred
         fragmentCount ++
         notifyDataSetChanged()
 
-        pager.setCurrentItem(temporaryPanel!!.getIndex(), true)
+        pager.setCurrentItem(getTemporaryPanel(panel.getIndex()).getIndex(), true)
     }
 
     /** Callback to be executed when Panel selection changes
      * @param position the panel position
      */
      fun onPanelSelectionChange(position: Int) {
-         if (fragmentCount > initialFragmentCount && (position == getMainPanel().getIndex() || position == getWorkoutPanel().getIndex())) {
-             removeTemporaryPanel()
+         if (fragmentCount > initialFragmentCount &&
+             (position == getMainPanel().getIndex() || position == getWorkoutPanel().getIndex())) {
+
+             removeTemporaryPanels()
          }
      }
 
@@ -214,7 +265,7 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
         return when (position) {
             0 -> { getMainPanel().getTitle() }
             1 -> { getWorkoutPanel().getTitle() }
-            else -> { getTemporaryPanel().getTitle() }
+            else -> { getTemporaryPanel(position).getTitle() }
         }
     }
 

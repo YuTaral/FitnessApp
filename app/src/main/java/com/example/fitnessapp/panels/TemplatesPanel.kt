@@ -9,17 +9,19 @@ import com.example.fitnessapp.adapters.CustomSpinnerAdapter
 import com.example.fitnessapp.adapters.WorkoutRecyclerAdapter
 import com.example.fitnessapp.dialogs.AddEditWorkoutDialog
 import com.example.fitnessapp.dialogs.AskQuestionDialog
+import com.example.fitnessapp.interfaces.ITemporaryPanel
 import com.example.fitnessapp.models.WorkoutModel
 import com.example.fitnessapp.network.repositories.WorkoutTemplateRepository
 import com.example.fitnessapp.utils.Constants
 import com.example.fitnessapp.utils.Utils
 
 /** Templates Panel class to implement the logic for managing templates */
-class TemplatesPanel: BasePanel() {
+class TemplatesPanel: BasePanel(), ITemporaryPanel {
     override var id: Long = Constants.PanelUniqueId.TEMPLATES.ordinal.toLong()
     override var layoutId: Int = R.layout.templates_panel
     override var panelIndex: Int = Constants.PanelIndices.TEMPORARY.ordinal
     override var titleId: Int = R.string.manage_templates_lbl
+    override val removePreviousTemporary = true
 
     private lateinit var actionSpinner: Spinner
     private lateinit var templatesRecycler: RecyclerView

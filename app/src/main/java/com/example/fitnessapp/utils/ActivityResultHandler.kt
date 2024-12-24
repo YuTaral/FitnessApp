@@ -15,7 +15,7 @@ import androidx.core.content.ContextCompat
 import com.example.fitnessapp.BaseActivity
 import com.example.fitnessapp.R
 import com.example.fitnessapp.dialogs.AskQuestionDialog
-import com.example.fitnessapp.interfaces.IImagePickerDialog
+import com.example.fitnessapp.interfaces.IImagePicker
 
 /** Class to handle the logic when requesting permissions / launching specific result launcher */
 class ActivityResultHandler {
@@ -147,7 +147,6 @@ class ActivityResultHandler {
     private fun onLauncherResultOk(uri: Uri) {
         val bitmap = ImageUploadManager.scaleBitmap(uri)
 
-        // Set the scaled bitmap to the ImageView
         if (bitmap == null) {
             Utils.showToast(R.string.error_msg_failed_to_upload_image)
             return
@@ -163,10 +162,19 @@ class ActivityResultHandler {
         val imageSelectorDialog = getActiveIImageSelector()
 
         if (imageSelectorDialog == null) {
-            Utils.showToast(R.string.error_msg_unexpected)
+            val imageSelectorPanel = Utils.getPanelAdapter().getTeamPanel()
+
+            if (imageSelectorPanel == null) {
+                Utils.showToast(R.string.error_msg_unexpected)
+                return
+            }
+
+            // Image selector is panel
+            imageSelectorPanel.onImageUploadSuccess(bitmap)
             return
         }
 
+        // Image selector is dialog
         imageSelectorDialog.onImageUploadSuccess(bitmap)
     }
 
@@ -190,8 +198,8 @@ class ActivityResultHandler {
     /** Return the active IImageSelector stored in the active dialogs property of the main activity
      *  If no such dialog  exists, null is returned
      */
-    private fun getActiveIImageSelector(): IImagePickerDialog? {
-        val dialogs = activity.activeDialogs.filterIsInstance<IImagePickerDialog>()
+    private fun getActiveIImageSelector(): IImagePicker? {
+        val dialogs = activity.activeDialogs.filterIsInstance<IImagePicker>()
 
         if (dialogs.isEmpty()) {
             return null

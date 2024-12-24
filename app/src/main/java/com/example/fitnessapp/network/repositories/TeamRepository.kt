@@ -13,13 +13,13 @@ class TeamRepository {
      * @param onSuccess callback to execute if request is successful
      * @param onError callback to execute if request failed
      */
-    fun addTeam(team: TeamModel, onSuccess: (List<TeamModel>) -> Unit, onError: () -> Unit) {
+    fun addTeam(team: TeamModel, onSuccess: () -> Unit, onError: () -> Unit) {
         // Send a request to add the team
         val params = mapOf("team" to Utils.serializeObject(team))
 
         NetworkManager.sendRequest(
             request = { APIService.getInstance().addTeam(params) },
-            onSuccessCallback = { response -> onSuccess(response.data.map { TeamModel(it) } ) },
+            onSuccessCallback = { onSuccess() },
             onErrorCallback = { onError() }
         )
     }

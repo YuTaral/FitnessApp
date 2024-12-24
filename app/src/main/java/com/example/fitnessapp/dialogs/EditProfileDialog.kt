@@ -6,14 +6,14 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import com.example.fitnessapp.R
-import com.example.fitnessapp.interfaces.IImagePickerDialog
+import com.example.fitnessapp.interfaces.IImagePicker
 import com.example.fitnessapp.network.repositories.UserProfileRepository
 import com.example.fitnessapp.utils.AppStateManager
 import com.example.fitnessapp.utils.ImageUploadManager
 import com.example.fitnessapp.utils.Utils
 
 /** Dialog to handle the logic for profile edit */
-class EditProfileDialog(ctx: Context): BaseDialog(ctx), IImagePickerDialog {
+class EditProfileDialog(ctx: Context): BaseDialog(ctx), IImagePicker {
     override var layoutId = R.layout.edit_profile_dialog
     override var dialogTitleId = R.string.edit_profile_lbl
 

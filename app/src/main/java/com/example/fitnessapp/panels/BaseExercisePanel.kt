@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.fitnessapp.R
 import com.example.fitnessapp.adapters.MGExercisesRecyclerAdapter
 import com.example.fitnessapp.adapters.MuscleGroupRecyclerAdapter
+import com.example.fitnessapp.interfaces.ITemporaryPanel
 import com.example.fitnessapp.models.MGExerciseModel
 import com.example.fitnessapp.models.MuscleGroupModel
 import com.example.fitnessapp.network.repositories.ExerciseRepository
@@ -29,7 +30,7 @@ import kotlinx.coroutines.launch
  * - ExercisePanel where exercise can be selected and added to the current workout
  * - ManageExercisesPanel, where exercises can be edited
  */
-abstract class BaseExercisePanel(mode: Mode): BasePanel() {
+abstract class BaseExercisePanel(mode: Mode): BasePanel(), ITemporaryPanel {
     override var panelIndex: Int = Constants.PanelIndices.TEMPORARY.ordinal
 
     /** Parameter value which is send when fetching the exercises for muscle group */
@@ -37,6 +38,8 @@ abstract class BaseExercisePanel(mode: Mode): BasePanel() {
 
     /** The string id to show when no exercises for the selected muscle group are found */
     protected open var noExercisesStringId: Int = 0
+
+    override val removePreviousTemporary = true
 
     /** Enum to hold the different states of the panel */
     enum class Mode {
