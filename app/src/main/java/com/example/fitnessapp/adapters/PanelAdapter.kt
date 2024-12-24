@@ -66,12 +66,8 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
         // otherwise the FragmentStateAdapter does not recognize the change,
         // because the panels count remains the same, and the new panel is
         // not being created
-        if (temporaryPanels.size == 2) {
-            return temporaryPanels[1].getUniqueId() == itemId
-
-        } else if (temporaryPanels.size == 1) {
-            return temporaryPanels[0].getUniqueId() == itemId
-
+        if (temporaryPanels.isNotEmpty()) {
+            return temporaryPanels[temporaryPanels.size - 1].getUniqueId() == itemId
         }
 
         return true
