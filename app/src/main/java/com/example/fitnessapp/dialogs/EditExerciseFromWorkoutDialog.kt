@@ -204,7 +204,7 @@ class EditExerciseFromWorkoutDialog(ctx: Context, exerciseModel: ExerciseModel):
         val exerciseModel = ExerciseModel(exercise.id, name.text.toString(), MuscleGroupModel(),
             getSets(setsContainer), exercise.mGExerciseId)
 
-        ExerciseRepository().editExerciseFromWorkout(exerciseModel, onSuccess = { workout ->
+        ExerciseRepository().updateExerciseFromWorkout(exerciseModel, onSuccess = { workout ->
                 dismiss()
                 Utils.getPanelAdapter().refreshWorkoutPanel(workout, true)}
         )

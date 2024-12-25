@@ -138,7 +138,7 @@ class AddEditWorkoutDialog(ctx: Context, mode: Mode, workoutModel: WorkoutModel?
                 Utils.getPanelAdapter().refreshWorkoutPanel(workout, true)
             })
         } else {
-            WorkoutRepository().editWorkout(WorkoutModel(AppStateManager.workout!!.id, name.text.toString(), false, mutableListOf()),
+            WorkoutRepository().updateWorkout(WorkoutModel(AppStateManager.workout!!.id, name.text.toString(), false, mutableListOf()),
                 onSuccess = { workout ->
                     dismiss()
                     Utils.getPanelAdapter().refreshWorkoutPanel(workout, true)

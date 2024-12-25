@@ -41,7 +41,7 @@ class EditTeamPanel(t: TeamModel): BaseTeamPanel() {
         val updateTeam = TeamModel(team.id, Utils.encodeImageToString(teamImage), name.text.toString(),
             description.text.toString(), privateNote.text.toString())
 
-        TeamRepository().editTeam(updateTeam, onSuccess = {
+        TeamRepository().updateTeam(updateTeam, onSuccess = {
             Utils.getPanelAdapter().refreshTeamsPanel()
         }, onError = {
             saveBtn.isEnabled = true

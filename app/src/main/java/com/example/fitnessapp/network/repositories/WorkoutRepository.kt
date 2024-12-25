@@ -27,7 +27,7 @@ class WorkoutRepository {
      * @param workout the workout data
      * @param onSuccess callback to execute if request is successful
      */
-    fun editWorkout(workout: WorkoutModel, onSuccess: (WorkoutModel) -> Unit) {
+    fun updateWorkout(workout: WorkoutModel, onSuccess: (WorkoutModel) -> Unit) {
         // Send a request to add the workout
         val params = mapOf("workout" to Utils.serializeObject(workout))
 

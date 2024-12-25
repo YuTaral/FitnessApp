@@ -298,7 +298,7 @@ object Utils {
                 unFinishedWorkout.finishDateTime = null
                 unFinishedWorkout.durationSeconds = 0
 
-                WorkoutRepository().editWorkout(unFinishedWorkout, onSuccess = { workout ->
+                WorkoutRepository().updateWorkout(unFinishedWorkout, onSuccess = { workout ->
                     // Refresh the workout panel
                     getPanelAdapter().refreshWorkoutPanel(workout, true)
 

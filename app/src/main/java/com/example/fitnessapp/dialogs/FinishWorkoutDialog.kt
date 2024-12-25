@@ -71,7 +71,7 @@ class FinishWorkoutDialog(ctx: Context): BaseDialog(ctx) {
             workout.finishDateTime = finishedDateTime
 
             // Edit the workout to mark it as finished
-            WorkoutRepository().editWorkout(workout, onSuccess = { updatedWorkout ->
+            WorkoutRepository().updateWorkout(workout, onSuccess = { updatedWorkout ->
                 dismiss()
                 Utils.getPanelAdapter().refreshWorkoutPanel(updatedWorkout, true)
             })

@@ -24,12 +24,12 @@ class TeamRepository {
         )
     }
 
-    /** Edit team
+    /** Update team
      * @param team the team data
      * @param onSuccess callback to execute if request is successful
      * @param onError callback to execute if request failed
      */
-    fun editTeam(team: TeamModel, onSuccess: () -> Unit, onError: () -> Unit) {
+    fun updateTeam(team: TeamModel, onSuccess: () -> Unit, onError: () -> Unit) {
         val params = mapOf("team" to Utils.serializeObject(team))
 
         NetworkManager.sendRequest(

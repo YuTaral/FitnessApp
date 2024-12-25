@@ -26,11 +26,11 @@ class ExerciseRepository {
         )
     }
 
-    /** Edit the exercise from the given workout
+    /** Update the exercise from the given workout
      * @param exercise the exercise data
      * @param onSuccess callback to execute if request is successful
      */
-    fun editExerciseFromWorkout(exercise: ExerciseModel, onSuccess: (WorkoutModel) -> Unit) {
+    fun updateExerciseFromWorkout(exercise: ExerciseModel, onSuccess: (WorkoutModel) -> Unit) {
         val params = mapOf("exercise" to Utils.serializeObject(exercise), "workoutId" to AppStateManager.workout!!.id.toString())
 
         NetworkManager.sendRequest(
