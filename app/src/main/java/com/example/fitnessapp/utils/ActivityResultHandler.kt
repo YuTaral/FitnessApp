@@ -62,6 +62,11 @@ class ActivityResultHandler {
                 }
             } else {
                 // Handle permission denial
+                // When the camera permission is set to "Do not ask again" or being set to that option,
+                // the BaseActivity onPause is triggered, but onRestart/onResume are not, so manually set the activity
+                // otherwise it will remain to null
+                AppStateManager.activeActivity = activity
+
                 if (!shouldShowRequestPermissionRationale(activity, permission)) {
                     // Permission set to "Don't ask again" or permanently denied, open the settings
                     showSettingsDialog()
