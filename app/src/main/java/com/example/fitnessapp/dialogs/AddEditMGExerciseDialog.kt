@@ -94,7 +94,7 @@ class AddEditMGExerciseDialog(ctx: Context, mGroupId: Long, exercise: MGExercise
             // Add the exercise
             ExerciseRepository().addExercise(exercise, workoutId, getOnlyForUserParam(), checkExistingEx,
                 onSuccess = { returnData -> onSuccessCallback(updateWorkout, returnData) },
-                onFailure = { response  -> onFailureCallback(response) })
+                onFailure = { response -> onFailureCallback(response) })
 
         } else {
             // Edit the exercise

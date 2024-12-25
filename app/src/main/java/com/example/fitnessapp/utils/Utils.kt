@@ -107,8 +107,7 @@ object Utils {
      * @param value the value to check
      */
     fun isFail(value:Int ): Boolean {
-        return value == Constants.ResponseCode.FAIL.ordinal ||
-               value == Constants.ResponseCode.UNEXPECTED_ERROR.ordinal
+        return value != Constants.ResponseCode.SUCCESS.ordinal
     }
 
     /** Return the current activity */
