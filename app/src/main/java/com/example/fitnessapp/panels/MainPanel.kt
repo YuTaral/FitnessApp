@@ -116,12 +116,12 @@ class MainPanel: BasePanel() {
 
                 workoutsRecycler.layoutManager = LinearLayoutManager(context)
                 workoutsRecycler.adapter = WorkoutRecyclerAdapter(workouts) { workout ->
-                    Utils.getPanelAdapter().displayWorkoutPanel(workout, null)
+                    Utils.getPanelAdapter().refreshWorkoutPanel(workout, null)
                 }
             }
 
             // The most recent data with workouts is now displayed
-            Utils.setRefreshWorkouts(false)
+            refreshWorkouts = false
         })
     }
 }

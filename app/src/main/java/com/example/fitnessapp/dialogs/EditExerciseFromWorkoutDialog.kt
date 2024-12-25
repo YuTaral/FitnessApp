@@ -176,7 +176,7 @@ class EditExerciseFromWorkoutDialog(ctx: Context, exerciseModel: ExerciseModel):
                 ExerciseRepository().deleteExerciseFromWorkout(exercise.id, onSuccess = { workout ->
                     dialog.dismiss()
                     dismiss()
-                    Utils.getPanelAdapter().displayWorkoutPanel(workout, true)
+                    Utils.getPanelAdapter().refreshWorkoutPanel(workout, true)
                 })
             }
         }
@@ -206,7 +206,7 @@ class EditExerciseFromWorkoutDialog(ctx: Context, exerciseModel: ExerciseModel):
 
         ExerciseRepository().editExerciseFromWorkout(exerciseModel, onSuccess = { workout ->
                 dismiss()
-                Utils.getPanelAdapter().displayWorkoutPanel(workout, true)}
+                Utils.getPanelAdapter().refreshWorkoutPanel(workout, true)}
         )
     }
 

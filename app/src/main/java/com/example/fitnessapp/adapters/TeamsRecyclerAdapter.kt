@@ -61,8 +61,11 @@ class TeamsRecyclerAdapter(data: List<TeamModel>, callback: () -> Unit) : Recycl
     }
 
     /** Return true if there is currently selected item, false otherwise */
-    fun isTeamSelected(): Boolean {
-        return selectedPosition != RecyclerView.NO_POSITION
+    fun getSelectedTeam(): TeamModel? {
+        if (selectedPosition == RecyclerView.NO_POSITION) {
+            return null
+        }
+        return teams[selectedPosition]
     }
 
     /** Update the teams list

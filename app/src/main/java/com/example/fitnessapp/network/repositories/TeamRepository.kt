@@ -24,6 +24,32 @@ class TeamRepository {
         )
     }
 
+    /** Edit team
+     * @param team the team data
+     * @param onSuccess callback to execute if request is successful
+     * @param onError callback to execute if request failed
+     */
+    fun editTeam(team: TeamModel, onSuccess: () -> Unit, onError: () -> Unit) {
+        val params = mapOf("team" to Utils.serializeObject(team))
+
+        NetworkManager.sendRequest(
+            request = { APIService.getInstance().updateTeam(params) },
+            onSuccessCallback = { onSuccess() },
+            onErrorCallback = { onError() }
+        )
+    }
+
+    /** Delete the team
+     * @param teamId the team id
+     * @param onSuccess callback to execute if request is successful
+     */
+    fun deleteTeam(teamId: Long, onSuccess: () -> Unit) {
+        NetworkManager.sendRequest(
+            request = { APIService.getInstance().deleteTeam(teamId) },
+            onSuccessCallback = { onSuccess() }
+        )
+    }
+
     /** Get the teams created by the user
      * @param onSuccess callback to execute if request is successful
      */

@@ -113,6 +113,12 @@ interface IAPIService {
     @POST(Constants.RequestEndPoints.ADD_TEAM)
     fun addTeam(@Body params: Map<String, String>): Call<CustomResponse>
 
+    @POST(Constants.RequestEndPoints.UPDATE_TEAM)
+    fun updateTeam(@Body params: Map<String, String>): Call<CustomResponse>
+
+    @POST(Constants.RequestEndPoints.DELETE_TEAM)
+    fun deleteTeam(@Query("teamId") params: Long): Call<CustomResponse>
+
     /** TEAM GET REQUESTS
      * -------------------------------------------------------------------------------- */
     @GET(Constants.RequestEndPoints.GET_MY_TEAMS)

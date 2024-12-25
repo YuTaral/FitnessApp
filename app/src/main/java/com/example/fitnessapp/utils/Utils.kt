@@ -126,12 +126,6 @@ object Utils {
         return (AppStateManager.activeActivity!! as MainActivity).activityResultHandler
     }
 
-    /** Set the refreshWorkouts variable stored in the MainActivity to the provided value */
-    fun setRefreshWorkouts(value: Boolean) {
-        (AppStateManager.activeActivity!! as MainActivity)
-            .panelAdapter.getMainPanel().refreshWorkouts = value
-    }
-
     /** Validation failed - focus the field and open the keyboard
      * @param input the invalid input view
      * @param errorMsgId the id of the error message
@@ -307,7 +301,7 @@ object Utils {
 
                 WorkoutRepository().editWorkout(unFinishedWorkout, onSuccess = { workout ->
                     // Refresh the workout panel
-                    getPanelAdapter().displayWorkoutPanel(workout, true)
+                    getPanelAdapter().refreshWorkoutPanel(workout, true)
 
                     // Close the ask question dialog
                     dialog.dismiss()

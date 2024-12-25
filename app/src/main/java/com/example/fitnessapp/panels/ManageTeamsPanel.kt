@@ -38,7 +38,17 @@ class ManageTeamsPanel: BasePanel(), ITemporaryPanel {
 
     override fun addClickListeners() {
         addTeamBtn.setOnClickListener {
-            Utils.getPanelAdapter().displayTemporaryPanel(AddEditTeamPanel())
+            Utils.getPanelAdapter().displayTemporaryPanel(AddTeamPanel())
+        }
+        editTeamBtn.setOnClickListener {
+            val selectedTeam = (teamsRecycler.adapter as TeamsRecyclerAdapter).getSelectedTeam()
+
+            if (selectedTeam != null) {
+                Utils.getPanelAdapter().displayTemporaryPanel(EditTeamPanel(selectedTeam))
+            } else {
+                // Something went wrong, disable the edit button
+                enableDisableEdit()
+            }
         }
     }
 
@@ -53,7 +63,13 @@ class ManageTeamsPanel: BasePanel(), ITemporaryPanel {
     /** Enable disable edit button when teams selection changes
      */
     private fun enableDisableEdit() {
-        editTeamBtn.isEnabled = (teamsRecycler.adapter as TeamsRecyclerAdapter).isTeamSelected()
+        editTeamBtn.isEnabled = (teamsRecycler.adapter as TeamsRecyclerAdapter)
+                                    .getSelectedTeam() != null
+
+        if (Utils.getPanelAdapter().itemCount == Constants.PanelIndices.entries.size) {
+            // If selection changes and we have active second temporary panel (add / edit team), remove it
+            Utils.getPanelAdapter().removeTemporaryPanels(Constants.PanelIndices.ANOTHER_TEMPORARY.ordinal)
+        }
     }
 
     /** Populate the teams by setting the adapter data

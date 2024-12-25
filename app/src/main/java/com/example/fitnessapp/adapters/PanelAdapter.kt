@@ -7,16 +7,15 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.example.fitnessapp.interfaces.ITemporaryPanel
 import com.example.fitnessapp.models.WorkoutModel
-import com.example.fitnessapp.panels.AddEditTeamPanel
 import com.example.fitnessapp.panels.BaseExercisePanel
 import com.example.fitnessapp.panels.BasePanel
+import com.example.fitnessapp.panels.BaseTeamPanel
 import com.example.fitnessapp.panels.MainPanel
 import com.example.fitnessapp.panels.ManageExercisesPanel
 import com.example.fitnessapp.panels.ManageTeamsPanel
 import com.example.fitnessapp.panels.SelectedWorkoutPanel
 import com.example.fitnessapp.utils.AppStateManager
 import com.example.fitnessapp.utils.Constants
-import com.example.fitnessapp.utils.Utils
 
 /** FragmentStateAdapter used to manage the panels */
 class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, count: Int) : FragmentStateAdapter(fragmentActivity) {
@@ -120,7 +119,7 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
     fun getTeamsPanel(): ManageTeamsPanel? = getTemporaryPanelAs(Constants.PanelIndices.TEMPORARY.ordinal)
 
     /** Return the temporary panel instance as AddEditTeamPanel */
-    fun getTeamPanel(): AddEditTeamPanel? = getTemporaryPanelAs(Constants.PanelIndices.ANOTHER_TEMPORARY.ordinal)
+    fun getTeamPanel(): BaseTeamPanel? = getTemporaryPanelAs(Constants.PanelIndices.ANOTHER_TEMPORARY.ordinal)
 
     /** Return true if the current active panel is Manage Exercise, false otherwise */
     fun isManageExerciseActive(): Boolean {
@@ -131,15 +130,22 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
 
     /** Remove the created temporary panel, when navigating away from it
      * or a new temporary panel must be created
+     * @param position the position of the temporary panel to remove, -1 if all must be removed
      */
     @SuppressLint("NotifyDataSetChanged")
-    private fun removeTemporaryPanels() {
+    fun removeTemporaryPanels(position: Int) {
         if (temporaryPanels.isEmpty()) {
             return
         }
 
-        fragmentCount -= temporaryPanels.size
-        temporaryPanels.clear()
+        if (position == -1) {
+            fragmentCount -= temporaryPanels.size
+            temporaryPanels.clear()
+        } else {
+            fragmentCount --
+            temporaryPanels.removeAt(getTempPanelPosition(position))
+        }
+
         notifyDataSetChanged()
     }
 
@@ -151,26 +157,26 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
         return position - initialFragmentCount
     }
 
-    /** Display Workout panel
+    /** Refresh Workout panel
      * @param refreshWorkouts true if StateEngine variable to refresh workouts should be set to true,
      * false otherwise. If null provided, the variable is not being changed
      */
-    fun displayWorkoutPanel(refreshWorkouts: Boolean?) {
-        displayWorkoutPanel(AppStateManager.workout, refreshWorkouts)
+    fun refreshWorkoutPanel(refreshWorkouts: Boolean?) {
+        refreshWorkoutPanel(AppStateManager.workout, refreshWorkouts)
     }
 
-    /** Display Workout panel
+    /** Refresh Workout panel
      * @param workout the workout model, updates the StateEngine variable
      * @param refreshWorkouts true if StateEngine variable to refresh workouts should be set to true,
      * false otherwise. If null provided, the variable is not being changed
      */
-    fun displayWorkoutPanel(workout: WorkoutModel?, refreshWorkouts: Boolean?) {
+    fun refreshWorkoutPanel(workout: WorkoutModel?, refreshWorkouts: Boolean?) {
         val index = getWorkoutPanel().getIndex()
 
         AppStateManager.workout = workout
 
         if (refreshWorkouts != null) {
-            Utils.setRefreshWorkouts(refreshWorkouts)
+            getMainPanel().refreshWorkouts = refreshWorkouts
         }
 
         if (index != pager.currentItem) {
@@ -184,12 +190,9 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
         }
     }
 
-    /** Display Main panel
-     *  @param refreshWorkouts true if StateEngine variable to refresh workouts should be set to true,
-     * false otherwise
-     */
-    fun displayMainPanel(refreshWorkouts: Boolean) {
-        Utils.setRefreshWorkouts(refreshWorkouts)
+    /** Refresh the Main panel */
+    fun refreshMainPanel() {
+        getMainPanel().refreshWorkouts = true
 
         val index = getMainPanel().getIndex()
 
@@ -211,7 +214,12 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
     fun displayTemporaryPanel(panel: BasePanel) {
         // Remove the previous temporary panel(s)
         if ((panel as ITemporaryPanel).removePreviousTemporary) {
-            removeTemporaryPanels()
+            removeTemporaryPanels(-1)
+
+        } else if (temporaryPanels.size == 2 && panel is BaseTeamPanel) {
+            // The second temporary panel must be removed in case we are adding Add or Edit Team panel
+            // and there is already active second temporary panel
+            removeTemporaryPanels(Constants.PanelIndices.ANOTHER_TEMPORARY.ordinal)
         }
 
         // Set the temporary panel
@@ -224,6 +232,18 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
         pager.setCurrentItem(getTemporaryPanel(panel.getIndex()).getIndex(), true)
     }
 
+    /** Refresh the teams panel after add / update / delete team */
+    fun refreshTeamsPanel() {
+        // Set the refresh variable
+        getTeamsPanel()!!.setRefreshTeams(true)
+
+        // Remove the 2nd temporary panel if there is
+        removeTemporaryPanels(Constants.PanelIndices.ANOTHER_TEMPORARY.ordinal)
+
+        // Set the current item
+        pager.currentItem = temporaryPanels[getTempPanelPosition(Constants.PanelIndices.TEMPORARY.ordinal)].getIndex()
+    }
+
     /** Callback to be executed when Panel selection changes
      * @param position the panel position
      */
@@ -231,7 +251,7 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
          if (fragmentCount > initialFragmentCount &&
              (position == getMainPanel().getIndex() || position == getWorkoutPanel().getIndex())) {
 
-             removeTemporaryPanels()
+             removeTemporaryPanels( -1)
          }
      }
 
@@ -251,17 +271,17 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
         when (pager.currentItem) {
             getMainPanel().getIndex() -> {
                 // Refresh the main panel to update the weight unit displayed in the workout summary
-                displayMainPanel(true)
+                refreshMainPanel()
             }
             getWorkoutPanel().getIndex() -> {
                 // Refresh the workout panel now and workouts panel later
-                displayWorkoutPanel(true)
+                refreshWorkoutPanel(true)
             }
             else -> {
                 // If temporary panel is active, refresh only the workouts, the panel is updated only
                 // when refreshWorkouts is set to true. Workout panel is updated each time it is selected
                 // and the units are auto updated
-                Utils.setRefreshWorkouts(true)
+                getMainPanel().refreshWorkouts = true
             }
         }
     }

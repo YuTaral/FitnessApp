@@ -9,6 +9,7 @@ import com.example.fitnessapp.R
 import com.example.fitnessapp.models.BaseModel
 import com.example.fitnessapp.models.ExerciseModel
 import com.example.fitnessapp.models.MGExerciseModel
+import com.example.fitnessapp.models.TeamModel
 import com.example.fitnessapp.models.WorkoutModel
 import com.example.fitnessapp.utils.AppStateManager
 import com.example.fitnessapp.utils.Utils
@@ -30,7 +31,8 @@ class AskQuestionDialog(ctx: Context, q: Question, d: BaseModel? = null): BaseDi
         WORKOUT_ALREADY_FINISHED_WHEN_ADD_EXERCISE(R.string.question_workout_already_finished_title, R.string.question_workout_already_finished_text, R.string.yes_btn, R.string.no_btn),
         WORKOUT_ALREADY_FINISHED_WHEN_EDIT_EXERCISE(R.string.question_workout_already_finished_title, R.string.question_workout_already_finished_when_edit_text, R.string.yes_btn, R.string.no_btn),
         IMAGE_SELECTION_OPTIONS(R.string.question_choose_image_title, R.string.question_choose_image_text, R.string.camera_btn, R.string.gallery_btn),
-        ALLOW_CAMERA_PERMISSION(R.string.question_go_to_settings_title, R.string.question_go_to_settings_text, R.string.go_to_settings_btn, R.string.no_btn);
+        ALLOW_CAMERA_PERMISSION(R.string.question_go_to_settings_title, R.string.question_go_to_settings_text, R.string.go_to_settings_btn, R.string.no_btn),
+        DELETE_TEAM(R.string.question_delete_team_title, R.string.question_delete_team_text, R.string.yes_btn, R.string.no_btn);
 
         /** Returns the question title */
         fun getTitle(): String {
@@ -124,6 +126,10 @@ class AskQuestionDialog(ctx: Context, q: Question, d: BaseModel? = null): BaseDi
                 }
             }
 
+            Question.DELETE_TEAM -> {
+                formatName = (data as TeamModel).name
+            }
+
             else -> {
                 // Nothing to do
             }
@@ -139,10 +145,10 @@ class AskQuestionDialog(ctx: Context, q: Question, d: BaseModel? = null): BaseDi
     override fun addClickListeners() {
         super.addClickListeners()
 
-        yesBtn.setOnClickListener { onLeftButtonClickCallback() }
+        yesBtn.setOnClickListener { onRightButtonClickCallback() }
 
-        if (::onRightButtonClickCallback.isInitialized) {
-            noBtn.setOnClickListener { onRightButtonClickCallback() }
+        if (::onLeftButtonClickCallback.isInitialized) {
+            noBtn.setOnClickListener { onLeftButtonClickCallback() }
         } else {
             noBtn.setOnClickListener { dismiss() }
         }

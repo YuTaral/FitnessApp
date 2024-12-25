@@ -72,7 +72,7 @@ class AddExerciseToWorkoutDialog(ctx: Context, exercise: MGExerciseModel, values
         val exercise = validateExercise() ?: return
         ExerciseRepository().addExerciseToWorkout(exercise, onSuccess = { workout ->
             dismiss()
-            Utils.getPanelAdapter().displayWorkoutPanel(workout, true)
+            Utils.getPanelAdapter().refreshWorkoutPanel(workout, true)
         })
     }
 

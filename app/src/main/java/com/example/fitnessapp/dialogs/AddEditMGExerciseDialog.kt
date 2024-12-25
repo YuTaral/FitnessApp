@@ -117,7 +117,7 @@ class AddEditMGExerciseDialog(ctx: Context, mGroupId: Long, exercise: MGExercise
         if (updateWorkout) {
             // Response contains the updated workout
             Utils.getPanelAdapter()
-                .displayWorkoutPanel(WorkoutModel(returnData[0]), true)
+                .refreshWorkoutPanel(WorkoutModel(returnData[0]), true)
 
         } else {
             // Response contains the updated muscle group exercises

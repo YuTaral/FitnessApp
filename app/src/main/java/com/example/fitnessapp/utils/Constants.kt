@@ -25,7 +25,8 @@ object Constants {
         SELECT_EXERCISE,
         MANAGE_EXERCISE,
         MANAGE_TEAMS,
-        ADD_EDIT_TEAM
+        ADD_TEAM,
+        EDIT_TEAM
     }
 
     /** Enum to hold the position of the panel in the fragment state adapter  */
@@ -79,6 +80,8 @@ object Constants {
         const val GET_WORKOUT_TEMPLATES  = "$WORKOUT_TEMPLATE/get-templates"
 
         const val ADD_TEAM  = "$TEAM/add"
+        const val UPDATE_TEAM  = "$TEAM/update"
+        const val DELETE_TEAM  = "$TEAM/delete"
         const val GET_MY_TEAMS  = "$TEAM/my-teams"
     }
 }

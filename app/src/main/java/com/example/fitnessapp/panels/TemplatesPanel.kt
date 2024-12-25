@@ -72,11 +72,11 @@ class TemplatesPanel: BasePanel(), ITemporaryPanel {
                 }
             })
         }, onError = {
-            Utils.getPanelAdapter().displayWorkoutPanel(null)
+            Utils.getPanelAdapter().refreshWorkoutPanel(null)
         })
     }
 
     override fun addClickListeners() {
-        closeBtn.setOnClickListener { Utils.getPanelAdapter().displayWorkoutPanel(null) }
+        closeBtn.setOnClickListener { Utils.getPanelAdapter().refreshWorkoutPanel(null) }
     }
 }
