@@ -4,7 +4,8 @@ import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 
 /** TeamModel class representing a team.
- *  Must correspond with server-side TeamModel
+ *  Must correspond with server-side TeamModel, excluding
+ *  SelectedInPanel property
  */
 class TeamModel: BaseModel {
 
@@ -22,7 +23,6 @@ class TeamModel: BaseModel {
 
     @SerializedName("SelectedInPanel")
     var selectedInPanel: Boolean
-
 
     /** Constructor to accept serialized object
      * @param data serialized SetModel object
