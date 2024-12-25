@@ -11,7 +11,6 @@ import com.example.fitnessapp.models.ExerciseModel
 import com.example.fitnessapp.models.MGExerciseModel
 import com.example.fitnessapp.models.TeamModel
 import com.example.fitnessapp.models.WorkoutModel
-import com.example.fitnessapp.utils.AppStateManager
 import com.example.fitnessapp.utils.Utils
 
 /** Dialog used to ask a question and execute a callback on confirm */
