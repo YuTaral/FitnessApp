@@ -52,7 +52,7 @@ class EditTeamPanel(t: TeamModel): BaseTeamPanel() {
     private fun delete() {
         val dialog = AskQuestionDialog(requireContext(), AskQuestionDialog.Question.DELETE_TEAM, team)
 
-        dialog.setRightButtonCallback {
+        dialog.setLeftButtonCallback {
             TeamRepository().deleteTeam(team.id, onSuccess = {
                 dialog.dismiss()
                 Utils.getPanelAdapter().refreshTeamsPanel()

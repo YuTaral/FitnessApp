@@ -45,26 +45,26 @@
         android:visibility="gone"/>
 
     <Button
-        android:id="@+id/no_btn"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="@string/no_btn"
-        android:background="@drawable/background_right_border"
-        app:layout_constraintTop_toBottomOf="@+id/question_additional_info"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/yes_btn"
-        style="@style/DialogButtonStyle" />
-
-    <Button
         android:id="@+id/yes_btn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="@string/yes_btn"
+        android:background="@drawable/background_right_border"
+        app:layout_constraintTop_toBottomOf="@+id/question_additional_info"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/no_btn"
+        style="@style/DialogButtonStyle" />
+
+    <Button
+        android:id="@+id/no_btn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/no_btn"
         android:background="@drawable/background_top_border"
         app:layout_constraintTop_toBottomOf="@+id/question_additional_info"
-        app:layout_constraintStart_toEndOf="@+id/no_btn"
+        app:layout_constraintStart_toEndOf="@+id/yes_btn"
         app:layout_constraintEnd_toEndOf="parent"
         style="@style/DialogButtonStyle" />
 

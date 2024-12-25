@@ -27,7 +27,6 @@ class AskQuestionDialog(ctx: Context, q: Question, d: BaseModel? = null): BaseDi
         LOG_OUT(R.string.q_log_out_title, R.string.q_log_out_text, R.string.yes_btn, R.string.no_btn),
         DELETE_WORKOUT(R.string.question_delete_workout_title, R.string.question_delete_workout_text, R.string.yes_btn, R.string.no_btn),
         DELETE_EXERCISE_FROM_WORKOUT(R.string.question_delete_exercise_from_workout_title, R.string.question_delete_exercise_from_workout_text, R.string.yes_btn, R.string.no_btn),
-        FINISH_WORKOUT(R.string.question_finish_workout_title, R.string.question_finish_workout_text, R.string.yes_btn, R.string.no_btn),
         WORKOUT_ALREADY_FINISHED_WHEN_ADD_EXERCISE(R.string.question_workout_already_finished_title, R.string.question_workout_already_finished_text, R.string.yes_btn, R.string.no_btn),
         WORKOUT_ALREADY_FINISHED_WHEN_EDIT_EXERCISE(R.string.question_workout_already_finished_title, R.string.question_workout_already_finished_when_edit_text, R.string.yes_btn, R.string.no_btn),
         IMAGE_SELECTION_OPTIONS(R.string.question_choose_image_title, R.string.question_choose_image_text, R.string.camera_btn, R.string.gallery_btn),
@@ -118,14 +117,6 @@ class AskQuestionDialog(ctx: Context, q: Question, d: BaseModel? = null): BaseDi
                 formatName = (data as ExerciseModel).name
             }
 
-            Question.FINISH_WORKOUT -> {
-                formatName = if (workoutAllSetsCompleted()) {
-                    ""
-                } else {
-                    Utils.getActivity().getString(R.string.exercises_not_finished_lbl)
-                }
-            }
-
             Question.DELETE_TEAM -> {
                 formatName = (data as TeamModel).name
             }
@@ -145,26 +136,12 @@ class AskQuestionDialog(ctx: Context, q: Question, d: BaseModel? = null): BaseDi
     override fun addClickListeners() {
         super.addClickListeners()
 
-        yesBtn.setOnClickListener { onRightButtonClickCallback() }
+        yesBtn.setOnClickListener { onLeftButtonClickCallback() }
 
-        if (::onLeftButtonClickCallback.isInitialized) {
-            noBtn.setOnClickListener { onLeftButtonClickCallback() }
+        if (::onRightButtonClickCallback.isInitialized) {
+            noBtn.setOnClickListener { onRightButtonClickCallback() }
         } else {
             noBtn.setOnClickListener { dismiss() }
         }
-    }
-
-    /** Perform a check whether all exercises sets in the current workout are completed and
-     * return true or false
-     */
-    private fun workoutAllSetsCompleted(): Boolean {
-
-        for (e: ExerciseModel in AppStateManager.workout!!.exercises) {
-            if (e.sets.any { !it.completed }) {
-                return false
-            }
-        }
-
-        return true
     }
 }
