@@ -7,16 +7,19 @@ import android.widget.ImageView
 import com.example.fitnessapp.R
 import com.example.fitnessapp.interfaces.IImagePicker
 import com.example.fitnessapp.interfaces.ITemporaryPanel
+import com.example.fitnessapp.models.TeamModel
 import com.example.fitnessapp.utils.Constants
 import com.example.fitnessapp.utils.ImageUploadManager
 
 /** Base Team Panel class to implement the logic add / edit single team */
-abstract class BaseTeamPanel: BasePanel(), IImagePicker, ITemporaryPanel {
+abstract class BaseTeamPanel(t: TeamModel?): BasePanel(), IImagePicker, ITemporaryPanel {
     override var panelIndex = Constants.PanelIndices.ANOTHER_TEMPORARY.ordinal
     override val removePreviousTemporary = false
 
     private lateinit var inviteMembersBtn: Button
     private lateinit var removePictureBtn: Button
+
+    protected var team = t
 
     protected lateinit var teamImage: ImageView
     protected lateinit var name: EditText
@@ -47,6 +50,9 @@ abstract class BaseTeamPanel: BasePanel(), IImagePicker, ITemporaryPanel {
         removePictureBtn.setOnClickListener {
             removePicture()
         }
+        inviteMembersBtn.setOnClickListener {
+            showInviteMembers()
+        }
     }
 
     override fun onImageUploadSuccess(bitmap: Bitmap) {
@@ -58,6 +64,9 @@ abstract class BaseTeamPanel: BasePanel(), IImagePicker, ITemporaryPanel {
         teamImage.setImageBitmap(null)
         teamImage.setBackgroundResource(R.drawable.icon_team_default_picture)
     }
+
+    /** Show the dialog to invite members to the team */
+    abstract fun showInviteMembers()
 
     /** The callback to execute on save button click */
     abstract fun save()

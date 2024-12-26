@@ -12,5 +12,6 @@
     <color name="lightGrey">#E6E4E4</color>
     <color name="grey">#7C7E7E</color>
     <color name="orange">#FFA000</color>
+    <color name="red">#BC0202</color>
     <color name="green">#388E3C</color>
 </resources>

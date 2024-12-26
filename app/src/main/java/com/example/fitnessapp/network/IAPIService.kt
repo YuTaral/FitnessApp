@@ -71,7 +71,7 @@ interface IAPIService {
     fun updateExerciseFromWorkout(@Body params: Map<String, String>): Call<CustomResponse>
 
     @POST(Constants.RequestEndPoints.DELETE_EXERCISE_FROM_WORKOUT)
-    fun deleteExerciseFromWorkout(@Query("exerciseId") params: Long): Call<CustomResponse>
+    fun deleteExerciseFromWorkout(@Query("exerciseId") exerciseId: Long): Call<CustomResponse>
 
     @POST(Constants.RequestEndPoints.ADD_EXERCISE)
     fun addExercise(@Body params: Map<String, String>): Call<CustomResponse>
@@ -80,7 +80,7 @@ interface IAPIService {
     fun updateExercise(@Body params: Map<String, String>): Call<CustomResponse>
 
     @POST(Constants.RequestEndPoints.DELETE_EXERCISE)
-    fun deleteExercise(@Query("MGExerciseId") params: Long): Call<CustomResponse>
+    fun deleteExercise(@Query("MGExerciseId") MGExerciseId: Long): Call<CustomResponse>
 
     /** EXERCISE GET REQUESTS
      * -------------------------------------------------------------------------------- */
@@ -101,7 +101,7 @@ interface IAPIService {
     fun addWorkoutTemplate(@Body params: Map<String, String>): Call<CustomResponse>
 
     @POST(Constants.RequestEndPoints.DELETE_WORKOUT_TEMPLATE)
-    fun deleteWorkoutTemplate(@Query("templateId") params: Long): Call<CustomResponse>
+    fun deleteWorkoutTemplate(@Query("templateId") teamId: Long): Call<CustomResponse>
 
     /** WORKOUT TEMPLATES GET REQUESTS
      * -------------------------------------------------------------------------------- */
@@ -117,10 +117,13 @@ interface IAPIService {
     fun updateTeam(@Body params: Map<String, String>): Call<CustomResponse>
 
     @POST(Constants.RequestEndPoints.DELETE_TEAM)
-    fun deleteTeam(@Query("teamId") params: Long): Call<CustomResponse>
+    fun deleteTeam(@Query("teamId") teamId: Long): Call<CustomResponse>
 
     /** TEAM GET REQUESTS
      * -------------------------------------------------------------------------------- */
     @GET(Constants.RequestEndPoints.GET_MY_TEAMS)
     fun getMyTeams(): Call<CustomResponse>
+
+    @GET(Constants.RequestEndPoints.GET_USERS_TO_INVITE)
+    fun getUsersToInvite(@Query("name") name: String, @Query("teamId") teamId: Long): Call<CustomResponse>
 }

@@ -89,7 +89,7 @@
 
         <Button
             android:id="@+id/invite_btn"
-            android:layout_width="130dp"
+            android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:background="@android:color/transparent"
             android:textColor="@color/colorAccent"

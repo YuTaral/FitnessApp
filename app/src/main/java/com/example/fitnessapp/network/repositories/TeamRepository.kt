@@ -1,5 +1,6 @@
 package com.example.fitnessapp.network.repositories
 
+import com.example.fitnessapp.models.TeamMemberModel
 import com.example.fitnessapp.models.TeamModel
 import com.example.fitnessapp.network.APIService
 import com.example.fitnessapp.network.NetworkManager
@@ -57,6 +58,26 @@ class TeamRepository {
         NetworkManager.sendRequest(
             request = { APIService.getInstance().getMyTeams() },
             onSuccessCallback = { response -> onSuccess(response.data.map { TeamModel(it) } )},
+        )
+    }
+
+    /** Perform search for users with the given name which are valid for team invitation
+     * @param name the name to search
+     * @param teamId the team id
+     * @param onSuccess callback to execute if request is successful
+     */
+    fun getUsersToInvite(name: String, teamId: Long, onSuccess: (List<TeamMemberModel>) -> Unit) {
+        NetworkManager.sendRequest(
+            request = { APIService.getInstance().getUsersToInvite(name, teamId) },
+            onSuccessCallback = { response ->
+                val members:MutableList<TeamMemberModel> = mutableListOf()
+
+                if (response.data.isNotEmpty()) {
+                    members.addAll(response.data.map { TeamMemberModel(it) })
+                }
+
+                onSuccess(members)
+            },
         )
     }
 }
