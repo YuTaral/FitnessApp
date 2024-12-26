@@ -9,16 +9,19 @@ import com.example.fitnessapp.utils.Constants
 import com.example.fitnessapp.utils.Utils
 
 /** Edit team temporary panel to implement the logic for edit team */
-class EditTeamPanel(t: TeamModel): BaseTeamPanel(t) {
+class EditTeamPanel(t: TeamModel): BaseTeamPanel() {
     override var id = Constants.PanelUniqueId.EDIT_TEAM.ordinal.toLong()
     override var titleId = R.string.edit_team_panel_title
     override var layoutId = R.layout.add_edit_team_panel
 
+    private var team = t
+
+
     override fun populatePanel() {
-        teamImage.setImageBitmap(Utils.convertStringToBitmap(team!!.image))
-        name.setText(team!!.name)
-        description.setText(team!!.description)
-        privateNote.setText(team!!.privateNote)
+        teamImage.setImageBitmap(Utils.convertStringToBitmap(team.image))
+        name.setText(team.name)
+        description.setText(team.description)
+        privateNote.setText(team.privateNote)
     }
 
     override fun addClickListeners() {
@@ -26,6 +29,10 @@ class EditTeamPanel(t: TeamModel): BaseTeamPanel(t) {
 
         deleteBtn.setOnClickListener {
             delete()
+        }
+
+        inviteMembersBtn.setOnClickListener {
+            ManageTeamMembersDialog(requireContext(), team).show()
         }
     }
 
@@ -37,7 +44,7 @@ class EditTeamPanel(t: TeamModel): BaseTeamPanel(t) {
             return
         }
 
-        val updateTeam = TeamModel(team!!.id, Utils.encodeImageToString(teamImage), name.text.toString(),
+        val updateTeam = TeamModel(team.id, Utils.encodeImageToString(teamImage), name.text.toString(),
             description.text.toString(), privateNote.text.toString())
 
         TeamRepository().updateTeam(updateTeam, onSuccess = {
@@ -47,16 +54,12 @@ class EditTeamPanel(t: TeamModel): BaseTeamPanel(t) {
         })
     }
 
-    override fun showInviteMembers() {
-        ManageTeamMembersDialog(requireContext(), team!!).show()
-    }
-
     /** Delete the selected team */
     private fun delete() {
         val dialog = AskQuestionDialog(requireContext(), AskQuestionDialog.Question.DELETE_TEAM, team)
 
         dialog.setLeftButtonCallback {
-            TeamRepository().deleteTeam(team!!.id, onSuccess = {
+            TeamRepository().deleteTeam(team.id, onSuccess = {
                 dialog.dismiss()
                 Utils.getPanelAdapter().refreshTeamsPanel()
             })
