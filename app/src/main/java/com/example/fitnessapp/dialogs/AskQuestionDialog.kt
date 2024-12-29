@@ -78,7 +78,6 @@ class AskQuestionDialog(ctx: Context, q: Question, d: BaseModel? = null): BaseDi
     override fun findViews() {
         super.findViews()
 
-        closeIcon = dialog.findViewById(R.id.dialog_close)
         questionText = dialog.findViewById(R.id.question_lbl)
         questionAdditionalInfo = dialog.findViewById(R.id.question_additional_info)
         yesBtn = dialog.findViewById(R.id.yes_btn)
