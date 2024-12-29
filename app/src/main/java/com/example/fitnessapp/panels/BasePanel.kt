@@ -4,7 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import com.example.fitnessapp.R
 import com.example.fitnessapp.utils.Utils
 
 /** Abstract BasePanel class to define the common logic for the panels displayed in the top
@@ -26,15 +29,55 @@ abstract class BasePanel: Fragment() {
     /** The panel layout id */
     protected abstract var layoutId: Int
 
+    /** The loading spinner */
+    private lateinit var loadingSpinner: FrameLayout
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        panel = inflater.inflate(layoutId, container, false)
+        panel = inflater.inflate(R.layout.base_panel, container, false)
+
+        // Inflate the child layout (the one specific to the panel)
+        setMainContent()
+
+        handleLoadingSpinner(true)
 
         // Execute the logic to find views, populate the data and add click listeners
         findViews()
         populatePanel()
         addClickListeners()
 
+        handleLoadingSpinner(false)
+
         return panel
+    }
+
+    /** Set the main content of the dialog */
+    private fun setMainContent() {
+        // Find the main content container
+        val dialogMainContent = panel.findViewById<ConstraintLayout>(R.id.panel_main_content)
+
+        // Inflate the child layout (the one specific to the panel)
+        val contentView = LayoutInflater.from(Utils.getActivity()).inflate(layoutId, null)
+
+        // Set layout params for content view to match parent width and height
+        val layoutParams = ConstraintLayout.LayoutParams(
+            ConstraintLayout.LayoutParams.MATCH_PARENT,
+            ConstraintLayout.LayoutParams.MATCH_PARENT
+        )
+
+        // Set the main content
+        dialogMainContent.addView(contentView, layoutParams)
+    }
+
+    /** Display the loading spinner until the dialog is populated and event listeners are added
+     * @param display true to display it, false to hide it
+     */
+    private fun handleLoadingSpinner(display: Boolean) {
+        if (display)  {
+            loadingSpinner = panel.findViewById(R.id.loading_container)
+            loadingSpinner.visibility = View.VISIBLE
+        } else {
+            loadingSpinner.visibility = View.GONE
+        }
     }
 
     /** Find the views in the panel. No need to call the method when the panel is being created,
