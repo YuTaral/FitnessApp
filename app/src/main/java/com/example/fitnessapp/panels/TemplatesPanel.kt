@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fitnessapp.R
 import com.example.fitnessapp.adapters.CustomSpinnerAdapter
-import com.example.fitnessapp.adapters.WorkoutRecyclerAdapter
+import com.example.fitnessapp.adapters.WorkoutsRecAdapter
 import com.example.fitnessapp.dialogs.AddEditWorkoutDialog
 import com.example.fitnessapp.dialogs.AskQuestionDialog
 import com.example.fitnessapp.interfaces.ITemporaryPanel
@@ -51,7 +51,7 @@ class TemplatesPanel: BasePanel(), ITemporaryPanel {
             val templates: MutableList<WorkoutModel> = serializedTemplates.map { WorkoutModel(it) }.toMutableList()
 
             templatesRecycler.layoutManager = LinearLayoutManager(context)
-            templatesRecycler.adapter = WorkoutRecyclerAdapter(templates, onClick = { template ->
+            templatesRecycler.adapter = WorkoutsRecAdapter(templates, onClick = { template ->
 
                 if (actionSpinner.selectedItemPosition == startWorkoutIndex) {
                     // Start workout is at index 1
@@ -63,7 +63,7 @@ class TemplatesPanel: BasePanel(), ITemporaryPanel {
 
                     dialog.setLeftButtonCallback(callback = {
                         WorkoutTemplateRepository().deleteWorkoutTemplate(template.id, onSuccess = {
-                            (templatesRecycler.adapter as WorkoutRecyclerAdapter).removeTemplate(template)
+                            (templatesRecycler.adapter as WorkoutsRecAdapter).removeTemplate(template)
                             dialog.dismiss()
                         })
                     })

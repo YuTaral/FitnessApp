@@ -16,7 +16,7 @@ import com.example.fitnessapp.utils.AppStateManager
 import com.example.fitnessapp.utils.Utils
 
 /** Recycler adapter to control the workouts data shown in the main panel */
-class WorkoutRecyclerAdapter (data: List<WorkoutModel>, onClick: (WorkoutModel) -> Unit) : RecyclerView.Adapter<WorkoutRecyclerAdapter.WorkoutItem>() {
+class WorkoutsRecAdapter (data: List<WorkoutModel>, onClick: (WorkoutModel) -> Unit) : RecyclerView.Adapter<WorkoutsRecAdapter.ViewHolder>() {
     private var workouts: MutableList<WorkoutModel> = mutableListOf()
     private var onClickCallback: (WorkoutModel) -> Unit
 
@@ -25,8 +25,8 @@ class WorkoutRecyclerAdapter (data: List<WorkoutModel>, onClick: (WorkoutModel) 
         onClickCallback = onClick
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WorkoutItem {
-        return WorkoutItem(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        return ViewHolder(
             LayoutInflater.from(parent.context)
                 .inflate(R.layout.inflatable_workout_item, parent, false)
         )
@@ -36,7 +36,7 @@ class WorkoutRecyclerAdapter (data: List<WorkoutModel>, onClick: (WorkoutModel) 
         return workouts.size
     }
 
-    override fun onBindViewHolder(holder: WorkoutItem, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val workout = workouts[position]
 
         if (workout.template) {
@@ -54,7 +54,7 @@ class WorkoutRecyclerAdapter (data: List<WorkoutModel>, onClick: (WorkoutModel) 
     }
 
     /** Class to represent workout item view holder - each workout */
-    class WorkoutItem(view: View): RecyclerView.ViewHolder(view)  {
+    class ViewHolder(view: View): RecyclerView.ViewHolder(view)  {
         private var workoutContainer: ConstraintLayout = itemView.findViewById(R.id.workout_container)
         private var templateContainer: ConstraintLayout = itemView.findViewById(R.id.template_container)
         private var templateExercisesContainer: LinearLayout = itemView.findViewById(R.id.template_exercises_container)

@@ -13,13 +13,13 @@ import com.example.fitnessapp.models.TeamModel
 import com.example.fitnessapp.utils.Utils
 
 /** Recycler adapter to control and show the teams */
-class TeamsRecyclerAdapter(data: List<TeamModel>, callback: () -> Unit) : RecyclerView.Adapter<TeamsRecyclerAdapter.TeamItem>() {
+class TeamsRecAdapter(data: List<TeamModel>, callback: () -> Unit) : RecyclerView.Adapter<TeamsRecAdapter.ViewHolder>() {
     private var teams = data.toMutableList()
     private var onClickCallback = callback
     private var selectedPosition: Int = RecyclerView.NO_POSITION
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TeamItem {
-        return TeamItem(LayoutInflater.from(parent.context)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        return ViewHolder(LayoutInflater.from(parent.context)
                 .inflate(R.layout.inflatable_team_item, parent, false))
     }
 
@@ -27,7 +27,7 @@ class TeamsRecyclerAdapter(data: List<TeamModel>, callback: () -> Unit) : Recycl
         return teams.size
     }
 
-    override fun onBindViewHolder(holder: TeamItem, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(teams[position], selectUnselectTeamCallback = {
             changeSelectionState(position)
             onClickCallback()
@@ -79,7 +79,7 @@ class TeamsRecyclerAdapter(data: List<TeamModel>, callback: () -> Unit) : Recycl
     }
 
     /** Class to represent team item view holder - each team */
-    class TeamItem(view: View) : RecyclerView.ViewHolder(view) {
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private var image: ImageView = itemView.findViewById(R.id.image)
         private var name: TextView = itemView.findViewById(R.id.name)
         private var description: TextView = itemView.findViewById(R.id.description)

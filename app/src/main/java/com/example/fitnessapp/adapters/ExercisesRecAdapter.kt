@@ -19,15 +19,15 @@ import com.example.fitnessapp.utils.AppStateManager
 import com.example.fitnessapp.utils.Utils
 
 /** Recycler adapter to control the data (exercises) shown for each workout */
-class ExerciseRecyclerAdapter(data: List<ExerciseModel>) : RecyclerView.Adapter<ExerciseRecyclerAdapter.ExerciseItem>() {
+class ExercisesRecAdapter(data: List<ExerciseModel>) : RecyclerView.Adapter<ExercisesRecAdapter.ViewHolder>() {
     private var exercises: MutableList<ExerciseModel> = mutableListOf()
 
     init {
         exercises.addAll(data)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExerciseItem {
-        return ExerciseItem(LayoutInflater.from(parent.context)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        return ViewHolder(LayoutInflater.from(parent.context)
             .inflate(R.layout.inflatable_exercise_item, parent, false))
     }
 
@@ -35,7 +35,7 @@ class ExerciseRecyclerAdapter(data: List<ExerciseModel>) : RecyclerView.Adapter<
         return exercises.size
     }
 
-    override fun onBindViewHolder(holder: ExerciseItem, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(exercises[position])
     }
 
@@ -50,7 +50,7 @@ class ExerciseRecyclerAdapter(data: List<ExerciseModel>) : RecyclerView.Adapter<
     }
 
     /** Class to represent exercise item view holder - each exercise */
-    class ExerciseItem(view: View) : RecyclerView.ViewHolder(view) {
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private var exerciseName: TextView = itemView.findViewById(R.id.exercise_name_txt)
         private var weightLbl: TextView = itemView.findViewById(R.id.weight_lbl)
         private var editBtn: ImageView = itemView.findViewById(R.id.exercise_edit_btn)

@@ -11,8 +11,8 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fitnessapp.R
-import com.example.fitnessapp.adapters.MGExercisesRecyclerAdapter
-import com.example.fitnessapp.adapters.MuscleGroupRecyclerAdapter
+import com.example.fitnessapp.adapters.MGExercisesRecAdapter
+import com.example.fitnessapp.adapters.MuscleGroupsRecAdapter
 import com.example.fitnessapp.interfaces.ITemporaryPanel
 import com.example.fitnessapp.models.MGExerciseModel
 import com.example.fitnessapp.models.MuscleGroupModel
@@ -93,7 +93,7 @@ abstract class BaseExercisePanel(mode: Mode): BasePanel(), ITemporaryPanel {
                 muscleGroups = data
 
                 muscleGroupRecycler.layoutManager = LinearLayoutManager(context)
-                muscleGroupRecycler.adapter = MuscleGroupRecyclerAdapter(muscleGroups,
+                muscleGroupRecycler.adapter = MuscleGroupsRecAdapter(muscleGroups,
                     callback = { muscleGroup ->
                         selectedMuscleGroup = muscleGroup
 
@@ -155,12 +155,12 @@ abstract class BaseExercisePanel(mode: Mode): BasePanel(), ITemporaryPanel {
         if (initializeAdapter) {
             exercisesRecycler.layoutManager = LinearLayoutManager(context)
 
-            exercisesRecycler.adapter = MGExercisesRecyclerAdapter(exercises, callback = { model ->
+            exercisesRecycler.adapter = MGExercisesRecAdapter(exercises, callback = { model ->
                 onExerciseSelectCallback(model)
             })
 
         } else {
-            (exercisesRecycler.adapter as MGExercisesRecyclerAdapter).updateData(exercises,callback = { model ->
+            (exercisesRecycler.adapter as MGExercisesRecAdapter).updateData(exercises,callback = { model ->
                 onExerciseSelectCallback(model)
             })
         }
@@ -182,10 +182,10 @@ abstract class BaseExercisePanel(mode: Mode): BasePanel(), ITemporaryPanel {
                     delay(filterWaitTimeMillis)
                     when (panelMode) {
                         Mode.SELECT_MUSCLE_GROUP -> {
-                            (muscleGroupRecycler.adapter as MuscleGroupRecyclerAdapter).filter(s.toString().lowercase())
+                            (muscleGroupRecycler.adapter as MuscleGroupsRecAdapter).filter(s.toString().lowercase())
                         }
                         Mode.SELECT_EXERCISE -> {
-                            (exercisesRecycler.adapter as MGExercisesRecyclerAdapter).filter(s.toString().lowercase())
+                            (exercisesRecycler.adapter as MGExercisesRecAdapter).filter(s.toString().lowercase())
                         }
                     }
                 }
@@ -203,9 +203,9 @@ abstract class BaseExercisePanel(mode: Mode): BasePanel(), ITemporaryPanel {
 
         if (initializeAdapter) {
             exercisesRecycler.layoutManager = LinearLayoutManager(context)
-            exercisesRecycler.adapter = MGExercisesRecyclerAdapter(mutableListOf(), callback = {})
+            exercisesRecycler.adapter = MGExercisesRecAdapter(mutableListOf(), callback = {})
         } else {
-            (exercisesRecycler.adapter as MGExercisesRecyclerAdapter).updateData(mutableListOf(), callback = {})
+            (exercisesRecycler.adapter as MGExercisesRecAdapter).updateData(mutableListOf(), callback = {})
         }
     }
 

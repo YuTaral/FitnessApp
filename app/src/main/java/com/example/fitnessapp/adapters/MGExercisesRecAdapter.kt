@@ -13,7 +13,7 @@ import com.example.fitnessapp.models.MGExerciseModel
 import com.example.fitnessapp.utils.Utils
 
 /** Recycler adapter to control the data (exercises) shown for each muscle group */
-class MGExercisesRecyclerAdapter(data: List<MGExerciseModel>, callback: (MGExerciseModel) -> Unit): RecyclerView.Adapter<MGExercisesRecyclerAdapter.ExerciseItem>() {
+class MGExercisesRecAdapter(data: List<MGExerciseModel>, callback: (MGExerciseModel) -> Unit): RecyclerView.Adapter<MGExercisesRecAdapter.ViewHolder>() {
     private var exercises: MutableList<MGExerciseModel> = mutableListOf()
     private var filteredExercises: MutableList<MGExerciseModel> = mutableListOf()
     private var onClickCallback: (MGExerciseModel) -> Unit
@@ -24,15 +24,15 @@ class MGExercisesRecyclerAdapter(data: List<MGExerciseModel>, callback: (MGExerc
         onClickCallback = callback
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExerciseItem {
-        return ExerciseItem(LayoutInflater.from(parent.context).inflate(R.layout.inflatable_mg_exercise_item, parent, false))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.inflatable_mg_exercise_item, parent, false))
     }
 
     override fun getItemCount(): Int {
         return filteredExercises.size
     }
 
-    override fun onBindViewHolder(holder: ExerciseItem, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(filteredExercises[position], onClickCallback)
     }
 
@@ -62,7 +62,7 @@ class MGExercisesRecyclerAdapter(data: List<MGExerciseModel>, callback: (MGExerc
     }
 
     /** Class to represent exercise item view holder - each exercise */
-    class ExerciseItem(view: View): RecyclerView.ViewHolder(view) {
+    class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
         private var name: TextView = itemView.findViewById(R.id.exercise_name_txt)
         private var description: TextView = itemView.findViewById(R.id.exercise_description_txt)
         private var expandCollapse: ImageView = itemView.findViewById(R.id.exercise_expand_collapse_symbol)

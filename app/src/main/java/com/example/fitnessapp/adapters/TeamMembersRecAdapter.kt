@@ -14,10 +14,10 @@ import com.example.fitnessapp.utils.Utils
 /** Recycler adapter to control the data (team members)
  * shown when searching for members and displaying them in the Invite Members Dialog
  */
-class TeamMembersRecyclerAdapter(data: List<TeamMemberModel>,
-                                 adapterType: AdapterType,
-                                 callback: (member: TeamMemberModel) -> Unit):
-    RecyclerView.Adapter<TeamMembersRecyclerAdapter.TeamMemberItem>() {
+class TeamMembersRecAdapter(data: List<TeamMemberModel>,
+                            adapterType: AdapterType,
+                            callback: (member: TeamMemberModel) -> Unit):
+    RecyclerView.Adapter<TeamMembersRecAdapter.ViewHolder>() {
 
 
     /** Enum containing the adapter type, the adapter is used on many places in the app */
@@ -31,8 +31,8 @@ class TeamMembersRecyclerAdapter(data: List<TeamMemberModel>,
     private var type = adapterType
     private var onClickCallback = callback
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TeamMemberItem {
-        return TeamMemberItem(LayoutInflater.from(parent.context)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        return ViewHolder(LayoutInflater.from(parent.context)
                                 .inflate(R.layout.inflatable_team_member_item, parent, false))
     }
 
@@ -40,7 +40,7 @@ class TeamMembersRecyclerAdapter(data: List<TeamMemberModel>,
         return members.size
     }
 
-    override fun onBindViewHolder(holder: TeamMemberItem, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(members[position], type, onClickCallback)
     }
 
@@ -69,7 +69,7 @@ class TeamMembersRecyclerAdapter(data: List<TeamMemberModel>,
     }
 
     /** Class to represent team member item view holder - each team member */
-    class TeamMemberItem(view: View): RecyclerView.ViewHolder(view) {
+    class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
 
         /** User -> Team state - whether the user has been invited, removed and etc. */
         enum class MemberTeamState(private var stringId: Int, private var colorId: Int) {
@@ -99,7 +99,7 @@ class TeamMembersRecyclerAdapter(data: List<TeamMemberModel>,
         fun bind(member: TeamMemberModel, adapterType: AdapterType, onClickCallback: (member: TeamMemberModel) -> Unit) {
             image.setImageBitmap(Utils.convertStringToBitmap(member.image))
             name.text = member.fullName
-            
+
             when (adapterType) {
                 AdapterType.INVITE -> {
                     memberState.visibility = View.GONE

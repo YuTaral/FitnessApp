@@ -8,7 +8,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fitnessapp.R
-import com.example.fitnessapp.adapters.ExerciseRecyclerAdapter
+import com.example.fitnessapp.adapters.ExercisesRecAdapter
 import com.example.fitnessapp.dialogs.AddEditWorkoutDialog
 import com.example.fitnessapp.dialogs.AskQuestionDialog
 import com.example.fitnessapp.utils.AppStateManager
@@ -89,7 +89,7 @@ class SelectedWorkoutPanel : BasePanel() {
 
         if (exerciseRecycler.adapter == null) {
             exerciseRecycler.layoutManager = LinearLayoutManager(context)
-            exerciseRecycler.adapter = ExerciseRecyclerAdapter(listOf())
+            exerciseRecycler.adapter = ExercisesRecAdapter(listOf())
         }
 
         if (AppStateManager.workout != null) {
@@ -131,8 +131,8 @@ class SelectedWorkoutPanel : BasePanel() {
     }
 
     /** Return the exercises recycler adapter */
-    private fun getExercisesRecyclerAdapter(): ExerciseRecyclerAdapter {
-        return exerciseRecycler.adapter as ExerciseRecyclerAdapter
+    private fun getExercisesRecyclerAdapter(): ExercisesRecAdapter {
+        return exerciseRecycler.adapter as ExercisesRecAdapter
     }
 
     /** Sets buttons visibility based on whether workout is selected */

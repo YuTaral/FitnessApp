@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fitnessapp.R
 import com.example.fitnessapp.adapters.CustomSpinnerAdapter
-import com.example.fitnessapp.adapters.WorkoutRecyclerAdapter
+import com.example.fitnessapp.adapters.WorkoutsRecAdapter
 import com.example.fitnessapp.dialogs.AddEditWorkoutDialog
 import com.example.fitnessapp.models.WorkoutModel
 import com.example.fitnessapp.network.repositories.WorkoutRepository
@@ -115,7 +115,7 @@ class MainPanel: BasePanel() {
                 workoutsRecycler.visibility = View.VISIBLE
 
                 workoutsRecycler.layoutManager = LinearLayoutManager(context)
-                workoutsRecycler.adapter = WorkoutRecyclerAdapter(workouts) { workout ->
+                workoutsRecycler.adapter = WorkoutsRecAdapter(workouts) { workout ->
                     Utils.getPanelAdapter().refreshWorkoutPanel(workout, null)
                 }
             }

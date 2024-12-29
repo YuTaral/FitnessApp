@@ -12,8 +12,8 @@ import com.example.fitnessapp.models.MuscleGroupModel
 import com.example.fitnessapp.utils.Utils
 
 /** Recycler adapter to control the muscle groups shown when adding new workout */
-class MuscleGroupRecyclerAdapter(data: MutableList<MuscleGroupModel>, callback: (muscleGroup: MuscleGroupModel) -> Unit):
-    RecyclerView.Adapter<MuscleGroupRecyclerAdapter.MGItem>() {
+class MuscleGroupsRecAdapter(data: MutableList<MuscleGroupModel>, callback: (muscleGroup: MuscleGroupModel) -> Unit):
+    RecyclerView.Adapter<MuscleGroupsRecAdapter.ViewHolder>() {
 
         private var muscleGroups: MutableList<MuscleGroupModel>
         private var filteredMuscleGroups: MutableList<MuscleGroupModel>
@@ -25,8 +25,8 @@ class MuscleGroupRecyclerAdapter(data: MutableList<MuscleGroupModel>, callback: 
         onSelectCallback = callback
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MGItem {
-        return MGItem(LayoutInflater.from(parent.context)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        return ViewHolder(LayoutInflater.from(parent.context)
             .inflate(R.layout.inflatable_muscle_group_item, parent, false))
     }
 
@@ -34,7 +34,7 @@ class MuscleGroupRecyclerAdapter(data: MutableList<MuscleGroupModel>, callback: 
         return filteredMuscleGroups.size
     }
 
-    override fun onBindViewHolder(holder: MGItem, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(filteredMuscleGroups[position], onSelectCallback)
     }
 
@@ -51,7 +51,7 @@ class MuscleGroupRecyclerAdapter(data: MutableList<MuscleGroupModel>, callback: 
     }
 
     /** Class to represent muscle group item view holder */
-    class MGItem(view: View): RecyclerView.ViewHolder(view) {
+    class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
         private var image: ImageView = itemView.findViewById(R.id.mg_image)
         private var name: TextView = itemView.findViewById(R.id.mg_name_txt)
 

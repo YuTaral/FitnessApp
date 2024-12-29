@@ -2,7 +2,7 @@ package com.example.fitnessapp.panels
 
 import android.view.View
 import com.example.fitnessapp.R
-import com.example.fitnessapp.adapters.TeamMembersRecyclerAdapter
+import com.example.fitnessapp.adapters.TeamMembersRecAdapter
 import com.example.fitnessapp.dialogs.AskQuestionDialog
 import com.example.fitnessapp.dialogs.ManageTeamMembersDialog
 import com.example.fitnessapp.models.TeamMemberModel
@@ -31,7 +31,7 @@ class EditTeamPanel(t: TeamModel): BaseTeamPanel() {
 
         TeamRepository().getTeamMembers(team.id, onSuccess = { teamMembers ->
             members = teamMembers
-            membersRecycler.adapter = TeamMembersRecyclerAdapter(members, TeamMembersRecyclerAdapter.AdapterType.DISPLAY, callback = {})
+            membersRecycler.adapter = TeamMembersRecAdapter(members, TeamMembersRecAdapter.AdapterType.DISPLAY, callback = {})
         })
     }
 

@@ -9,7 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fitnessapp.R
-import com.example.fitnessapp.adapters.TeamMembersRecyclerAdapter
+import com.example.fitnessapp.adapters.TeamMembersRecAdapter
 import com.example.fitnessapp.models.TeamMemberModel
 import com.example.fitnessapp.models.TeamModel
 import com.example.fitnessapp.network.repositories.TeamRepository
@@ -44,7 +44,7 @@ class ManageTeamMembersDialog(ctx: Context, team: TeamModel, teamMembers: List<T
     override fun populateDialog() {
         teamNameLbl.text = selectedTeam.name
 
-        membersRecycler.adapter = TeamMembersRecyclerAdapter(members, TeamMembersRecyclerAdapter.AdapterType.REMOVE, callback = {
+        membersRecycler.adapter = TeamMembersRecAdapter(members, TeamMembersRecAdapter.AdapterType.REMOVE, callback = {
                 member -> onRemove(member)
         })
     }
@@ -94,11 +94,11 @@ class ManageTeamMembersDialog(ctx: Context, team: TeamModel, teamMembers: List<T
                 searchResultRecycler.visibility = View.VISIBLE
 
                 if (searchResultRecycler.adapter == null) {
-                    searchResultRecycler.adapter = TeamMembersRecyclerAdapter(members, TeamMembersRecyclerAdapter.AdapterType.INVITE, callback = {
+                    searchResultRecycler.adapter = TeamMembersRecAdapter(members, TeamMembersRecAdapter.AdapterType.INVITE, callback = {
                         member -> onInvite(member)
                     })
                 } else {
-                    (searchResultRecycler.adapter as TeamMembersRecyclerAdapter).update(members)
+                    (searchResultRecycler.adapter as TeamMembersRecAdapter).update(members)
                 }
             }
         })
@@ -129,12 +129,12 @@ class ManageTeamMembersDialog(ctx: Context, team: TeamModel, teamMembers: List<T
     }
 
     /** Return the adapter of the search recycler */
-    private fun getSearchAdapter(): TeamMembersRecyclerAdapter {
-        return  searchResultRecycler.adapter as TeamMembersRecyclerAdapter
+    private fun getSearchAdapter(): TeamMembersRecAdapter {
+        return  searchResultRecycler.adapter as TeamMembersRecAdapter
     }
 
     /** Return the adapter of the members recycler */
-    private fun getMembersAdapter(): TeamMembersRecyclerAdapter {
-        return  membersRecycler.adapter as TeamMembersRecyclerAdapter
+    private fun getMembersAdapter(): TeamMembersRecAdapter {
+        return  membersRecycler.adapter as TeamMembersRecAdapter
     }
 }

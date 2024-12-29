@@ -3,7 +3,7 @@ package com.example.fitnessapp.panels
 import android.widget.Button
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fitnessapp.R
-import com.example.fitnessapp.adapters.TeamsRecyclerAdapter
+import com.example.fitnessapp.adapters.TeamsRecAdapter
 import com.example.fitnessapp.interfaces.ITemporaryPanel
 import com.example.fitnessapp.models.TeamModel
 import com.example.fitnessapp.network.repositories.TeamRepository
@@ -78,9 +78,9 @@ class ManageTeamsPanel: BasePanel(), ITemporaryPanel {
         editTeamBtn.isEnabled = false
 
         if (teamsRecycler.adapter == null) {
-            teamsRecycler.adapter = TeamsRecyclerAdapter(teams, callback = { enableDisableEdit() })
+            teamsRecycler.adapter = TeamsRecAdapter(teams, callback = { enableDisableEdit() })
         } else {
-            (teamsRecycler.adapter as TeamsRecyclerAdapter).updateTeams(teams)
+            (teamsRecycler.adapter as TeamsRecAdapter).updateTeams(teams)
         }
 
         refreshTeams = false
@@ -88,7 +88,7 @@ class ManageTeamsPanel: BasePanel(), ITemporaryPanel {
 
     /** Return the currently selected team */
     private fun getSelectedTeam(): TeamModel? {
-        return (teamsRecycler.adapter as TeamsRecyclerAdapter).getSelectedTeam()
+        return (teamsRecycler.adapter as TeamsRecAdapter).getSelectedTeam()
     }
 
     /** Setter for refresh teams property */
