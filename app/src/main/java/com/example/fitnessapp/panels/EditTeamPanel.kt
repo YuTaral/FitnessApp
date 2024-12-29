@@ -1,8 +1,11 @@
 package com.example.fitnessapp.panels
 
+import android.view.View
 import com.example.fitnessapp.R
+import com.example.fitnessapp.adapters.TeamMembersRecyclerAdapter
 import com.example.fitnessapp.dialogs.AskQuestionDialog
 import com.example.fitnessapp.dialogs.ManageTeamMembersDialog
+import com.example.fitnessapp.models.TeamMemberModel
 import com.example.fitnessapp.models.TeamModel
 import com.example.fitnessapp.network.repositories.TeamRepository
 import com.example.fitnessapp.utils.Constants
@@ -16,12 +19,20 @@ class EditTeamPanel(t: TeamModel): BaseTeamPanel() {
 
     private var team = t
 
+    private lateinit var members: List<TeamMemberModel>
 
     override fun populatePanel() {
         teamImage.setImageBitmap(Utils.convertStringToBitmap(team.image))
         name.setText(team.name)
         description.setText(team.description)
         privateNote.setText(team.privateNote)
+
+        membersRecycler.visibility = View.VISIBLE
+
+        TeamRepository().getTeamMembers(team.id, onSuccess = { teamMembers ->
+            members = teamMembers
+            membersRecycler.adapter = TeamMembersRecyclerAdapter(members, TeamMembersRecyclerAdapter.AdapterType.DISPLAY, callback = {})
+        })
     }
 
     override fun addClickListeners() {
@@ -32,7 +43,7 @@ class EditTeamPanel(t: TeamModel): BaseTeamPanel() {
         }
 
         inviteMembersBtn.setOnClickListener {
-            ManageTeamMembersDialog(requireContext(), team).show()
+            ManageTeamMembersDialog(requireContext(), team, members).show()
         }
     }
 

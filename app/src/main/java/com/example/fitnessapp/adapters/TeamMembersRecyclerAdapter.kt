@@ -14,13 +14,21 @@ import com.example.fitnessapp.utils.Utils
 /** Recycler adapter to control the data (team members)
  * shown when searching for members and displaying them in the Invite Members Dialog
  */
-class TeamMembersActionRecyclerAdapter(data: List<TeamMemberModel>,
-                                       isSearchAdapter: Boolean,
-                                       callback: (member: TeamMemberModel) -> Unit):
-    RecyclerView.Adapter<TeamMembersActionRecyclerAdapter.TeamMemberItem>() {
+class TeamMembersRecyclerAdapter(data: List<TeamMemberModel>,
+                                 adapterType: AdapterType,
+                                 callback: (member: TeamMemberModel) -> Unit):
+    RecyclerView.Adapter<TeamMembersRecyclerAdapter.TeamMemberItem>() {
+
+
+    /** Enum containing the adapter type, the adapter is used on many places in the app */
+    enum class AdapterType {
+        INVITE,
+        REMOVE,
+        DISPLAY
+    }
 
     private var members = data.toMutableList()
-    private var search = isSearchAdapter
+    private var type = adapterType
     private var onClickCallback = callback
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TeamMemberItem {
@@ -33,7 +41,7 @@ class TeamMembersActionRecyclerAdapter(data: List<TeamMemberModel>,
     }
 
     override fun onBindViewHolder(holder: TeamMemberItem, position: Int) {
-        holder.bind(members[position], search, onClickCallback)
+        holder.bind(members[position], type, onClickCallback)
     }
 
     /** Update the data in the adapter
@@ -60,23 +68,13 @@ class TeamMembersActionRecyclerAdapter(data: List<TeamMemberModel>,
         }
     }
 
-    /** Change the member state
-     * @param member the member to change
-     * @param state the state to set
-     */
-    fun changeMemberState(member: TeamMemberModel, state: TeamMemberItem.MemberTeamState) {
-        member.teamState = state.toString()
-        notifyItemChanged(members.indexOf(member))
-    }
-
     /** Class to represent team member item view holder - each team member */
     class TeamMemberItem(view: View): RecyclerView.ViewHolder(view) {
 
         /** User -> Team state - whether the user has been invited, removed and etc. */
         enum class MemberTeamState(private var stringId: Int, private var colorId: Int) {
-            NOT_INVITED(R.string.not_invited_lbl,0),
-            INVITED(R.string.invited_lbl, R.color.white),
-            REMOVED(R.string.removed_from_team_lbl, R.color.red),
+            NOT_INVITED(0,0),
+            INVITED(R.string.invited_lbl, R.color.orange),
             ACCEPTED(R.string.in_team_lbl, R.color.green);
 
             fun getColorId(): Int {
@@ -95,29 +93,35 @@ class TeamMembersActionRecyclerAdapter(data: List<TeamMemberModel>,
 
         /** Populate the data in the item
          * @param member the member to add
-         * @param search true if the adapter is for search records, false if for displaying the members
-         * as part of the team
+         * @param adapterType the adapter type
          * @param onClickCallback callback to execute on click
          */
-        fun bind(member: TeamMemberModel, search: Boolean, onClickCallback: (member: TeamMemberModel) -> Unit) {
+        fun bind(member: TeamMemberModel, adapterType: AdapterType, onClickCallback: (member: TeamMemberModel) -> Unit) {
             image.setImageBitmap(Utils.convertStringToBitmap(member.image))
             name.text = member.fullName
+            
+            when (adapterType) {
+                AdapterType.INVITE -> {
+                    memberState.visibility = View.GONE
+                    inviteRemoveSymbol.setBackgroundResource(R.drawable.icon_invite_member)
 
-            if (search) {
-                memberState.visibility = View.GONE
-                inviteRemoveSymbol.setBackgroundResource(R.drawable.icon_invite_member)
-
-                inviteRemoveSymbol.setOnClickListener {
-                    // Execute the callback to move the team into the members section
-                    onClickCallback(member)
+                    inviteRemoveSymbol.setOnClickListener {
+                        // Execute the callback to move the team into the members section
+                        onClickCallback(member)
+                    }
                 }
-            } else {
-                setState(member)
-                inviteRemoveSymbol.setBackgroundResource(R.drawable.icon_remove_member)
+                AdapterType.REMOVE -> {
+                    setState(member)
+                    inviteRemoveSymbol.setBackgroundResource(R.drawable.icon_remove_member)
 
-                inviteRemoveSymbol.setOnClickListener {
-                    // Execute the callback to remove the mark the item as removed
-                    onClickCallback(member)
+                    inviteRemoveSymbol.setOnClickListener {
+                        // Execute the callback to remove the mark the item as removed
+                        onClickCallback(member)
+                    }
+                }
+                else -> {
+                    setState(member)
+                    inviteRemoveSymbol.visibility = View.GONE
                 }
             }
         }

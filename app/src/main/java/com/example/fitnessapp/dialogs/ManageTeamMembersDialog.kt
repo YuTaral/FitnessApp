@@ -4,24 +4,24 @@ import android.content.Context
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fitnessapp.R
-import com.example.fitnessapp.adapters.TeamMembersActionRecyclerAdapter
+import com.example.fitnessapp.adapters.TeamMembersRecyclerAdapter
 import com.example.fitnessapp.models.TeamMemberModel
 import com.example.fitnessapp.models.TeamModel
 import com.example.fitnessapp.network.repositories.TeamRepository
 import com.example.fitnessapp.utils.Utils
 
 /** Manage members dialog to handle invite / remove members to team */
-class ManageTeamMembersDialog(ctx: Context, team: TeamModel): BaseDialog(ctx) {
+class ManageTeamMembersDialog(ctx: Context, team: TeamModel, teamMembers: List<TeamMemberModel>): BaseDialog(ctx) {
     override var layoutId = R.layout.manage_team_members_dialog
     override var dialogTitleId = R.string.invite_members_dialog_title
 
     private var selectedTeam = team
+    private var members = teamMembers
 
     private lateinit var teamNameLbl: TextView
     private lateinit var search: EditText
@@ -29,7 +29,6 @@ class ManageTeamMembersDialog(ctx: Context, team: TeamModel): BaseDialog(ctx) {
     private lateinit var searchResultLbl: TextView
     private lateinit var searchResultRecycler: RecyclerView
     private lateinit var membersRecycler: RecyclerView
-    private lateinit var saveBtn: Button
 
     override fun findViews() {
         super.findViews()
@@ -40,14 +39,13 @@ class ManageTeamMembersDialog(ctx: Context, team: TeamModel): BaseDialog(ctx) {
         searchResultLbl = dialog.findViewById(R.id.results_lbl)
         searchResultRecycler = dialog.findViewById(R.id.members_search_recycler)
         membersRecycler = dialog.findViewById(R.id.invited_members_recycler)
-        saveBtn = dialog.findViewById(R.id.save_btn)
     }
 
     override fun populateDialog() {
         teamNameLbl.text = selectedTeam.name
 
-        membersRecycler.adapter = TeamMembersActionRecyclerAdapter(mutableListOf(), false, callback = {
-            member -> onRemove(member)
+        membersRecycler.adapter = TeamMembersRecyclerAdapter(members, TeamMembersRecyclerAdapter.AdapterType.REMOVE, callback = {
+                member -> onRemove(member)
         })
     }
 
@@ -73,6 +71,13 @@ class ManageTeamMembersDialog(ctx: Context, team: TeamModel): BaseDialog(ctx) {
         }
     }
 
+    override fun dismiss() {
+        super.dismiss()
+
+        // Re-populate the panel, if any changes to members were done they must be visible
+        Utils.getPanelAdapter().getTeamPanel()!!.populatePanel()
+    }
+
     /** Search for users with the given search term and display them in the section */
     private fun performSearch() {
         if (search.text.isEmpty()) {
@@ -89,42 +94,47 @@ class ManageTeamMembersDialog(ctx: Context, team: TeamModel): BaseDialog(ctx) {
                 searchResultRecycler.visibility = View.VISIBLE
 
                 if (searchResultRecycler.adapter == null) {
-                    searchResultRecycler.adapter = TeamMembersActionRecyclerAdapter(members, true, callback = {
+                    searchResultRecycler.adapter = TeamMembersRecyclerAdapter(members, TeamMembersRecyclerAdapter.AdapterType.INVITE, callback = {
                         member -> onInvite(member)
                     })
                 } else {
-                    (searchResultRecycler.adapter as TeamMembersActionRecyclerAdapter).update(members)
+                    (searchResultRecycler.adapter as TeamMembersRecyclerAdapter).update(members)
                 }
             }
         })
     }
 
     /** Executed on invite button click to move the invited member into the team members section
+     * and send invite request
      * @param member the member to invite
      */
     private fun onInvite(member: TeamMemberModel) {
         // Remove the member from th search result
         getSearchAdapter().addRemoveMember(member, false)
 
-        // Add the member to the members section as invited
-        member.teamState = TeamMembersActionRecyclerAdapter.TeamMemberItem.MemberTeamState.INVITED.toString()
-        getMembersAdapter().addRemoveMember(member, true)
+        // Send invite request, on success updated list will be returned
+        TeamRepository().inviteMember(member.userId, selectedTeam.id, onSuccess = { members ->
+            getMembersAdapter().update(members)
+        })
     }
 
     /** Executed on remove button click to move the mark the member as removed
      * @param member the member to remove
      */
     private fun onRemove(member: TeamMemberModel) {
-        getMembersAdapter().changeMemberState(member, TeamMembersActionRecyclerAdapter.TeamMemberItem.MemberTeamState.REMOVED)
+        // Send remove request, on success updated list will be returned
+        TeamRepository().removeMember(member.id, onSuccess = { members ->
+            getMembersAdapter().update(members)
+        })
     }
 
     /** Return the adapter of the search recycler */
-    private fun getSearchAdapter(): TeamMembersActionRecyclerAdapter {
-        return  searchResultRecycler.adapter as TeamMembersActionRecyclerAdapter
+    private fun getSearchAdapter(): TeamMembersRecyclerAdapter {
+        return  searchResultRecycler.adapter as TeamMembersRecyclerAdapter
     }
 
     /** Return the adapter of the members recycler */
-    private fun getMembersAdapter(): TeamMembersActionRecyclerAdapter {
-        return  membersRecycler.adapter as TeamMembersActionRecyclerAdapter
+    private fun getMembersAdapter(): TeamMembersRecyclerAdapter {
+        return  membersRecycler.adapter as TeamMembersRecyclerAdapter
     }
 }

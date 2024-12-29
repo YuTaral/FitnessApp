@@ -4,6 +4,8 @@ import android.graphics.Bitmap
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.recyclerview.widget.RecyclerView
 import com.example.fitnessapp.R
 import com.example.fitnessapp.interfaces.IImagePicker
 import com.example.fitnessapp.interfaces.ITemporaryPanel
@@ -23,7 +25,9 @@ abstract class BaseTeamPanel: BasePanel(), IImagePicker, ITemporaryPanel {
     protected lateinit var privateNote: EditText
     protected lateinit var saveBtn: Button
     protected lateinit var deleteBtn: Button
+    protected lateinit var membersSectionContainer: ConstraintLayout
     protected lateinit var inviteMembersBtn: Button
+    protected lateinit var membersRecycler: RecyclerView
 
     override fun findViews() {
         teamImage = panel.findViewById(R.id.team_image)
@@ -33,7 +37,9 @@ abstract class BaseTeamPanel: BasePanel(), IImagePicker, ITemporaryPanel {
         privateNote = panel.findViewById(R.id.team_private_note)
         deleteBtn = panel.findViewById(R.id.delete_btn)
         saveBtn = panel.findViewById(R.id.save_btn)
+        membersSectionContainer = panel.findViewById(R.id.members_section_container)
         inviteMembersBtn = panel.findViewById(R.id.invite_btn)
+        membersRecycler = panel.findViewById(R.id.members_recycler)
     }
 
     override fun addClickListeners() {

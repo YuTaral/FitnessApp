@@ -51,6 +51,45 @@ class TeamRepository {
         )
     }
 
+    /** Invite member to team
+     * @param userId the user id to invite
+     * @param teamId the team id
+     * @param onSuccess callback to execute if request is successful
+     */
+    fun inviteMember(userId: String, teamId: Long, onSuccess: (List<TeamMemberModel>) -> Unit) {
+        NetworkManager.sendRequest(
+            request = { APIService.getInstance().inviteMember(userId, teamId) },
+            onSuccessCallback = { response ->
+                val members: MutableList<TeamMemberModel> = mutableListOf()
+
+                if (response.data.isNotEmpty()) {
+                    members.addAll(response.data.map { TeamMemberModel(it) })
+                }
+
+                onSuccess(members)
+            },
+        )
+    }
+
+    /** Remove member from team
+     * @param recordId the record id to remove
+     * @param onSuccess callback to execute if request is successful
+     */
+    fun removeMember(recordId: Long, onSuccess: (List<TeamMemberModel>) -> Unit) {
+        NetworkManager.sendRequest(
+            request = { APIService.getInstance().removeMember(recordId) },
+            onSuccessCallback = { response ->
+                val members: MutableList<TeamMemberModel> = mutableListOf()
+
+                if (response.data.isNotEmpty()) {
+                    members.addAll(response.data.map { TeamMemberModel(it) })
+                }
+
+                onSuccess(members)
+            },
+        )
+    }
+
     /** Get the teams created by the user
      * @param onSuccess callback to execute if request is successful
      */
@@ -71,6 +110,25 @@ class TeamRepository {
             request = { APIService.getInstance().getUsersToInvite(name, teamId) },
             onSuccessCallback = { response ->
                 val members:MutableList<TeamMemberModel> = mutableListOf()
+
+                if (response.data.isNotEmpty()) {
+                    members.addAll(response.data.map { TeamMemberModel(it) })
+                }
+
+                onSuccess(members)
+            },
+        )
+    }
+
+    /** Get team members
+     * @param teamId the team id
+     * @param onSuccess callback to execute if request is successful
+     */
+    fun getTeamMembers(teamId: Long, onSuccess: (List<TeamMemberModel>) -> Unit) {
+        NetworkManager.sendRequest(
+            request = { APIService.getInstance().getTeamMembers(teamId) },
+            onSuccessCallback = { response ->
+                val members: MutableList<TeamMemberModel> = mutableListOf()
 
                 if (response.data.isNotEmpty()) {
                     members.addAll(response.data.map { TeamMemberModel(it) })

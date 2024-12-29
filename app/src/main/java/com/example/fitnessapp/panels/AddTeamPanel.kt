@@ -15,7 +15,14 @@ class AddTeamPanel: BaseTeamPanel() {
     override var layoutId = R.layout.add_edit_team_panel
 
     override fun populatePanel() {
-        changeButtons()
+        membersSectionContainer.visibility = View.GONE
+
+        // Hide the delete button and center the save button when adding new team
+        deleteBtn.visibility = View.GONE
+
+        val layoutParams = saveBtn.layoutParams as ConstraintLayout.LayoutParams
+        layoutParams.startToStart = ConstraintLayout.LayoutParams.PARENT_ID
+        saveBtn.layoutParams = layoutParams
     }
 
     /** Executed on save button click. Send request to add the team */
@@ -34,15 +41,5 @@ class AddTeamPanel: BaseTeamPanel() {
         }, onError = {
             saveBtn.isEnabled = true
         })
-    }
-
-    /** Hide the delete button and center the save button when adding new team */
-    private fun changeButtons() {
-        inviteMembersBtn.visibility = View.GONE
-        deleteBtn.visibility = View.GONE
-
-        val layoutParams = saveBtn.layoutParams as ConstraintLayout.LayoutParams
-        layoutParams.startToStart = ConstraintLayout.LayoutParams.PARENT_ID
-        saveBtn.layoutParams = layoutParams
     }
 }

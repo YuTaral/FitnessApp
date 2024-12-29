@@ -162,14 +162,12 @@
     <string name="question_delete_team_title">Delete Team</string>
     <string name="question_delete_team_text">Are you sure you want to delete team \"%s\" ?</string>
     <string name="invite_members_dialog_title">Team members</string>
-    <string name="search_member_lbl">Search member by name…</string>
+    <string name="search_member_lbl">Invite member…</string>
     <string name="team_members_lbl">Team members</string>
     <string name="search_results_lbl">Search results</string>
     <string name="enter_user_email_or_name_lbl">Please enter user email / name</string>
-    <string name="no_users_found">No users with name \"%s\" found</string>
-    <string name="not_invited_lbl">Not invited </string>
+    <string name="no_users_found">There are no user with name \"%s\" valid for invitation (user does not exist or invitation already send)</string>
     <string name="invited_lbl">Invited</string>
-    <string name="removed_from_team_lbl">Removed from team</string>
-    <string name="in_team_lbl">In team</string>
+    <string name="in_team_lbl">Joined</string>
 
 </resources>
