@@ -29,13 +29,13 @@ class MuscleGroupModel: BaseModel {
      * @param idVal the id
      */
     constructor(idVal: Long) : super(idVal) {
-        name = "Unknown"
+        name = ""
         imageName = ""
     }
 
     /** Empty constructor */
     constructor() : super(0) {
-        name = "Unknown"
+        name = ""
         imageName = ""
     }
 }
