@@ -99,8 +99,6 @@ class AddExerciseToWorkoutDialog(ctx: Context, exercise: MGExerciseModel, values
             return null
         }
 
-        // Create MuscleGroup object only with id, that's the variable which is needed
-        // server side in order to create Exercise record
         val model = MuscleGroupModel(exerciseToAdd.muscleGroupId)
 
         // Validation passed

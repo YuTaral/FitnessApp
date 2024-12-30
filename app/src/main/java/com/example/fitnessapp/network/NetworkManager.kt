@@ -73,7 +73,7 @@ object NetworkManager {
                                 // Execute the callback and show the message if it's different from success
                                 onSuccessCallback(responseBody!!)
                                 if (responseBody!!.message != "Success") {
-                                    Utils.showToast(responseBody!!.message)
+                                    showMessage(responseBody!!.message)
                                 }
 
                             } else if (Utils.istTokenExpiredResponse(responseBody!!.code)) {
@@ -169,7 +169,7 @@ object NetworkManager {
             }
         }
 
-        Utils.showMessage(message)
+        showMessage(message)
     }
 
     /** Execute the logic if exception occurs
@@ -181,7 +181,18 @@ object NetworkManager {
         progressDialog.dismiss()
 
         // Show the message and log the error
-        Utils.showMessage(message)
+        showMessage(message)
         exception.printStackTrace()
+    }
+
+    /** Show message in the snack-bar or as toast, depending on whether there is active dialog
+     * @param message the message to show
+     */
+    private fun showMessage(message: String) {
+        if (Utils.getActivity().activeDialogs.isEmpty()) {
+            Utils.showMessage(message)
+        } else {
+            Utils.showToast(message)
+        }
     }
 }
