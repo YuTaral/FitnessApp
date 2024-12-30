@@ -43,4 +43,17 @@ object AppStateManager {
             _workout = value
             (activeActivity as MainActivity).updateActions()
         }
+
+    /** Backing field for the notification field
+     * (true if there is active notification(s)/ false otherwise
+     */
+    private var _notification: Boolean = false
+
+    /** Getter for the notification */
+    var notification: Boolean
+        get() = _notification
+        set(value) {
+            _notification = value
+            (activeActivity as MainActivity).updateNotificationIcon()
+        }
 }

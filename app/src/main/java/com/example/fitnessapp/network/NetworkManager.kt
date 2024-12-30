@@ -3,6 +3,7 @@ package com.example.fitnessapp.network
 import android.app.AlertDialog
 import android.os.Handler
 import android.os.Looper
+import com.example.fitnessapp.LoginActivity
 import com.example.fitnessapp.R
 import com.example.fitnessapp.network.repositories.UserRepository
 import com.example.fitnessapp.utils.AppStateManager
@@ -67,6 +68,8 @@ object NetworkManager {
                     // Process the response
                     if (responseBody != null && response.isSuccessful) {
 
+                        updateNotification()
+
                         try {
 
                             if (Utils.isSuccessResponse(responseBody!!.code)) {
@@ -125,7 +128,7 @@ object NetworkManager {
 
                 try {
                     if (responseBody == null) {
-                        responseBody = CustomResponse(Constants.ResponseCode.FAIL.ordinal, "", listOf())
+                        responseBody = CustomResponse(Constants.ResponseCode.FAIL.ordinal, "", listOf(), AppStateManager.notification)
                     }
 
                     // Try to execute the on error callback
@@ -136,6 +139,19 @@ object NetworkManager {
                 }
             }
         })
+    }
+
+    /** Update the notification property received from the request
+     * if it's different from the the value in AppStateManager
+     */
+    private fun updateNotification() {
+        if (responseBody == null || AppStateManager.activeActivity is LoginActivity) {
+            return
+        }
+
+        if (responseBody!!.notification != AppStateManager.notification) {
+            AppStateManager.notification = responseBody!!.notification
+        }
     }
 
     /** Show request in progress dialog when the request is sent */
@@ -160,6 +176,8 @@ object NetworkManager {
     private fun onError(onErrorCallback: (CustomResponse) -> Unit) {
         var message = Utils.getActivity().getString(R.string.error_msg_unexpected)
 
+        updateNotification()
+
         if (responseBody != null) {
             // Execute the callback
             onErrorCallback(responseBody!!)
@@ -179,6 +197,8 @@ object NetworkManager {
     private fun onException(message: String, exception: Exception) {
         // Dismiss the dialog
         progressDialog.dismiss()
+
+        updateNotification()
 
         // Show the message and log the error
         showMessage(message)

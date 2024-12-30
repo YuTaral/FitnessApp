@@ -169,5 +169,6 @@
     <string name="no_users_found">There are no user with name \"%s\" valid for invitation (user does not exist or invitation already send)</string>
     <string name="invited_lbl">Invited</string>
     <string name="in_team_lbl">Joined</string>
+    <string name="notifications_lbl">Notifications</string>
 
 </resources>

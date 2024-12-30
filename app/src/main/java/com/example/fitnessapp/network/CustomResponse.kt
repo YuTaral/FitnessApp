@@ -5,4 +5,5 @@ data class CustomResponse(
     val code: Int,
     val message: String,
     val data: List<String>,
+    val notification: Boolean
 )

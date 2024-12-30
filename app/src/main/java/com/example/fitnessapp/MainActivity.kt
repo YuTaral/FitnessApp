@@ -2,6 +2,7 @@ package com.example.fitnessapp
 
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
@@ -19,6 +20,7 @@ import com.example.fitnessapp.network.repositories.WorkoutRepository
 import com.example.fitnessapp.panels.BaseExercisePanel
 import com.example.fitnessapp.panels.ManageExercisesPanel
 import com.example.fitnessapp.panels.ManageTeamsPanel
+import com.example.fitnessapp.panels.NotificationsPanel
 import com.example.fitnessapp.panels.TemplatesPanel
 import com.example.fitnessapp.utils.ActivityResultHandler
 import com.example.fitnessapp.utils.AppStateManager
@@ -37,6 +39,8 @@ class MainActivity : BaseActivity() {
     private lateinit var navProfileView: NavigationView
     private lateinit var navActionView: NavigationView
     private lateinit var profileIcon: ImageView
+    private lateinit var notificationIcon: ImageView
+    private lateinit var activeNotificationIcon: ImageView
     private lateinit var menuIcon: ImageView
     private lateinit var viewPager: ViewPager2
     private lateinit var tabLayout: TabLayout
@@ -61,59 +65,15 @@ class MainActivity : BaseActivity() {
         viewPager = findViewById(R.id.viewPager)
         tabLayout = findViewById(R.id.tabLayout)
         profileIcon = findViewById(R.id.profile_img)
+        notificationIcon = findViewById(R.id.notifications_img)
+        activeNotificationIcon = findViewById(R.id.notifications_circle_img)
         menuIcon = findViewById(R.id.menu_img)
     }
 
     override fun addClickListeners() {
         initialisePager()
         initialiseDrawerLogic()
-    }
-
-    /** Update the selected actions in the right drawer based on whether there is selected workout */
-    fun updateActions() {
-        if (AppStateManager.workout == null) {
-            // Hide the workout related actions
-            navActionView.menu.findItem(R.id.nav_finish_workout).setVisible(false)
-            navActionView.menu.findItem(R.id.nav_save_workout_template).setVisible(false)
-        } else {
-            // Display the workout related actions
-            if (AppStateManager.workout!!.finishDateTime == null) {
-                navActionView.menu.findItem(R.id.nav_finish_workout).setVisible(true)
-            } else {
-                navActionView.menu.findItem(R.id.nav_finish_workout).setVisible(false)
-            }
-            navActionView.menu.findItem(R.id.nav_save_workout_template).setVisible(true)
-        }
-    }
-
-    /** Update the user image and name in the left drawer */
-    fun setUserInDrawer() {
-        if (!::navProfileView.isInitialized) {
-            // Workaround to prevent this to throw error, in case the app was restarted - if it was
-            // restarted the user is being set on BaseActivity.onAppRestart, which triggers setUserInDrawer
-            // before findViews() is executed. Just return here, the setUserInDrawer is called later
-            // in initialiseDrawerLogic which is fine to update the views in the drawer
-            return
-        }
-
-        val profileImage = navProfileView.getHeaderView(0).findViewById<ImageView>(R.id.team_image)
-        val username = navProfileView.getHeaderView(0).findViewById<TextView>(R.id.txt_username)
-
-        // Set profile image if there is
-        if (AppStateManager.user!!.profileImage.isNotEmpty()) {
-            profileImage.setBackgroundResource(0)
-            profileImage.setImageBitmap(Utils.convertStringToBitmap(AppStateManager.user!!.profileImage))
-        } else {
-            profileImage.setImageBitmap(null)
-            profileImage.setBackgroundResource(R.drawable.icon_profile)
-        }
-
-        // Set username to email or full name
-        if (AppStateManager.user!!.fullName.isEmpty()) {
-            username.text = AppStateManager.user!!.email
-        } else {
-            username.text = AppStateManager.user!!.fullName
-        }
+        initializeNotifications()
     }
 
     /** Set the view pager */
@@ -183,6 +143,17 @@ class MainActivity : BaseActivity() {
         })
     }
 
+    /** Update the notifications icon when the activity is created and add click listener to display
+     * user notifications
+     */
+    private fun initializeNotifications() {
+        updateNotificationIcon()
+
+        notificationIcon.setOnClickListener {
+            Utils.getPanelAdapter().displayTemporaryPanel(NotificationsPanel())
+        }
+    }
+
     /** Execute the action based on the selected action in the right Drawer
      * @param menuItem the selected menu item
      * */
@@ -240,6 +211,62 @@ class MainActivity : BaseActivity() {
 
                 dialog.show()
             }
+        }
+    }
+
+    /** Update the selected actions in the right drawer based on whether there is selected workout */
+    fun updateActions() {
+        if (AppStateManager.workout == null) {
+            // Hide the workout related actions
+            navActionView.menu.findItem(R.id.nav_finish_workout).setVisible(false)
+            navActionView.menu.findItem(R.id.nav_save_workout_template).setVisible(false)
+        } else {
+            // Display the workout related actions
+            if (AppStateManager.workout!!.finishDateTime == null) {
+                navActionView.menu.findItem(R.id.nav_finish_workout).setVisible(true)
+            } else {
+                navActionView.menu.findItem(R.id.nav_finish_workout).setVisible(false)
+            }
+            navActionView.menu.findItem(R.id.nav_save_workout_template).setVisible(true)
+        }
+    }
+
+    /** Update the user image and name in the left drawer */
+    fun setUserInDrawer() {
+        if (!::navProfileView.isInitialized) {
+            // Workaround to prevent this to throw error, in case the app was restarted - if it was
+            // restarted the user is being set on BaseActivity.onAppRestart, which triggers setUserInDrawer
+            // before findViews() is executed. Just return here, the setUserInDrawer is called later
+            // in initialiseDrawerLogic which is fine to update the views in the drawer
+            return
+        }
+
+        val profileImage = navProfileView.getHeaderView(0).findViewById<ImageView>(R.id.team_image)
+        val username = navProfileView.getHeaderView(0).findViewById<TextView>(R.id.txt_username)
+
+        // Set profile image if there is
+        if (AppStateManager.user!!.profileImage.isNotEmpty()) {
+            profileImage.setBackgroundResource(0)
+            profileImage.setImageBitmap(Utils.convertStringToBitmap(AppStateManager.user!!.profileImage))
+        } else {
+            profileImage.setImageBitmap(null)
+            profileImage.setBackgroundResource(R.drawable.icon_profile)
+        }
+
+        // Set username to email or full name
+        if (AppStateManager.user!!.fullName.isEmpty()) {
+            username.text = AppStateManager.user!!.email
+        } else {
+            username.text = AppStateManager.user!!.fullName
+        }
+    }
+
+    /** Set the red notification circle based on whether there is active notification */
+    fun updateNotificationIcon() {
+        if (AppStateManager.notification) {
+            activeNotificationIcon.visibility = View.VISIBLE
+        } else {
+            activeNotificationIcon.visibility = View.GONE
         }
     }
 }

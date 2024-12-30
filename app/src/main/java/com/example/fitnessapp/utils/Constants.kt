@@ -26,7 +26,8 @@ object Constants {
         MANAGE_EXERCISE,
         MANAGE_TEAMS,
         ADD_TEAM,
-        EDIT_TEAM
+        EDIT_TEAM,
+        NOTIFICATIONS
     }
 
     /** Enum to hold the position of the panel in the fragment state adapter  */
@@ -46,6 +47,7 @@ object Constants {
         private const val USER_PROFILE = "user-profile"
         private const val WORKOUT_TEMPLATE = "workout-template"
         private const val TEAM = "team"
+        private const val NOTIFICATION = "notification"
 
         const val REGISTER = "$USER/register"
         const val LOGIN = "$USER/login"
@@ -87,5 +89,7 @@ object Constants {
         const val GET_MY_TEAMS  = "$TEAM/my-teams"
         const val GET_USERS_TO_INVITE  = "$TEAM/get-users-to-invite"
         const val GET_TEAM_MEMBERS  = "$TEAM/get-team-members"
+
+        const val GET_NOTIFICATIONS  = "$NOTIFICATION/get-notifications"
     }
 }

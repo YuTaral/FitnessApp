@@ -135,4 +135,9 @@ interface IAPIService {
 
     @GET(Constants.RequestEndPoints.GET_TEAM_MEMBERS)
     fun getTeamMembers(@Query("teamId") teamId: Long): Call<CustomResponse>
+
+    /** NOTIFICATION GET REQUESTS
+     * -------------------------------------------------------------------------------- */
+    @GET(Constants.RequestEndPoints.GET_NOTIFICATIONS)
+    fun getNotifications(): Call<CustomResponse>
 }
