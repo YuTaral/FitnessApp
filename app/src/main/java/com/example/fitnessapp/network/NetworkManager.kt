@@ -141,7 +141,7 @@ object NetworkManager {
     /** Show request in progress dialog when the request is sent */
     private fun showRequestInProgressDialog() {
         val dialogBuilder = AlertDialog.Builder(Utils.getActivity(), R.style.LoadingDialog)
-                            .setView(R.layout.progress_dialog)
+                            .setView(R.layout.dialog_req_progress)
                             .setCancelable(false)
 
         progressDialog = dialogBuilder.create()

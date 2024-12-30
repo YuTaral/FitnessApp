@@ -26,7 +26,7 @@ import java.util.Date
 /** New Workout Panel class to display and manage the selected workout */
 class SelectedWorkoutPanel : BasePanel() {
     override var id: Long = Constants.PanelUniqueId.WORKOUT.ordinal.toLong()
-    override var layoutId: Int = R.layout.selected_workout_panel
+    override var layoutId: Int = R.layout.panel_selected_workout
     override var panelIndex: Int = Constants.PanelIndices.WORKOUT.ordinal
     override var titleId: Int = R.string.workout_panel_title
 

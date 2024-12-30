@@ -13,7 +13,7 @@ import java.util.Date
 
 /** Custom date and time picker dialog */
 class DateTimePickerDialog(ctx: Context): BaseDialog(ctx) {
-    override var layoutId = R.layout.date_picker_dialog
+    override var layoutId = R.layout.dialog_date_picker
 
     private lateinit var onSaveCallback: (Date) -> Unit
     private lateinit var datePicker: CalendarView

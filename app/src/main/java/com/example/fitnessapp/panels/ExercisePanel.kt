@@ -11,7 +11,7 @@ import com.example.fitnessapp.utils.Constants
 /** Exercise Panel class to implement the logic for selecting exercises for workout */
 class ExercisePanel(mode: Mode): BaseExercisePanel(mode) {
     override var id: Long = Constants.PanelUniqueId.SELECT_EXERCISE.ordinal.toLong()
-    override var layoutId: Int = R.layout.exercise_panel
+    override var layoutId: Int = R.layout.panel_exercise
     override var titleId: Int = R.string.exercise_lbl
     override var onlyForUser: String = "N"
     override var noExercisesStringId: Int = R.string.no_exercise_lbl

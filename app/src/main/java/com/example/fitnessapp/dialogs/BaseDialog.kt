@@ -38,7 +38,7 @@ abstract class BaseDialog(ctx: Context): Dialog(ctx, R.style.Theme_FitnessApp_Di
         super.onCreate(savedInstanceState)
 
         // Inflate the base dialog layout
-        dialog = LayoutInflater.from(Utils.getActivity()).inflate(R.layout.base_dialog, null) as ConstraintLayout
+        dialog = LayoutInflater.from(Utils.getActivity()).inflate(R.layout.dialog_base, null) as ConstraintLayout
 
         // Set the dialog main content layout
         setMainContent()

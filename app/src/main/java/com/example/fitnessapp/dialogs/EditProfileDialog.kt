@@ -14,7 +14,7 @@ import com.example.fitnessapp.utils.Utils
 
 /** Dialog to handle the logic for profile edit */
 class EditProfileDialog(ctx: Context): BaseDialog(ctx), IImagePicker {
-    override var layoutId = R.layout.edit_profile_dialog
+    override var layoutId = R.layout.dialog_edit_profile
     override var dialogTitleId = R.string.edit_profile_lbl
 
     private lateinit var profileImage: ImageView

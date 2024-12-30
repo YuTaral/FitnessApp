@@ -8,7 +8,7 @@ import com.example.fitnessapp.utils.Utils
 
 /** Dialog to display muscle group exercise information */
 class DisplayMGExerciseDialog(ctx: Context, exName: String, data: MGExerciseModel): BaseDialog(ctx) {
-    override var layoutId = R.layout.display_mg_exercise_dialog
+    override var layoutId = R.layout.dialog_display_mg_exercise
     override var dialogTitleId = 0
 
     private var exerciseName = exName

@@ -15,7 +15,7 @@ class ManageTeamsPanel: BasePanel(), ITemporaryPanel {
     override var id = Constants.PanelUniqueId.MANAGE_TEAMS.ordinal.toLong()
     override var panelIndex = Constants.PanelIndices.TEMPORARY.ordinal
     override var titleId = R.string.teams_lbl
-    override var layoutId = R.layout.manage_teams_panel
+    override var layoutId = R.layout.panel_manage_teams
     override val removePreviousTemporary = true
 
     private lateinit var teamsRecycler: RecyclerView

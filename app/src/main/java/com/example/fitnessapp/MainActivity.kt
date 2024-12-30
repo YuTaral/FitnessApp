@@ -31,7 +31,7 @@ import com.google.android.material.tabs.TabLayoutMediator
  * Displayed after successful login
  */
 class MainActivity : BaseActivity() {
-    override var layoutId = R.layout.main_activity
+    override var layoutId = R.layout.activity_main
 
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navProfileView: NavigationView

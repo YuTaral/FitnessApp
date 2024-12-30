@@ -22,7 +22,7 @@ import com.example.fitnessapp.utils.Utils
  */
 @SuppressLint("InflateParams")
 class AddEditMGExerciseDialog(ctx: Context, mGroupId: Long, exercise: MGExerciseModel? = null): BaseDialog(ctx) {
-    override var layoutId = R.layout.add_edit_mgexercise_dialog
+    override var layoutId = R.layout.dialog_add_edit_mgexercise
     override var dialogTitleId = R.string.add_exercise_lbl
 
     private var muscleGroupId = mGroupId

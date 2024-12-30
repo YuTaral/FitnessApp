@@ -29,7 +29,7 @@ class AddEditWorkoutDialog(ctx: Context, mode: Mode, workoutModel: WorkoutModel?
         EDIT
     }
 
-    override var layoutId = R.layout.add_edit_workout_dialog
+    override var layoutId = R.layout.dialog_add_edit_workout
     override var dialogTitleId = R.string.add_workout_panel_title
 
     private var dialogMode: Mode = mode

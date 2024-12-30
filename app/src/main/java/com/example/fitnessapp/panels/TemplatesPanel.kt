@@ -18,7 +18,7 @@ import com.example.fitnessapp.utils.Utils
 /** Templates Panel class to implement the logic for managing templates */
 class TemplatesPanel: BasePanel(), ITemporaryPanel {
     override var id: Long = Constants.PanelUniqueId.TEMPLATES.ordinal.toLong()
-    override var layoutId: Int = R.layout.templates_panel
+    override var layoutId: Int = R.layout.panel_templates
     override var panelIndex: Int = Constants.PanelIndices.TEMPORARY.ordinal
     override var titleId: Int = R.string.manage_templates_lbl
     override val removePreviousTemporary = true

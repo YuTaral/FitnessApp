@@ -19,7 +19,7 @@ import com.example.fitnessapp.utils.Utils
 
 /** Class to hold the logic for Login / Register */
 class LoginActivity : BaseActivity() {
-    override var layoutId = R.layout.login_activity
+    override var layoutId = R.layout.activity_login
 
     private lateinit var loginContainer: ConstraintLayout
     private lateinit var registerContainer: ConstraintLayout

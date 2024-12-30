@@ -33,7 +33,7 @@ abstract class BasePanel: Fragment() {
     private lateinit var loadingSpinner: FrameLayout
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        panel = inflater.inflate(R.layout.base_panel, container, false)
+        panel = inflater.inflate(R.layout.panel_base, container, false)
 
         // Inflate the child layout (the one specific to the panel)
         setMainContent()

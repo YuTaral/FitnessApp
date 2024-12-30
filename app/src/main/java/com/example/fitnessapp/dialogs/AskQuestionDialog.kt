@@ -53,7 +53,7 @@ class AskQuestionDialog(ctx: Context, q: Question, d: BaseModel? = null): BaseDi
         }
     }
 
-    override var layoutId = R.layout.ask_question_dialog
+    override var layoutId = R.layout.dialog_ask_question
 
     private var question = q
     private var data = d

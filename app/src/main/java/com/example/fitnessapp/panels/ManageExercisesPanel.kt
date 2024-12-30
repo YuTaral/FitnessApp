@@ -18,7 +18,7 @@ import com.example.fitnessapp.utils.Utils
  */
 class ManageExercisesPanel(mode: Mode): BaseExercisePanel(mode) {
     override var id: Long = Constants.PanelUniqueId.MANAGE_EXERCISE.ordinal.toLong()
-    override var layoutId: Int = R.layout.exercise_panel
+    override var layoutId: Int = R.layout.panel_exercise
     override var titleId: Int = R.string.manage_exercises_lbl
     override var onlyForUser: String = "Y"
     override var noExercisesStringId: Int = R.string.no_exercise_to_edit_lbl

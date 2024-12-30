@@ -15,7 +15,7 @@ import com.example.fitnessapp.utils.Utils
 
 /** DefaultValuesDialog to enter user default values for exercise (sets, reps and weights) */
 class DefaultValuesDialog(ctx: Context, values: UserDefaultValuesModel, weightUnits: List<WeightUnitModel>?): BaseDialog(ctx) {
-    override var layoutId = R.layout.exercise_default_values_dialog
+    override var layoutId = R.layout.dialog_exercise_default_values
     override var dialogTitleId = R.string.exercise_default_values_lbl
 
     private var weightUnitsData = weightUnits

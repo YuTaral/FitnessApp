@@ -17,7 +17,7 @@ import com.example.fitnessapp.utils.Utils
 
 /** Manage members dialog to handle invite / remove members to team */
 class ManageTeamMembersDialog(ctx: Context, team: TeamModel, teamMembers: List<TeamMemberModel>): BaseDialog(ctx) {
-    override var layoutId = R.layout.manage_team_members_dialog
+    override var layoutId = R.layout.dialog_manage_team_members
     override var dialogTitleId = R.string.invite_members_dialog_title
 
     private var selectedTeam = team
