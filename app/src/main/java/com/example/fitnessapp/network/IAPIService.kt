@@ -125,6 +125,9 @@ interface IAPIService {
     @POST(Constants.RequestEndPoints.REMOVE_MEMBER)
     fun removeMember(@Query("recordId") recordId: Long): Call<CustomResponse>
 
+    @POST(Constants.RequestEndPoints.ACCEPT_TEAM_INVITE)
+    fun acceptInvite(@Query("userId") userId: String, @Query("teamId") teamId: Long): Call<CustomResponse>
+
     /** TEAM GET REQUESTS
      * -------------------------------------------------------------------------------- */
     @GET(Constants.RequestEndPoints.GET_MY_TEAMS)
@@ -140,4 +143,7 @@ interface IAPIService {
      * -------------------------------------------------------------------------------- */
     @GET(Constants.RequestEndPoints.GET_NOTIFICATIONS)
     fun getNotifications(): Call<CustomResponse>
+
+    @GET(Constants.RequestEndPoints.GET_JOIN_TEAM_NOTIFICATION_DETAILS)
+    fun getJoinTeamNotificationDetails(@Query("id") id: Long): Call<CustomResponse>
 }

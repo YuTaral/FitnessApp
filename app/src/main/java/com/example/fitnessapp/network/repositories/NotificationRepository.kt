@@ -1,5 +1,6 @@
 package com.example.fitnessapp.network.repositories
 
+import com.example.fitnessapp.models.JoinTeamNotificationModel
 import com.example.fitnessapp.models.NotificationModel
 import com.example.fitnessapp.network.APIService
 import com.example.fitnessapp.network.NetworkManager
@@ -14,6 +15,17 @@ class NotificationRepository {
         NetworkManager.sendRequest(
             request = { APIService.getInstance().getNotifications() },
             onSuccessCallback = { response -> onSuccess(response.data.map { NotificationModel(it) } )},
+        )
+    }
+
+    /** Get the notification details
+     * @param id the notification id
+     * @param onSuccess callback to execute if request is successful
+     */
+    fun getNotificationDetails(id: Long, onSuccess: (JoinTeamNotificationModel) -> Unit) {
+        NetworkManager.sendRequest(
+            request = { APIService.getInstance().getJoinTeamNotificationDetails(id) },
+            onSuccessCallback = { response -> onSuccess(JoinTeamNotificationModel(response.data[0]))},
         )
     }
 }

@@ -13,6 +13,7 @@ import com.example.fitnessapp.panels.BaseTeamPanel
 import com.example.fitnessapp.panels.MainPanel
 import com.example.fitnessapp.panels.ManageExercisesPanel
 import com.example.fitnessapp.panels.ManageTeamsPanel
+import com.example.fitnessapp.panels.NotificationsPanel
 import com.example.fitnessapp.panels.SelectedWorkoutPanel
 import com.example.fitnessapp.utils.AppStateManager
 import com.example.fitnessapp.utils.Constants
@@ -112,14 +113,17 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
         return null
     }
 
+    /** Return the temporary panel instance as ManageTeamsPanel */
+    private fun getTeamsPanel(): ManageTeamsPanel? = getTemporaryPanelAs(Constants.PanelIndices.TEMPORARY.ordinal)
+
     /** Return the temporary panel instance as BaseExercisePanel */
     fun getBaseExercisePanel(): BaseExercisePanel? = getTemporaryPanelAs(Constants.PanelIndices.TEMPORARY.ordinal)
 
-    /** Return the temporary panel instance as ManageTeamsPanel */
-    fun getTeamsPanel(): ManageTeamsPanel? = getTemporaryPanelAs(Constants.PanelIndices.TEMPORARY.ordinal)
-
     /** Return the temporary panel instance as AddEditTeamPanel */
     fun getTeamPanel(): BaseTeamPanel? = getTemporaryPanelAs(Constants.PanelIndices.ANOTHER_TEMPORARY.ordinal)
+
+    /** Return the temporary panel instance as NotificationsPanel */
+    fun getNotificationsPanel(): NotificationsPanel? = getTemporaryPanelAs(Constants.PanelIndices.TEMPORARY.ordinal)
 
     /** Return true if the current active panel is Manage Exercise, false otherwise */
     fun isManageExerciseActive(): Boolean {

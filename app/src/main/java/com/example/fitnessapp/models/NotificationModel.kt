@@ -18,6 +18,15 @@ class NotificationModel: BaseModel {
     @SerializedName("IsActive")
     val isActive: Boolean
 
+    @SerializedName("Type")
+    val type: String
+
+    @SerializedName("Image")
+    val image: String
+
+    @SerializedName("TeamId")
+    val teamId: Long?
+
     /** Constructor to deserialized NotificationModel object
      * @param data serialized NotificationModel object
      */
@@ -28,5 +37,8 @@ class NotificationModel: BaseModel {
         notificationText = model.notificationText
         dateTime = model.dateTime
         isActive = model.isActive
+        type = model.type
+        image = model.image
+        teamId = model.teamId
     }
 }

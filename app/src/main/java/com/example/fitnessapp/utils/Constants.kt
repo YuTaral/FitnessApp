@@ -30,12 +30,19 @@ object Constants {
         NOTIFICATIONS
     }
 
-    /** Enum to hold the position of the panel in the fragment state adapter  */
+    /** Enum with the position of the panel in the fragment state adapter  */
     enum class PanelIndices {
         MAIN,
         WORKOUT,
         TEMPORARY,
         ANOTHER_TEMPORARY
+    }
+
+    /** Enum with notification types */
+    enum class NotificationType {
+        INVITED_TO_TEAM,
+        JOINED_TEAM,
+        REMOVED_FROM_TEAM
     }
 
     /** Object containing request end point values */
@@ -86,10 +93,12 @@ object Constants {
         const val DELETE_TEAM  = "$TEAM/delete"
         const val INVITE_MEMBER  = "$TEAM/invite-member"
         const val REMOVE_MEMBER  = "$TEAM/remove-member"
+        const val ACCEPT_TEAM_INVITE  = "$TEAM/accept-invite"
         const val GET_MY_TEAMS  = "$TEAM/my-teams"
         const val GET_USERS_TO_INVITE  = "$TEAM/get-users-to-invite"
         const val GET_TEAM_MEMBERS  = "$TEAM/get-team-members"
 
         const val GET_NOTIFICATIONS  = "$NOTIFICATION/get-notifications"
+        const val GET_JOIN_TEAM_NOTIFICATION_DETAILS  = "$NOTIFICATION/get-join-team-notification-details"
     }
 }

@@ -7,21 +7,42 @@
     android:layout_margin="5dp"
     android:padding="5dp">
 
-    <TextView
-        android:id="@+id/text"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/image_text_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:maxLines="3"
-        android:ellipsize="end"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="The notification text goes here"/>
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/image"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:shapeAppearanceOverlay="@style/RoundedCorners"/>
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:textSize="17sp"
+            android:maxLines="3"
+            android:ellipsize="end"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/image"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="The notification text goes here"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:textStyle="italic"
-        app:layout_constraintTop_toBottomOf="@+id/text"/>
+        app:layout_constraintTop_toBottomOf="@+id/image_text_container"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
