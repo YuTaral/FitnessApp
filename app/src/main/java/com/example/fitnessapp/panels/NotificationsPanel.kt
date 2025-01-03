@@ -30,10 +30,7 @@ class NotificationsPanel: BasePanel(), ITemporaryPanel {
 
     override fun populatePanel() {
         NotificationRepository().getNotifications(onSuccess = { notifications ->
-            notificationsRecycler.adapter = NotificationsRecAdapter(notifications,
-                callback = { notification -> onNotificationClick(notification) },
-                removeCallback = { notification -> deleteNotification(notification) }
-            )
+            populateNotifications(notifications)
         })
     }
 
