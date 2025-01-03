@@ -17,7 +17,7 @@ import com.example.fitnessapp.utils.AppStateManager
 import com.example.fitnessapp.utils.Constants
 import com.example.fitnessapp.utils.Utils
 
-/** Add / Edit Muscle group Exercise dialog to hold the logic for
+/** Add / Edit Muscle group Exercise dialog to implement the logic for
  * adding exercise / updating exercise as part of muscle group
  */
 @SuppressLint("InflateParams")

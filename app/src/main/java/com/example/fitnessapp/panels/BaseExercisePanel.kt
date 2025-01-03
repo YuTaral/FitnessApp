@@ -41,7 +41,7 @@ abstract class BaseExercisePanel(mode: Mode): BasePanel(), ITemporaryPanel {
 
     override val removePreviousTemporary = true
 
-    /** Enum to hold the different states of the panel */
+    /** Enum with different states of the panel */
     enum class Mode {
         SELECT_MUSCLE_GROUP,
         SELECT_EXERCISE,

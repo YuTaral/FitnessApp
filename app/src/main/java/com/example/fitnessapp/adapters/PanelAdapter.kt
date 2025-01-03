@@ -31,10 +31,10 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
 
     private var temporaryPanels: MutableList<BasePanel> = mutableListOf()
 
-    /** Holds the number of initial fragments count*/
+    /** The number of initial fragments count*/
     private var initialFragmentCount: Int = count
 
-    /** Holds the number of currently created fragments */
+    /** The number of currently created fragments */
     private var fragmentCount: Int = count
 
     override fun getItemCount(): Int {

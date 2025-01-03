@@ -6,7 +6,7 @@ import com.example.fitnessapp.models.UserModel
 import com.example.fitnessapp.models.WorkoutModel
 import java.lang.ref.WeakReference
 
-/** Object to define the current state (hold current activity, logged in user, etc... */
+/** Object to define the current state (current activity, logged in user, etc... */
 object AppStateManager {
     /** Backing field for the logged in user */
     private var _user: UserModel? = null

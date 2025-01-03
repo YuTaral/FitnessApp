@@ -13,7 +13,7 @@ import com.example.fitnessapp.models.UserDefaultValuesModel
 import com.example.fitnessapp.network.repositories.ExerciseRepository
 import com.example.fitnessapp.utils.Utils
 
-/** Add/Edit Exercise dialog to hold the logic for
+/** Add/Edit Exercise dialog to implement the logic for
  * adding exercise / updating exercise as part of workout
  */
 @SuppressLint("InflateParams")

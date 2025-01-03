@@ -11,7 +11,7 @@ import com.example.fitnessapp.network.repositories.WorkoutTemplateRepository
 import com.example.fitnessapp.utils.AppStateManager
 import com.example.fitnessapp.utils.Utils
 
-/** Save workout template dialog to hold the logic to save the current workout as template */
+/** Save workout template dialog to implement the logic to save the current workout as template */
 @SuppressLint("InflateParams")
 class SaveWorkoutTemplateDialog(ctx: Context): BaseDialog(ctx) {
     override var layoutId = R.layout.dialog_save_workout_template

@@ -16,7 +16,7 @@ import com.example.fitnessapp.utils.Utils
 /** Dialog used to ask a question and execute a callback on confirm */
 @SuppressLint("InflateParams")
 class AskQuestionDialog(ctx: Context, q: Question, d: BaseModel? = null): BaseDialog(ctx) {
-    /** Enum to hold all questions */
+    /** Enum with all questions */
     enum class Question(private val titleId: Int, private val questionId: Int,
                         private val yesBtnTextId: Int, private val noBtnTextId: Int) {
 

@@ -13,7 +13,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-/** NetworkManager Object to hold the logic for sending a request and
+/** NetworkManager Object to implement the logic for sending a request and
  * executing the common logic for all requests
  */
 object NetworkManager {

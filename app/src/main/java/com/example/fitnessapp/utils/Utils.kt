@@ -33,7 +33,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-/** Object to hold common methods */
+/** Object with common methods */
 object Utils {
 
     /** Email validation

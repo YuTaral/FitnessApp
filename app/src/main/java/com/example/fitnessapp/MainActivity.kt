@@ -29,7 +29,7 @@ import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
-/** Main Activity class to hold the main logic of the application.
+/** Main Activity class to implement the main logic of the application.
  * Displayed after successful login
  */
 class MainActivity : BaseActivity() {

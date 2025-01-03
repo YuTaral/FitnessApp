@@ -17,7 +17,7 @@ import com.example.fitnessapp.utils.AppStateManager
 import com.example.fitnessapp.utils.SharedPrefsManager
 import com.example.fitnessapp.utils.Utils
 
-/** Class to hold the logic for Login / Register */
+/** Class to implement the logic for Login / Register */
 class LoginActivity : BaseActivity() {
     override var layoutId = R.layout.activity_login
 

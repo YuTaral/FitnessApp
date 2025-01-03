@@ -16,7 +16,7 @@ import com.example.fitnessapp.network.repositories.WorkoutRepository
 import com.example.fitnessapp.utils.AppStateManager
 import com.example.fitnessapp.utils.Utils
 
-/** Add / Edit Workout dialog to hold the logic for add / edit workout
+/** Add / Edit Workout dialog to implement the logic for add / edit workout
  * @param mode the dialog mode
  * @param workoutModel null by default, not null when the dialog is opened only to confirm
  * the workout name when starting workout from Template

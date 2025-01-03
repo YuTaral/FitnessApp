@@ -19,7 +19,7 @@ import com.example.fitnessapp.network.repositories.ExerciseRepository
 import com.example.fitnessapp.utils.AppStateManager
 import com.example.fitnessapp.utils.Utils
 
-/** Edit Exercise dialog to hold the logic to edit exercise */
+/** Edit Exercise dialog to implement the logic to edit exercise */
 @SuppressLint("InflateParams")
 class EditExerciseFromWorkoutDialog(ctx: Context, exerciseModel: ExerciseModel): BaseDialog(ctx) {
     override var layoutId = R.layout.dialog_edit_exercise

@@ -8,7 +8,7 @@ import com.example.fitnessapp.utils.AppStateManager
 import com.example.fitnessapp.utils.SharedPrefsManager
 
 
-/** Base activity class to hold the common logic for all activities */
+/** Base activity class to implement the common logic for all activities */
 abstract class BaseActivity : AppCompatActivity()  {
     protected abstract var layoutId: Int
 
@@ -46,7 +46,7 @@ abstract class BaseActivity : AppCompatActivity()  {
     override fun onPause() {
         super.onPause()
         // Make sure to clear the activity onPause(e.g app is backgrounded) - the AppStateManager
-        // must not hold inactive activity
+        // must not contain inactive activity
         updateActivity(null)
     }
 
