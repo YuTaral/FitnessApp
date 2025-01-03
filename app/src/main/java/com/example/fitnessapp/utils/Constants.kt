@@ -104,5 +104,6 @@ object Constants {
         const val DELETE_NOTIFICATION  = "$NOTIFICATION/delete"
         const val GET_NOTIFICATIONS  = "$NOTIFICATION/get-notifications"
         const val GET_JOIN_TEAM_NOTIFICATION_DETAILS  = "$NOTIFICATION/get-join-team-notification-details"
+        const val REFRESH_NOTIFICATIONS = "$NOTIFICATION/refresh-notifications"
     }
 }

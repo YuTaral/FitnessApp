@@ -157,4 +157,7 @@ interface IAPIService {
 
     @GET(Constants.RequestEndPoints.GET_JOIN_TEAM_NOTIFICATION_DETAILS)
     fun getJoinTeamNotificationDetails(@Query("id") id: Long): Call<CustomResponse>
+
+    @GET(Constants.RequestEndPoints.REFRESH_NOTIFICATIONS)
+    fun refreshNotifications(): Call<CustomResponse>
 }

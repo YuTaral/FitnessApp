@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewpager2.widget.ViewPager2
 import com.example.fitnessapp.adapters.PanelAdapter
 import com.example.fitnessapp.dialogs.AskQuestionDialog
@@ -15,6 +16,7 @@ import com.example.fitnessapp.dialogs.DefaultValuesDialog
 import com.example.fitnessapp.dialogs.EditProfileDialog
 import com.example.fitnessapp.dialogs.FinishWorkoutDialog
 import com.example.fitnessapp.dialogs.SaveWorkoutTemplateDialog
+import com.example.fitnessapp.network.repositories.NotificationRepository
 import com.example.fitnessapp.network.repositories.UserRepository
 import com.example.fitnessapp.network.repositories.WorkoutRepository
 import com.example.fitnessapp.panels.BaseExercisePanel
@@ -35,6 +37,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 class MainActivity : BaseActivity() {
     override var layoutId = R.layout.activity_main
 
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navProfileView: NavigationView
     private lateinit var navActionView: NavigationView
@@ -59,6 +62,7 @@ class MainActivity : BaseActivity() {
     }
 
     override fun findViews() {
+        swipeRefreshLayout = findViewById(R.id.swipe_refresh_view)
         drawerLayout = findViewById(R.id.drawer_layout)
         navProfileView = findViewById(R.id.nav_profile_view)
         navActionView = findViewById(R.id.nav_action_view)
@@ -74,6 +78,21 @@ class MainActivity : BaseActivity() {
         initialisePager()
         initialiseDrawerLogic()
         initializeNotifications()
+        addRefreshSwipeUp()
+    }
+
+    /** Add listener for swipe up to refresh the notifications */
+    private fun addRefreshSwipeUp() {
+        swipeRefreshLayout.setOnRefreshListener {
+            NotificationRepository().refreshNotifications(
+                onResponse = {
+                    // There is a check in NetworkManage whether there is new notification,
+                    // so the header will be automatically updated, just set the isRefreshing property
+                    // when the request finishes
+                    swipeRefreshLayout.isRefreshing = false
+                },
+            )
+        }
     }
 
     /** Set the view pager */
@@ -267,6 +286,11 @@ class MainActivity : BaseActivity() {
             activeNotificationIcon.visibility = View.VISIBLE
         } else {
             activeNotificationIcon.visibility = View.GONE
+        }
+
+        // If the notifications panel is currently active, update the data
+        if (Utils.getPanelAdapter().getNotificationsPanel() != null) {
+            Utils.getPanelAdapter().getNotificationsPanel()!!.populatePanel()
         }
     }
 }

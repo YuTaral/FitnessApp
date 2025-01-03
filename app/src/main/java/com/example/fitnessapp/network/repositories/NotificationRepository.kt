@@ -53,4 +53,14 @@ class NotificationRepository {
             onSuccessCallback = { response -> onSuccess(response.data.map { NotificationModel(it) }) },
         )
     }
+
+    /** Send refresh request to update notifications
+     * @param onResponse callback to execute when response is received
+     */
+    fun refreshNotifications(onResponse: () -> Unit) {
+        NetworkManager.sendRequest(
+            request = { APIService.getInstance().refreshNotifications() },
+            onSuccessCallback = { onResponse() },
+        )
+    }
 }
