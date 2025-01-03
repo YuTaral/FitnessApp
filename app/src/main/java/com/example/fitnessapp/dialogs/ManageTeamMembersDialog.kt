@@ -123,7 +123,7 @@ class ManageTeamMembersDialog(ctx: Context, team: TeamModel, teamMembers: List<T
      */
     private fun onRemove(member: TeamMemberModel) {
         // Send remove request, on success updated list will be returned
-        TeamRepository().removeMember(member.id, onSuccess = { members ->
+        TeamRepository().removeMember(member, onSuccess = { members ->
             getMembersAdapter().update(members)
         })
     }

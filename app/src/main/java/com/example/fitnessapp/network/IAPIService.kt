@@ -123,7 +123,7 @@ interface IAPIService {
     fun inviteMember(@Query("userId") userId: String, @Query("teamId") teamId: Long): Call<CustomResponse>
 
     @POST(Constants.RequestEndPoints.REMOVE_MEMBER)
-    fun removeMember(@Query("recordId") recordId: Long): Call<CustomResponse>
+    fun removeMember(@Body params: Map<String, String>): Call<CustomResponse>
 
     @POST(Constants.RequestEndPoints.ACCEPT_TEAM_INVITE)
     fun acceptInvite(@Query("userId") userId: String, @Query("teamId") teamId: Long): Call<CustomResponse>

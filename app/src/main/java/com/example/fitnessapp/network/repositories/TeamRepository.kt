@@ -97,12 +97,14 @@ class TeamRepository {
     }
 
     /** Remove member from team
-     * @param recordId the record id to remove
+     * @param member the team member to remove
      * @param onSuccess callback to execute if request is successful
      */
-    fun removeMember(recordId: Long, onSuccess: (List<TeamMemberModel>) -> Unit) {
+    fun removeMember(member: TeamMemberModel, onSuccess: (List<TeamMemberModel>) -> Unit) {
+        val params = mapOf("member" to Utils.serializeObject(member))
+
         NetworkManager.sendRequest(
-            request = { APIService.getInstance().removeMember(recordId) },
+            request = { APIService.getInstance().removeMember(params) },
             onSuccessCallback = { response ->
                 val members: MutableList<TeamMemberModel> = mutableListOf()
 
