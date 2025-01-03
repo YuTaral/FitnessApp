@@ -147,6 +147,9 @@ interface IAPIService {
     @POST(Constants.RequestEndPoints.NOTIFICATION_REVIEWED)
     fun notificationReviewed(@Query("id") id: Long): Call<CustomResponse>
 
+    @POST(Constants.RequestEndPoints.DELETE_NOTIFICATION)
+    fun deleteNotification(@Body params: Map<String, String>): Call<CustomResponse>
+
     /** NOTIFICATION GET REQUESTS
      * -------------------------------------------------------------------------------- */
     @GET(Constants.RequestEndPoints.GET_NOTIFICATIONS)

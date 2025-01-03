@@ -26,14 +26,14 @@ class NotificationsPanel: BasePanel(), ITemporaryPanel {
 
     override fun populatePanel() {
         NotificationRepository().getNotifications(onSuccess = { notifications ->
-            notificationsRecycler.adapter = NotificationsRecAdapter(notifications, callback = { notification ->
-                onNotificationClick(notification)
-            })
+            notificationsRecycler.adapter = NotificationsRecAdapter(notifications,
+                callback = { notification -> onNotificationClick(notification) },
+                removeCallback = { notification -> deleteNotification(notification) }
+            )
         })
     }
 
     override fun addClickListeners() {}
-
 
     /** Execute the callback on notification click and display the dialog for join team confirmation
      * @param notification the notification
@@ -71,14 +71,24 @@ class NotificationsPanel: BasePanel(), ITemporaryPanel {
         Utils.getPanelAdapter().getManageTeamsPanel()!!.setAutoSelectTeam(teamId)
     }
 
+    /** Send request to delete notification
+     * @param notification the notification to remove
+     */
+    private fun deleteNotification(notification: NotificationModel) {
+        NotificationRepository().deleteNotification(notification, onSuccess = { notifications ->
+            // Update the list on success
+            populateNotifications(notifications)
+        })
+    }
+
     /** Populate the notifications
      * @param notifications list of notifications
      */
     fun populateNotifications(notifications: List<NotificationModel>) {
         if (notificationsRecycler.adapter == null) {
-            notificationsRecycler.adapter = NotificationsRecAdapter(notifications, callback = { notification ->
-                onNotificationClick(notification)
-            })
+            notificationsRecycler.adapter = NotificationsRecAdapter(notifications,
+                callback = { notification -> onNotificationClick(notification) },
+                removeCallback = { notification -> deleteNotification(notification) } )
         } else {
             (notificationsRecycler.adapter as NotificationsRecAdapter).updateData(notifications)
         }

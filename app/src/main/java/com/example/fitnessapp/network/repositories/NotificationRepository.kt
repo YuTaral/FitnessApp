@@ -4,6 +4,7 @@ import com.example.fitnessapp.models.JoinTeamNotificationModel
 import com.example.fitnessapp.models.NotificationModel
 import com.example.fitnessapp.network.APIService
 import com.example.fitnessapp.network.NetworkManager
+import com.example.fitnessapp.utils.Utils
 
 /** NotificationRepository class, used to execute all requests related to notifications */
 class NotificationRepository {
@@ -37,6 +38,19 @@ class NotificationRepository {
         NetworkManager.sendRequest(
             request = { APIService.getInstance().notificationReviewed(id) },
             onSuccessCallback = { onSuccess() },
+        )
+    }
+
+    /** Delete the notification
+     * @param notification the notification to remove
+     * @param onSuccess callback to execute if request is successful
+     */
+    fun deleteNotification(notification: NotificationModel, onSuccess: (List<NotificationModel>) -> Unit) {
+        val params = mapOf("notification" to Utils.serializeObject(notification))
+
+        NetworkManager.sendRequest(
+            request = { APIService.getInstance().deleteNotification(params) },
+            onSuccessCallback = { response -> onSuccess(response.data.map { NotificationModel(it) }) },
         )
     }
 }

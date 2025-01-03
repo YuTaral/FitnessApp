@@ -12,9 +12,11 @@ import com.example.fitnessapp.models.NotificationModel
 import com.example.fitnessapp.utils.Utils
 
 /** Recycler adapter to display the notifications */
-class NotificationsRecAdapter(data: List<NotificationModel>, callback: (NotificationModel) -> Unit): RecyclerView.Adapter<NotificationsRecAdapter.ViewHolder>() {
+class NotificationsRecAdapter(data: List<NotificationModel>, callback: (NotificationModel) -> Unit, removeCallback: (NotificationModel) -> Unit):
+                                RecyclerView.Adapter<NotificationsRecAdapter.ViewHolder>() {
     private var notifications = data
     private var onClickCallback = callback
+    private var onRemoveCallback = removeCallback
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(parent.context)
@@ -26,7 +28,7 @@ class NotificationsRecAdapter(data: List<NotificationModel>, callback: (Notifica
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(notifications[position], onClickCallback)
+        holder.bind(notifications[position], onClickCallback, onRemoveCallback)
     }
 
     /** Update the notifications
@@ -41,14 +43,16 @@ class NotificationsRecAdapter(data: List<NotificationModel>, callback: (Notifica
     /** Class to represent notification item view holder */
     class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
         private var image: ImageView = itemView.findViewById(R.id.image)
+        private var removeNotification: ImageView = itemView.findViewById(R.id.remove_notification)
         private var text: TextView = itemView.findViewById(R.id.text)
         private var date: TextView = itemView.findViewById(R.id.date)
 
         /** Bind the view
          * @param item the notification model
          * @param onClickCallback callback to execute on row click
+         * @param onRemoveCallback callback to execute on remove button click
          */
-        fun bind(item: NotificationModel, onClickCallback: (NotificationModel) -> Unit) {
+        fun bind(item: NotificationModel, onClickCallback: (NotificationModel) -> Unit, onRemoveCallback: (NotificationModel) -> Unit) {
             if (item.image.isNotEmpty()) {
                 image.setImageBitmap(Utils.convertStringToBitmap(item.image))
             } else {
@@ -75,9 +79,19 @@ class NotificationsRecAdapter(data: List<NotificationModel>, callback: (Notifica
             }
 
             if (!item.clickDisabled) {
-                itemView.setOnClickListener {
+                image.setOnClickListener {
                     onClickCallback(item)
                 }
+                text.setOnClickListener {
+                    onClickCallback(item)
+                }
+                date.setOnClickListener {
+                    onClickCallback(item)
+                }
+            }
+
+            removeNotification.setOnClickListener {
+                onRemoveCallback(item)
             }
         }
     }
