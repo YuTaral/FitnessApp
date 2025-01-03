@@ -8,6 +8,7 @@ import com.example.fitnessapp.interfaces.ITemporaryPanel
 import com.example.fitnessapp.models.NotificationModel
 import com.example.fitnessapp.network.repositories.NotificationRepository
 import com.example.fitnessapp.utils.Constants
+import com.example.fitnessapp.utils.Utils
 
 /** Notifications Panel class to implement the logic for managing notifications */
 class NotificationsPanel: BasePanel(), ITemporaryPanel {
@@ -39,10 +40,35 @@ class NotificationsPanel: BasePanel(), ITemporaryPanel {
      */
     private fun onNotificationClick(notification: NotificationModel) {
         if (notification.type == Constants.NotificationType.INVITED_TO_TEAM.toString()) {
+            // Open dialog to accept / decline team invitation
             NotificationRepository().getNotificationDetails(notification.id, onSuccess = { details ->
                 JoinTeamNotificationDialog(requireContext(), details).show()
             })
+
+        } else if (notification.type == Constants.NotificationType.JOINED_TEAM.toString() ||
+                   notification.type == Constants.NotificationType.DECLINED_TEAM_INVITATION.toString()) {
+
+            // Mark the notification as inactive if it's still active
+            if (notification.isActive) {
+                NotificationRepository().notificationReviewed(notification.id, onSuccess = {
+                    redirectToEditTeam(notification.teamId!!)
+                })
+
+            } else {
+                redirectToEditTeam(notification.teamId!!)
+            }
         }
+    }
+
+    /** Automatically select team after clicking on JOINED_TEAM / DECLINED_TEAM_INVITATION notification
+     * @param teamId the team id to select
+     */
+    private fun redirectToEditTeam(teamId: Long) {
+        // First create the Manage teams panel
+        Utils.getPanelAdapter().displayTemporaryPanel(ManageTeamsPanel())
+
+        // After that preselect the team and redirect to edit team
+        Utils.getPanelAdapter().getManageTeamsPanel()!!.setAutoSelectTeam(teamId)
     }
 
     /** Populate the notifications

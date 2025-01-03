@@ -80,6 +80,18 @@ class TeamRepository {
     fun acceptInvite(userId: String, teamId: Long, onSuccess: (List<NotificationModel>) -> Unit) {
         NetworkManager.sendRequest(
             request = { APIService.getInstance().acceptInvite(userId, teamId) },
+            onSuccessCallback = { response -> onSuccess(response.data.map { NotificationModel(it) })},
+        )
+    }
+
+    /** Decline invite
+     * @param userId the user id who accepted the invite
+     * @param teamId the team id
+     * @param onSuccess callback to execute if request is successful
+     */
+    fun declineInvite(userId: String, teamId: Long, onSuccess: (List<NotificationModel>) -> Unit) {
+        NetworkManager.sendRequest(
+            request = { APIService.getInstance().declineInvite(userId, teamId) },
             onSuccessCallback = { response -> onSuccess(response.data.map {NotificationModel(it)})},
         )
     }

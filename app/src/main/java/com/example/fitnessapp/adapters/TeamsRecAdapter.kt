@@ -68,6 +68,17 @@ class TeamsRecAdapter(data: List<TeamModel>, callback: () -> Unit) : RecyclerVie
         return teams[selectedPosition]
     }
 
+    /** Programmatically set the selected team
+     * @param teamId id
+     */
+    fun setSelectedTeam(teamId: Long) {
+        val position = teams.indexOfFirst { it.id == teamId }
+
+        if (position > -1) {
+            changeSelectionState(position)
+        }
+    }
+
     /** Update the teams list
      * @param newTeams the updated list
      */

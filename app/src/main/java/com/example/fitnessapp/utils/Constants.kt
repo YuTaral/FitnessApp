@@ -42,7 +42,8 @@ object Constants {
     enum class NotificationType {
         INVITED_TO_TEAM,
         JOINED_TEAM,
-        REMOVED_FROM_TEAM
+        REMOVED_FROM_TEAM,
+        DECLINED_TEAM_INVITATION
     }
 
     /** Object containing request end point values */
@@ -94,10 +95,12 @@ object Constants {
         const val INVITE_MEMBER  = "$TEAM/invite-member"
         const val REMOVE_MEMBER  = "$TEAM/remove-member"
         const val ACCEPT_TEAM_INVITE  = "$TEAM/accept-invite"
+        const val DECLINE_TEAM_INVITE  = "$TEAM/decline-invite"
         const val GET_MY_TEAMS  = "$TEAM/my-teams"
         const val GET_USERS_TO_INVITE  = "$TEAM/get-users-to-invite"
         const val GET_TEAM_MEMBERS  = "$TEAM/get-team-members"
 
+        const val NOTIFICATION_REVIEWED  = "$NOTIFICATION/reviewed"
         const val GET_NOTIFICATIONS  = "$NOTIFICATION/get-notifications"
         const val GET_JOIN_TEAM_NOTIFICATION_DETAILS  = "$NOTIFICATION/get-join-team-notification-details"
     }

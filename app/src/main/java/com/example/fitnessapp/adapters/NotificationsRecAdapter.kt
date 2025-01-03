@@ -55,17 +55,29 @@ class NotificationsRecAdapter(data: List<NotificationModel>, callback: (Notifica
                 image.setBackgroundResource(R.drawable.icon_profile)
             }
 
+            text.setTextColor(Utils.getActivity().getColor(R.color.white))
             text.text = item.notificationText
+
+            date.setTextColor(Utils.getActivity().getColor(R.color.white))
             date.text = Utils.defaultFormatDateTime(item.dateTime)
 
             if (item.isActive) {
                 itemView.setBackgroundResource(R.drawable.background_selected_team)
             } else {
-                itemView.setBackgroundResource(R.drawable.background_transparent_accent_border)
+
+                if (item.clickDisabled) {
+                    text.setTextColor(Utils.getActivity().getColor(R.color.grey))
+                    date.setTextColor(Utils.getActivity().getColor(R.color.grey))
+                    itemView.setBackgroundResource(R.drawable.background_transparent_grey_border)
+                } else {
+                    itemView.setBackgroundResource(R.drawable.background_transparent_accent_border)
+                }
             }
 
-            itemView.setOnClickListener {
-                onClickCallback(item)
+            if (!item.clickDisabled) {
+                itemView.setOnClickListener {
+                    onClickCallback(item)
+                }
             }
         }
     }

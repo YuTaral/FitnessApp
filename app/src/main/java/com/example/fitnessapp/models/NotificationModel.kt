@@ -27,6 +27,9 @@ class NotificationModel: BaseModel {
     @SerializedName("TeamId")
     val teamId: Long?
 
+    @SerializedName("ClickDisabled")
+    val clickDisabled: Boolean
+
     /** Constructor to deserialized NotificationModel object
      * @param data serialized NotificationModel object
      */
@@ -40,5 +43,6 @@ class NotificationModel: BaseModel {
         type = model.type
         image = model.image
         teamId = model.teamId
+        clickDisabled = model.clickDisabled
     }
 }

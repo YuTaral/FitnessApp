@@ -19,7 +19,6 @@ class JoinTeamNotificationDialog(ctx: Context, model: JoinTeamNotificationModel)
     private var notification = model
 
     private lateinit var image: ImageView
-    private lateinit var teamName: TextView
     private lateinit var description: TextView
     private lateinit var yesBtn: Button
     private lateinit var noBtn: Button
@@ -28,7 +27,6 @@ class JoinTeamNotificationDialog(ctx: Context, model: JoinTeamNotificationModel)
         super.findViews()
 
         image = dialog.findViewById(R.id.image)
-        teamName = dialog.findViewById(R.id.team_name)
         description = dialog.findViewById(R.id.description)
         yesBtn = dialog.findViewById(R.id.yes_btn)
         noBtn = dialog.findViewById(R.id.no_btn)
@@ -36,14 +34,13 @@ class JoinTeamNotificationDialog(ctx: Context, model: JoinTeamNotificationModel)
 
     override fun populateDialog() {
         if (notification.notificationType == Constants.NotificationType.INVITED_TO_TEAM.toString()) {
-            title.text = Utils.getActivity().getString(R.string.join_team_lbl)
+            title.text = String.format(Utils.getActivity().getString(R.string.join_team_lbl), notification.teamName)
         }
 
         if (notification.teamImage.isNotEmpty()) {
             image.setImageBitmap(Utils.convertStringToBitmap(notification.teamImage))
         }
 
-        teamName.text = notification.teamName
         description.text = notification.description
     }
 
@@ -70,6 +67,9 @@ class JoinTeamNotificationDialog(ctx: Context, model: JoinTeamNotificationModel)
 
     /** Send request to decline team invitation */
     private fun declineInvite() {
-        
+        TeamRepository().declineInvite(AppStateManager.user!!.id, notification.teamId, onSuccess = { notifications ->
+            dismiss()
+            Utils.getPanelAdapter().getNotificationsPanel()!!.populateNotifications(notifications)
+        })
     }
 }

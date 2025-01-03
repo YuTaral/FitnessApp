@@ -128,6 +128,9 @@ interface IAPIService {
     @POST(Constants.RequestEndPoints.ACCEPT_TEAM_INVITE)
     fun acceptInvite(@Query("userId") userId: String, @Query("teamId") teamId: Long): Call<CustomResponse>
 
+    @POST(Constants.RequestEndPoints.DECLINE_TEAM_INVITE)
+    fun declineInvite(@Query("userId") userId: String, @Query("teamId") teamId: Long): Call<CustomResponse>
+
     /** TEAM GET REQUESTS
      * -------------------------------------------------------------------------------- */
     @GET(Constants.RequestEndPoints.GET_MY_TEAMS)
@@ -138,6 +141,11 @@ interface IAPIService {
 
     @GET(Constants.RequestEndPoints.GET_TEAM_MEMBERS)
     fun getTeamMembers(@Query("teamId") teamId: Long): Call<CustomResponse>
+
+    /** NOTIFICATION POST REQUESTS
+     * -------------------------------------------------------------------------------- */
+    @POST(Constants.RequestEndPoints.NOTIFICATION_REVIEWED)
+    fun notificationReviewed(@Query("id") id: Long): Call<CustomResponse>
 
     /** NOTIFICATION GET REQUESTS
      * -------------------------------------------------------------------------------- */

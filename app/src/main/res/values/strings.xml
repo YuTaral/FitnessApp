@@ -170,6 +170,6 @@
     <string name="invited_lbl">Invited</string>
     <string name="in_team_lbl">Joined</string>
     <string name="notifications_lbl">Notifications</string>
-    <string name="join_team_lbl">Join team</string>
+    <string name="join_team_lbl">Join %s</string>
 
 </resources>

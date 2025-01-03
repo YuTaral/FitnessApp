@@ -28,4 +28,15 @@ class NotificationRepository {
             onSuccessCallback = { response -> onSuccess(JoinTeamNotificationModel(response.data[0]))},
         )
     }
+
+    /** Mark the notification as reviewed (inactive)
+     * @param id the notification id
+     * @param onSuccess callback to execute if request is successful
+     */
+    fun notificationReviewed(id: Long, onSuccess: () -> Unit) {
+        NetworkManager.sendRequest(
+            request = { APIService.getInstance().notificationReviewed(id) },
+            onSuccessCallback = { onSuccess() },
+        )
+    }
 }

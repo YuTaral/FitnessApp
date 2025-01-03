@@ -122,6 +122,9 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
     /** Return the temporary panel instance as AddEditTeamPanel */
     fun getTeamPanel(): BaseTeamPanel? = getTemporaryPanelAs(Constants.PanelIndices.ANOTHER_TEMPORARY.ordinal)
 
+    /** Return the temporary panel instance as ManageTeamsPanel */
+    fun getManageTeamsPanel(): ManageTeamsPanel? = getTemporaryPanelAs(Constants.PanelIndices.TEMPORARY.ordinal)
+
     /** Return the temporary panel instance as NotificationsPanel */
     fun getNotificationsPanel(): NotificationsPanel? = getTemporaryPanelAs(Constants.PanelIndices.TEMPORARY.ordinal)
 

@@ -23,6 +23,7 @@ class ManageTeamsPanel: BasePanel(), ITemporaryPanel {
     private lateinit var editTeamBtn: Button
 
     private var refreshTeams = false
+    private var autoSelectTeamId = 0L
 
     override fun findViews() {
         teamsRecycler = panel.findViewById(R.id.teams_recycler)
@@ -83,6 +84,13 @@ class ManageTeamsPanel: BasePanel(), ITemporaryPanel {
             (teamsRecycler.adapter as TeamsRecAdapter).updateTeams(teams)
         }
 
+        // Check if we need to auto select team
+        if (autoSelectTeamId > 0) {
+            (teamsRecycler.adapter as TeamsRecAdapter).setSelectedTeam(autoSelectTeamId)
+            editTeamBtn.callOnClick()
+            autoSelectTeamId = 0
+        }
+
         refreshTeams = false
     }
 
@@ -94,5 +102,12 @@ class ManageTeamsPanel: BasePanel(), ITemporaryPanel {
     /** Setter for refresh teams property */
     fun setRefreshTeams(value: Boolean) {
         refreshTeams = value
+    }
+
+    /** Automatically set the variable to auto select team after populating teams
+     * @param teamId the team id
+     */
+    fun setAutoSelectTeam(teamId: Long) {
+        autoSelectTeamId = teamId
     }
 }
