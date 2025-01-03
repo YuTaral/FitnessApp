@@ -1,5 +1,7 @@
 package com.example.fitnessapp.panels
 
+import android.view.View
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fitnessapp.R
 import com.example.fitnessapp.adapters.NotificationsRecAdapter
@@ -18,9 +20,11 @@ class NotificationsPanel: BasePanel(), ITemporaryPanel {
     override var titleId: Int = R.string.notifications_lbl
     override val removePreviousTemporary = true
 
+    private lateinit var noNotificationsLbl: TextView
     private lateinit var notificationsRecycler: RecyclerView
 
     override fun findViews() {
+        noNotificationsLbl = panel.findViewById(R.id.no_notifications)
         notificationsRecycler = panel.findViewById(R.id.notifications_recycler)
     }
 
@@ -85,12 +89,21 @@ class NotificationsPanel: BasePanel(), ITemporaryPanel {
      * @param notifications list of notifications
      */
     fun populateNotifications(notifications: List<NotificationModel>) {
-        if (notificationsRecycler.adapter == null) {
-            notificationsRecycler.adapter = NotificationsRecAdapter(notifications,
-                callback = { notification -> onNotificationClick(notification) },
-                removeCallback = { notification -> deleteNotification(notification) } )
+        if (notifications.isEmpty()) {
+            notificationsRecycler.visibility = View.GONE
+            noNotificationsLbl.visibility = View.VISIBLE
+
         } else {
-            (notificationsRecycler.adapter as NotificationsRecAdapter).updateData(notifications)
+            noNotificationsLbl.visibility = View.GONE
+            notificationsRecycler.visibility = View.VISIBLE
+
+            if (notificationsRecycler.adapter == null) {
+                notificationsRecycler.adapter = NotificationsRecAdapter(notifications,
+                    callback = { notification -> onNotificationClick(notification) },
+                    removeCallback = { notification -> deleteNotification(notification) })
+            } else {
+                (notificationsRecycler.adapter as NotificationsRecAdapter).updateData(notifications)
+            }
         }
     }
 }

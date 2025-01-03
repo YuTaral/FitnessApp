@@ -171,5 +171,6 @@
     <string name="in_team_lbl">Joined</string>
     <string name="notifications_lbl">Notifications</string>
     <string name="join_team_lbl">Join %s</string>
+    <string name="no_new_notifications_lbl">You don\'t have new notifications</string>
 
 </resources>
