@@ -14,10 +14,10 @@ import com.example.fitnessapp.R
 import com.example.fitnessapp.dialogs.AskQuestionDialog
 import com.example.fitnessapp.dialogs.EditExerciseFromWorkoutDialog
 import com.example.fitnessapp.dialogs.TimerDialog
+import com.example.fitnessapp.managers.AppStateManager
 import com.example.fitnessapp.models.ExerciseModel
 import com.example.fitnessapp.models.SetModel
 import com.example.fitnessapp.network.repositories.ExerciseRepository
-import com.example.fitnessapp.managers.AppStateManager
 import com.example.fitnessapp.utils.Utils
 
 /** Recycler adapter to control the data (exercises) shown for each workout */
@@ -130,16 +130,19 @@ class ExercisesRecAdapter(data: List<ExerciseModel>) : RecyclerView.Adapter<Exer
 
                 } else {
                     completedCheckBox.visibility = View.GONE
-                    rest.visibility = View.VISIBLE
 
-                    rest.text = set.rest.toString()
+                    if (set.rest > 0) {
+                        rest.visibility = View.VISIBLE
 
-                    rest.setOnClickListener { TimerDialog(Utils.getActivity(), set.rest, onFinish = {
-                        ExerciseRepository().completeSet(set.id, AppStateManager.workout!!.id, onSuccess =  { workout ->
-                            // Mark the set as completed on finish and refresh the workout
-                            Utils.getPanelAdapter().refreshWorkoutPanel(workout, true)
-                        })
-                    }).show() }
+                        rest.text = set.rest.toString()
+
+                        rest.setOnClickListener { TimerDialog(Utils.getActivity(), set.rest, onFinish = {
+                            ExerciseRepository().completeSet(set.id, AppStateManager.workout!!.id, onSuccess =  { workout ->
+                                // Mark the set as completed on finish and refresh the workout
+                                Utils.getPanelAdapter().refreshWorkoutPanel(workout, true)
+                            })
+                        }).show() }
+                    }
                 }
 
                 setsLinLayout.addView(inflatableView)
