@@ -121,8 +121,8 @@ object Utils {
     }
 
     /** Return the current activity result handler */
-    fun getActivityResultHandler(): ActivityResultHandler {
-        return (AppStateManager.activeActivity!! as MainActivity).activityResultHandler
+    fun getActivityResultHandler(): PermissionResultHandler {
+        return (AppStateManager.activeActivity!! as MainActivity).perrmissionHandler
     }
 
     /** Validation failed - focus the field and open the keyboard

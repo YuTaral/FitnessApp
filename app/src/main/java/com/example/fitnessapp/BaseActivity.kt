@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.fitnessapp.dialogs.BaseDialog
+import com.example.fitnessapp.interfaces.INeedResumeDialog
 import com.example.fitnessapp.utils.AppStateManager
 import com.example.fitnessapp.utils.SharedPrefsManager
 
@@ -41,6 +42,13 @@ abstract class BaseActivity : AppCompatActivity()  {
         super.onResume()
         // Make sure the correct activity is set
         updateActivity(this)
+
+        // Check for active dialog which need to execute resume logic
+        for (dialog in activeDialogs) {
+            if (dialog is INeedResumeDialog) {
+                dialog.resume()
+            }
+        }
     }
 
     override fun onPause() {

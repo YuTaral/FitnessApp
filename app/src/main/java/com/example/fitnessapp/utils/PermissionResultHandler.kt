@@ -18,7 +18,7 @@ import com.example.fitnessapp.dialogs.AskQuestionDialog
 import com.example.fitnessapp.interfaces.IImagePicker
 
 /** Class to handle the logic when requesting permissions / launching specific result launcher */
-class ActivityResultHandler {
+class PermissionResultHandler {
     private var activity: BaseActivity = Utils.getActivity()
 
     var cameraPermLauncher: ActivityResultLauncher<String>

@@ -10,6 +10,7 @@
         android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="1"/>
@@ -19,25 +20,43 @@
         android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
+        android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@+id/set_number_txt"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="12"/>
 
     <TextView
         android:id="@+id/weight_lbl"
-        android:layout_width="115dp"
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
+        android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@+id/reps_number_txt"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="55"/>
+        tools:text="55" />
+
+    <TextView
+        android:id="@+id/rest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="11dp"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:background="@drawable/background_rest_time"
+        app:layout_constraintStart_toEndOf="@+id/weight_lbl"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"
+        tools:text="60"/>
 
     <CheckBox
         android:id="@+id/completed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
+        android:layout_marginStart="5dp"
         android:buttonTint="@color/white"
+        android:checked="true"
         app:layout_constraintStart_toEndOf="@+id/weight_lbl"
         app:layout_constraintBottom_toBottomOf="@+id/weight_lbl"
         app:layout_constraintTop_toTopOf="parent"

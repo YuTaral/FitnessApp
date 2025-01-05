@@ -76,6 +76,7 @@ object Constants {
         const val ADD_EXERCISE = "$EXERCISE/add"
         const val UPDATE_EXERCISE = "$EXERCISE/update"
         const val DELETE_EXERCISE = "$EXERCISE/delete"
+        const val COMPLETE_SET = "$EXERCISE/complete-set"
         const val GET_EXERCISES_FOR_MG = "$EXERCISE/get-by-mg-id"
         const val GET_MG_EXERCISE = "$EXERCISE/get-mg-exercise"
 

@@ -13,8 +13,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.fitnessapp.R
 import com.example.fitnessapp.dialogs.AskQuestionDialog
 import com.example.fitnessapp.dialogs.EditExerciseFromWorkoutDialog
+import com.example.fitnessapp.dialogs.TimerDialog
 import com.example.fitnessapp.models.ExerciseModel
 import com.example.fitnessapp.models.SetModel
+import com.example.fitnessapp.network.repositories.ExerciseRepository
 import com.example.fitnessapp.utils.AppStateManager
 import com.example.fitnessapp.utils.Utils
 
@@ -72,7 +74,7 @@ class ExercisesRecAdapter(data: List<ExerciseModel>) : RecyclerView.Adapter<Exer
             targetMuscleGroup.text = String.format(Utils.getActivity().getString(R.string.target_lbl), item.muscleGroup.name)
 
             // Add the sets
-            bindSets(item)
+            bindSets(item.sets)
 
             // Add Edit click listener
             editBtn.setOnClickListener {
@@ -95,18 +97,20 @@ class ExercisesRecAdapter(data: List<ExerciseModel>) : RecyclerView.Adapter<Exer
         }
 
         /** Set the data for each set
-         * @param item the exercise
+         * @param sets the sets
          */
         @SuppressLint("InflateParams")
-        private fun bindSets(item: ExerciseModel) {
+        private fun bindSets(sets: MutableList<SetModel>) {
             val inflater = LayoutInflater.from(Utils.getActivity())
             var setCounter = 1
 
             // Clear the views from the previous bind
             setsLinLayout.removeAllViews()
 
-            for (set: SetModel in item.sets) {
+            for (set: SetModel in sets) {
                 val inflatableView: View = inflater.inflate(R.layout.inflatable_set_item, null)
+                val completedCheckBox = inflatableView.findViewById<CheckBox>(R.id.completed)
+                val rest = inflatableView.findViewById<TextView>(R.id.rest)
 
                 inflatableView.findViewById<TextView>(R.id.set_number_txt).text = setCounter.toString()
 
@@ -118,9 +122,25 @@ class ExercisesRecAdapter(data: List<ExerciseModel>) : RecyclerView.Adapter<Exer
                     inflatableView.findViewById<TextView>(R.id.weight_lbl).text = Utils.formatDouble(set.weight)
                 }
 
-                val completedCheckBox = inflatableView.findViewById<CheckBox>(R.id.completed)
-                completedCheckBox.isChecked = set.completed
                 completedCheckBox.isClickable = false
+
+                if (set.completed) {
+                    rest.setOnClickListener(null)
+                    rest.visibility = View.GONE
+
+                } else {
+                    completedCheckBox.visibility = View.GONE
+                    rest.visibility = View.VISIBLE
+
+                    rest.text = set.rest.toString()
+
+                    rest.setOnClickListener { TimerDialog(Utils.getActivity(), set.rest, onFinish = {
+                        ExerciseRepository().completeSet(set.id, AppStateManager.workout!!.id, onSuccess =  { workout ->
+                            // Mark the set as completed on finish and refresh the workout
+                            Utils.getPanelAdapter().refreshWorkoutPanel(workout, true)
+                        })
+                    }).show() }
+                }
 
                 setsLinLayout.addView(inflatableView)
                 setCounter ++

@@ -115,6 +115,20 @@ class ExerciseRepository {
         )
     }
 
+    /** Mark the set as completed
+     * @param id the set id to complete
+     * @param workoutId the selected workout id
+     * @param onSuccess callback to execute if request is successful
+     */
+    fun completeSet(id: Long, workoutId: Long,onSuccess: (WorkoutModel) -> Unit) {
+        NetworkManager.sendRequest(
+            request = { APIService.getInstance().completeSet(id, workoutId) },
+            onSuccessCallback = { response ->
+                onSuccess(WorkoutModel(response.data[0]))
+            }
+        )
+    }
+
     /** Fetch specific muscle group exercise
      * @param mGExerciseId the muscle group exercise id
      * @param onSuccess callback to execute if request is successful

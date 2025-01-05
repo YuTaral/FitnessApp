@@ -173,5 +173,12 @@
     <string name="join_team_lbl">Join %s</string>
     <string name="no_new_notifications_lbl">You don\'t have new notifications</string>
     <string name="rest_time_lbl">Rest(s)</string>
+    <string name="timer_lbl">Timer</string>
+    <string name="start_btn">Start</string>
+    <string name="restart_btn">Restart</string>
+    <string name="pause_btn">Pause</string>
+    <string name="done_btn">Done</string>
+    <string name="time_is_up_lbl">Time\'s up!</string>
+    <string name="paused_lbl">Paused</string>
 
 </resources>

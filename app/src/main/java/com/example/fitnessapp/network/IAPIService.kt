@@ -82,6 +82,9 @@ interface IAPIService {
     @POST(Constants.RequestEndPoints.DELETE_EXERCISE)
     fun deleteExercise(@Query("MGExerciseId") MGExerciseId: Long): Call<CustomResponse>
 
+    @POST(Constants.RequestEndPoints.COMPLETE_SET)
+    fun completeSet(@Query("id") id: Long, @Query("workoutId") workoutId: Long): Call<CustomResponse>
+
     /** EXERCISE GET REQUESTS
      * -------------------------------------------------------------------------------- */
     @GET(Constants.RequestEndPoints.GET_EXERCISES_FOR_MG)
