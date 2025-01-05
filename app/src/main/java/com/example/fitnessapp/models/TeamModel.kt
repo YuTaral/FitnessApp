@@ -21,7 +21,6 @@ class TeamModel: BaseModel {
     @SerializedName("PrivateNote")
     var privateNote: String
 
-    @SerializedName("SelectedInPanel")
     var selectedInPanel: Boolean
 
     /** Constructor to accept serialized object

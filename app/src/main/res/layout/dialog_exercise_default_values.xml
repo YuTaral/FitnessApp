@@ -85,27 +85,29 @@
         app:layout_constraintStart_toEndOf="@+id/exercise_weight_lbl"/>
 
     <TextView
-        android:id="@+id/complete_exercise_lbl"
-        android:layout_width="100dp"
+        android:id="@+id/rest_lbl"
+        android:layout_width="70dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:text="@string/completed_def_value_lbl"
-        app:layout_constraintTop_toTopOf="@+id/complete_exercise"
-        app:layout_constraintBottom_toBottomOf="@+id/complete_exercise"
-        app:layout_constraintStart_toEndOf="@+id/exercise_weight"/>
+        android:text="@string/rest_time_lbl"
+        android:labelFor="@+id/rest_txt"
+        app:layout_constraintStart_toStartOf="@+id/set_reps_lbl"
+        app:layout_constraintTop_toTopOf="@+id/rest_txt"
+        app:layout_constraintBottom_toBottomOf="@+id/rest_txt"/>
 
-    <CheckBox
-        android:id="@+id/complete_exercise"
-        android:layout_width="wrap_content"
+    <EditText
+        android:id="@+id/rest_txt"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        app:layout_constraintStart_toEndOf="@+id/complete_exercise_lbl"
-        app:layout_constraintTop_toTopOf="@+id/exercise_weight"
-        app:layout_constraintBottom_toBottomOf="@+id/exercise_weight"/>
+        android:layout_marginBottom="30dp"
+        android:inputType="numberDecimal"
+        android:autofillHints=""
+        app:layout_constraintTop_toBottomOf="@+id/set_reps"
+        app:layout_constraintStart_toEndOf="@+id/rest_lbl"/>
 
     <TextView
         android:id="@+id/weight_unit_lbl"
-        android:layout_width="100dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:text="@string/weight_unit_lbl"
@@ -116,14 +118,25 @@
 
     <Spinner
         android:id="@+id/weight_unit"
-        android:layout_width="150dp"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/background_spinner"
         android:popupBackground="@drawable/background_spinner_window"
         android:spinnerMode="dropdown"
         app:layout_constraintStart_toEndOf="@+id/weight_unit_lbl"
         app:layout_constraintTop_toBottomOf="@+id/exercise_weight"/>
+
+    <CheckBox
+        android:id="@+id/complete_exercise"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:text="@string/completed_lbl"
+        app:layout_constraintStart_toEndOf="@+id/weight_unit"
+        app:layout_constraintTop_toTopOf="@+id/weight_unit_lbl"
+        app:layout_constraintBottom_toBottomOf="@+id/weight_unit_lbl"/>
 
     <Button
         android:id="@+id/save_btn"

@@ -20,14 +20,14 @@ class ExerciseModel: BaseModel {
 
     /** Constructor used when new exercise is created */
     constructor(nameVal: String, muscleGroupVal: MuscleGroupModel, setsCountVal: Int, repsVal: Int,
-                weightVal: Double, completedVal: Boolean, mGExerciseIdVal: Long?) : super(0) {
+                weightVal: Double, restVal: Int, completedVal: Boolean, mGExerciseIdVal: Long?) : super(0) {
         name = nameVal
         muscleGroup = muscleGroupVal
         sets = mutableListOf()
         mGExerciseId = mGExerciseIdVal
 
         for (i in 0..<setsCountVal) {
-            sets.add(i, SetModel(0, repsVal, weightVal, completedVal))
+            sets.add(i, SetModel(0, repsVal, weightVal, restVal, completedVal))
         }
     }
 

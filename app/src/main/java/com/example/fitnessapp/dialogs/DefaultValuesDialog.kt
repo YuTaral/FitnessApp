@@ -24,6 +24,7 @@ class DefaultValuesDialog(ctx: Context, values: UserDefaultValuesModel, weightUn
     private lateinit var sets: EditText
     private lateinit var reps: EditText
     private lateinit var weight: EditText
+    private lateinit var rest: EditText
     private lateinit var completed: CheckBox
     private lateinit var weightUnit: Spinner
     private lateinit var saveBtn: Button
@@ -34,6 +35,7 @@ class DefaultValuesDialog(ctx: Context, values: UserDefaultValuesModel, weightUn
         sets = dialog.findViewById(R.id.exercise_sets)
         reps = dialog.findViewById(R.id.set_reps)
         weight = dialog.findViewById(R.id.exercise_weight)
+        rest = dialog.findViewById(R.id.rest_txt)
         completed = dialog.findViewById(R.id.complete_exercise)
         weightUnit = dialog.findViewById(R.id.weight_unit)
         saveBtn = dialog.findViewById(R.id.save_btn)
@@ -49,6 +51,10 @@ class DefaultValuesDialog(ctx: Context, values: UserDefaultValuesModel, weightUn
 
         if (defaultValues.reps > 0) {
             reps.setText(defaultValues.reps.toString())
+        }
+
+        if (defaultValues.rest > 0) {
+            rest.setText(defaultValues.rest.toString())
         }
 
         completed.isChecked = defaultValues.completed
@@ -95,6 +101,7 @@ class DefaultValuesDialog(ctx: Context, values: UserDefaultValuesModel, weightUn
         var exerciseSets = 0
         var setReps = 0
         var exerciseWeight = 0.0
+        var setRest = 0
 
         if (sets.text.toString().isNotEmpty()) {
             exerciseSets = sets.text.toString().toInt()
@@ -106,6 +113,10 @@ class DefaultValuesDialog(ctx: Context, values: UserDefaultValuesModel, weightUn
             exerciseWeight = weight.text.toString().toDouble()
         }
 
+        if (rest.text.toString().isNotEmpty()) {
+            setRest = rest.text.toString().toInt()
+        }
+
         // Assume we are editing values for specific exercise, in this case weightUnit cannot be changed
         var selectedWeightUnit: WeightUnitModel? = AppStateManager.user!!.defaultValues.weightUnit
 
@@ -115,8 +126,8 @@ class DefaultValuesDialog(ctx: Context, values: UserDefaultValuesModel, weightUn
             selectedWeightUnit = weightUnitsData!!.find { it.text == weightUnit.selectedItem.toString() }
         }
 
-        val model = UserDefaultValuesModel(defaultValues.id,
-                    exerciseSets, setReps, exerciseWeight, completed.isChecked, selectedWeightUnit!!, defaultValues.mGExerciseId)
+        val model = UserDefaultValuesModel(defaultValues.id, exerciseSets, setReps, exerciseWeight,
+                    setRest, completed.isChecked, selectedWeightUnit!!, defaultValues.mGExerciseId)
 
         UserProfileRepository().updateUserDefaultValues(model, onSuccess = { response ->
             dismiss()

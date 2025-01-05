@@ -28,6 +28,7 @@ class AddExerciseToWorkoutDialog(ctx: Context, exercise: MGExerciseModel, values
     private lateinit var sets: EditText
     private lateinit var reps: EditText
     private lateinit var weight: EditText
+    private lateinit var rest: EditText
     private lateinit var exerciseCompleted: CheckBox
     private lateinit var saveBtn: Button
 
@@ -38,6 +39,7 @@ class AddExerciseToWorkoutDialog(ctx: Context, exercise: MGExerciseModel, values
         sets = dialog.findViewById(R.id.exercise_sets)
         reps = dialog.findViewById(R.id.set_reps)
         weight = dialog.findViewById(R.id.exercise_weight)
+        rest = dialog.findViewById(R.id.rest_txt)
         exerciseCompleted = dialog.findViewById(R.id.complete_exercise)
         saveBtn = dialog.findViewById(R.id.save_btn)
     }
@@ -53,12 +55,15 @@ class AddExerciseToWorkoutDialog(ctx: Context, exercise: MGExerciseModel, values
             reps.setText(defaultValues.reps.toString())
         }
 
+        if (defaultValues.rest > 0) {
+            rest.setText(defaultValues.rest.toString())
+        }
+
         exerciseCompleted.isChecked = defaultValues.completed
 
         if (defaultValues.weight > 0) {
             weight.setText(Utils.formatDouble(defaultValues.weight))
         }
-
     }
 
     override fun addClickListeners() {
@@ -81,6 +86,7 @@ class AddExerciseToWorkoutDialog(ctx: Context, exercise: MGExerciseModel, values
         val exerciseName = name.text.toString()
         var exerciseSets = 0
         var setReps = 0
+        var setRest = 0
         var exerciseWeight = 0.0
 
         if (sets.text.toString().isNotEmpty()) {
@@ -93,6 +99,10 @@ class AddExerciseToWorkoutDialog(ctx: Context, exercise: MGExerciseModel, values
             exerciseWeight = weight.text.toString().toDouble()
         }
 
+        if (rest.text.toString().isNotEmpty()) {
+            setRest = rest.text.toString().toInt()
+        }
+
         // Validate Name
         if (exerciseName.isEmpty()) {
             Utils.validationFailed(name, R.string.error_msg_enter_ex_name)
@@ -102,7 +112,7 @@ class AddExerciseToWorkoutDialog(ctx: Context, exercise: MGExerciseModel, values
         val model = MuscleGroupModel(exerciseToAdd.muscleGroupId)
 
         // Validation passed
-        return ExerciseModel(exerciseName, model, exerciseSets, setReps,
-                                exerciseWeight, exerciseCompleted.isChecked, exerciseToAdd.id)
+        return ExerciseModel(exerciseName, model, exerciseSets, setReps, exerciseWeight, setRest,
+                                exerciseCompleted.isChecked, exerciseToAdd.id)
     }
 }
