@@ -2,7 +2,6 @@ package com.example.fitnessapp.panels
 
 import android.widget.Button
 import android.widget.Spinner
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fitnessapp.R
 import com.example.fitnessapp.adapters.CustomSpinnerAdapter
@@ -50,7 +49,6 @@ class TemplatesPanel: BasePanel(), ITemporaryPanel {
         WorkoutTemplateRepository().getWorkoutTemplates(onSuccess = { serializedTemplates ->
             val templates: MutableList<WorkoutModel> = serializedTemplates.map { WorkoutModel(it) }.toMutableList()
 
-            templatesRecycler.layoutManager = LinearLayoutManager(context)
             templatesRecycler.adapter = WorkoutsRecAdapter(templates, onClick = { template ->
 
                 if (actionSpinner.selectedItemPosition == startWorkoutIndex) {

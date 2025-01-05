@@ -22,6 +22,7 @@
         android:layout_height="0dp"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintTop_toBottomOf="@+id/template_list_action_spinner"
         app:layout_constraintBottom_toTopOf="@+id/cancel_btn"/>
 

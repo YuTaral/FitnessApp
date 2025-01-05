@@ -5,7 +5,6 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fitnessapp.R
 import com.example.fitnessapp.adapters.ExercisesRecAdapter
@@ -88,7 +87,6 @@ class SelectedWorkoutPanel : BasePanel() {
         }
 
         if (exerciseRecycler.adapter == null) {
-            exerciseRecycler.layoutManager = LinearLayoutManager(context)
             exerciseRecycler.adapter = ExercisesRecAdapter(listOf())
         }
 

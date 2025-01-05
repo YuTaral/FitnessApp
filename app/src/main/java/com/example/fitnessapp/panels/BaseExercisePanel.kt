@@ -8,7 +8,6 @@ import android.widget.EditText
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fitnessapp.R
 import com.example.fitnessapp.adapters.MGExercisesRecAdapter
@@ -92,7 +91,6 @@ abstract class BaseExercisePanel(mode: Mode): BasePanel(), ITemporaryPanel {
             MuscleGroupRepository().getMuscleGroups(onSuccess = { data ->
                 muscleGroups = data
 
-                muscleGroupRecycler.layoutManager = LinearLayoutManager(context)
                 muscleGroupRecycler.adapter = MuscleGroupsRecAdapter(muscleGroups,
                     callback = { muscleGroup ->
                         selectedMuscleGroup = muscleGroup
@@ -153,8 +151,6 @@ abstract class BaseExercisePanel(mode: Mode): BasePanel(), ITemporaryPanel {
      */
     private fun displayExercises(exercises: List<MGExerciseModel>, initializeAdapter: Boolean) {
         if (initializeAdapter) {
-            exercisesRecycler.layoutManager = LinearLayoutManager(context)
-
             exercisesRecycler.adapter = MGExercisesRecAdapter(exercises, callback = { model ->
                 onExerciseSelectCallback(model)
             })
@@ -202,7 +198,6 @@ abstract class BaseExercisePanel(mode: Mode): BasePanel(), ITemporaryPanel {
                 .getString(noExercisesStringId), selectedMuscleGroup!!.name)
 
         if (initializeAdapter) {
-            exercisesRecycler.layoutManager = LinearLayoutManager(context)
             exercisesRecycler.adapter = MGExercisesRecAdapter(mutableListOf(), callback = {})
         } else {
             (exercisesRecycler.adapter as MGExercisesRecAdapter).updateData(mutableListOf(), callback = {})

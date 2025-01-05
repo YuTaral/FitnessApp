@@ -5,7 +5,6 @@ import android.widget.AdapterView
 import android.widget.Button
 import android.widget.Spinner
 import android.widget.TextView
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fitnessapp.R
 import com.example.fitnessapp.adapters.CustomSpinnerAdapter
@@ -114,7 +113,6 @@ class MainPanel: BasePanel() {
                 noWorkoutsLbl.visibility = View.GONE
                 workoutsRecycler.visibility = View.VISIBLE
 
-                workoutsRecycler.layoutManager = LinearLayoutManager(context)
                 workoutsRecycler.adapter = WorkoutsRecAdapter(workouts) { workout ->
                     Utils.getPanelAdapter().refreshWorkoutPanel(workout, null)
                 }

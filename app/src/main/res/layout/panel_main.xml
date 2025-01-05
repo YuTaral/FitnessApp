@@ -59,6 +59,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintTop_toBottomOf="@+id/workout_filter_lbl"
         app:layout_constraintBottom_toTopOf="@+id/new_workout_btn"/>
 
