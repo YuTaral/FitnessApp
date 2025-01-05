@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.TextView
 import com.example.fitnessapp.R
 import com.example.fitnessapp.interfaces.INeedResumeDialog
+import com.example.fitnessapp.managers.CustomNotificationManager
 import com.example.fitnessapp.utils.Utils
 
 /** Timer dialog - start a timer for the specified amount of time */
@@ -17,6 +18,7 @@ class TimerDialog(ctx: Context, s: Int, onFinish: () -> Unit): BaseDialog(ctx), 
     override var layoutId = R.layout.dialog_timer
     override var dialogTitleId = R.string.timer_lbl
 
+    private var context = ctx
     private var seconds = s
     private var secondsLeft = seconds
     private var onFinishCallback = onFinish
@@ -57,17 +59,29 @@ class TimerDialog(ctx: Context, s: Int, onFinish: () -> Unit): BaseDialog(ctx), 
         vibrator.cancel()
     }
 
+    /** Resume the dialog when the app was minimized - check if the timer finished */
+    override fun resume() {
+        if (::timeLeft.isInitialized && timeLeft.text == "0") {
+            onTimerFinish()
+        }
+    }
+
     /** Execute the logic when the timer finishes */
     private fun onTimerFinish() {
         try {
-            startPauseBtn.text = Utils.getActivity().getText(R.string.restart_btn)
+            if (Utils.isAppMinimized()) {
+                // Send a notification if the app is in the background
+                CustomNotificationManager(context, R.string.time_is_up_lbl, R.string.time_finished_lbl).sendNotification()
+            }
 
-            timeLeft.text = Utils.getActivity().getText(R.string.time_is_up_lbl)
+            startPauseBtn.text = context.getText(R.string.restart_btn)
+
+            timeLeft.text = context.getText(R.string.time_is_up_lbl)
             timeLeft.textSize = 40f
 
             // Vibrate the device
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                vibrator = (Utils.getActivity().getSystemService(Context.VIBRATOR_MANAGER_SERVICE)
+                vibrator = (context.getSystemService(Context.VIBRATOR_MANAGER_SERVICE)
                         as VibratorManager).defaultVibrator
 
                 if (vibrator.hasVibrator()) {
@@ -75,28 +89,30 @@ class TimerDialog(ctx: Context, s: Int, onFinish: () -> Unit): BaseDialog(ctx), 
                     vibrator.vibrate(VibrationEffect.createWaveform(pattern, -1))
                 }
             }
-        } catch (_: Exception) {}
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     /** Execute start / pause timer */
     private fun startStopTimer() {
         when (startPauseBtn.text) {
-            (Utils.getActivity().getText(R.string.start_btn)) -> {
+            (context.getText(R.string.start_btn)) -> {
                 // Resume the timer with the seconds left
                 resumeTimer(secondsLeft)
-                startPauseBtn.text = Utils.getActivity().getText(R.string.pause_btn)
+                startPauseBtn.text = context.getText(R.string.pause_btn)
             }
 
-            (Utils.getActivity().getText(R.string.pause_btn)) -> {
+            (context.getText(R.string.pause_btn)) -> {
                 // Pause the timer
                 countDownTimer.cancel()
-                startPauseBtn.text = Utils.getActivity().getText(R.string.start_btn)
+                startPauseBtn.text = context.getText(R.string.start_btn)
             }
 
             else -> {
                 // Restart the timer
                 resumeTimer(seconds + 1)
-                startPauseBtn.text = Utils.getActivity().getText(R.string.pause_btn)
+                startPauseBtn.text = context.getText(R.string.pause_btn)
                 vibrator.cancel()
             }
         }
@@ -118,12 +134,5 @@ class TimerDialog(ctx: Context, s: Int, onFinish: () -> Unit): BaseDialog(ctx), 
         }
 
         countDownTimer.start()
-    }
-
-    /** Resume the dialog when the app was minimized - check if the timer finished */
-    override fun resume() {
-        if (::timeLeft.isInitialized && timeLeft.text == "0") {
-            onTimerFinish()
-        }
     }
 }

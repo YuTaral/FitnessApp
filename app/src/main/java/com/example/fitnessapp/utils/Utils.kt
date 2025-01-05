@@ -117,6 +117,10 @@ object Utils {
         return AppStateManager.activeActivity!!
     }
 
+    /** Return true of the application is minimized, false if not */
+    fun isAppMinimized(): Boolean {
+        return AppStateManager.activeActivity == null
+    }
     /** Return the current panel adapter */
     fun getPanelAdapter(): PanelAdapter {
         return (AppStateManager.activeActivity!! as MainActivity).panelAdapter
