@@ -15,7 +15,7 @@ import com.example.fitnessapp.panels.ManageExercisesPanel
 import com.example.fitnessapp.panels.ManageTeamsPanel
 import com.example.fitnessapp.panels.NotificationsPanel
 import com.example.fitnessapp.panels.SelectedWorkoutPanel
-import com.example.fitnessapp.utils.AppStateManager
+import com.example.fitnessapp.managers.AppStateManager
 import com.example.fitnessapp.utils.Constants
 
 /** FragmentStateAdapter used to manage the panels */

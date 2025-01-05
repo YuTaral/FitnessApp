@@ -9,12 +9,14 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.example.fitnessapp.dialogs.AskQuestionDialog
+import com.example.fitnessapp.managers.AppStateManager
+import com.example.fitnessapp.managers.PermissionResultManager
+import com.example.fitnessapp.managers.SharedPrefsManager
 import com.example.fitnessapp.models.UserModel
 import com.example.fitnessapp.models.WorkoutModel
 import com.example.fitnessapp.network.APIService
 import com.example.fitnessapp.network.repositories.UserRepository
-import com.example.fitnessapp.utils.AppStateManager
-import com.example.fitnessapp.utils.SharedPrefsManager
 import com.example.fitnessapp.utils.Utils
 
 /** Class to implement the logic for Login / Register */
@@ -34,8 +36,16 @@ class LoginActivity : BaseActivity() {
     private lateinit var loginBtn: Button
     private lateinit var welcomeLbl: TextView
 
+    private lateinit var permissionHandler: PermissionResultManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        if (SharedPrefsManager.isFirstAppStart()) {
+            permissionHandler = PermissionResultManager()
+            askForPermissions()
+        }
+
 
         // Try to login automatically
         val token = SharedPrefsManager.getStoredToken()
@@ -196,6 +206,26 @@ class LoginActivity : BaseActivity() {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
         finish()
+    }
+
+    /** Ask for permission when it's the first time starting the application */
+    private fun askForPermissions() {
+        // Ask the user to review the permissions now
+        val dialog = AskQuestionDialog(this, AskQuestionDialog.Question.GRANT_PERMISSIONS)
+
+        dialog.setLeftButtonCallback {
+            dialog.dismiss()
+
+            // If that's the first start of the application on this device
+            // Start asking for permissions one by one
+            permissionHandler.cameraPermLauncher.launch(android.Manifest.permission.CAMERA)
+        }
+
+        dialog.show()
+
+        // Set the variable to indicate that the app was already started and do not ask
+        // for permissions again
+        SharedPrefsManager.setFirstStartApp()
     }
 }
 

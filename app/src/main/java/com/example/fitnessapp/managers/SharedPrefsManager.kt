@@ -1,15 +1,17 @@
-package com.example.fitnessapp.utils
+package com.example.fitnessapp.managers
 
 import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import com.example.fitnessapp.models.UserModel
+import com.example.fitnessapp.utils.Utils
 
 /** Shared prefs manager class to handle write / read data to / from shared preferences */
 object SharedPrefsManager {
     private const val SECURE_PREFS_FILE_NAME = "secure_prefs"
     private const val AUTH_TOKEN_KEY = "auth_token"
     private const val SERIALIZED_USER_KEY = "serialized_user"
+    private const val FIRST_START_KEY = "first_start"
 
     /** Return authorization token stored in the shared prefs, if it does not exist return empty string */
     fun getStoredToken(): String {
@@ -19,7 +21,7 @@ object SharedPrefsManager {
     /** Return User model stored in the shared prefs, if it does not exist return null */
     fun getStoredUser(): UserModel? {
         val sharedPref = getSharedPref()
-        val serializedUser = sharedPref.getString(SERIALIZED_USER_KEY, null) ?: ""
+        val serializedUser = sharedPref.getString(SERIALIZED_USER_KEY, "") ?: ""
 
         if (serializedUser.isEmpty())
         {
@@ -53,6 +55,18 @@ object SharedPrefsManager {
         } else {
             sharedPref.edit().putString(SERIALIZED_USER_KEY, Utils.serializeObject(model)).apply()
         }
+    }
+
+    /** Return true if that's the first time the user is starting the app on the device, false otherwise */
+    fun isFirstAppStart(): Boolean {
+        val firstTime = getSharedPref().getString(FIRST_START_KEY, null) ?: ""
+
+        return firstTime.isEmpty()
+    }
+
+    /** Set the variable to indicate that the app was already started once on the device */
+    fun setFirstStartApp() {
+        getSharedPref().edit().putString(FIRST_START_KEY, "N").apply()
     }
 
     /** Create and return SharedPreferences object using encryption */

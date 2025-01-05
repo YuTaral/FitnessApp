@@ -22,6 +22,8 @@ import com.example.fitnessapp.MainActivity
 import com.example.fitnessapp.R
 import com.example.fitnessapp.adapters.PanelAdapter
 import com.example.fitnessapp.dialogs.AskQuestionDialog
+import com.example.fitnessapp.managers.AppStateManager
+import com.example.fitnessapp.managers.PermissionResultManager
 import com.example.fitnessapp.network.APIService
 import com.example.fitnessapp.network.repositories.WorkoutRepository
 import com.google.android.material.snackbar.BaseTransientBottomBar
@@ -121,7 +123,7 @@ object Utils {
     }
 
     /** Return the current activity result handler */
-    fun getActivityResultHandler(): PermissionResultHandler {
+    fun getActivityResultHandler(): PermissionResultManager {
         return (AppStateManager.activeActivity!! as MainActivity).perrmissionHandler
     }
 

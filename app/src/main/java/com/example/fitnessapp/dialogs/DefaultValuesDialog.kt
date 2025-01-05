@@ -10,7 +10,7 @@ import com.example.fitnessapp.adapters.CustomSpinnerAdapter
 import com.example.fitnessapp.models.UserDefaultValuesModel
 import com.example.fitnessapp.models.WeightUnitModel
 import com.example.fitnessapp.network.repositories.UserProfileRepository
-import com.example.fitnessapp.utils.AppStateManager
+import com.example.fitnessapp.managers.AppStateManager
 import com.example.fitnessapp.utils.Utils
 
 /** DefaultValuesDialog to enter user default values for exercise (sets, reps and weights) */

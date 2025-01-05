@@ -10,7 +10,7 @@ import com.example.fitnessapp.R
 import com.example.fitnessapp.interfaces.IImagePicker
 import com.example.fitnessapp.interfaces.ITemporaryPanel
 import com.example.fitnessapp.utils.Constants
-import com.example.fitnessapp.utils.ImageUploadManager
+import com.example.fitnessapp.managers.ImageUploadManager
 
 /** Base Team Panel class to implement the logic add / edit single team */
 abstract class BaseTeamPanel: BasePanel(), IImagePicker, ITemporaryPanel {

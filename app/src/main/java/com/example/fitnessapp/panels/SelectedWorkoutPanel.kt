@@ -11,7 +11,7 @@ import com.example.fitnessapp.R
 import com.example.fitnessapp.adapters.ExercisesRecAdapter
 import com.example.fitnessapp.dialogs.AddEditWorkoutDialog
 import com.example.fitnessapp.dialogs.AskQuestionDialog
-import com.example.fitnessapp.utils.AppStateManager
+import com.example.fitnessapp.managers.AppStateManager
 import com.example.fitnessapp.utils.Constants
 import com.example.fitnessapp.utils.Utils
 import kotlinx.coroutines.CoroutineScope

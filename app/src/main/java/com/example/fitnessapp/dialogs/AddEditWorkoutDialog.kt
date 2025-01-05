@@ -13,7 +13,7 @@ import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams
 import com.example.fitnessapp.R
 import com.example.fitnessapp.models.WorkoutModel
 import com.example.fitnessapp.network.repositories.WorkoutRepository
-import com.example.fitnessapp.utils.AppStateManager
+import com.example.fitnessapp.managers.AppStateManager
 import com.example.fitnessapp.utils.Utils
 
 /** Add / Edit Workout dialog to implement the logic for add / edit workout

@@ -7,7 +7,7 @@ import android.widget.TextView
 import com.example.fitnessapp.R
 import com.example.fitnessapp.models.JoinTeamNotificationModel
 import com.example.fitnessapp.network.repositories.TeamRepository
-import com.example.fitnessapp.utils.AppStateManager
+import com.example.fitnessapp.managers.AppStateManager
 import com.example.fitnessapp.utils.Constants
 import com.example.fitnessapp.utils.Utils
 

@@ -1,9 +1,10 @@
-package com.example.fitnessapp.utils
+package com.example.fitnessapp.managers
 
 import com.example.fitnessapp.BaseActivity
 import com.example.fitnessapp.MainActivity
 import com.example.fitnessapp.models.UserModel
 import com.example.fitnessapp.models.WorkoutModel
+import com.example.fitnessapp.utils.Utils
 import java.lang.ref.WeakReference
 
 /** Object to define the current state (current activity, logged in user, etc... */

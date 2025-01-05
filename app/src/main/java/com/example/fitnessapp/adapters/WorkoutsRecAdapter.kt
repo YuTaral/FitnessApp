@@ -12,7 +12,7 @@ import com.example.fitnessapp.R
 import com.example.fitnessapp.models.ExerciseModel
 import com.example.fitnessapp.models.SetModel
 import com.example.fitnessapp.models.WorkoutModel
-import com.example.fitnessapp.utils.AppStateManager
+import com.example.fitnessapp.managers.AppStateManager
 import com.example.fitnessapp.utils.Utils
 
 /** Recycler adapter to control the workouts data shown in the main panel */

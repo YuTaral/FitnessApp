@@ -6,7 +6,7 @@ import com.example.fitnessapp.models.WorkoutModel
 import com.example.fitnessapp.network.APIService
 import com.example.fitnessapp.network.CustomResponse
 import com.example.fitnessapp.network.NetworkManager
-import com.example.fitnessapp.utils.AppStateManager
+import com.example.fitnessapp.managers.AppStateManager
 import com.example.fitnessapp.utils.Utils
 
 /** ExerciseRepository class, used to execute all requests related to exercise */

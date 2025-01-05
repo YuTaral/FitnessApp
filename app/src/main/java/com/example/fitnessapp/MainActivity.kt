@@ -24,8 +24,8 @@ import com.example.fitnessapp.panels.ManageExercisesPanel
 import com.example.fitnessapp.panels.ManageTeamsPanel
 import com.example.fitnessapp.panels.NotificationsPanel
 import com.example.fitnessapp.panels.TemplatesPanel
-import com.example.fitnessapp.utils.AppStateManager
-import com.example.fitnessapp.utils.PermissionResultHandler
+import com.example.fitnessapp.managers.AppStateManager
+import com.example.fitnessapp.managers.PermissionResultManager
 import com.example.fitnessapp.utils.Utils
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayout
@@ -49,7 +49,7 @@ class MainActivity : BaseActivity() {
     private lateinit var tabLayout: TabLayout
 
     /** The ActivityResultHandler class instance to handle permissions / intents */
-    lateinit var perrmissionHandler: PermissionResultHandler
+    lateinit var perrmissionHandler: PermissionResultManager
 
     /** The PanelAdapter class instance to manage the panels */
     lateinit var panelAdapter: PanelAdapter
@@ -58,7 +58,7 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
 
         // Initialize the launchers
-        perrmissionHandler = PermissionResultHandler()
+        perrmissionHandler = PermissionResultManager()
     }
 
     override fun findViews() {

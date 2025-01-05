@@ -180,5 +180,8 @@
     <string name="done_btn">Done</string>
     <string name="time_is_up_lbl">Time\'s up!</string>
     <string name="paused_lbl">Paused</string>
-
+    <string name="question_grant_permissions">Grand permissions</string>
+    <string name="question_grant_permissions_text">To make sure the app works smoothly and gives you the best experience, we need to request some permissions. These will help us provide essential features like notifications, camera access and images access.\nYour privacy is important to us, and we will never share your data without your consent.\nWould you like to grant these permissions now?</string>
+    <string name="view_permissions_btn">View permissions</string>
+    <string name="maybe_later_btn">Maybe later</string>
 </resources>

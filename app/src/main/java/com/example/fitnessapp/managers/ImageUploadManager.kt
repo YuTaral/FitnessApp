@@ -1,4 +1,4 @@
-package com.example.fitnessapp.utils
+package com.example.fitnessapp.managers
 
 import android.content.Intent
 import android.graphics.Bitmap
@@ -11,6 +11,7 @@ import android.provider.MediaStore
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import com.example.fitnessapp.dialogs.AskQuestionDialog
+import com.example.fitnessapp.utils.Utils
 import java.io.InputStream
 
 /** Image upload class to handle image uploading from the album or camera */

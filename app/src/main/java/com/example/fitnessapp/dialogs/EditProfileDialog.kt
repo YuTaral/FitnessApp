@@ -8,8 +8,8 @@ import android.widget.ImageView
 import com.example.fitnessapp.R
 import com.example.fitnessapp.interfaces.IImagePicker
 import com.example.fitnessapp.network.repositories.UserProfileRepository
-import com.example.fitnessapp.utils.AppStateManager
-import com.example.fitnessapp.utils.ImageUploadManager
+import com.example.fitnessapp.managers.AppStateManager
+import com.example.fitnessapp.managers.ImageUploadManager
 import com.example.fitnessapp.utils.Utils
 
 /** Dialog to handle the logic for profile edit */

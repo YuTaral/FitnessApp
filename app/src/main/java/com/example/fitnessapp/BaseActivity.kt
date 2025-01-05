@@ -5,8 +5,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.fitnessapp.dialogs.BaseDialog
 import com.example.fitnessapp.interfaces.INeedResumeDialog
-import com.example.fitnessapp.utils.AppStateManager
-import com.example.fitnessapp.utils.SharedPrefsManager
+import com.example.fitnessapp.managers.AppStateManager
+import com.example.fitnessapp.managers.SharedPrefsManager
 
 
 /** Base activity class to implement the common logic for all activities */

@@ -6,7 +6,7 @@ import android.os.Looper
 import com.example.fitnessapp.LoginActivity
 import com.example.fitnessapp.R
 import com.example.fitnessapp.network.repositories.UserRepository
-import com.example.fitnessapp.utils.AppStateManager
+import com.example.fitnessapp.managers.AppStateManager
 import com.example.fitnessapp.utils.Constants
 import com.example.fitnessapp.utils.Utils
 import retrofit2.Call

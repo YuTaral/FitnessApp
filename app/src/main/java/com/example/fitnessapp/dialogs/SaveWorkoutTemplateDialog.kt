@@ -8,7 +8,7 @@ import android.widget.TextView
 import com.example.fitnessapp.R
 import com.example.fitnessapp.models.WorkoutModel
 import com.example.fitnessapp.network.repositories.WorkoutTemplateRepository
-import com.example.fitnessapp.utils.AppStateManager
+import com.example.fitnessapp.managers.AppStateManager
 import com.example.fitnessapp.utils.Utils
 
 /** Save workout template dialog to implement the logic to save the current workout as template */

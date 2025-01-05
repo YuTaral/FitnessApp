@@ -13,7 +13,7 @@ import com.example.fitnessapp.models.MGExerciseModel
 import com.example.fitnessapp.models.WorkoutModel
 import com.example.fitnessapp.network.CustomResponse
 import com.example.fitnessapp.network.repositories.ExerciseRepository
-import com.example.fitnessapp.utils.AppStateManager
+import com.example.fitnessapp.managers.AppStateManager
 import com.example.fitnessapp.utils.Constants
 import com.example.fitnessapp.utils.Utils
 

@@ -1,4 +1,4 @@
-package com.example.fitnessapp.utils
+package com.example.fitnessapp.managers
 
 import android.app.Activity
 import android.content.Intent
@@ -13,13 +13,17 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale
 import androidx.core.content.ContextCompat
 import com.example.fitnessapp.BaseActivity
+import com.example.fitnessapp.LoginActivity
 import com.example.fitnessapp.R
 import com.example.fitnessapp.dialogs.AskQuestionDialog
 import com.example.fitnessapp.interfaces.IImagePicker
+import com.example.fitnessapp.utils.Utils
 
 /** Class to handle the logic when requesting permissions / launching specific result launcher */
-class PermissionResultHandler {
+class PermissionResultManager {
     private var activity: BaseActivity = Utils.getActivity()
+
+    private var notificationPermLauncher: ActivityResultLauncher<String>
 
     var cameraPermLauncher: ActivityResultLauncher<String>
     var readMediaImagesPermLauncher: ActivityResultLauncher<String>
@@ -29,51 +33,86 @@ class PermissionResultHandler {
     lateinit var photoPickerLauncher: ActivityResultLauncher<PickVisualMediaRequest>
 
     init {
-        val readMediaPermission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            android.Manifest.permission.READ_MEDIA_IMAGES
-        } else {
-            android.Manifest.permission.READ_EXTERNAL_STORAGE
-        }
-
         // Initialize the permission launchers
         cameraPermLauncher = initializeRequestPermissionLaunchers(android.Manifest.permission.CAMERA)
-        readMediaImagesPermLauncher = initializeRequestPermissionLaunchers(readMediaPermission)
+        readMediaImagesPermLauncher = initializeRequestPermissionLaunchers(getMediaPermissionString())
         readExternalStoragePermLauncher = initializeRequestPermissionLaunchers(android.Manifest.permission.READ_EXTERNAL_STORAGE)
+        notificationPermLauncher = initializeRequestPermissionLaunchers(android.Manifest.permission.ACCESS_NOTIFICATION_POLICY)
 
-        // Initialize the activity result launchers
-        initializeActivityResultLaunchers()
+        if (activity !is LoginActivity) {
+            // Initialize the activity result launchers only if the permission handler is not used
+            // in the login activity (first application start on the device)
+            initializeActivityResultLaunchers()
+        }
     }
 
     /** Initialize the launchers for requesting permissions */
     private fun initializeRequestPermissionLaunchers(permission: String): ActivityResultLauncher<String> {
         return activity.registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-            if (isGranted) {
-                when (permission) {
-                    // Execute the action based on the current requested permission
-                    (android.Manifest.permission.CAMERA) -> {
-                        cameraLauncher.launch(Intent(MediaStore.ACTION_IMAGE_CAPTURE))
-                    }
 
-                    (android.Manifest.permission.READ_MEDIA_IMAGES),
-                    (android.Manifest.permission.READ_EXTERNAL_STORAGE) -> {
-                        galleryLauncher.launch(Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI))
-                    }
-
-                }
+            // When permission result is returned, execute the logic, which is based on the active activity
+            if (activity is LoginActivity) {
+                onResultInActivity(permission)
             } else {
-                // Handle permission denial
-                // When the camera permission is set to "Do not ask again" or being set to that option,
-                // the BaseActivity onPause is triggered, but onRestart/onResume are not, so manually set the activity
-                // otherwise it will remain to null
-                AppStateManager.activeActivity = activity
+                onResultInActivity(isGranted, permission)
+            }
+        }
+    }
 
-                if (!shouldShowRequestPermissionRationale(activity, permission)) {
-                    // Permission set to "Don't ask again" or permanently denied, open the settings
-                    showSettingsDialog()
-                } else {
-                    // Permission denied
-                    Utils.showToast(R.string.permission_denied_message)
+    /** Execute the logic to ask for all permission one after another when the asking for permissions
+     * in logic activity (app first start)
+     * @param permission the permission
+     */
+    private fun onResultInActivity(permission: String) {
+        when (permission) {
+            (android.Manifest.permission.CAMERA) -> {
+                // Ask for next permission
+                readExternalStoragePermLauncher.launch(android.Manifest.permission.READ_EXTERNAL_STORAGE)
+            }
+
+            (android.Manifest.permission.READ_EXTERNAL_STORAGE) -> {
+                // Ask for next permission
+                notificationPermLauncher.launch(android.Manifest.permission.ACCESS_NOTIFICATION_POLICY)
+            }
+
+            (android.Manifest.permission.ACCESS_NOTIFICATION_POLICY) -> {
+                // Ask for next permission
+                readMediaImagesPermLauncher.launch(getMediaPermissionString())
+            }
+        }
+    }
+
+    /** Execute the logic when result for granting permission is returned
+     * @param isGranted true if the permission was granted, false otherwise
+     * @param permission the permission
+     */
+    private fun onResultInActivity(isGranted: Boolean, permission: String) {
+        if (isGranted) {
+            when (permission) {
+                // Execute the action based on the current requested permission
+                (android.Manifest.permission.CAMERA) -> {
+                    cameraLauncher.launch(Intent(MediaStore.ACTION_IMAGE_CAPTURE))
                 }
+
+                (android.Manifest.permission.READ_MEDIA_IMAGES),
+                (android.Manifest.permission.READ_EXTERNAL_STORAGE) -> {
+                    galleryLauncher.launch(Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI))
+                }
+
+            }
+        } else {
+            // Handle permission denial
+            // When the camera permission is set to "Do not ask again" or being set to that option,
+            // the BaseActivity onPause is triggered, but onRestart/onResume are not, so manually set the activity
+            // otherwise it will remain to null
+            AppStateManager.activeActivity = activity
+
+            if (!shouldShowRequestPermissionRationale(activity, permission)) {
+                // Permission set to "Don't ask again" or permanently denied, open the settings
+                showSettingsDialog()
+            } else {
+                // Permission denied
+                Utils.showToast(R.string.permission_denied_message)
             }
         }
     }
@@ -109,7 +148,6 @@ class PermissionResultHandler {
         galleryLauncher = activity.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK && result.data?.data != null) {
                 onLauncherResultOk(result.data?.data!!)
-
             } else {
                 Utils.showToast(R.string.error_msg_no_media)
             }
@@ -211,6 +249,15 @@ class PermissionResultHandler {
         }
 
         return dialogs[0]
+    }
+
+    /** Return the read media permission string based on the build version*/
+    private fun getMediaPermissionString(): String {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            android.Manifest.permission.READ_MEDIA_IMAGES
+        } else {
+            android.Manifest.permission.READ_EXTERNAL_STORAGE
+        }
     }
 
     /** Return true the permission is granted, false otherwise

@@ -1,7 +1,7 @@
 package com.example.fitnessapp.network
 
 import com.example.fitnessapp.utils.Constants
-import com.example.fitnessapp.utils.SharedPrefsManager
+import com.example.fitnessapp.managers.SharedPrefsManager
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
