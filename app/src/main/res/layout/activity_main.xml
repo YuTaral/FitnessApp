@@ -14,24 +14,49 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                style="@style/CustomTabLayout"/>
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                app:layout_constraintBottom_toTopOf="@+id/header"
+                app:layout_constraintTop_toBottomOf="@+id/tabLayout"/>
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="10dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
                 android:background="@color/colorHeader"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
+                app:layout_constraintBottom_toBottomOf="parent">
 
                 <ImageView
                     android:id="@+id/profile_img"
                     android:layout_width="38dp"
                     android:layout_height="38dp"
-                    android:layout_marginStart="10dp"
+                    android:layout_marginStart="15dp"
                     android:importantForAccessibility="no"
                     android:background="@drawable/icon_profile"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"/>
+
+                <TextView
+                    android:id="@+id/account_lbl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/account"
+                    android:textColor="@color/colorAccent"
+                    app:layout_constraintStart_toStartOf="@+id/profile_img"
+                    app:layout_constraintEnd_toEndOf="@+id/profile_img"
+                    app:layout_constraintTop_toBottomOf="@+id/profile_img"/>
 
                 <ImageView
                     android:id="@+id/notifications_img"
@@ -40,7 +65,8 @@
                     android:layout_marginEnd="5dp"
                     android:importantForAccessibility="no"
                     android:background="@drawable/icon_notification"
-                    app:layout_constraintEnd_toStartOf="@+id/menu_img"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"/>
 
                 <ImageView
@@ -52,40 +78,44 @@
                     app:layout_constraintEnd_toEndOf="@+id/notifications_img"
                     app:layout_constraintTop_toTopOf="parent"/>
 
+                <TextView
+                    android:id="@+id/notifications_lbl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/notifications_lbl"
+                    android:textColor="@color/colorAccent"
+                    app:layout_constraintStart_toStartOf="@+id/notifications_img"
+                    app:layout_constraintEnd_toEndOf="@+id/notifications_img"
+                    app:layout_constraintTop_toBottomOf="@+id/notifications_img"/>
+
                 <ImageView
                     android:id="@+id/menu_img"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:layout_marginEnd="5dp"
+                    android:layout_marginEnd="15dp"
                     android:importantForAccessibility="no"
                     android:background="@drawable/icon_menu"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"/>
 
-                <com.google.android.material.tabs.TabLayout
-                    android:id="@+id/tabLayout"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/more_lbl"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/profile_img"
-                    style="@style/CustomTabLayout"/>
+                    android:text="@string/more_lbl"
+                    android:textColor="@color/colorAccent"
+                    app:layout_constraintStart_toStartOf="@+id/menu_img"
+                    app:layout_constraintEnd_toEndOf="@+id/menu_img"
+                    app:layout_constraintTop_toBottomOf="@+id/menu_img"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/viewPager"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/header"/>
 
             <RelativeLayout
                 android:id="@+id/user_message"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent"
+                android:visibility="gone"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

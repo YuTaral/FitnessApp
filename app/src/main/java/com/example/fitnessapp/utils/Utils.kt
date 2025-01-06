@@ -3,15 +3,19 @@ package com.example.fitnessapp.utils
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Base64
+import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.View
 import android.view.animation.DecelerateInterpolator
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -24,6 +28,7 @@ import com.example.fitnessapp.adapters.PanelAdapter
 import com.example.fitnessapp.dialogs.AskQuestionDialog
 import com.example.fitnessapp.managers.AppStateManager
 import com.example.fitnessapp.managers.PermissionResultManager
+import com.example.fitnessapp.managers.VibratorWarningManager
 import com.example.fitnessapp.network.APIService
 import com.example.fitnessapp.network.repositories.WorkoutRepository
 import com.google.android.material.snackbar.BaseTransientBottomBar
@@ -59,10 +64,17 @@ object Utils {
      */
     fun showMessage(message: String, duration: Int = BaseTransientBottomBar.LENGTH_LONG) {
         val snackBarContainer = Snackbar.make(getActivity().findViewById(R.id.user_message), message, duration)
-
         val textView = snackBarContainer.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
+
+        // Customizing position for top positioning
+        val layoutParams = snackBarContainer.view.layoutParams as FrameLayout.LayoutParams
+        layoutParams.gravity = Gravity.TOP
+        snackBarContainer.view.layoutParams = layoutParams
+        snackBarContainer.animationMode = Snackbar.ANIMATION_MODE_FADE
+
         textView.maxLines = 4
         textView.textSize = 18f
+        textView.textAlignment = View.TEXT_ALIGNMENT_CENTER
 
         snackBarContainer.setBackgroundTint(getActivity().getColor(R.color.colorAccent))
         snackBarContainer.show()
@@ -80,8 +92,36 @@ object Utils {
     * @param message the message to show
     * @param duration duration - short / long, long by default
     * */
+    @SuppressLint("InflateParams")
+    @Suppress("DEPRECATION")
     fun showToast(message: String, duration: Int = Toast.LENGTH_LONG) {
-        Toast.makeText(getActivity(), message, duration).show()
+        // Create a custom layout for the Toast
+        val layout = LayoutInflater.from(getActivity()).inflate(R.layout.toast_custom_layout, null)
+
+        val textView: TextView = layout.findViewById(R.id.toast_text)
+        textView.text = message
+
+        val toast = Toast(getActivity())
+        toast.duration = duration
+        toast.view = layout
+
+        // Set the Toast position at the top of the screen
+        toast.setGravity(Gravity.TOP or Gravity.CENTER_HORIZONTAL, 0, 100) // Adjust the vertical margin as needed
+
+        // Add animation
+        layout.alpha = 0f
+        layout.animate()
+            .alpha(1f)
+            .setDuration(1000)
+            .withEndAction {
+                layout.animate()
+                    .alpha(0f)
+                    .setDuration(1000)
+                    .setStartDelay(3000)
+                    .start()
+            }
+
+        toast.show()
     }
 
     /** Check whether the value is ResponseCode.SUCCESS
@@ -138,6 +178,7 @@ object Utils {
     fun validationFailed(input: EditText, errorMsgId: Int) {
         openKeyboardOnInput(input)
         showToast(errorMsgId)
+        VibratorWarningManager.makeVibration(getActivity(), longArrayOf(0, 350))
     }
 
     /** Focus the field and open the keyboard

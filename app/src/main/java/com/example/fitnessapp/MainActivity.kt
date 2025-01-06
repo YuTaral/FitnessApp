@@ -16,6 +16,8 @@ import com.example.fitnessapp.dialogs.DefaultValuesDialog
 import com.example.fitnessapp.dialogs.EditProfileDialog
 import com.example.fitnessapp.dialogs.FinishWorkoutDialog
 import com.example.fitnessapp.dialogs.SaveWorkoutTemplateDialog
+import com.example.fitnessapp.managers.AppStateManager
+import com.example.fitnessapp.managers.PermissionResultManager
 import com.example.fitnessapp.network.repositories.NotificationRepository
 import com.example.fitnessapp.network.repositories.UserRepository
 import com.example.fitnessapp.network.repositories.WorkoutRepository
@@ -24,8 +26,6 @@ import com.example.fitnessapp.panels.ManageExercisesPanel
 import com.example.fitnessapp.panels.ManageTeamsPanel
 import com.example.fitnessapp.panels.NotificationsPanel
 import com.example.fitnessapp.panels.TemplatesPanel
-import com.example.fitnessapp.managers.AppStateManager
-import com.example.fitnessapp.managers.PermissionResultManager
 import com.example.fitnessapp.utils.Utils
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayout

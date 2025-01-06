@@ -1,16 +1,13 @@
 package com.example.fitnessapp.dialogs
 
 import android.content.Context
-import android.os.Build
 import android.os.CountDownTimer
-import android.os.VibrationEffect
-import android.os.Vibrator
-import android.os.VibratorManager
 import android.widget.Button
 import android.widget.TextView
 import com.example.fitnessapp.R
 import com.example.fitnessapp.interfaces.INeedResumeDialog
 import com.example.fitnessapp.managers.CustomNotificationManager
+import com.example.fitnessapp.managers.VibratorWarningManager
 import com.example.fitnessapp.utils.Utils
 
 /** Timer dialog - start a timer for the specified amount of time */
@@ -28,7 +25,6 @@ class TimerDialog(ctx: Context, s: Int, onFinish: () -> Unit): BaseDialog(ctx), 
     private lateinit var startPauseBtn: Button
 
     private lateinit var countDownTimer: CountDownTimer
-    private lateinit var vibrator: Vibrator
 
     override fun findViews() {
         super.findViews()
@@ -55,8 +51,10 @@ class TimerDialog(ctx: Context, s: Int, onFinish: () -> Unit): BaseDialog(ctx), 
 
     override fun dismiss() {
         super.dismiss()
-        countDownTimer.cancel()
-        vibrator.cancel()
+
+        if (::countDownTimer.isInitialized) {
+            countDownTimer.cancel()
+        }
     }
 
     /** Resume the dialog when the app was minimized - check if the timer finished */
@@ -80,15 +78,8 @@ class TimerDialog(ctx: Context, s: Int, onFinish: () -> Unit): BaseDialog(ctx), 
             timeLeft.textSize = 40f
 
             // Vibrate the device
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                vibrator = (context.getSystemService(Context.VIBRATOR_MANAGER_SERVICE)
-                        as VibratorManager).defaultVibrator
+            VibratorWarningManager.makeVibration(context, longArrayOf(0, 1000, 500, 1000, 500, 1000))
 
-                if (vibrator.hasVibrator()) {
-                    val pattern = longArrayOf(0, 1000, 500, 1000, 500, 1000)
-                    vibrator.vibrate(VibrationEffect.createWaveform(pattern, -1))
-                }
-            }
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -113,7 +104,6 @@ class TimerDialog(ctx: Context, s: Int, onFinish: () -> Unit): BaseDialog(ctx), 
                 // Restart the timer
                 resumeTimer(seconds + 1)
                 startPauseBtn.text = context.getText(R.string.pause_btn)
-                vibrator.cancel()
             }
         }
     }

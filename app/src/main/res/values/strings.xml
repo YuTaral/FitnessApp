@@ -188,5 +188,7 @@
     <string name="additional_notes_lbl">Additional notes…</string>
     <string name="show_more_lbl">Show more</string>
     <string name="show_less_lbl">Show less</string>
+    <string name="account">Account</string>
+    <string name="more_lbl">More</string>
 
 </resources>
