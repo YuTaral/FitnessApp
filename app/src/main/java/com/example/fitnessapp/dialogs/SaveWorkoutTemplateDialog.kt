@@ -6,9 +6,9 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import com.example.fitnessapp.R
+import com.example.fitnessapp.managers.AppStateManager
 import com.example.fitnessapp.models.WorkoutModel
 import com.example.fitnessapp.network.repositories.WorkoutTemplateRepository
-import com.example.fitnessapp.managers.AppStateManager
 import com.example.fitnessapp.utils.Utils
 
 /** Save workout template dialog to implement the logic to save the current workout as template */
@@ -18,6 +18,7 @@ class SaveWorkoutTemplateDialog(ctx: Context): BaseDialog(ctx) {
     override var dialogTitleId = R.string.save_template_lbl
 
     private lateinit var templateName: EditText
+    private lateinit var notes: EditText
     private lateinit var exercises: TextView
     private lateinit var saveBtn: Button
 
@@ -25,12 +26,14 @@ class SaveWorkoutTemplateDialog(ctx: Context): BaseDialog(ctx) {
         super.findViews()
 
         templateName = dialog.findViewById(R.id.template_name_txt)
+        notes = dialog.findViewById(R.id.notes)
         exercises = dialog.findViewById(R.id.workout_exercises_summary_txt)
         saveBtn = dialog.findViewById(R.id.save_btn)
     }
 
     override fun populateDialog() {
         templateName.setText(AppStateManager.workout!!.name)
+        notes.setText(AppStateManager.workout!!.notes)
         exercises.text = AppStateManager.workout!!.exercises.joinToString (separator = ", ") { it.name }
     }
 
@@ -49,7 +52,8 @@ class SaveWorkoutTemplateDialog(ctx: Context): BaseDialog(ctx) {
         }
 
         // Create template, changing the name and adding only the selected Muscle Groups
-        val template = WorkoutModel(0, templateName.text.toString(), true, AppStateManager.workout!!.exercises)
+        val template = WorkoutModel(0, templateName.text.toString(), true,
+                                    AppStateManager.workout!!.exercises, notes.text.toString())
 
         WorkoutTemplateRepository().addWorkoutTemplate(template, onSuccess =  {
             dismiss()

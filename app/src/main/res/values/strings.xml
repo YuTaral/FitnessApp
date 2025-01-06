@@ -185,4 +185,8 @@
     <string name="view_permissions_btn">View permissions</string>
     <string name="maybe_later_btn">Maybe later</string>
     <string name="time_finished_lbl">Break’s over! Time to get back to your workout!</string>
+    <string name="additional_notes_lbl">Additional notes…</string>
+    <string name="show_more_lbl">Show more</string>
+    <string name="show_less_lbl">Show less</string>
+
 </resources>

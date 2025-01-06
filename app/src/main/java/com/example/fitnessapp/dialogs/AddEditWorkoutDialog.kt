@@ -11,9 +11,9 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams
 import com.example.fitnessapp.R
+import com.example.fitnessapp.managers.AppStateManager
 import com.example.fitnessapp.models.WorkoutModel
 import com.example.fitnessapp.network.repositories.WorkoutRepository
-import com.example.fitnessapp.managers.AppStateManager
 import com.example.fitnessapp.utils.Utils
 
 /** Add / Edit Workout dialog to implement the logic for add / edit workout
@@ -36,6 +36,7 @@ class AddEditWorkoutDialog(ctx: Context, mode: Mode, workoutModel: WorkoutModel?
     private var template: WorkoutModel? = workoutModel
 
     private lateinit var name: EditText
+    private lateinit var notes: EditText
     private lateinit var startEndTimeContainer: ConstraintLayout
     private lateinit  var startLbl: TextView
     private lateinit  var endLbl: TextView
@@ -56,6 +57,7 @@ class AddEditWorkoutDialog(ctx: Context, mode: Mode, workoutModel: WorkoutModel?
 
         closeIcon = dialog.findViewById(R.id.dialog_close)
         name = dialog.findViewById(R.id.workout_name_txt)
+        notes = dialog.findViewById(R.id.notes)
         startEndTimeContainer = dialog.findViewById(R.id.start_end_date_time_container)
         startLbl = dialog.findViewById(R.id.workout_start_date_time_txt)
         endLbl = dialog.findViewById(R.id.workout_finish_date_time_txt)
@@ -68,6 +70,10 @@ class AddEditWorkoutDialog(ctx: Context, mode: Mode, workoutModel: WorkoutModel?
 
             if (template != null) {
                 name.setText(template!!.name)
+
+                if (template!!.notes.isNotEmpty()) {
+                    notes.setText(template!!.notes)
+                }
             }
 
         } else {
@@ -75,6 +81,7 @@ class AddEditWorkoutDialog(ctx: Context, mode: Mode, workoutModel: WorkoutModel?
             setEditModeButtons()
 
             name.setText(AppStateManager.workout!!.name)
+            notes.setText(AppStateManager.workout!!.notes)
 
             // Show start and end time
             startEndTimeContainer.visibility = View.VISIBLE
@@ -127,10 +134,10 @@ class AddEditWorkoutDialog(ctx: Context, mode: Mode, workoutModel: WorkoutModel?
         if (dialogMode == Mode.ADD) {
             val newWorkout: WorkoutModel = if (template == null) {
                 // Create new workout
-                WorkoutModel(0, name.text.toString(), false, mutableListOf())
+                WorkoutModel(0, name.text.toString(), false, mutableListOf(), notes.text.toString())
             } else {
                 // Create new workout from the template
-                WorkoutModel(0, name.text.toString(), true, template!!.exercises)
+                WorkoutModel(0, name.text.toString(), true, template!!.exercises, notes.text.toString())
             }
 
             WorkoutRepository().addWorkout(newWorkout, onSuccess = { workout ->
@@ -138,7 +145,7 @@ class AddEditWorkoutDialog(ctx: Context, mode: Mode, workoutModel: WorkoutModel?
                 Utils.getPanelAdapter().refreshWorkoutPanel(workout, true)
             })
         } else {
-            WorkoutRepository().updateWorkout(WorkoutModel(AppStateManager.workout!!.id, name.text.toString(), false, mutableListOf()),
+            WorkoutRepository().updateWorkout(WorkoutModel(AppStateManager.workout!!.id, name.text.toString(), false, mutableListOf(), notes.text.toString()),
                 onSuccess = { workout ->
                     dismiss()
                     Utils.getPanelAdapter().refreshWorkoutPanel(workout, true)

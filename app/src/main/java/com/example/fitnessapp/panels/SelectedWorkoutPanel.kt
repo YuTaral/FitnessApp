@@ -1,5 +1,6 @@
 package com.example.fitnessapp.panels
 
+import android.animation.LayoutTransition
 import android.os.Build
 import android.view.View
 import android.widget.Button
@@ -22,6 +23,7 @@ import kotlinx.coroutines.launch
 import java.time.Duration
 import java.util.Date
 
+
 /** New Workout Panel class to display and manage the selected workout */
 class SelectedWorkoutPanel : BasePanel() {
     override var id: Long = Constants.PanelUniqueId.WORKOUT.ordinal.toLong()
@@ -35,6 +37,8 @@ class SelectedWorkoutPanel : BasePanel() {
     private lateinit var workoutName: TextView
     private lateinit var workoutDate: TextView
     private lateinit var workoutStatus: TextView
+    private lateinit var showMoreOrLessNotes: TextView
+    private lateinit var notes: TextView
     private lateinit var exerciseRecycler: RecyclerView
     private lateinit var newExerciseBtn: Button
     private lateinit var editBtn: Button
@@ -54,6 +58,8 @@ class SelectedWorkoutPanel : BasePanel() {
         workoutName = panel.findViewById(R.id.current_workout_label)
         workoutStatus = panel.findViewById(R.id.current_workout_status_value_lbl)
         workoutDate = panel.findViewById(R.id.current_workout_date_label)
+        showMoreOrLessNotes = panel.findViewById(R.id.show_more_or_less_notes)
+        notes = panel.findViewById(R.id.notes)
         exerciseRecycler = panel.findViewById(R.id.exercises_recycler)
         newExerciseBtn = panel.findViewById(R.id.add_exercise_btn)
         editBtn = panel.findViewById(R.id.edit_btn)
@@ -80,6 +86,22 @@ class SelectedWorkoutPanel : BasePanel() {
 
             workoutStatus.text = Utils.getActivity().getString(statusStringId)
             workoutStatus.setTextColor(requireContext().getColor(statusColorId))
+
+            if (AppStateManager.workout!!.notes.isNotEmpty()) {
+                notes.visibility = View.VISIBLE
+                notes.maxLines = 3
+                notes.text = AppStateManager.workout!!.notes
+
+                if (notes.text.lines().size > 3) {
+                    showMoreOrLessNotes.visibility = View.VISIBLE
+                    showMoreOrLessNotes.text = Utils.getActivity().getText(R.string.show_more_lbl)
+                } else {
+                    showMoreOrLessNotes.visibility = View.GONE
+                }
+            } else {
+                notes.visibility = View.GONE
+                showMoreOrLessNotes.visibility = View.GONE
+            }
 
         } else {
             mainContent.visibility = View.GONE
@@ -141,6 +163,30 @@ class SelectedWorkoutPanel : BasePanel() {
         } else {
             newExerciseBtn.visibility = View.VISIBLE
             editBtn.visibility = View.VISIBLE
+
+            if (showMoreOrLessNotes.visibility == View.VISIBLE) {
+                // Add animation and click listener
+                val transition = LayoutTransition().apply {
+                    setDuration(500)
+                    enableTransitionType(LayoutTransition.CHANGING)
+                }
+                (notes.parent as ConstraintLayout).layoutTransition = transition
+
+                showMoreOrLessNotes.setOnClickListener {
+                    showNotes()
+                }
+            }
+        }
+    }
+
+    /** Click listener for Show more / Show less notes label */
+    private fun showNotes() {
+        if (showMoreOrLessNotes.text == Utils.getActivity().getText(R.string.show_more_lbl)) {
+            showMoreOrLessNotes.text = Utils.getActivity().getText(R.string.show_less_lbl)
+            notes.maxLines = notes.text.lines().size
+        } else {
+            showMoreOrLessNotes.text = Utils.getActivity().getText(R.string.show_more_lbl)
+            notes.maxLines = 3
         }
     }
 

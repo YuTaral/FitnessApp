@@ -26,6 +26,9 @@ class WorkoutModel: BaseModel {
     @SerializedName("DurationSeconds")
     var durationSeconds: Int?
 
+    @SerializedName("Notes")
+    var notes: String
+
     /** Constructor to accept serialized object
      * @param data serialized WorkoutModel object
      */
@@ -39,6 +42,7 @@ class WorkoutModel: BaseModel {
         template = model.template
         exercises = model.exercises
         durationSeconds = model.durationSeconds
+        notes = model.notes
     }
 
     /** Constructor used when new workout is created
@@ -46,8 +50,9 @@ class WorkoutModel: BaseModel {
      * @param nameVal the name
      * @param templateVal "Y" if the workout is template, "N" otherwise
      * @param exercisesVal the exercises for this workout
+     * @param notesVal the workot notes
      */
-    constructor(idVal: Long, nameVal: String, templateVal: Boolean, exercisesVal: MutableList<ExerciseModel>) : super (idVal) {
+    constructor(idVal: Long, nameVal: String, templateVal: Boolean, exercisesVal: MutableList<ExerciseModel>, notesVal: String) : super (idVal) {
         name = nameVal
 
         startDateTime = if (templateVal) {
@@ -60,5 +65,6 @@ class WorkoutModel: BaseModel {
         template = templateVal
         exercises = exercisesVal
         durationSeconds = 0
+        notes = notesVal
     }
 }
