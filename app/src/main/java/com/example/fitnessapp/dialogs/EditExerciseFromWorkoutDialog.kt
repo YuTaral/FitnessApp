@@ -11,11 +11,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fitnessapp.R
 import com.example.fitnessapp.adapters.EditSetRecAdapter
+import com.example.fitnessapp.managers.AppStateManager
 import com.example.fitnessapp.models.ExerciseModel
 import com.example.fitnessapp.models.MuscleGroupModel
 import com.example.fitnessapp.models.SetModel
 import com.example.fitnessapp.network.repositories.ExerciseRepository
-import com.example.fitnessapp.managers.AppStateManager
 import com.example.fitnessapp.utils.Utils
 
 /** Edit Exercise dialog to implement the logic to edit exercise */
@@ -28,6 +28,7 @@ class EditExerciseFromWorkoutDialog(ctx: Context, exerciseModel: ExerciseModel):
     private var deletingSets = false
 
     private lateinit var name: EditText
+    private lateinit var notes: EditText
     private lateinit var questionMark: ImageView
     private lateinit var weightLbl: TextView
     private lateinit var chbCompleteAll: CheckBox
@@ -41,6 +42,7 @@ class EditExerciseFromWorkoutDialog(ctx: Context, exerciseModel: ExerciseModel):
         super.findViews()
 
         name = dialog.findViewById(R.id.exercise_name)
+        notes = dialog.findViewById(R.id.notes)
         questionMark = dialog.findViewById(R.id.question_mark)
         weightLbl = dialog.findViewById(R.id.weight_lbl)
         setsRecycler = dialog.findViewById(R.id.sets_recycler)
@@ -53,6 +55,8 @@ class EditExerciseFromWorkoutDialog(ctx: Context, exerciseModel: ExerciseModel):
 
     override fun populateDialog() {
         name.setText(exercise.name)
+
+        notes.setText(exercise.notes)
 
         if (exercise.mGExerciseId == null) {
             questionMark.visibility = View.GONE
@@ -129,7 +133,7 @@ class EditExerciseFromWorkoutDialog(ctx: Context, exerciseModel: ExerciseModel):
 
         // Edit the exercise, passing empty MuscleGroup object, it is not needed server side
         val exerciseModel = ExerciseModel(exercise.id, name.text.toString(), MuscleGroupModel(),
-                    getAdapter().getSetsData(), exercise.mGExerciseId)
+                    getAdapter().getSetsData(), exercise.mGExerciseId, notes.text.toString())
 
         ExerciseRepository().updateExerciseFromWorkout(exerciseModel, onSuccess = { workout ->
                 dismiss()

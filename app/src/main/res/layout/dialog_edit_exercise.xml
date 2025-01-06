@@ -32,13 +32,27 @@
         app:layout_constraintTop_toTopOf="@+id/exercise_name"
         app:layout_constraintBottom_toBottomOf="@+id/exercise_name"/>
 
+    <EditText
+        android:id="@+id/notes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:autofillHints=""
+        android:hint="@string/additional_notes_lbl"
+        android:inputType="textMultiLine"
+        android:lines="2"
+        android:maxLength="4000"
+        android:gravity="top|start"
+        android:scrollbars="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/exercise_name" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/sets_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/exercise_name"
+        app:layout_constraintTop_toBottomOf="@+id/notes"
         app:layout_constraintBottom_toTopOf="@+id/complete_all_sets">
 
         <TextView

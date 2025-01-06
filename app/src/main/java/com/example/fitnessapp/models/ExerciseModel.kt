@@ -18,9 +18,12 @@ class ExerciseModel: BaseModel {
     @SerializedName("MGExerciseId")
     val mGExerciseId: Long?
 
+    @SerializedName("Notes")
+    var notes: String
+
     /** Constructor used when new exercise is created */
     constructor(nameVal: String, muscleGroupVal: MuscleGroupModel, setsCountVal: Int, repsVal: Int,
-                weightVal: Double, restVal: Int, completedVal: Boolean, mGExerciseIdVal: Long?) : super(0) {
+                weightVal: Double, restVal: Int, completedVal: Boolean, mGExerciseIdVal: Long?, notesVal: String) : super(0) {
         name = nameVal
         muscleGroup = muscleGroupVal
         sets = mutableListOf()
@@ -29,14 +32,17 @@ class ExerciseModel: BaseModel {
         for (i in 0..<setsCountVal) {
             sets.add(i, SetModel(0, repsVal, weightVal, restVal, completedVal))
         }
+
+        notes = notesVal
     }
 
     /** Constructor used when exercise is updated */
     constructor(idVal:Long, nameVal:  String, muscleGroupVal: MuscleGroupModel, setsVal: MutableList<SetModel>,
-                mGExerciseIdVal: Long?) : super(idVal) {
+                mGExerciseIdVal: Long?, notesVal: String) : super(idVal) {
         name = nameVal
         muscleGroup = muscleGroupVal
         sets = setsVal
         mGExerciseId = mGExerciseIdVal
+        notes = notesVal
     }
 }

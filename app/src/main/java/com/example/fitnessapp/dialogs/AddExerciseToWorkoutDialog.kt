@@ -25,6 +25,7 @@ class AddExerciseToWorkoutDialog(ctx: Context, exercise: MGExerciseModel, values
     private var defaultValues = values
 
     private lateinit var name: EditText
+    private lateinit var notes: EditText
     private lateinit var sets: EditText
     private lateinit var reps: EditText
     private lateinit var weight: EditText
@@ -36,6 +37,7 @@ class AddExerciseToWorkoutDialog(ctx: Context, exercise: MGExerciseModel, values
         super.findViews()
 
         name = dialog.findViewById(R.id.exercise_name)
+        notes = dialog.findViewById(R.id.notes)
         sets = dialog.findViewById(R.id.exercise_sets)
         reps = dialog.findViewById(R.id.set_reps)
         weight = dialog.findViewById(R.id.exercise_weight)
@@ -113,6 +115,6 @@ class AddExerciseToWorkoutDialog(ctx: Context, exercise: MGExerciseModel, values
 
         // Validation passed
         return ExerciseModel(exerciseName, model, exerciseSets, setReps, exerciseWeight, setRest,
-                                exerciseCompleted.isChecked, exerciseToAdd.id)
+                                exerciseCompleted.isChecked, exerciseToAdd.id, notes.text.toString())
     }
 }
