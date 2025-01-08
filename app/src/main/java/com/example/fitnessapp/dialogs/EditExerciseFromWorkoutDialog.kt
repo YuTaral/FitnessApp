@@ -4,13 +4,14 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.view.View
 import android.widget.Button
-import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.ScrollView
 import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.fitnessapp.R
-import com.example.fitnessapp.adapters.EditSetRecAdapter
+import com.example.fitnessapp.adapters.EditSetAdapter
 import com.example.fitnessapp.managers.AppStateManager
 import com.example.fitnessapp.models.ExerciseModel
 import com.example.fitnessapp.models.MuscleGroupModel
@@ -31,10 +32,12 @@ class EditExerciseFromWorkoutDialog(ctx: Context, exerciseModel: ExerciseModel):
     private lateinit var notes: EditText
     private lateinit var questionMark: ImageView
     private lateinit var weightLbl: TextView
-    private lateinit var chbCompleteAll: CheckBox
-    private lateinit var setsRecycler: RecyclerView
+    private lateinit var setsScroller: ScrollView
+    private lateinit var setsContainer: LinearLayout
+    private lateinit var setsAdapter: EditSetAdapter
+    private lateinit var removeSetContainer: ConstraintLayout
     private lateinit var removeSet: ImageView
-    private lateinit var addSetBtn: Button
+    private lateinit var addSetContainer: ConstraintLayout
     private lateinit var saveBtn: Button
     private lateinit var deleteBtn: Button
 
@@ -45,10 +48,11 @@ class EditExerciseFromWorkoutDialog(ctx: Context, exerciseModel: ExerciseModel):
         notes = dialog.findViewById(R.id.notes)
         questionMark = dialog.findViewById(R.id.question_mark)
         weightLbl = dialog.findViewById(R.id.weight_lbl)
-        setsRecycler = dialog.findViewById(R.id.sets_recycler)
-        chbCompleteAll = dialog.findViewById(R.id.complete_all_sets)
+        setsScroller = dialog.findViewById(R.id.sets_scroller)
+        setsContainer = dialog.findViewById(R.id.sets_linear_container)
+        removeSetContainer = dialog.findViewById(R.id.remove_set_container)
         removeSet = dialog.findViewById(R.id.remove_set)
-        addSetBtn = dialog.findViewById(R.id.add_set_btn)
+        addSetContainer = dialog.findViewById(R.id.add_set_container)
         saveBtn = dialog.findViewById(R.id.save_btn)
         deleteBtn = dialog.findViewById(R.id.delete_btn)
     }
@@ -69,20 +73,13 @@ class EditExerciseFromWorkoutDialog(ctx: Context, exerciseModel: ExerciseModel):
         exercise.sets.map { it.deletable = false }
 
         // Pass copy of exercise.sets, not mutable reference, we don't want to apply unsaved changes
-        setsRecycler.adapter = EditSetRecAdapter(ArrayList(exercise.sets))
-
-        // Set the checked state of the Complete all checkbox
-        if (exercise.sets.isEmpty()) {
-            chbCompleteAll.setChecked(false)
-        } else {
-            chbCompleteAll.setChecked(exercise.sets.count() == exercise.sets.count { it.completed })
-        }
+        setsAdapter = EditSetAdapter(setsContainer, ArrayList(exercise.sets))
     }
 
     override fun addClickListeners() {
         super.addClickListeners()
 
-        addSetBtn.setOnClickListener {
+        addSetContainer.setOnClickListener {
             addSet()
         }
 
@@ -92,8 +89,7 @@ class EditExerciseFromWorkoutDialog(ctx: Context, exerciseModel: ExerciseModel):
             }
         }
 
-        removeSet.setOnClickListener { removeSet() }
-        chbCompleteAll.setOnClickListener { getAdapter().changeCompletedState(chbCompleteAll.isChecked) }
+        removeSetContainer.setOnClickListener { startRemoveSet() }
         saveBtn.setOnClickListener { save() }
         deleteBtn.setOnClickListener { delete() }
     }
@@ -133,7 +129,7 @@ class EditExerciseFromWorkoutDialog(ctx: Context, exerciseModel: ExerciseModel):
 
         // Edit the exercise, passing empty MuscleGroup object, it is not needed server side
         val exerciseModel = ExerciseModel(exercise.id, name.text.toString(), MuscleGroupModel(),
-                    getAdapter().getSetsData(), exercise.mGExerciseId, notes.text.toString())
+                            setsAdapter.getSetsData(), exercise.mGExerciseId, notes.text.toString())
 
         ExerciseRepository().updateExerciseFromWorkout(exerciseModel, onSuccess = { workout ->
                 dismiss()
@@ -147,17 +143,20 @@ class EditExerciseFromWorkoutDialog(ctx: Context, exerciseModel: ExerciseModel):
         val set = SetModel(0, AppStateManager.user!!.defaultValues.reps,
             AppStateManager.user!!.defaultValues.weight,
             AppStateManager.user!!.defaultValues.rest,
-            AppStateManager.user!!.defaultValues.completed)
+            AppStateManager.user!!.defaultValues.completed,
+            deletingSets)
 
-        getAdapter().addSet(set)
+        setsAdapter.addSet(set)
 
-        // Auto scroll to the bottom
-        setsRecycler.scrollToPosition(getAdapter().itemCount - 1)
+        // Auto scroll to the bottom of the sets container so the newly added set is visible
+        setsScroller.postDelayed({
+            setsScroller.fullScroll(View.FOCUS_DOWN)
+        }, 500)
     }
 
     /** Executed on remove set button click to mark all sets as deletable and let user select
      * which ones must be removed */
-    private fun removeSet() {
+    private fun startRemoveSet() {
         deletingSets = !deletingSets
 
         if (deletingSets) {
@@ -166,11 +165,6 @@ class EditExerciseFromWorkoutDialog(ctx: Context, exerciseModel: ExerciseModel):
             removeSet.setBackgroundResource(R.drawable.icon_delete_set_inactive)
         }
 
-        getAdapter().markAllDeletable(deletingSets)
-    }
-
-    /** Return teh sets adapter as EditSetRecAdapter */
-    private fun getAdapter(): EditSetRecAdapter {
-        return  (setsRecycler.adapter as EditSetRecAdapter)
+        setsAdapter.markAllDeletable(deletingSets)
     }
 }
