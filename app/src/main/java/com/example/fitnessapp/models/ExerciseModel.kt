@@ -30,7 +30,7 @@ class ExerciseModel: BaseModel {
         mGExerciseId = mGExerciseIdVal
 
         for (i in 0..<setsCountVal) {
-            sets.add(i, SetModel(0, repsVal, weightVal, restVal, completedVal))
+            sets.add(i, SetModel(0, repsVal, weightVal, restVal, completedVal, false))
         }
 
         notes = notesVal
