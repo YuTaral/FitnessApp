@@ -35,8 +35,7 @@ Start the backend API service.
 In Android Studio, run the application on an emulator or connected device.
 
 License
-
 This project is licensed under the MIT License.
-Contact
 
-For any inquiries or feedback, please contact YuTaral. Both the frontend and backend applications are currently under development. Contributions are welcome!
+Contact
+For any inquiries or feedback, please contact me via LinkedId - https://www.linkedin.com/in/yusuf-taral-1a0922229/. Both the frontend and backend applications are currently under development. Contributions are welcome!
