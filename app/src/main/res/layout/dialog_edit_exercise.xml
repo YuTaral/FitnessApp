@@ -53,7 +53,7 @@
         android:layout_margin="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/notes"
-        app:layout_constraintBottom_toTopOf="@+id/complete_all_sets">
+        app:layout_constraintBottom_toTopOf="@+id/remove_set_container">
 
         <TextView
             android:id="@+id/empty_lbl"
@@ -89,36 +89,83 @@
             app:layout_constraintStart_toEndOf="@+id/weight_lbl"
             app:layout_constraintTop_toTopOf="parent"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/sets_recycler"
+        <ScrollView
+            android:id="@+id/sets_scroller"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintTop_toBottomOf="@+id/rest_lbl"/>
+            app:layout_constraintTop_toBottomOf="@+id/rest_lbl">
+
+            <LinearLayout
+                android:id="@+id/sets_linear_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
+                android:orientation="vertical"/>
+        </ScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <CheckBox
-        android:id="@+id/complete_all_sets"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_marginStart="8dp"
-        android:text="@string/complete_all_sets_lbl"
-        android:textStyle="italic"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/remove_set_container"
+        android:layout_width="100dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="5dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sets_container" />
+        app:layout_constraintTop_toBottomOf="@+id/sets_container">
 
-    <ImageView
-        android:id="@+id/remove_set"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:importantForAccessibility="no"
-        android:background="@drawable/icon_delete_set_inactive"
+        <ImageView
+            android:id="@+id/remove_set"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:importantForAccessibility="no"
+            android:background="@drawable/icon_delete_set_inactive"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/remove_set_lbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/remove_sets_lbl"
+            android:textSize="14sp"
+            android:textColor="@color/colorAccent"
+            app:layout_constraintTop_toBottomOf="@+id/remove_set"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/add_set_container"
+        android:layout_width="100dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="5dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sets_container" />
+        app:layout_constraintTop_toBottomOf="@+id/sets_container">
+
+        <ImageView
+            android:id="@+id/add_set"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:background="@drawable/icon_add_set"
+            android:importantForAccessibility="no"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/add_set_lbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_sets_lbl"
+            android:textSize="14sp"
+            android:textColor="@color/colorAccent"
+            app:layout_constraintTop_toBottomOf="@+id/add_set"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
         android:id="@+id/delete_btn"
@@ -126,21 +173,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="@string/delete_btn"
-        android:background="@drawable/background_top_border"
-        app:layout_constraintTop_toBottomOf="@+id/remove_set"
+        android:background="@drawable/background_right_border"
+        app:layout_constraintTop_toBottomOf="@+id/remove_set_container"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/add_set_btn"
-        style="@style/DialogButtonStyle" />
-
-    <Button
-        android:id="@+id/add_set_btn"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="@string/add_set_btn"
-        android:background="@drawable/background_left_top_right_border"
-        app:layout_constraintTop_toBottomOf="@+id/remove_set"
-        app:layout_constraintStart_toEndOf="@+id/delete_btn"
         app:layout_constraintEnd_toStartOf="@+id/save_btn"
         style="@style/DialogButtonStyle" />
 
@@ -151,8 +186,8 @@
         android:layout_marginTop="10dp"
         android:text="@string/save_btn"
         android:background="@drawable/background_top_border"
-        app:layout_constraintTop_toBottomOf="@+id/remove_set"
-        app:layout_constraintStart_toEndOf="@+id/add_set_btn"
+        app:layout_constraintTop_toBottomOf="@+id/remove_set_container"
+        app:layout_constraintStart_toEndOf="@+id/delete_btn"
         app:layout_constraintEnd_toEndOf="parent"
         style="@style/DialogButtonStyle" />
 

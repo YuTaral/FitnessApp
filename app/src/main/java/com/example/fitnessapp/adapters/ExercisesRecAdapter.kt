@@ -136,7 +136,7 @@ class ExercisesRecAdapter(data: List<ExerciseModel>) : RecyclerView.Adapter<Exer
 
                         rest.text = set.rest.toString()
 
-                        rest.setOnClickListener { TimerDialog(Utils.getActivity(), set.rest, onFinish = {
+                        rest.setOnClickListener { TimerDialog(Utils.getActivity(), R.string.rest_until_lbl, set.rest, onFinish = {
                             ExerciseRepository().completeSet(set.id, AppStateManager.workout!!.id, onSuccess =  { workout ->
                                 // Mark the set as completed on finish and refresh the workout
                                 Utils.getPanelAdapter().refreshWorkoutPanel(workout, true)

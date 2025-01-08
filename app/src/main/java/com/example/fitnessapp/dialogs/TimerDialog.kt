@@ -9,17 +9,19 @@ import com.example.fitnessapp.interfaces.INeedResumeDialog
 import com.example.fitnessapp.managers.CustomNotificationManager
 import com.example.fitnessapp.managers.VibratorWarningManager
 import com.example.fitnessapp.utils.Utils
+import com.mikhaellopez.circularprogressbar.CircularProgressBar
 
 /** Timer dialog - start a timer for the specified amount of time */
-class TimerDialog(ctx: Context, s: Int, onFinish: () -> Unit): BaseDialog(ctx), INeedResumeDialog {
+class TimerDialog(ctx: Context, titleId: Int, time: Int, onFinish: () -> Unit): BaseDialog(ctx), INeedResumeDialog {
     override var layoutId = R.layout.dialog_timer
-    override var dialogTitleId = R.string.timer_lbl
+    override var dialogTitleId = titleId
 
     private var context = ctx
-    private var seconds = s
+    private var seconds = time
     private var secondsLeft = seconds
     private var onFinishCallback = onFinish
 
+    private lateinit var progressBar: CircularProgressBar
     private lateinit var timeLeft: TextView
     private lateinit var doneBtn: Button
     private lateinit var startPauseBtn: Button
@@ -29,13 +31,16 @@ class TimerDialog(ctx: Context, s: Int, onFinish: () -> Unit): BaseDialog(ctx), 
     override fun findViews() {
         super.findViews()
 
+        progressBar = dialog.findViewById(R.id.progress_bar)
         timeLeft = dialog.findViewById(R.id.time_left)
         doneBtn = dialog.findViewById(R.id.done_btn)
         startPauseBtn = dialog.findViewById(R.id.start_pause_btn)
     }
 
     override fun populateDialog() {
-        timeLeft.text = seconds.toString()
+        setRemainingTime(seconds)
+        progressBar.setProgressWithAnimation(secondsLeft.toFloat(), 100)
+        progressBar.progressMax = seconds.toFloat()
     }
 
     override fun addClickListeners() {
@@ -75,7 +80,6 @@ class TimerDialog(ctx: Context, s: Int, onFinish: () -> Unit): BaseDialog(ctx), 
             startPauseBtn.text = context.getText(R.string.restart_btn)
 
             timeLeft.text = context.getText(R.string.time_is_up_lbl)
-            timeLeft.textSize = 40f
 
             // Vibrate the device
             VibratorWarningManager.makeVibration(context, longArrayOf(0, 1000, 500, 1000, 500, 1000))
@@ -114,8 +118,12 @@ class TimerDialog(ctx: Context, s: Int, onFinish: () -> Unit): BaseDialog(ctx), 
     private fun resumeTimer(seconds: Int) {
         countDownTimer = object: CountDownTimer(seconds * 1000L, 1000) {
             override fun onTick(millisUntilFinished: Long) {
-                timeLeft.text = (millisUntilFinished / 1000).toString()
-                secondsLeft = timeLeft.text.toString().toInt()
+                val totalSeconds = (millisUntilFinished / 1000).toInt()
+                secondsLeft = totalSeconds
+
+                // Set the text and update the progress bar
+                setRemainingTime(totalSeconds)
+                progressBar.setProgressWithAnimation(totalSeconds.toFloat(), 100)
             }
 
             override fun onFinish() {
@@ -124,5 +132,16 @@ class TimerDialog(ctx: Context, s: Int, onFinish: () -> Unit): BaseDialog(ctx), 
         }
 
         countDownTimer.start()
+    }
+
+    /** Set the text view to show the remaining time
+     * @param totalSeconds the total seconds left
+     */
+    private fun setRemainingTime(totalSeconds: Int) {
+        val h = totalSeconds / 3600
+        val m = (totalSeconds % 3600) / 60
+        val s = totalSeconds % 60
+
+        timeLeft.text = String.format("%02d:%02d:%02d", h, m, s)
     }
 }

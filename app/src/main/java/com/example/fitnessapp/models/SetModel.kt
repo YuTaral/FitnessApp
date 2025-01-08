@@ -9,13 +9,13 @@ import com.google.gson.annotations.SerializedName
  */
 class SetModel: BaseModel {
     @SerializedName("Reps")
-    val reps: Int
+    var reps: Int
 
     @SerializedName("Weight")
-    val weight: Double
+    var weight: Double
 
     @SerializedName("Rest")
-    val rest: Int
+    var rest: Int
 
     @SerializedName("Completed")
     var completed: Boolean
@@ -42,12 +42,13 @@ class SetModel: BaseModel {
      * @param weightVal the weight value
      * @param restVal the rest in seconds
      * @param completedVal the completed value
+     * @param deletableVal the deletable value
      */
-    constructor(idVal: Long, repsVal: Int, weightVal: Double, restVal: Int, completedVal: Boolean) : super(idVal) {
+    constructor(idVal: Long, repsVal: Int, weightVal: Double, restVal: Int, completedVal: Boolean, deletableVal: Boolean) : super(idVal) {
         reps = repsVal
         weight = weightVal
         rest = restVal
         completed = completedVal
-        deletable = false
+        deletable = deletableVal
     }
 }

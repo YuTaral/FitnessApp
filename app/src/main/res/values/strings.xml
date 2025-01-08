@@ -16,9 +16,9 @@
     <string name="error_msg_unexpected">Unexpected error occurred while processing the request. Please try again</string>
     <string name="error_msg_unexpected_network_problem">Unexpected network error occurred while processing the request. Please try again</string>
     <string name="please_wait">Please wait…</string>
-    <string name="workout_panel_title">Workout</string>
+    <string name="workout_panel_title">Current Workout</string>
     <string name="new_workout_btn">New Workout</string>
-    <string name="main_panel_title">Main</string>
+    <string name="main_panel_title">Workouts</string>
     <string name="save_btn">Save</string>
     <string name="confirm_btn">Confirm</string>
     <string name="yes_btn">Yes</string>
@@ -174,6 +174,7 @@
     <string name="no_new_notifications_lbl">You don\'t have new notifications</string>
     <string name="rest_time_lbl">Rest(s)</string>
     <string name="timer_lbl">Timer</string>
+    <string name="rest_until_lbl">Rest until next exercise</string>
     <string name="start_btn">Start</string>
     <string name="restart_btn">Restart</string>
     <string name="pause_btn">Pause</string>
@@ -190,5 +191,7 @@
     <string name="show_less_lbl">Show less</string>
     <string name="account">Account</string>
     <string name="more_lbl">More</string>
+    <string name="remove_sets_lbl">Remove set</string>
+    <string name="add_sets_lbl">Add set</string>
 
 </resources>
