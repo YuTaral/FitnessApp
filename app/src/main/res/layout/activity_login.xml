@@ -197,7 +197,10 @@
     <RelativeLayout
         android:id="@+id/user_message"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:ellipsize="end"
+        android:maxLines="3"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"/>
 

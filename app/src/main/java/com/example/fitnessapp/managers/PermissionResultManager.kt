@@ -112,7 +112,7 @@ class PermissionResultManager {
                 showSettingsDialog()
             } else {
                 // Permission denied
-                Utils.showToast(R.string.permission_denied_message)
+                Utils.showMessage(R.string.permission_denied_message)
             }
         }
     }
@@ -133,14 +133,14 @@ class PermissionResultManager {
                 }
 
                 if (capturedImageBitmap == null) {
-                    Utils.showToast(R.string.error_msg_failed_to_capture_image)
+                    Utils.showMessage(R.string.error_msg_failed_to_capture_image)
                     return@registerForActivityResult
                 }
 
                 onLauncherResultOk(capturedImageBitmap)
 
             } else {
-                Utils.showToast(R.string.error_msg_failed_to_capture_image)
+                Utils.showMessage(R.string.error_msg_failed_to_capture_image)
             }
         }
 
@@ -149,7 +149,7 @@ class PermissionResultManager {
             if (result.resultCode == Activity.RESULT_OK && result.data?.data != null) {
                 onLauncherResultOk(result.data?.data!!)
             } else {
-                Utils.showToast(R.string.error_msg_no_media)
+                Utils.showMessage(R.string.error_msg_no_media)
             }
         }
 
@@ -165,7 +165,7 @@ class PermissionResultManager {
             if (uri != null) {
                 onLauncherResultOk(uri)
             } else {
-                Utils.showToast(R.string.error_msg_no_media)
+                Utils.showMessage(R.string.error_msg_no_media)
             }
         }
     }
@@ -177,7 +177,7 @@ class PermissionResultManager {
         val scaledBitmap = ImageUploadManager.scaleBitmap(bitmap)
 
         if (scaledBitmap == null) {
-            Utils.showToast(R.string.error_msg_failed_to_upload_image)
+            Utils.showMessage(R.string.error_msg_failed_to_upload_image)
             return
         }
 
@@ -191,7 +191,7 @@ class PermissionResultManager {
         val bitmap = ImageUploadManager.scaleBitmap(uri)
 
         if (bitmap == null) {
-            Utils.showToast(R.string.error_msg_failed_to_upload_image)
+            Utils.showMessage(R.string.error_msg_failed_to_upload_image)
             return
         }
 
@@ -208,7 +208,7 @@ class PermissionResultManager {
             val imageSelectorPanel = Utils.getPanelAdapter().getTeamPanel()
 
             if (imageSelectorPanel == null) {
-                Utils.showToast(R.string.error_msg_unexpected)
+                Utils.showMessage(R.string.error_msg_unexpected)
                 return
             }
 

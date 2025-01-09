@@ -54,7 +54,7 @@ class FinishWorkoutDialog(ctx: Context): BaseDialog(ctx) {
 
             // Make sure the finished time is not earlier than the started time
             if (AppStateManager.workout!!.startDateTime!! > finishedDateTime) {
-                Utils.showToast(R.string.error_msg_finish_time)
+                Utils.showMessage(R.string.error_msg_finish_time)
                 return@setOnClickListener
             }
 

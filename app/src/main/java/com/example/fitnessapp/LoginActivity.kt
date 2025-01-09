@@ -148,17 +148,17 @@ class LoginActivity : BaseActivity() {
 
         // Validate email
         if (!Utils.isValidEmail(email)) {
-            Utils.showToast(R.string.error_msg_invalid_email)
+            Utils.showMessage(R.string.error_msg_invalid_email)
             return
         }
 
         // Validate passwords
         if (password.isEmpty()) {
-            Utils.showToast( R.string.error_msg_blank_pass)
+            Utils.showMessage( R.string.error_msg_blank_pass)
             return
         }
         if (password != confirmPassword) {
-            Utils.showToast(R.string.error_msg_pass_match)
+            Utils.showMessage(R.string.error_msg_pass_match)
             return
         }
 
@@ -175,13 +175,13 @@ class LoginActivity : BaseActivity() {
 
         // Validate email
         if (!Utils.isValidEmail(email)) {
-            Utils.showToast(R.string.error_msg_invalid_email)
+            Utils.showMessage(R.string.error_msg_invalid_email)
             return
         }
 
         // Validate passwords
         if (password.isEmpty()) {
-            Utils.showToast( R.string.error_msg_blank_pass)
+            Utils.showMessage( R.string.error_msg_blank_pass)
             return
         }
 

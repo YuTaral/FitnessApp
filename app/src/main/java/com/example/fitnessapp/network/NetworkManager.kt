@@ -5,8 +5,8 @@ import android.os.Handler
 import android.os.Looper
 import com.example.fitnessapp.LoginActivity
 import com.example.fitnessapp.R
-import com.example.fitnessapp.network.repositories.UserRepository
 import com.example.fitnessapp.managers.AppStateManager
+import com.example.fitnessapp.network.repositories.UserRepository
 import com.example.fitnessapp.utils.Constants
 import com.example.fitnessapp.utils.Utils
 import retrofit2.Call
@@ -76,7 +76,7 @@ object NetworkManager {
                                 // Execute the callback and show the message if it's different from success
                                 onSuccessCallback(responseBody!!)
                                 if (responseBody!!.message != "Success") {
-                                    showMessage(responseBody!!.message)
+                                    Utils.showMessage(responseBody!!.message)
                                 }
 
                             } else if (Utils.istTokenExpiredResponse(responseBody!!.code)) {
@@ -187,7 +187,7 @@ object NetworkManager {
             }
         }
 
-        showMessage(message)
+        Utils.showMessage(message)
     }
 
     /** Execute the logic if exception occurs
@@ -201,18 +201,7 @@ object NetworkManager {
         updateNotification()
 
         // Show the message and log the error
-        showMessage(message)
+        Utils.showMessage(message)
         exception.printStackTrace()
-    }
-
-    /** Show message in the snack-bar or as toast, depending on whether there is active dialog
-     * @param message the message to show
-     */
-    private fun showMessage(message: String) {
-        if (Utils.getActivity().activeDialogs.isEmpty()) {
-            Utils.showMessage(message)
-        } else {
-            Utils.showToast(message)
-        }
     }
 }
