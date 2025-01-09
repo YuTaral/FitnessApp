@@ -213,7 +213,7 @@ class LoginActivity : BaseActivity() {
         // Ask the user to review the permissions now
         val dialog = AskQuestionDialog(this, AskQuestionDialog.Question.GRANT_PERMISSIONS)
 
-        dialog.setLeftButtonCallback {
+        dialog.setConfirmButtonCallback {
             dialog.dismiss()
 
             // If that's the first start of the application on this device

@@ -23,12 +23,12 @@ object ImageUploadManager {
     fun showImagePicker() {
         val dialog = AskQuestionDialog(Utils.getActivity(), AskQuestionDialog.Question.IMAGE_SELECTION_OPTIONS)
 
-        dialog.setLeftButtonCallback {
+        dialog.setConfirmButtonCallback {
             openCamera()
             dialog.dismiss()
         }
 
-        dialog.setRightButtonCallback {
+        dialog.setCancelButtonCallback {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 // Use Photo Picker for Android 13+
                 openPhotoPicker()

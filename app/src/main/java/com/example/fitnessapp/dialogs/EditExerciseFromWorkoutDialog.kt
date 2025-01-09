@@ -98,7 +98,7 @@ class EditExerciseFromWorkoutDialog(ctx: Context, exerciseModel: ExerciseModel):
     private fun delete() {
         val dialog = AskQuestionDialog(Utils.getActivity(), AskQuestionDialog.Question.DELETE_EXERCISE_FROM_WORKOUT, exercise)
 
-        dialog.setLeftButtonCallback {
+        dialog.setConfirmButtonCallback {
             if (AppStateManager.workout != null) {
                 ExerciseRepository().deleteExerciseFromWorkout(exercise.id, onSuccess = { workout ->
                     dialog.dismiss()

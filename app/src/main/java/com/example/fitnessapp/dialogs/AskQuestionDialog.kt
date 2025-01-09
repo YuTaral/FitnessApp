@@ -18,7 +18,7 @@ import com.example.fitnessapp.utils.Utils
 class AskQuestionDialog(ctx: Context, q: Question, d: BaseModel? = null): BaseDialog(ctx) {
     /** Enum with all questions */
     enum class Question(private val titleId: Int, private val questionId: Int,
-                        private val yesBtnTextId: Int, private val noBtnTextId: Int) {
+                        private val confirmButtonTextId: Int, private val cancelBtnTextId: Int) {
 
         DELETE_TEMPLATE(R.string.question_delete_template_title, R.string.question_delete_template_text, R.string.yes_btn, R.string.no_btn),
         DELETE_MG_EXERCISE(R.string.question_delete_exercise_title, R.string.question_delete_exercise_text, R.string.yes_btn, R.string.no_btn),
@@ -43,14 +43,14 @@ class AskQuestionDialog(ctx: Context, q: Question, d: BaseModel? = null): BaseDi
             return Utils.getActivity().getString(questionId)
         }
 
-        /** Returns the left button text */
-        fun getLeftButtonText(): String {
-            return Utils.getActivity().getString(yesBtnTextId)
+        /** Returns the confirm button text */
+        fun getConfirmButtonText(): String {
+            return Utils.getActivity().getString(confirmButtonTextId)
         }
 
-        /** Returns the right button text */
-        fun getRightButtonText(): String {
-            return Utils.getActivity().getString(noBtnTextId)
+        /** Returns the cancel button text */
+        fun getCancelButtonText(): String {
+            return Utils.getActivity().getString(cancelBtnTextId)
         }
     }
 
@@ -59,21 +59,21 @@ class AskQuestionDialog(ctx: Context, q: Question, d: BaseModel? = null): BaseDi
     private var question = q
     private var data = d
 
-    private lateinit var onLeftButtonClickCallback: () -> Unit
-    private lateinit var onRightButtonClickCallback: () -> Unit
+    private lateinit var onConfirmButtonClickCallback: () -> Unit
+    private lateinit var onCancelButtonClickCallback: () -> Unit
     private lateinit var questionText: TextView
     private lateinit var questionAdditionalInfo: TextView
-    private lateinit var yesBtn: Button
-    private lateinit var noBtn: Button
+    private lateinit var confirmBtn: Button
+    private lateinit var cancelBtn: Button
 
     /** Setter for the callback which will be executed on left button click */
-    fun setLeftButtonCallback(callback: () -> Unit) {
-        onLeftButtonClickCallback = callback
+    fun setConfirmButtonCallback(callback: () -> Unit) {
+        onConfirmButtonClickCallback = callback
     }
 
     /** Setter for the callback which will be executed on right button click */
-    fun setRightButtonCallback(callback: () -> Unit) {
-        onRightButtonClickCallback = callback
+    fun setCancelButtonCallback(callback: () -> Unit) {
+        onCancelButtonClickCallback = callback
     }
 
     override fun findViews() {
@@ -81,8 +81,8 @@ class AskQuestionDialog(ctx: Context, q: Question, d: BaseModel? = null): BaseDi
 
         questionText = dialog.findViewById(R.id.question_lbl)
         questionAdditionalInfo = dialog.findViewById(R.id.question_additional_info)
-        yesBtn = dialog.findViewById(R.id.yes_btn)
-        noBtn = dialog.findViewById(R.id.no_btn)
+        confirmBtn = dialog.findViewById(R.id.yes_btn)
+        cancelBtn = dialog.findViewById(R.id.no_btn)
     }
 
     override fun populateDialog() {
@@ -128,19 +128,19 @@ class AskQuestionDialog(ctx: Context, q: Question, d: BaseModel? = null): BaseDi
         questionText.text = String.format(question.getQuestionText(), formatName)
 
         // Set button text
-        yesBtn.text = question.getLeftButtonText()
-        noBtn.text = question.getRightButtonText()
+        confirmBtn.text = question.getConfirmButtonText()
+        cancelBtn.text = question.getCancelButtonText()
     }
 
     override fun addClickListeners() {
         super.addClickListeners()
 
-        yesBtn.setOnClickListener { onLeftButtonClickCallback() }
+        confirmBtn.setOnClickListener { onConfirmButtonClickCallback() }
 
-        if (::onRightButtonClickCallback.isInitialized) {
-            noBtn.setOnClickListener { onRightButtonClickCallback() }
+        if (::onCancelButtonClickCallback.isInitialized) {
+            cancelBtn.setOnClickListener { onCancelButtonClickCallback() }
         } else {
-            noBtn.setOnClickListener { dismiss() }
+            cancelBtn.setOnClickListener { dismiss() }
         }
     }
 }

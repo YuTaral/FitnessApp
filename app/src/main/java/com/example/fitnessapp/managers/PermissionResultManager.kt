@@ -225,7 +225,7 @@ class PermissionResultManager {
     private fun showSettingsDialog() {
         val dialog = AskQuestionDialog(activity, AskQuestionDialog.Question.ALLOW_CAMERA_PERMISSION)
 
-        dialog.setLeftButtonCallback {
+        dialog.setConfirmButtonCallback {
             val intent = Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
                 Uri.fromParts("package", activity.packageName, null))
 

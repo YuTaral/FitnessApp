@@ -340,7 +340,7 @@ object Utils {
             // Workout finished, ask the user whether to remove the finished time
             val dialog = AskQuestionDialog(getActivity(), question)
 
-            dialog.setLeftButtonCallback {
+            dialog.setConfirmButtonCallback {
                 val unFinishedWorkout = AppStateManager.workout!!
                 unFinishedWorkout.finishDateTime = null
                 unFinishedWorkout.durationSeconds = 0

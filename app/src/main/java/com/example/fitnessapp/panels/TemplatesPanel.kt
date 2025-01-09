@@ -59,7 +59,7 @@ class TemplatesPanel: BasePanel(), ITemporaryPanel {
                     // Delete the question otherwise
                     val dialog = AskQuestionDialog(requireContext(), AskQuestionDialog.Question.DELETE_TEMPLATE, template)
 
-                    dialog.setLeftButtonCallback(callback = {
+                    dialog.setConfirmButtonCallback(callback = {
                         WorkoutTemplateRepository().deleteWorkoutTemplate(template.id, onSuccess = {
                             (templatesRecycler.adapter as WorkoutsRecAdapter).removeTemplate(template)
                             dialog.dismiss()
