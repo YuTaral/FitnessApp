@@ -1,6 +1,9 @@
 package com.example.fitnessapp.network
 
 import android.app.AlertDialog
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Handler
 import android.os.Looper
 import com.example.fitnessapp.LoginActivity
@@ -34,20 +37,26 @@ object NetworkManager {
      * @param request lambda to create Call object with the request
      * @param onSuccessCallback the callback to execute on success
      */
-    fun sendRequest(request: () -> Call<CustomResponse>, onSuccessCallback: (CustomResponse) -> Unit, onErrorCallback: (CustomResponse) -> Unit) {
-        // Update the request factory property
-        requestFactory = request
-
-        // Execute the call, passing new Call<CustomResponse> object
-        executeCall(requestFactory(), onSuccessCallback, onErrorCallback)
+    fun sendRequest(request: () -> Call<CustomResponse>, onSuccessCallback: (CustomResponse) -> Unit) {
+        sendRequest(request, onSuccessCallback, onErrorCallback = {})
     }
 
     /** Overload send request method
      * @param request lambda to create Call object with the request
      * @param onSuccessCallback the callback to execute on success
      */
-    fun sendRequest(request: () -> Call<CustomResponse>, onSuccessCallback: (CustomResponse) -> Unit) {
-        sendRequest(request, onSuccessCallback, onErrorCallback = {})
+    fun sendRequest(request: () -> Call<CustomResponse>, onSuccessCallback: (CustomResponse) -> Unit, onErrorCallback: (CustomResponse) -> Unit) {
+        if (!isNetworkAvailable()) {
+            Utils.showMessageWithVibration(R.string.error_msg_no_internet)
+            onErrorCallback(getEmptyResponse())
+            return
+        }
+
+        // Update the request factory property
+        requestFactory = request
+
+        // Execute the call, passing new Call<CustomResponse> object
+        executeCall(requestFactory(), onSuccessCallback, onErrorCallback)
     }
 
     /** Execute to call (request)
@@ -128,7 +137,7 @@ object NetworkManager {
 
                 try {
                     if (responseBody == null) {
-                        responseBody = CustomResponse(Constants.ResponseCode.FAIL.ordinal, "", listOf(), AppStateManager.notification)
+                        responseBody = getEmptyResponse()
                     }
 
                     // Try to execute the on error callback
@@ -203,5 +212,22 @@ object NetworkManager {
         // Show the message and log the error
         Utils.showMessageWithVibration(message)
         exception.printStackTrace()
+    }
+
+    /** Create CustomResponse object with fail code when CustomResponse is not available */
+    private fun getEmptyResponse(): CustomResponse {
+        return CustomResponse(Constants.ResponseCode.FAIL.ordinal, "", listOf(), AppStateManager.notification)
+    }
+
+    /**
+     * Utility function to check if the network is available
+     */
+    private fun isNetworkAvailable(): Boolean {
+        val connectivityManager = Utils.getActivity().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val network = connectivityManager.activeNetwork ?: return false
+        val capabilities = connectivityManager.getNetworkCapabilities(network) ?: return false
+
+        return capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
+                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
     }
 }

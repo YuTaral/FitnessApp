@@ -194,5 +194,6 @@
     <string name="more_lbl">More</string>
     <string name="remove_sets_lbl">Remove set</string>
     <string name="add_sets_lbl">Add set</string>
+    <string name="error_msg_no_internet">Please check your Internet connection</string>
 
 </resources>
