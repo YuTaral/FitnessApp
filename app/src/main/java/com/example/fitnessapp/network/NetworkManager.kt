@@ -85,7 +85,7 @@ object NetworkManager {
                                 // Execute the callback and show the message if it's different from success
                                 onSuccessCallback(responseBody!!)
                                 if (responseBody!!.message != "Success") {
-                                    Utils.showMessageWithVibration(responseBody!!.message)
+                                    Utils.showMessage(responseBody!!.message)
                                 }
 
                             } else if (Utils.istTokenExpiredResponse(responseBody!!.code)) {
