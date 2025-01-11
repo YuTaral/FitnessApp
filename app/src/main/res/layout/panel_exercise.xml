@@ -75,7 +75,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
-        android:textStyle="italic"
+        android:textColor="@color/colorTextSecondary"
         android:textAlignment="center"
         android:text="@string/exercises_for_mg_lbl"
         app:layout_constraintTop_toBottomOf="@+id/search"
@@ -103,7 +103,7 @@
 
         <Button
             android:id="@+id/back_btn"
-            android:layout_width="130dp"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:text="@string/back_btn"
             app:layout_constraintStart_toStartOf="parent"
@@ -111,7 +111,7 @@
 
         <Button
             android:id="@+id/add_btn"
-            android:layout_width="130dp"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:text="@string/add_btn"
             app:layout_constraintEnd_toEndOf="parent"

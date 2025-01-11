@@ -25,7 +25,7 @@
 
     <Button
         android:id="@+id/add_team_btn"
-        android:layout_width="130dp"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:layout_marginStart="10dp"
@@ -35,7 +35,7 @@
 
     <Button
         android:id="@+id/edit_team_btn"
-        android:layout_width="130dp"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:layout_marginEnd="10dp"

@@ -1,7 +1,6 @@
 package com.example.fitnessapp.adapters
 
 import android.annotation.SuppressLint
-import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -76,10 +75,8 @@ class MGExercisesRecAdapter(data: List<MGExerciseModel>, callback: (MGExerciseMo
 
             if (item.description.isEmpty()) {
                 description.text = Utils.getActivity().getString(R.string.no_description_for_ex_lbl)
-                description.setTypeface(null, Typeface.ITALIC)
             } else {
                 description.text = item.description
-                description.typeface = null
             }
 
             name.setOnClickListener { onClickCallback(item) }

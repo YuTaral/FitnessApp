@@ -2,8 +2,8 @@
 <resources>
     <style name="Theme.FitnessApp" parent="Theme.Material3.Dark.NoActionBar">
         <item name="android:textColor">@color/white</item>
-        <item name="android:windowBackground">@color/colorBackground</item>
-        <item name="android:statusBarColor">@color/colorBackground</item>
+        <item name="android:windowBackground">@drawable/background_app</item>
+        <item name="android:statusBarColor">@color/backgroundEnd</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="dialogTheme">@style/Theme.FitnessApp.Dialog</item>
         <item name="materialButtonStyle">@style/ButtonStyle</item>

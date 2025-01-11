@@ -56,7 +56,7 @@
             android:layout_marginTop="5dp"
             android:maxLines="1"
             android:ellipsize="end"
-            android:textStyle="italic"
+            android:textColor="@color/colorTextSecondary"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/exercise_name_txt"

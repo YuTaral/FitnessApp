@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorAccent">#228F9A</color>
-    <color name="colorAccentDarker">#0E4E55</color>
-    <color name="colorHeader">#302F2F</color>
-    <color name="colorBackground">#191919</color>
-    <color name="colorDialogBackground">#4C4A4A</color>
-    <color name="colorLoadingDialogBackground">#777676</color>
-    <color name="colorEditTextLine">#BEBFBF</color>
+    <color name="backgroundStart">#000000</color>
+    <color name="backgroundEnd">#1C1F25</color>
+    <color name="colorAccent">#0288D1</color>
+    <color name="colorAccentDarker">#1976D2</color>
+    <color name="colorBackground">#131313</color>
+    <color name="colorDialogBackground">#2F343A</color>
+    <color name="colorLoadingDialogBackground">#2F343A</color>
+    <color name="colorTextSecondary">#BEBFBF</color>
     <color name="semiTransparent">#88000000</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>

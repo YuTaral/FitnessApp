@@ -54,7 +54,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:textStyle="italic"
+            android:textColor="@color/colorTextSecondary"
             android:ellipsize="end"
             android:maxLines="3"
             app:layout_constraintStart_toEndOf="@+id/image"

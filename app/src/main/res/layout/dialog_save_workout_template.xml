@@ -30,7 +30,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:text="@string/exercises_lbl"
-        android:textStyle="italic"
+        android:textColor="@color/colorTextSecondary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/template_name_txt"/>
 

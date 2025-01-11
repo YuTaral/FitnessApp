@@ -69,7 +69,7 @@
             android:layout_height="wrap_content"
             android:text="@string/search_results_lbl"
             android:textSize="17sp"
-            android:textStyle="italic"
+            android:textColor="@color/colorTextSecondary"
             android:textAlignment="center"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -104,7 +104,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="17sp"
-            android:textStyle="italic"
+            android:textColor="@color/colorTextSecondary"
             android:textAlignment="center"
             android:text="@string/team_members_lbl"
             app:layout_constraintTop_toTopOf="parent"/>
