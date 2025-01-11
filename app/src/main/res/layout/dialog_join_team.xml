@@ -26,27 +26,27 @@
         app:layout_constraintTop_toBottomOf="@+id/image"/>
 
     <Button
-        android:id="@+id/yes_btn"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="@string/yes_btn"
-        android:background="@drawable/background_right_border"
-        app:layout_constraintTop_toBottomOf="@id/description"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/no_btn"
-        style="@style/DialogButtonStyle"/>
-
-    <Button
         android:id="@+id/no_btn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:text="@string/no_btn"
+        android:background="@drawable/background_right_border"
+        app:layout_constraintTop_toBottomOf="@id/description"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/yes_btn"
+        style="@style/DialogButtonStyle"/>
+
+    <Button
+        android:id="@+id/yes_btn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="@string/yes_btn"
         android:background="@drawable/background_top_border"
         app:layout_constraintTop_toBottomOf="@id/description"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/yes_btn"
+        app:layout_constraintStart_toEndOf="@+id/no_btn"
         style="@style/DialogButtonStyle"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

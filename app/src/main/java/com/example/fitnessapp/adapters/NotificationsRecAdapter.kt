@@ -88,6 +88,10 @@ class NotificationsRecAdapter(data: List<NotificationModel>, callback: (Notifica
                 date.setOnClickListener {
                     onClickCallback(item)
                 }
+            } else {
+                image.setOnClickListener(null)
+                text.setOnClickListener(null)
+                date.setOnClickListener(null)
             }
 
             removeNotification.setOnClickListener {
