@@ -27,7 +27,7 @@
         <item name="tabSelectedTextColor">@color/colorAccent</item>
         <item name="tabIconTint">@color/active_tab_color</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:background">@color/backgroundEnd</item>
+        <item name="android:background">@color/backgroundStart</item>
         <item name="tabTextAppearance">@style/CustomTabTextAppearance</item>
     </style>
 

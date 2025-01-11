@@ -14,47 +14,23 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tabLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                style="@style/CustomTabLayout"/>
-
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/viewPager"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                app:layout_constraintBottom_toTopOf="@+id/header"
-                app:layout_constraintTop_toBottomOf="@+id/tabLayout"/>
-
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
-                android:paddingBottom="5dp"
-                android:background="@color/backgroundStart"
-                app:layout_constraintBottom_toBottomOf="parent">
-
-                <View
-                    android:id="@+id/separator"
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="@color/colorAccent"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                android:background="@color/backgroundEnd"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
                     android:id="@+id/profile_img"
                     android:layout_width="38dp"
                     android:layout_height="38dp"
                     android:layout_marginStart="15dp"
-                    android:layout_marginTop="3dp"
                     android:importantForAccessibility="no"
                     android:background="@drawable/icon_profile"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/separator"/>
+                    app:layout_constraintTop_toTopOf="parent"/>
 
                 <TextView
                     android:id="@+id/account_lbl"
@@ -70,12 +46,11 @@
                     android:id="@+id/notifications_img"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:layout_marginTop="3dp"
                     android:importantForAccessibility="no"
                     android:background="@drawable/icon_notification"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/separator"/>
+                    app:layout_constraintTop_toTopOf="parent"/>
 
                 <ImageView
                     android:id="@+id/notifications_circle_img"
@@ -101,11 +76,10 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_marginEnd="15dp"
-                    android:layout_marginTop="3dp"
                     android:importantForAccessibility="no"
                     android:background="@drawable/icon_menu"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/separator"/>
+                    app:layout_constraintTop_toTopOf="parent"/>
 
                 <TextView
                     android:id="@+id/more_lbl"
@@ -117,7 +91,30 @@
                     app:layout_constraintEnd_toEndOf="@+id/menu_img"
                     app:layout_constraintTop_toBottomOf="@+id/menu_img"/>
 
+                <View
+                    android:id="@+id/separator"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/colorAccent"
+                    android:layout_marginTop="5dp"
+                    app:layout_constraintTop_toBottomOf="@+id/account_lbl"/>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                style="@style/CustomTabLayout"/>
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                app:layout_constraintBottom_toTopOf="@+id/tabLayout"
+                app:layout_constraintTop_toBottomOf="@+id/header"/>
 
             <RelativeLayout
                 android:id="@+id/user_message"
