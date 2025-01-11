@@ -15,9 +15,8 @@
 
     <style name="Theme.FitnessApp.Dialog" parent="ThemeOverlay.Material3.Dialog.Alert">
         <item name="textInputStyle">?attr/textInputOutlinedDenseStyle</item>
-        <item name="android:windowBackground">@color/colorDialogBackground</item>
+        <item name="android:windowBackground">@drawable/background_alert_dialog_border</item>
         <item name="android:checkboxStyle">@style/CircleCheckBoxStyle</item>
-        <item name="android:background">@drawable/background_alert_dialog_border</item>
     </style>
 
     <style name="LoadingDialog" parent="Theme.MaterialComponents.Dialog">

@@ -4,7 +4,7 @@
     <color name="colorAccentDarker">#0E4E55</color>
     <color name="colorHeader">#302F2F</color>
     <color name="colorBackground">#191919</color>
-    <color name="colorDialogBackground">#2E2E2E</color>
+    <color name="colorDialogBackground">#4C4A4A</color>
     <color name="colorLoadingDialogBackground">#777676</color>
     <color name="colorEditTextLine">#BEBFBF</color>
     <color name="semiTransparent">#88000000</color>
