@@ -149,6 +149,7 @@
     <string name="remove_picture_btn">Remove picture</string>
     <string name="original_name_lbl">Original name: %s</string>
     <string name="teams_lbl">Teams</string>
+    <string name="manage_teams_lbl">Manage teams</string>
     <string name="add_team_btn">Add team</string>
     <string name="add_team_panel_title">Add team</string>
     <string name="edit_team_panel_title">Edit team</string>

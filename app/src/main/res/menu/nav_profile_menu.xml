@@ -2,14 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/exercise_default_values"
-        android:title="@string/exercise_default_values_lbl" />
+        android:title="@string/exercise_default_values_lbl"
+        android:icon="@drawable/icon_edit_exercise_def_vals"/>
     <item
         android:id="@+id/edit_profile"
-        android:title="@string/edit_profile_lbl" />
+        android:title="@string/edit_profile_lbl"
+        android:icon="@drawable/icon_edit_profile"/>
     <item
         android:id="@+id/nav_change_pass"
-        android:title="@string/change_password_lbl" />
+        android:title="@string/change_password_lbl"
+        android:icon="@drawable/icon_change_password"/>
     <item
         android:id="@+id/nav_logout"
-        android:title="@string/logout" />
+        android:title="@string/logout"
+        android:icon="@drawable/icon_log_out"/>
 </menu>
