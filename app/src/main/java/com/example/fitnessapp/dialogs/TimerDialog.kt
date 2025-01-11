@@ -1,9 +1,9 @@
 package com.example.fitnessapp.dialogs
 
-import android.content.Context
 import android.os.CountDownTimer
 import android.widget.Button
 import android.widget.TextView
+import com.example.fitnessapp.BaseActivity
 import com.example.fitnessapp.R
 import com.example.fitnessapp.interfaces.INeedResumeDialog
 import com.example.fitnessapp.managers.CustomNotificationManager
@@ -12,11 +12,11 @@ import com.example.fitnessapp.utils.Utils
 import com.mikhaellopez.circularprogressbar.CircularProgressBar
 
 /** Timer dialog - start a timer for the specified amount of time */
-class TimerDialog(ctx: Context, titleId: Int, time: Int, auto: Boolean): BaseDialog(ctx), INeedResumeDialog {
+class TimerDialog(ctx: BaseActivity, titleId: Int, time: Int, auto: Boolean): BaseDialog(ctx), INeedResumeDialog {
     override var layoutId = R.layout.dialog_timer
     override var dialogTitleId = titleId
 
-    private var context = ctx
+    private var activity = ctx
     private var seconds = time
     private var secondsLeft = seconds
     private var autoStart = auto
@@ -86,15 +86,15 @@ class TimerDialog(ctx: Context, titleId: Int, time: Int, auto: Boolean): BaseDia
         try {
             if (Utils.isAppMinimized()) {
                 // Send a notification if the app is in the background
-                CustomNotificationManager(context, R.string.time_is_up_lbl, R.string.time_finished_lbl).sendNotification()
+                CustomNotificationManager(activity, R.string.time_is_up_lbl, R.string.time_finished_lbl).sendNotification()
             }
 
-            startPauseBtn.text = context.getText(R.string.restart_btn)
+            startPauseBtn.text = activity.getText(R.string.restart_btn)
 
-            timeLeft.text = context.getText(R.string.time_is_up_lbl)
+            timeLeft.text = activity.getText(R.string.time_is_up_lbl)
 
             // Vibrate the device
-            VibratorWarningManager.makeVibration(context, longArrayOf(0, 1000, 500, 1000, 500, 1000))
+            VibratorWarningManager.makeVibration(activity, longArrayOf(0, 1000, 500, 1000, 500, 1000))
 
         } catch (e: Exception) {
             e.printStackTrace()
@@ -104,22 +104,22 @@ class TimerDialog(ctx: Context, titleId: Int, time: Int, auto: Boolean): BaseDia
     /** Execute start / pause timer */
     private fun startStopTimer() {
         when (startPauseBtn.text) {
-            (context.getText(R.string.start_btn)) -> {
+            (activity.getText(R.string.start_btn)) -> {
                 // Resume the timer with the seconds left
                 resumeTimer(secondsLeft)
-                startPauseBtn.text = context.getText(R.string.pause_btn)
+                startPauseBtn.text = activity.getText(R.string.pause_btn)
             }
 
-            (context.getText(R.string.pause_btn)) -> {
+            (activity.getText(R.string.pause_btn)) -> {
                 // Pause the timer
                 countDownTimer.cancel()
-                startPauseBtn.text = context.getText(R.string.start_btn)
+                startPauseBtn.text = activity.getText(R.string.start_btn)
             }
 
             else -> {
                 // Restart the timer
                 resumeTimer(seconds + 1)
-                startPauseBtn.text = context.getText(R.string.pause_btn)
+                startPauseBtn.text = activity.getText(R.string.pause_btn)
             }
         }
     }
