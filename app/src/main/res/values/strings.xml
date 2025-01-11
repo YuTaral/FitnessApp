@@ -18,7 +18,7 @@
     <string name="please_wait">Please wait…</string>
     <string name="workout_panel_title">Current Workout</string>
     <string name="new_workout_btn">New Workout</string>
-    <string name="main_panel_title">Workouts</string>
+    <string name="workouts_panel_title">Workouts</string>
     <string name="save_btn">Save</string>
     <string name="confirm_btn">Confirm</string>
     <string name="yes_btn">Yes</string>

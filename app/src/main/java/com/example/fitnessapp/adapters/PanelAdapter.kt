@@ -11,11 +11,11 @@ import com.example.fitnessapp.models.WorkoutModel
 import com.example.fitnessapp.panels.BaseExercisePanel
 import com.example.fitnessapp.panels.BasePanel
 import com.example.fitnessapp.panels.BaseTeamPanel
-import com.example.fitnessapp.panels.MainPanel
 import com.example.fitnessapp.panels.ManageExercisesPanel
 import com.example.fitnessapp.panels.ManageTeamsPanel
 import com.example.fitnessapp.panels.NotificationsPanel
 import com.example.fitnessapp.panels.SelectedWorkoutPanel
+import com.example.fitnessapp.panels.WorkoutsPanel
 import com.example.fitnessapp.utils.Constants
 
 /** FragmentStateAdapter used to manage the panels */
@@ -23,8 +23,8 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
     /** The pager view */
     private var pager: ViewPager2 = pagerView
 
-    /** The main panel instance */
-    private lateinit var mainPanel: MainPanel
+    /** The workouts panel instance */
+    private lateinit var workoutsPanel: WorkoutsPanel
 
     /** The workout panel instance */
     private lateinit var workoutPanel: SelectedWorkoutPanel
@@ -43,7 +43,7 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
 
     override fun createFragment(position: Int): Fragment {
         val fragment: Fragment = when (position) {
-            0 -> { getMainPanel() }
+            0 -> { getWorkoutsPanel() }
             1 -> { getWorkoutPanel() }
             else -> { getTemporaryPanel(position) }
         }
@@ -54,7 +54,7 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
     override fun getItemId(position: Int): Long {
         // Override the method to send the unique id to containsItem fun
         return when (position) {
-            0 -> { getMainPanel().getUniqueId() }
+            0 -> { getWorkoutsPanel().getUniqueId() }
             1 -> { getWorkoutPanel().getUniqueId() }
             else -> { getTemporaryPanel(position).getUniqueId() }
         }
@@ -74,12 +74,12 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
     }
 
     /** Initialize the main panel if it's not and return the instance */
-    fun getMainPanel(): MainPanel {
-        if (!::mainPanel.isInitialized) {
-            mainPanel = MainPanel()
+    private fun getWorkoutsPanel(): WorkoutsPanel {
+        if (!::workoutsPanel.isInitialized) {
+            workoutsPanel = WorkoutsPanel()
         }
 
-        return mainPanel
+        return workoutsPanel
     }
 
     /** Initialize the workout panel if it's not and return the instance */
@@ -183,7 +183,7 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
         AppStateManager.workout = workout
 
         if (refreshWorkouts != null) {
-            getMainPanel().refreshWorkouts = refreshWorkouts
+            getWorkoutsPanel().refreshWorkouts = refreshWorkouts
         }
 
         if (index != pager.currentItem) {
@@ -197,11 +197,11 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
         }
     }
 
-    /** Refresh the Main panel */
-    fun refreshMainPanel() {
-        getMainPanel().refreshWorkouts = true
+    /** Refresh the Workouts panel */
+    fun refreshWorkoutsPanel() {
+        getWorkoutsPanel().refreshWorkouts = true
 
-        val index = getMainPanel().getIndex()
+        val index = getWorkoutsPanel().getIndex()
 
         if (index != pager.currentItem) {
             // If the index of the viewPager changes, this will trigger onResume(), which will re-populate
@@ -210,7 +210,7 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
         } else {
             // If the index of the viewPager does not change, this will not trigger onResume(), notify the listener
             // to re-populate the panel
-            getMainPanel().populatePanel()
+            getWorkoutsPanel().populatePanel()
         }
     }
 
@@ -256,7 +256,7 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
      */
      fun onPanelSelectionChange(position: Int) {
          if (fragmentCount > initialFragmentCount &&
-             (position == getMainPanel().getIndex() || position == getWorkoutPanel().getIndex())) {
+             (position == getWorkoutsPanel().getIndex() || position == getWorkoutPanel().getIndex())) {
 
              removeTemporaryPanels( -1)
          }
@@ -267,7 +267,7 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
      */
     fun getPanelTitle(position: Int): String {
         return when (position) {
-            0 -> { getMainPanel().getTitle() }
+            0 -> { getWorkoutsPanel().getTitle() }
             1 -> { getWorkoutPanel().getTitle() }
             else -> { getTemporaryPanel(position).getTitle() }
         }
@@ -278,7 +278,7 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
      */
     fun getPanelIcon(position: Int): Int {
         return when (position) {
-            0 -> { getMainPanel().getIcon() }
+            0 -> { getWorkoutsPanel().getIcon() }
             1 -> { getWorkoutPanel().getIcon() }
             else -> { getTemporaryPanel(position).getIcon() }
         }
@@ -287,9 +287,9 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
     /** Refresh the panel when the current weight unit has been changed */
     fun refreshIfUnitChanged() {
         when (pager.currentItem) {
-            getMainPanel().getIndex() -> {
+            getWorkoutsPanel().getIndex() -> {
                 // Refresh the main panel to update the weight unit displayed in the workout summary
-                refreshMainPanel()
+                refreshWorkoutsPanel()
             }
             getWorkoutPanel().getIndex() -> {
                 // Refresh the workout panel now and workouts panel later
@@ -299,7 +299,7 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
                 // If temporary panel is active, refresh only the workouts, the panel is updated only
                 // when refreshWorkouts is set to true. Workout panel is updated each time it is selected
                 // and the units are auto updated
-                getMainPanel().refreshWorkouts = true
+                getWorkoutsPanel().refreshWorkouts = true
             }
         }
     }

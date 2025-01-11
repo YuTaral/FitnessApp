@@ -16,12 +16,12 @@ import com.example.fitnessapp.utils.Constants
 import com.example.fitnessapp.utils.Utils
 
 /** Main Panel class to implement the logic in the main panel, where workouts are displayed */
-class MainPanel: BasePanel() {
+class WorkoutsPanel: BasePanel() {
     override var id: Long = Constants.PanelUniqueId.MAIN.ordinal.toLong()
     override var layoutId: Int = R.layout.panel_main
     override var iconId = R.drawable.icon_tab_workouts
     override var panelIndex: Int = Constants.PanelIndices.MAIN.ordinal
-    override var titleId: Int = R.string.main_panel_title
+    override var titleId: Int = R.string.workouts_panel_title
 
     private var selectedFilter = Filters.ALL
     private var isSpinnerInitialized = false

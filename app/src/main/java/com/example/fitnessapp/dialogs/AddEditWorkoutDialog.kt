@@ -165,7 +165,7 @@ class AddEditWorkoutDialog(ctx: Context, mode: Mode, workoutModel: WorkoutModel?
                 dialog.dismiss()
                 dismiss()
                 AppStateManager.workout = null
-                Utils.getPanelAdapter().refreshMainPanel()
+                Utils.getPanelAdapter().refreshWorkoutsPanel()
             })
         }
 
