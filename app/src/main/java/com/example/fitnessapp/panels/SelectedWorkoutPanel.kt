@@ -93,7 +93,7 @@ class SelectedWorkoutPanel : BasePanel() {
                 notes.maxLines = 3
                 notes.text = AppStateManager.workout!!.notes
 
-                if (notes.text.lines().size > 3) {
+                if (notes.text.lines().size > 2) {
                     showMoreOrLessNotes.visibility = View.VISIBLE
                     showMoreOrLessNotes.text = Utils.getActivity().getText(R.string.show_more_lbl)
                 } else {
@@ -184,7 +184,7 @@ class SelectedWorkoutPanel : BasePanel() {
     private fun showNotes() {
         if (showMoreOrLessNotes.text == Utils.getActivity().getText(R.string.show_more_lbl)) {
             showMoreOrLessNotes.text = Utils.getActivity().getText(R.string.show_less_lbl)
-            notes.maxLines = notes.text.lines().size
+            notes.maxLines = Integer.MAX_VALUE
         } else {
             showMoreOrLessNotes.text = Utils.getActivity().getText(R.string.show_more_lbl)
             notes.maxLines = 3
