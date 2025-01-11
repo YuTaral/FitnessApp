@@ -56,6 +56,11 @@ class SaveWorkoutTemplateDialog(ctx: Context): BaseDialog(ctx) {
         val template = WorkoutModel(0, templateName.text.toString(), true,
                                     AppStateManager.workout!!.exercises, notes.text.toString())
 
+        // Mark all sets as uncompleted
+        template.exercises.map { e ->
+            e.sets.map { it.completed = false }
+        }
+
         WorkoutTemplateRepository().addWorkoutTemplate(template, onSuccess =  {
             dismiss()
         })
