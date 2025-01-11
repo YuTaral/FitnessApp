@@ -12,14 +12,14 @@ import com.example.fitnessapp.utils.Utils
 import com.mikhaellopez.circularprogressbar.CircularProgressBar
 
 /** Timer dialog - start a timer for the specified amount of time */
-class TimerDialog(ctx: Context, titleId: Int, time: Int, onFinish: () -> Unit): BaseDialog(ctx), INeedResumeDialog {
+class TimerDialog(ctx: Context, titleId: Int, time: Int, auto: Boolean): BaseDialog(ctx), INeedResumeDialog {
     override var layoutId = R.layout.dialog_timer
     override var dialogTitleId = titleId
 
     private var context = ctx
     private var seconds = time
     private var secondsLeft = seconds
-    private var onFinishCallback = onFinish
+    private var autoStart = auto
 
     private lateinit var progressBar: CircularProgressBar
     private lateinit var timeLeft: TextView
@@ -27,6 +27,7 @@ class TimerDialog(ctx: Context, titleId: Int, time: Int, onFinish: () -> Unit): 
     private lateinit var startPauseBtn: Button
 
     private lateinit var countDownTimer: CountDownTimer
+    private lateinit var onFinishCallback: () -> Unit
 
     override fun findViews() {
         super.findViews()
@@ -49,7 +50,9 @@ class TimerDialog(ctx: Context, titleId: Int, time: Int, onFinish: () -> Unit): 
         startPauseBtn.setOnClickListener { startStopTimer() }
 
         doneBtn.setOnClickListener {
-            onFinishCallback()
+            if (::onFinishCallback.isInitialized) {
+                onFinishCallback()
+            }
             dismiss()
         }
     }
@@ -66,6 +69,15 @@ class TimerDialog(ctx: Context, titleId: Int, time: Int, onFinish: () -> Unit): 
     override fun resume() {
         if (::timeLeft.isInitialized && timeLeft.text == "0") {
             onTimerFinish()
+        }
+    }
+
+    override fun show() {
+        super.show()
+
+        if (autoStart) {
+            // Auto start after everything is initialized
+            startStopTimer()
         }
     }
 
@@ -143,5 +155,10 @@ class TimerDialog(ctx: Context, titleId: Int, time: Int, onFinish: () -> Unit): 
         val s = totalSeconds % 60
 
         timeLeft.text = String.format("%02d:%02d:%02d", h, m, s)
+    }
+
+    /** Set on finish callback - the callback to execute when Done button is clicked */
+    fun setOnFinishCallback(onFinish: () -> Unit) {
+        onFinishCallback = onFinish
     }
 }

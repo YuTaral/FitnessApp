@@ -195,5 +195,10 @@
     <string name="remove_sets_lbl">Remove set</string>
     <string name="add_sets_lbl">Add set</string>
     <string name="error_msg_no_internet">Please check your Internet connection</string>
+    <string name="start_timer_lbl">Start timer</string>
+    <string name="select_duration_lbl">Select timer duration</string>
+    <string name="start_timer_btn">Start timer</string>
+    <string name="timer_title_lbl">Timer</string>
+    <string name="error_select_duration">Select timer duration</string>
 
 </resources>

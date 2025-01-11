@@ -16,6 +16,7 @@ import com.example.fitnessapp.dialogs.DefaultValuesDialog
 import com.example.fitnessapp.dialogs.EditProfileDialog
 import com.example.fitnessapp.dialogs.FinishWorkoutDialog
 import com.example.fitnessapp.dialogs.SaveWorkoutTemplateDialog
+import com.example.fitnessapp.dialogs.SelectTimerDurationDialog
 import com.example.fitnessapp.managers.AppStateManager
 import com.example.fitnessapp.managers.PermissionResultManager
 import com.example.fitnessapp.network.repositories.NotificationRepository
@@ -198,6 +199,10 @@ class MainActivity : BaseActivity() {
             R.id.nav_manage_teams -> {
                 // Display the Manage Teams panel
                 panelAdapter.displayTemporaryPanel(ManageTeamsPanel())
+            }
+            R.id.start_timer -> {
+                // Show dialog to start timer
+                SelectTimerDurationDialog(this).show()
             }
         }
     }
