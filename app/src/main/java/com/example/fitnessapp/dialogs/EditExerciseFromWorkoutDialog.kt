@@ -18,6 +18,7 @@ import com.example.fitnessapp.models.MuscleGroupModel
 import com.example.fitnessapp.models.SetModel
 import com.example.fitnessapp.network.repositories.ExerciseRepository
 import com.example.fitnessapp.utils.Utils
+import com.google.android.material.textfield.TextInputLayout
 
 /** Edit Exercise dialog to implement the logic to edit exercise */
 @SuppressLint("InflateParams")
@@ -44,8 +45,8 @@ class EditExerciseFromWorkoutDialog(ctx: Context, exerciseModel: ExerciseModel):
     override fun findViews() {
         super.findViews()
 
-        name = dialog.findViewById(R.id.exercise_name)
-        notes = dialog.findViewById(R.id.notes)
+        name = dialog.findViewById<TextInputLayout>(R.id.exercise_name).editText!!
+        notes = dialog.findViewById<TextInputLayout>(R.id.notes).editText!!
         questionMark = dialog.findViewById(R.id.question_mark)
         weightLbl = dialog.findViewById(R.id.weight_lbl)
         setsScroller = dialog.findViewById(R.id.sets_scroller)

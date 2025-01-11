@@ -7,6 +7,7 @@ import android.widget.EditText
 import com.example.fitnessapp.R
 import com.example.fitnessapp.network.repositories.UserRepository
 import com.example.fitnessapp.utils.Utils
+import com.google.android.material.textfield.TextInputLayout
 
 /** Change password dialog to implement change password functionality
  * @param ctx the context
@@ -24,9 +25,9 @@ class ChangePasswordDialog(ctx: Context): BaseDialog(ctx) {
     override fun findViews() {
         super.findViews()
 
-        oldPassword = dialog.findViewById(R.id.old_pass_txt)
-        newPassword = dialog.findViewById(R.id.new_pass_txt)
-        confirmPassword = dialog.findViewById(R.id.confirm_new_pass_txt)
+        oldPassword = dialog.findViewById<TextInputLayout>(R.id.old_pass_txt).editText!!
+        newPassword = dialog.findViewById<TextInputLayout>(R.id.new_pass_txt).editText!!
+        confirmPassword = dialog.findViewById<TextInputLayout>(R.id.confirm_new_pass_txt).editText!!
         saveBtn = dialog.findViewById(R.id.save_btn)
     }
 

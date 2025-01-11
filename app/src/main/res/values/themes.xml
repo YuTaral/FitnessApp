@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.FitnessApp" parent="Theme.MaterialComponents.NoActionBar">
+    <style name="Theme.FitnessApp" parent="Theme.Material3.Dark.NoActionBar">
         <item name="android:textColor">@color/white</item>
         <item name="android:windowBackground">@color/colorBackground</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="dialogTheme">@style/Theme.FitnessApp.Dialog</item>
         <item name="materialButtonStyle">@style/ButtonStyle</item>
-        <item name="editTextStyle">@style/EditTextStyle</item>
+        <item name="textInputStyle">?attr/textInputOutlinedDenseStyle</item>-->
         <item name="checkboxStyle">@style/CircleCheckBoxStyle</item>
         <item name="colorPrimary">@color/colorAccent</item>
         <item name="colorOnPrimary">@color/white</item>
         <item name="colorOnSurface">@color/white</item>
     </style>
 
-    <style name="Theme.FitnessApp.Dialog" parent="Theme.MaterialComponents.Dialog.Alert">
-        <item name="android:editTextStyle">@style/EditTextStyle</item>
+    <style name="Theme.FitnessApp.Dialog" parent="ThemeOverlay.Material3.Dialog.Alert">
+        <item name="textInputStyle">?attr/textInputOutlinedDenseStyle</item>
         <item name="android:windowBackground">@color/colorDialogBackground</item>
         <item name="android:checkboxStyle">@style/CircleCheckBoxStyle</item>
         <item name="android:background">@drawable/background_alert_dialog_border</item>

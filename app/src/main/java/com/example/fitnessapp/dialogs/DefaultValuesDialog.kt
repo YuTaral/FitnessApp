@@ -7,11 +7,12 @@ import android.widget.EditText
 import android.widget.Spinner
 import com.example.fitnessapp.R
 import com.example.fitnessapp.adapters.CustomSpinnerAdapter
+import com.example.fitnessapp.managers.AppStateManager
 import com.example.fitnessapp.models.UserDefaultValuesModel
 import com.example.fitnessapp.models.WeightUnitModel
 import com.example.fitnessapp.network.repositories.UserProfileRepository
-import com.example.fitnessapp.managers.AppStateManager
 import com.example.fitnessapp.utils.Utils
+import com.google.android.material.textfield.TextInputLayout
 
 /** DefaultValuesDialog to enter user default values for exercise (sets, reps and weights) */
 class DefaultValuesDialog(ctx: Context, values: UserDefaultValuesModel, weightUnits: List<WeightUnitModel>?): BaseDialog(ctx) {
@@ -32,10 +33,10 @@ class DefaultValuesDialog(ctx: Context, values: UserDefaultValuesModel, weightUn
     override fun findViews() {
         super.findViews()
 
-        sets = dialog.findViewById(R.id.exercise_sets)
-        reps = dialog.findViewById(R.id.set_reps)
-        weight = dialog.findViewById(R.id.exercise_weight)
-        rest = dialog.findViewById(R.id.rest_txt)
+        sets = dialog.findViewById<TextInputLayout>(R.id.exercise_sets).editText!!
+        reps = dialog.findViewById<TextInputLayout>(R.id.set_reps).editText!!
+        weight = dialog.findViewById<TextInputLayout>(R.id.exercise_weight).editText!!
+        rest = dialog.findViewById<TextInputLayout>(R.id.rest_txt).editText!!
         completed = dialog.findViewById(R.id.complete_exercise)
         weightUnit = dialog.findViewById(R.id.weight_unit)
         saveBtn = dialog.findViewById(R.id.save_btn)

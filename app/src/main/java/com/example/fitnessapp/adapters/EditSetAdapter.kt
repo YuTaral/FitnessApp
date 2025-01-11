@@ -11,6 +11,7 @@ import androidx.core.view.children
 import com.example.fitnessapp.R
 import com.example.fitnessapp.models.SetModel
 import com.example.fitnessapp.utils.Utils
+import com.google.android.material.textfield.TextInputLayout
 
 /** Adapter to control the data (sets) when editing exercise from workout. Usually in the app
  * recycler adapter is used, but here we need a different approach as the data in the rows
@@ -33,9 +34,9 @@ class EditSetAdapter(container: LinearLayout, data: MutableList<SetModel>) {
     private fun addRow(set: SetModel) {
         val row = LayoutInflater.from(Utils.getActivity()).inflate(R.layout.inflatable_edit_set, null)
         val removeSet: ImageView = row.findViewById(R.id.remove_set)
-        val reps: EditText = row.findViewById(R.id.reps_number_txt)
-        val weight: EditText = row.findViewById(R.id.weight_txt)
-        val rest: EditText = row.findViewById(R.id.rest_txt)
+        val reps: EditText = row.findViewById<TextInputLayout>(R.id.reps_number_txt).editText!!
+        val weight: EditText = row.findViewById<TextInputLayout>(R.id.weight_txt).editText!!
+        val rest: EditText = row.findViewById<TextInputLayout>(R.id.rest_txt).editText!!
         val completed: CheckBox = row.findViewById(R.id.completed)
 
         completed.isChecked = set.completed
@@ -87,9 +88,9 @@ class EditSetAdapter(container: LinearLayout, data: MutableList<SetModel>) {
         for (row: View in parent.children) {
             val id = (row.tag as Long)
             val completed = row.findViewById<CheckBox>(R.id.completed).isChecked
-            val repsVal = row.findViewById<EditText>(R.id.reps_number_txt).text.toString()
-            val restVal = row.findViewById<EditText>(R.id.rest_txt).text.toString()
-            val weightVal = row.findViewById<EditText>(R.id.weight_txt).text.toString()
+            val repsVal = row.findViewById<TextInputLayout>(R.id.reps_number_txt).editText!!.text.toString()
+            val restVal = row.findViewById<TextInputLayout>(R.id.rest_txt).editText!!.text.toString()
+            val weightVal = row.findViewById<TextInputLayout>(R.id.weight_txt).editText!!.text.toString()
             var reps = 0
             var weight = 0.0
             var rest = 0

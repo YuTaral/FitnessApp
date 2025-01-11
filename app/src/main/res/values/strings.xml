@@ -25,7 +25,7 @@
     <string name="no_btn">No</string>
     <string name="create_new_btn">Create new</string>
     <string name="override_btn">Override</string>
-    <string name="workout_name_lbl">Workout name…</string>
+    <string name="workout_name_lbl">Workout name</string>
     <string name="current_workout_lbl">Current Workout</string>
     <string name="current_workout_not_selected_lbl">Workout not selected</string>
     <string name="add_exercise_btn">Add Exercise</string>
@@ -64,7 +64,7 @@
     <string name="actions_lbl">Actions</string>
     <string name="save_workout_as_template_lbl">Save workout as template</string>
     <string name="save_template_lbl">Save template</string>
-    <string name="template_name_lbl">Template Name…</string>
+    <string name="template_name_lbl">Template Name</string>
     <string name="error_msg_no_workout_selected">No workout selected</string>
     <string name="error_msg_enter_template_name">Please enter workout template name</string>
     <string name="templates_lbl">Templates</string>
@@ -79,7 +79,7 @@
     <string name="error_select_exercise_action">Please select exercise action from the dropdown</string>
     <string name="back_btn">Back</string>
     <string name="add_btn">Add</string>
-    <string name="describe_the_exercise_lbl">Describe the exercise…</string>
+    <string name="describe_the_exercise_lbl">Describe the exercise</string>
     <string name="mg_exercise_description">Description: %s</string>
     <string name="add_exercise_to_current_workout_lbl">Add exercise to current workout</string>
     <string name="no_description_for_ex_lbl">No description added for this exercise…</string>
@@ -93,7 +93,7 @@
     <string name="question_delete_exercise_text">Are you sure you want to delete exercise \"%s\" ?</string>
     <string name="question_override_exercise_text">Exercise \"%s\" already exists. Do you want to override it by changing the description?</string>
     <string name="question_override_exercise_title">Override Exercise</string>
-    <string name="search_hint_lbl">Search…</string>
+    <string name="search_hint_lbl">Search</string>
     <string name="exercises_for_mg_lbl">Exercises for %s</string>
     <string name="complete_all_sets_lbl">Complete all sets</string>
     <string name="change_password_lbl">Change password</string>
@@ -134,7 +134,7 @@
     <string name="workout_filter_completed">Completed</string>
     <string name="template_exercise_summary">%s x %d set(s)</string>
     <string name="edit_profile_lbl">Edit profile</string>
-    <string name="full_name_lbl">Full name…</string>
+    <string name="full_name_lbl">Full name</string>
     <string name="permission_denied_message">Operation aborted. The requested permission has been denied</string>
     <string name="error_msg_failed_to_capture_image">Failed to capture image. Please try again</string>
     <string name="error_msg_failed_to_upload_image">Failed to upload image. Please try again</string>
@@ -152,9 +152,9 @@
     <string name="add_team_btn">Add team</string>
     <string name="add_team_panel_title">Add team</string>
     <string name="edit_team_panel_title">Edit team</string>
-    <string name="team_name_lbl">Team name…</string>
-    <string name="describe_the_purpose_of_the_team_lbl">Describe the purpose of the team…</string>
-    <string name="add_private_notes_only_visible_to_you_lbl">Add private notes only visible to you…</string>
+    <string name="team_name_lbl">Team name</string>
+    <string name="describe_the_purpose_of_the_team_lbl">Describe the purpose of the team</string>
+    <string name="add_private_notes_only_visible_to_you_lbl">Add private notes only visible to you</string>
     <string name="error_msg_team_name_mandatory">Please enter team name</string>
     <string name="my_teams_lbl">My teams</string>
     <string name="no_members_yet_click_here_to_add_invite_new_members_lbl">Click here to invite new members</string>
@@ -162,7 +162,7 @@
     <string name="question_delete_team_title">Delete Team</string>
     <string name="question_delete_team_text">Are you sure you want to delete team \"%s\" ?</string>
     <string name="invite_members_dialog_title">Team members</string>
-    <string name="search_member_lbl">Invite member…</string>
+    <string name="search_member_lbl">Invite member</string>
     <string name="team_members_lbl">Team members</string>
     <string name="search_results_lbl">Search results</string>
     <string name="enter_user_email_or_name_lbl">Please enter user email / name</string>
@@ -186,7 +186,7 @@
     <string name="view_permissions_btn">View permissions</string>
     <string name="maybe_later_btn">Maybe later</string>
     <string name="time_finished_lbl">Break’s over! Time to get back to your workout!</string>
-    <string name="additional_notes_lbl">Additional notes…</string>
+    <string name="additional_notes_lbl">Additional notes</string>
     <string name="show_more_lbl">Show more</string>
     <string name="show_less_lbl">Show less</string>
     <string name="account">Account</string>

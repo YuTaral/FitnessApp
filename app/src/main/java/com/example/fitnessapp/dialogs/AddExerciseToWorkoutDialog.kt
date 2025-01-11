@@ -12,6 +12,7 @@ import com.example.fitnessapp.models.MuscleGroupModel
 import com.example.fitnessapp.models.UserDefaultValuesModel
 import com.example.fitnessapp.network.repositories.ExerciseRepository
 import com.example.fitnessapp.utils.Utils
+import com.google.android.material.textfield.TextInputLayout
 
 /** Add/Edit Exercise dialog to implement the logic for
  * adding exercise / updating exercise as part of workout
@@ -36,12 +37,12 @@ class AddExerciseToWorkoutDialog(ctx: Context, exercise: MGExerciseModel, values
     override fun findViews() {
         super.findViews()
 
-        name = dialog.findViewById(R.id.exercise_name)
-        notes = dialog.findViewById(R.id.notes)
-        sets = dialog.findViewById(R.id.exercise_sets)
-        reps = dialog.findViewById(R.id.set_reps)
-        weight = dialog.findViewById(R.id.exercise_weight)
-        rest = dialog.findViewById(R.id.rest_txt)
+        name = dialog.findViewById<TextInputLayout>(R.id.exercise_name).editText!!
+        notes = dialog.findViewById<TextInputLayout>(R.id.notes).editText!!
+        sets = dialog.findViewById<TextInputLayout>(R.id.exercise_sets).editText!!
+        reps = dialog.findViewById<TextInputLayout>(R.id.set_reps).editText!!
+        weight = dialog.findViewById<TextInputLayout>(R.id.exercise_weight).editText!!
+        rest = dialog.findViewById<TextInputLayout>(R.id.rest_txt).editText!!
         exerciseCompleted = dialog.findViewById(R.id.complete_exercise)
         saveBtn = dialog.findViewById(R.id.save_btn)
     }

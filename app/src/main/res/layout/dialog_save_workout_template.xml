@@ -5,23 +5,30 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <EditText
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/template_name_txt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
-        android:autofillHints=""
         android:hint="@string/template_name_lbl"
-        android:inputType="textCapSentences"
-        android:maxLength="50"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textCapSentences"
+            android:maxLength="50"
+            android:autofillHints=""/>
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/exercises_lbl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
         android:text="@string/exercises_lbl"
         android:textStyle="italic"
         app:layout_constraintStart_toStartOf="parent"
@@ -31,6 +38,7 @@
         android:id="@+id/workout_exercises_summary_txt"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="10dp"
         android:maxLines="1"
@@ -40,19 +48,25 @@
         app:layout_constraintEnd_toEndOf="parent"
         tools:text="Calves, Squats, Dead Lift"/>
 
-    <EditText
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/notes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:autofillHints=""
         android:hint="@string/additional_notes_lbl"
-        android:inputType="textMultiLine"
-        android:lines="4"
-        android:maxLength="4000"
-        android:gravity="top|start"
-        android:scrollbars="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/workout_exercises_summary_txt" />
+        app:layout_constraintTop_toBottomOf="@+id/workout_exercises_summary_txt">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:lines="4"
+            android:maxLength="4000"
+            android:gravity="top|start"
+            android:scrollbars="vertical"
+            android:autofillHints="" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/save_btn"

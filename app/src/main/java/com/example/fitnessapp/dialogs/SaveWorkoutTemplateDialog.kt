@@ -10,6 +10,7 @@ import com.example.fitnessapp.managers.AppStateManager
 import com.example.fitnessapp.models.WorkoutModel
 import com.example.fitnessapp.network.repositories.WorkoutTemplateRepository
 import com.example.fitnessapp.utils.Utils
+import com.google.android.material.textfield.TextInputLayout
 
 /** Save workout template dialog to implement the logic to save the current workout as template */
 @SuppressLint("InflateParams")
@@ -25,8 +26,8 @@ class SaveWorkoutTemplateDialog(ctx: Context): BaseDialog(ctx) {
     override fun findViews() {
         super.findViews()
 
-        templateName = dialog.findViewById(R.id.template_name_txt)
-        notes = dialog.findViewById(R.id.notes)
+        templateName = dialog.findViewById<TextInputLayout>(R.id.template_name_txt).editText!!
+        notes = dialog.findViewById<TextInputLayout>(R.id.notes).editText!!
         exercises = dialog.findViewById(R.id.workout_exercises_summary_txt)
         saveBtn = dialog.findViewById(R.id.save_btn)
     }

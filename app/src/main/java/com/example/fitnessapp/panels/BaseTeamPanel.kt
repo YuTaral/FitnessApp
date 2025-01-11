@@ -9,8 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.fitnessapp.R
 import com.example.fitnessapp.interfaces.IImagePicker
 import com.example.fitnessapp.interfaces.ITemporaryPanel
-import com.example.fitnessapp.utils.Constants
 import com.example.fitnessapp.managers.ImageUploadManager
+import com.example.fitnessapp.utils.Constants
+import com.google.android.material.textfield.TextInputLayout
 
 /** Base Team Panel class to implement the logic add / edit single team */
 abstract class BaseTeamPanel: BasePanel(), IImagePicker, ITemporaryPanel {
@@ -32,9 +33,9 @@ abstract class BaseTeamPanel: BasePanel(), IImagePicker, ITemporaryPanel {
     override fun findViews() {
         teamImage = panel.findViewById(R.id.team_image)
         removePictureBtn = panel.findViewById(R.id.remove_pic_btn)
-        name = panel.findViewById(R.id.team_name)
-        description = panel.findViewById(R.id.team_description)
-        privateNote = panel.findViewById(R.id.team_private_note)
+        name = panel.findViewById<TextInputLayout>(R.id.team_name).editText!!
+        description = panel.findViewById<TextInputLayout>(R.id.team_description).editText!!
+        privateNote = panel.findViewById<TextInputLayout>(R.id.team_private_note).editText!!
         deleteBtn = panel.findViewById(R.id.delete_btn)
         saveBtn = panel.findViewById(R.id.save_btn)
         membersSectionContainer = panel.findViewById(R.id.members_section_container)

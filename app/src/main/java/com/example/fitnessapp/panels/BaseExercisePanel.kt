@@ -19,6 +19,7 @@ import com.example.fitnessapp.network.repositories.ExerciseRepository
 import com.example.fitnessapp.network.repositories.MuscleGroupRepository
 import com.example.fitnessapp.utils.Constants
 import com.example.fitnessapp.utils.Utils
+import com.google.android.material.textfield.TextInputLayout
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -69,7 +70,7 @@ abstract class BaseExercisePanel(mode: Mode): BasePanel(), ITemporaryPanel {
     override fun findViews() {
         title = panel.findViewById(R.id.exercise_panel_title)
         actionSpinner = panel.findViewById(R.id.exercise_action_spinner)
-        search = panel.findViewById(R.id.search)
+        search = panel.findViewById<TextInputLayout>(R.id.search).editText!!
         selectedMuscleGroupLbl = panel.findViewById(R.id.selected_muscle_group_lbl)
         muscleGroupRecycler = panel.findViewById(R.id.muscle_groups_recycler)
         exercisesRecycler = panel.findViewById(R.id.exercises_recycler)

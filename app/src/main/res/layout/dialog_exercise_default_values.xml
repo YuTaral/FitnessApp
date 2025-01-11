@@ -10,100 +10,85 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
         android:text="@string/default_values_explanation_lbl"
         android:textStyle="italic"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/exercise_sets_lbl"
-        android:layout_width="70dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:text="@string/sets_lbl"
-        android:labelFor="@+id/exercise_sets"
-        app:layout_constraintTop_toTopOf="@+id/exercise_sets"
-        app:layout_constraintBottom_toBottomOf="@+id/exercise_sets"
-        app:layout_constraintStart_toStartOf="parent"/>
-
-    <EditText
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/exercise_sets"
-        android:layout_width="80dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="30dp"
-        android:inputType="number"
-        android:autofillHints=""
-        android:imeOptions="actionNext"
-        android:nextFocusDown="@+id/exercise_reps"
-        app:layout_constraintTop_toBottomOf="@+id/explanation_lbl"
-        app:layout_constraintStart_toEndOf="@+id/exercise_sets_lbl"/>
-
-    <TextView
-        android:id="@+id/set_reps_lbl"
-        android:layout_width="70dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:text="@string/reps_lbl"
-        android:labelFor="@+id/set_reps"
-        app:layout_constraintTop_toTopOf="@+id/set_reps"
-        app:layout_constraintBottom_toBottomOf="@+id/set_reps"
-        app:layout_constraintStart_toEndOf="@+id/exercise_sets"/>
-
-    <EditText
-        android:id="@+id/set_reps"
-        android:layout_width="80dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:inputType="number"
-        android:autofillHints=""
-        android:imeOptions="actionNext"
-        android:nextFocusDown="@+id/exercise_weight"
-        app:layout_constraintTop_toBottomOf="@+id/explanation_lbl"
-        app:layout_constraintStart_toEndOf="@+id/set_reps_lbl"/>
-
-    <TextView
-        android:id="@+id/exercise_weight_lbl"
-        android:layout_width="70dp"
+        android:layout_width="140dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:text="@string/weight_lbl"
-        android:labelFor="@+id/exercise_weight"
-        app:layout_constraintTop_toTopOf="@+id/exercise_weight"
-        app:layout_constraintBottom_toBottomOf="@+id/exercise_weight"
-        app:layout_constraintStart_toStartOf="parent"/>
+        android:layout_marginTop="10dp"
+        android:hint="@string/sets_lbl"
+        app:layout_constraintTop_toBottomOf="@+id/explanation_lbl"
+        app:layout_constraintStart_toStartOf="parent">
 
-    <EditText
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:autofillHints=""
+            android:imeOptions="actionNext"
+            android:nextFocusDown="@+id/exercise_reps"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/set_reps"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="10dp"
+        android:hint="@string/reps_lbl"
+        app:layout_constraintTop_toBottomOf="@+id/explanation_lbl"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:autofillHints=""
+            android:imeOptions="actionNext"
+            android:nextFocusDown="@+id/exercise_weight"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/exercise_weight"
-        android:layout_width="80dp"
+        android:layout_width="140dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="30dp"
-        android:inputType="numberDecimal"
-        android:autofillHints=""
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="10dp"
+        android:hint="@string/weight_lbl"
         app:layout_constraintTop_toBottomOf="@+id/exercise_sets"
-        app:layout_constraintStart_toEndOf="@+id/exercise_weight_lbl"/>
+        app:layout_constraintStart_toStartOf="parent">
 
-    <TextView
-        android:id="@+id/rest_lbl"
-        android:layout_width="70dp"
-        android:layout_height="wrap_content"
-        android:text="@string/rest_time_lbl"
-        android:labelFor="@+id/rest_txt"
-        app:layout_constraintStart_toStartOf="@+id/set_reps_lbl"
-        app:layout_constraintTop_toTopOf="@+id/rest_txt"
-        app:layout_constraintBottom_toBottomOf="@+id/rest_txt"/>
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:autofillHints="" />
 
-    <EditText
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/rest_txt"
-        android:layout_width="80dp"
+        android:layout_width="140dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="30dp"
-        android:inputType="numberDecimal"
-        android:autofillHints=""
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="10dp"
+        android:hint="@string/rest_time_lbl"
         app:layout_constraintTop_toBottomOf="@+id/set_reps"
-        app:layout_constraintStart_toEndOf="@+id/rest_lbl"/>
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:autofillHints=""/>
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/weight_unit_lbl"
@@ -121,7 +106,7 @@
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
         android:background="@drawable/background_spinner"
         android:popupBackground="@drawable/background_spinner_window"
         android:spinnerMode="dropdown"
@@ -132,9 +117,9 @@
         android:id="@+id/complete_exercise"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginEnd="10dp"
         android:text="@string/completed_lbl"
-        app:layout_constraintStart_toEndOf="@+id/weight_unit"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/weight_unit_lbl"
         app:layout_constraintBottom_toBottomOf="@+id/weight_unit_lbl"/>
 

@@ -18,6 +18,7 @@ import com.example.fitnessapp.models.WorkoutModel
 import com.example.fitnessapp.network.APIService
 import com.example.fitnessapp.network.repositories.UserRepository
 import com.example.fitnessapp.utils.Utils
+import com.google.android.material.textfield.TextInputLayout
 
 /** Class to implement the logic for Login / Register */
 class LoginActivity : BaseActivity() {
@@ -69,11 +70,11 @@ class LoginActivity : BaseActivity() {
     override fun findViews() {
         loginContainer = findViewById(R.id.login_container)
         registerContainer = findViewById(R.id.register_container)
-        email = findViewById(R.id.email)
-        password = findViewById(R.id.password)
-        emailReg = findViewById(R.id.email_reg)
-        passwordReg = findViewById(R.id.password_reg)
-        passwordConfirm = findViewById(R.id.confirm_password)
+        email = findViewById<TextInputLayout>(R.id.email).editText!!
+        password = findViewById<TextInputLayout>(R.id.password).editText!!
+        emailReg = findViewById<TextInputLayout>(R.id.email_reg).editText!!
+        passwordReg = findViewById<TextInputLayout>(R.id.password_reg).editText!!
+        passwordConfirm = findViewById<TextInputLayout>(R.id.confirm_password).editText!!
         clickForRegisterLbl = findViewById(R.id.click_for_register_lbl)
         clickForLoginLbl = findViewById(R.id.click_for_login_lbl)
         registerBtn = findViewById(R.id.register_btn)

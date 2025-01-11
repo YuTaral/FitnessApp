@@ -15,23 +15,26 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Team name goes here"/>
 
-    <EditText
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/search"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:paddingStart="5dp"
-        android:drawablePadding="8dp"
-        android:importantForAutofill="no"
-        android:inputType="text"
         android:hint="@string/search_member_lbl"
-        android:maxLength="100"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/search_icon"
         app:layout_constraintTop_toTopOf="@+id/search_icon"
-        app:layout_constraintBottom_toBottomOf="@+id/search_icon"
-        android:imeOptions="actionDone"
-        tools:ignore="RtlSymmetry" />
+        app:layout_constraintBottom_toBottomOf="@+id/search_icon">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:imeOptions="actionDone"
+            android:maxLength="100"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
 
     <ImageView
         android:id="@+id/search_icon"

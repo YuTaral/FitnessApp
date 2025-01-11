@@ -7,10 +7,11 @@ import android.widget.EditText
 import android.widget.ImageView
 import com.example.fitnessapp.R
 import com.example.fitnessapp.interfaces.IImagePicker
-import com.example.fitnessapp.network.repositories.UserProfileRepository
 import com.example.fitnessapp.managers.AppStateManager
 import com.example.fitnessapp.managers.ImageUploadManager
+import com.example.fitnessapp.network.repositories.UserProfileRepository
 import com.example.fitnessapp.utils.Utils
+import com.google.android.material.textfield.TextInputLayout
 
 /** Dialog to handle the logic for profile edit */
 class EditProfileDialog(ctx: Context): BaseDialog(ctx), IImagePicker {
@@ -26,7 +27,7 @@ class EditProfileDialog(ctx: Context): BaseDialog(ctx), IImagePicker {
         super.findViews()
 
         profileImage = dialog.findViewById(R.id.team_image)
-        fullName = dialog.findViewById(R.id.full_name_txt)
+        fullName = dialog.findViewById<TextInputLayout>(R.id.full_name_txt).editText!!
         removePictureBtn = dialog.findViewById(R.id.remove_pic_btn)
         saveBtn = dialog.findViewById(R.id.save_btn)
     }

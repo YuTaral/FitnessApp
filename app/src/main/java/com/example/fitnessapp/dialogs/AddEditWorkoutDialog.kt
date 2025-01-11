@@ -15,6 +15,7 @@ import com.example.fitnessapp.managers.AppStateManager
 import com.example.fitnessapp.models.WorkoutModel
 import com.example.fitnessapp.network.repositories.WorkoutRepository
 import com.example.fitnessapp.utils.Utils
+import com.google.android.material.textfield.TextInputLayout
 
 /** Add / Edit Workout dialog to implement the logic for add / edit workout
  * @param mode the dialog mode
@@ -56,8 +57,8 @@ class AddEditWorkoutDialog(ctx: Context, mode: Mode, workoutModel: WorkoutModel?
         super.findViews()
 
         closeIcon = dialog.findViewById(R.id.dialog_close)
-        name = dialog.findViewById(R.id.workout_name_txt)
-        notes = dialog.findViewById(R.id.notes)
+        name = dialog.findViewById<TextInputLayout>(R.id.workout_name_txt).editText!!
+        notes = dialog.findViewById<TextInputLayout>(R.id.notes).editText!!
         startEndTimeContainer = dialog.findViewById(R.id.start_end_date_time_container)
         startLbl = dialog.findViewById(R.id.workout_start_date_time_txt)
         endLbl = dialog.findViewById(R.id.workout_finish_date_time_txt)
@@ -145,7 +146,8 @@ class AddEditWorkoutDialog(ctx: Context, mode: Mode, workoutModel: WorkoutModel?
                 Utils.getPanelAdapter().refreshWorkoutPanel(workout, true)
             })
         } else {
-            WorkoutRepository().updateWorkout(WorkoutModel(AppStateManager.workout!!.id, name.text.toString(), false, mutableListOf(), notes.text.toString()),
+            WorkoutRepository().updateWorkout(WorkoutModel(AppStateManager.workout!!.id, name.text.toString(),
+                                                false, mutableListOf(), notes.text.toString()),
                 onSuccess = { workout ->
                     dismiss()
                     Utils.getPanelAdapter().refreshWorkoutPanel(workout, true)

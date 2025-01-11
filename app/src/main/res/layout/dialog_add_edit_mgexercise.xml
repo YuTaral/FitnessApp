@@ -5,32 +5,28 @@
     android:paddingTop="10dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:id="@+id/exercise_name_lbl"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:text="@string/exercise_name_lbl"
-        android:labelFor="@+id/exercise_name"
-        app:layout_constraintTop_toTopOf="@+id/exercise_name"
-        app:layout_constraintBottom_toBottomOf="@+id/exercise_name"
-        app:layout_constraintStart_toStartOf="parent"/>
-
-    <EditText
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/exercise_name"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="@string/exercise_name_lbl"
+        android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
-        android:inputType="textCapSentences"
-        android:autofillHints=""
-        android:imeOptions="actionNext"
-        android:nextFocusDown="@+id/exercise_sets"
-        android:maxLength="50"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/exercise_name_lbl"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent">
 
-    <EditText
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints=""
+            android:imeOptions="actionNext"
+            android:nextFocusDown="@+id/exercise_sets"
+            android:maxLength="50"
+            android:inputType="textCapSentences" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/exercise_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -38,13 +34,19 @@
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:hint="@string/describe_the_exercise_lbl"
-        android:inputType="textMultiLine"
-        android:autofillHints=""
-        android:gravity="top|start"
-        android:lines="6"
-        android:scrollbars="vertical"
         app:layout_constraintTop_toBottomOf="@+id/exercise_name"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine|textCapSentences"
+            android:autofillHints=""
+            android:gravity="top|start"
+            android:lines="6"
+            android:scrollbars="vertical"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <CheckBox
         android:id="@+id/add_exercise_to_workout"

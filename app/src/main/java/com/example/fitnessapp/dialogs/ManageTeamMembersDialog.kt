@@ -14,6 +14,7 @@ import com.example.fitnessapp.models.TeamMemberModel
 import com.example.fitnessapp.models.TeamModel
 import com.example.fitnessapp.network.repositories.TeamRepository
 import com.example.fitnessapp.utils.Utils
+import com.google.android.material.textfield.TextInputLayout
 
 /** Manage members dialog to handle invite / remove members to team */
 class ManageTeamMembersDialog(ctx: Context, team: TeamModel, teamMembers: List<TeamMemberModel>): BaseDialog(ctx) {
@@ -34,7 +35,7 @@ class ManageTeamMembersDialog(ctx: Context, team: TeamModel, teamMembers: List<T
         super.findViews()
 
         teamNameLbl = dialog.findViewById(R.id.team_name_lbl)
-        search = dialog.findViewById(R.id.search)
+        search = dialog.findViewById<TextInputLayout>(R.id.search).editText!!
         searchIcon = dialog.findViewById(R.id.search_icon)
         searchResultLbl = dialog.findViewById(R.id.results_lbl)
         searchResultRecycler = dialog.findViewById(R.id.members_search_recycler)

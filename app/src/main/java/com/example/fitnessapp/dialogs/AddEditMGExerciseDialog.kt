@@ -9,13 +9,14 @@ import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
 import com.example.fitnessapp.R
+import com.example.fitnessapp.managers.AppStateManager
 import com.example.fitnessapp.models.MGExerciseModel
 import com.example.fitnessapp.models.WorkoutModel
 import com.example.fitnessapp.network.CustomResponse
 import com.example.fitnessapp.network.repositories.ExerciseRepository
-import com.example.fitnessapp.managers.AppStateManager
 import com.example.fitnessapp.utils.Constants
 import com.example.fitnessapp.utils.Utils
+import com.google.android.material.textfield.TextInputLayout
 
 /** Add / Edit Muscle group Exercise dialog to implement the logic for
  * adding exercise / updating exercise as part of muscle group
@@ -47,8 +48,8 @@ class AddEditMGExerciseDialog(ctx: Context, mGroupId: Long, exercise: MGExercise
     override fun findViews() {
         super.findViews()
 
-        name = dialog.findViewById(R.id.exercise_name)
-        description = dialog.findViewById(R.id.exercise_description)
+        name = dialog.findViewById<TextInputLayout>(R.id.exercise_name).editText!!
+        description = dialog.findViewById<TextInputLayout>(R.id.exercise_description).editText!!
         addExerciseToWorkout = dialog.findViewById(R.id.add_exercise_to_workout)
         saveBtn = dialog.findViewById(R.id.save_btn)
     }

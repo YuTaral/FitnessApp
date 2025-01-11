@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -27,36 +26,54 @@
         app:layout_constraintTop_toTopOf="@+id/reps_number_txt"
         app:layout_constraintBottom_toBottomOf="@+id/reps_number_txt"/>
 
-    <EditText
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/reps_number_txt"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:inputType="number"
         app:layout_constraintStart_toEndOf="@+id/completed"
-        app:layout_constraintTop_toTopOf="parent"
-        android:importantForAutofill="no"
-        tools:ignore="LabelFor" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <EditText
+        <com.google.android.material.textfield.TextInputEditText
+            style="@style/InputLessPadding"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:importantForAutofill="no"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/weight_txt"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:inputType="numberDecimal"
-        android:importantForAutofill="no"
         app:layout_constraintStart_toEndOf="@+id/reps_number_txt"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="LabelFor" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <EditText
+        <com.google.android.material.textfield.TextInputEditText
+            style="@style/InputLessPadding"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:importantForAutofill="no" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/rest_txt"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:inputType="numberDecimal"
-        android:importantForAutofill="no"
         app:layout_constraintStart_toEndOf="@+id/weight_txt"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="LabelFor" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            style="@style/InputLessPadding"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:importantForAutofill="no"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
