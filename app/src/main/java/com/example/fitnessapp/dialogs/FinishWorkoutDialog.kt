@@ -5,8 +5,8 @@ import android.os.Build
 import android.widget.Button
 import android.widget.TextView
 import com.example.fitnessapp.R
-import com.example.fitnessapp.network.repositories.WorkoutRepository
 import com.example.fitnessapp.managers.AppStateManager
+import com.example.fitnessapp.network.repositories.WorkoutRepository
 import com.example.fitnessapp.utils.Utils
 import java.time.Duration
 import java.util.Date
@@ -54,7 +54,7 @@ class FinishWorkoutDialog(ctx: Context): BaseDialog(ctx) {
 
             // Make sure the finished time is not earlier than the started time
             if (AppStateManager.workout!!.startDateTime!! > finishedDateTime) {
-                Utils.showMessage(R.string.error_msg_finish_time)
+                Utils.showMessageWithVibration(R.string.error_msg_finish_time)
                 return@setOnClickListener
             }
 

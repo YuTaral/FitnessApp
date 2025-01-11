@@ -76,7 +76,7 @@ object NetworkManager {
                                 // Execute the callback and show the message if it's different from success
                                 onSuccessCallback(responseBody!!)
                                 if (responseBody!!.message != "Success") {
-                                    Utils.showMessage(responseBody!!.message)
+                                    Utils.showMessageWithVibration(responseBody!!.message)
                                 }
 
                             } else if (Utils.istTokenExpiredResponse(responseBody!!.code)) {
@@ -187,7 +187,7 @@ object NetworkManager {
             }
         }
 
-        Utils.showMessage(message)
+        Utils.showMessageWithVibration(message)
     }
 
     /** Execute the logic if exception occurs
@@ -201,7 +201,7 @@ object NetworkManager {
         updateNotification()
 
         // Show the message and log the error
-        Utils.showMessage(message)
+        Utils.showMessageWithVibration(message)
         exception.printStackTrace()
     }
 }

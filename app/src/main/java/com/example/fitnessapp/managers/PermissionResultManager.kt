@@ -112,7 +112,7 @@ class PermissionResultManager {
                 showSettingsDialog()
             } else {
                 // Permission denied
-                Utils.showMessage(R.string.permission_denied_message)
+                Utils.showMessageWithVibration(R.string.permission_denied_message)
             }
         }
     }
@@ -133,14 +133,11 @@ class PermissionResultManager {
                 }
 
                 if (capturedImageBitmap == null) {
-                    Utils.showMessage(R.string.error_msg_failed_to_capture_image)
                     return@registerForActivityResult
                 }
 
                 onLauncherResultOk(capturedImageBitmap)
 
-            } else {
-                Utils.showMessage(R.string.error_msg_failed_to_capture_image)
             }
         }
 
@@ -148,8 +145,6 @@ class PermissionResultManager {
         galleryLauncher = activity.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK && result.data?.data != null) {
                 onLauncherResultOk(result.data?.data!!)
-            } else {
-                Utils.showMessage(R.string.error_msg_no_media)
             }
         }
 
@@ -164,8 +159,6 @@ class PermissionResultManager {
 
             if (uri != null) {
                 onLauncherResultOk(uri)
-            } else {
-                Utils.showMessage(R.string.error_msg_no_media)
             }
         }
     }
@@ -177,7 +170,7 @@ class PermissionResultManager {
         val scaledBitmap = ImageUploadManager.scaleBitmap(bitmap)
 
         if (scaledBitmap == null) {
-            Utils.showMessage(R.string.error_msg_failed_to_upload_image)
+            Utils.showMessageWithVibration(R.string.error_msg_failed_to_upload_image)
             return
         }
 
@@ -191,7 +184,7 @@ class PermissionResultManager {
         val bitmap = ImageUploadManager.scaleBitmap(uri)
 
         if (bitmap == null) {
-            Utils.showMessage(R.string.error_msg_failed_to_upload_image)
+            Utils.showMessageWithVibration(R.string.error_msg_failed_to_upload_image)
             return
         }
 
@@ -208,7 +201,7 @@ class PermissionResultManager {
             val imageSelectorPanel = Utils.getPanelAdapter().getTeamPanel()
 
             if (imageSelectorPanel == null) {
-                Utils.showMessage(R.string.error_msg_unexpected)
+                Utils.showMessageWithVibration(R.string.error_msg_unexpected)
                 return
             }
 

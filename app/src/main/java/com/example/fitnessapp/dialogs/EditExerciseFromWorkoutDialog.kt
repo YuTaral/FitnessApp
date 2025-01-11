@@ -123,8 +123,7 @@ class EditExerciseFromWorkoutDialog(ctx: Context, exerciseModel: ExerciseModel):
     private fun save(){
         // Validate exercise name
         if (name.text.isEmpty()) {
-            Utils.showMessage(R.string.error_msg_enter_exercise_name)
-            Utils.openKeyboardOnInput(name)
+            Utils.validationFailed(name, R.string.error_msg_enter_exercise_name)
             return
         }
 

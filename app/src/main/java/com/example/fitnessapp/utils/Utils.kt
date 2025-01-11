@@ -47,12 +47,20 @@ object Utils {
         return !target.isNullOrBlank() && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches()
     }
 
-    /** Show a snack-bar message
+    /** Show a snack-bar message and make vibration to warn user for error
      * @param msgId the message id
-     * @param duration duration - short / long, long by default
      */
-    fun showMessage(msgId: Int, duration: Int = BaseTransientBottomBar.LENGTH_LONG) {
-        showMessage(getActivity().getText(msgId).toString(), duration)
+    fun showMessageWithVibration(msgId: Int, vibration: LongArray = longArrayOf(0, 350)) {
+        showMessage(getActivity().getText(msgId).toString())
+        VibratorWarningManager.makeVibration(getActivity(), vibration)
+    }
+
+    /** Show a snack-bar message and make vibration to warn user for error
+     * @param message the message
+     */
+    fun showMessageWithVibration(message: String, vibration: LongArray = longArrayOf(0, 350)) {
+        showMessage(message)
+        VibratorWarningManager.makeVibration(getActivity(), vibration)
     }
 
     /** Show a snack-bar message
@@ -130,8 +138,7 @@ object Utils {
      */
     fun validationFailed(input: EditText, errorMsgId: Int) {
         openKeyboardOnInput(input)
-        showMessage(errorMsgId)
-        VibratorWarningManager.makeVibration(getActivity(), longArrayOf(0, 350))
+        showMessageWithVibration(errorMsgId)
     }
 
     /** Focus the field and open the keyboard
