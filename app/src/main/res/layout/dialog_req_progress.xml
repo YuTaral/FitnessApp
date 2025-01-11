@@ -21,6 +21,7 @@
             android:layout_height="wrap_content"
             android:textSize="25sp"
             android:text="@string/please_wait"
+            android:textStyle="italic|bold"
             app:layout_constraintTop_toBottomOf="@+id/progress_bar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
