@@ -24,6 +24,15 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
 
+        <ImageView
+            android:id="@+id/exercise_edit_btn_warning"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:background="@drawable/icon_exercise_has_notes"
+            android:importantForAccessibility="no"
+            app:layout_constraintTop_toTopOf="@+id/exercise_edit_btn"
+            app:layout_constraintStart_toEndOf="@+id/exercise_edit_btn"/>
+
         <TextView
             android:id="@+id/exercise_name_txt"
             android:layout_width="0dp"

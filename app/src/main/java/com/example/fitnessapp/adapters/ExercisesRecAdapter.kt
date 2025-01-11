@@ -56,6 +56,7 @@ class ExercisesRecAdapter(data: List<ExerciseModel>) : RecyclerView.Adapter<Exer
         private var exerciseName: TextView = itemView.findViewById(R.id.exercise_name_txt)
         private var weightLbl: TextView = itemView.findViewById(R.id.weight_lbl)
         private var editBtn: ImageView = itemView.findViewById(R.id.exercise_edit_btn)
+        private var editBtnWarning: ImageView = itemView.findViewById(R.id.exercise_edit_btn_warning)
         private var expandSymbol: ImageView = itemView.findViewById(R.id.exercise_expand_collapse_symbol)
         private var targetMuscleGroup: TextView = itemView.findViewById(R.id.target_muscle_group)
         private var setsContainer: ConstraintLayout = itemView.findViewById(R.id.sets_container)
@@ -82,6 +83,12 @@ class ExercisesRecAdapter(data: List<ExerciseModel>) : RecyclerView.Adapter<Exer
                     // Display the edit exercise dialog
                     EditExerciseFromWorkoutDialog(Utils.getActivity(), item).show()
                 })
+            }
+
+            if (item.notes.isEmpty()) {
+                editBtnWarning.visibility = View.GONE
+            } else {
+                editBtnWarning.visibility = View.VISIBLE
             }
 
             // Add expand mechanism
