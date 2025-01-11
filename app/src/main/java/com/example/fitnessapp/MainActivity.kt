@@ -113,6 +113,7 @@ class MainActivity : BaseActivity() {
 
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = panelAdapter.getPanelTitle(position)
+            tab.setIcon(panelAdapter.getPanelIcon(position))
         }.attach()
     }
 

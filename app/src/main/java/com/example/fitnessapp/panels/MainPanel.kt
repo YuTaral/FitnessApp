@@ -19,6 +19,7 @@ import com.example.fitnessapp.utils.Utils
 class MainPanel: BasePanel() {
     override var id: Long = Constants.PanelUniqueId.MAIN.ordinal.toLong()
     override var layoutId: Int = R.layout.panel_main
+    override var iconId = R.drawable.icon_tab_workouts
     override var panelIndex: Int = Constants.PanelIndices.MAIN.ordinal
     override var titleId: Int = R.string.main_panel_title
 

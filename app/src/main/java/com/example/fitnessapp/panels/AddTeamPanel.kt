@@ -12,6 +12,7 @@ import com.example.fitnessapp.utils.Utils
 class AddTeamPanel: BaseTeamPanel() {
     override var id = Constants.PanelUniqueId.ADD_TEAM.ordinal.toLong()
     override var titleId = R.string.add_team_panel_title
+    override var iconId = R.drawable.icon_tab_add_team
     override var layoutId = R.layout.panel_add_edit_team
 
     override fun populatePanel() {

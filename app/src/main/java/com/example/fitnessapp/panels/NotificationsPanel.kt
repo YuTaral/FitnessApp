@@ -18,6 +18,7 @@ class NotificationsPanel: BasePanel(), ITemporaryPanel {
     override var layoutId: Int = R.layout.panel_notifications
     override var panelIndex: Int = Constants.PanelIndices.TEMPORARY.ordinal
     override var titleId: Int = R.string.notifications_lbl
+    override var iconId = R.drawable.icon_tab_notifications
     override val removePreviousTemporary = true
 
     private lateinit var noNotificationsLbl: TextView

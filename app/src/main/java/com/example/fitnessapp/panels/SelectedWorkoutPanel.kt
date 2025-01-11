@@ -30,6 +30,7 @@ class SelectedWorkoutPanel : BasePanel() {
     override var layoutId: Int = R.layout.panel_selected_workout
     override var panelIndex: Int = Constants.PanelIndices.WORKOUT.ordinal
     override var titleId: Int = R.string.workout_panel_title
+    override var iconId = R.drawable.icon_tab_selected_workout
 
     private lateinit var mainContent: ConstraintLayout
     private lateinit var noWorkoutContent: ConstraintLayout

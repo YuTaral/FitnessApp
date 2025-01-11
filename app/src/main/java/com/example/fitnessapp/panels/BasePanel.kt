@@ -26,6 +26,9 @@ abstract class BasePanel: Fragment() {
     /** The panel title id */
     protected abstract var titleId: Int
 
+    /** The panel icon id */
+    protected abstract var iconId: Int
+
     /** The panel layout id */
     protected abstract var layoutId: Int
 
@@ -108,5 +111,10 @@ abstract class BasePanel: Fragment() {
     /** Returns the panel title to show in the tab layout */
     fun getTitle(): String {
         return Utils.getActivity().getString(titleId)
+    }
+
+    /** Returns the panel icon to show in the tab layout */
+    fun getIcon(): Int {
+        return iconId
     }
 }

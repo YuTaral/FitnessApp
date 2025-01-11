@@ -25,8 +25,14 @@
     <style name="CustomTabLayout" parent="Widget.Design.TabLayout">
         <item name="tabTextColor">@color/white</item>
         <item name="tabSelectedTextColor">@color/colorAccent</item>
+        <item name="tabIconTint">@color/active_tab_color</item>
         <item name="android:textStyle">bold</item>
         <item name="android:background">@color/backgroundEnd</item>
+        <item name="tabTextAppearance">@style/CustomTabTextAppearance</item>
+    </style>
+
+    <style name="CustomTabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">10sp</item>
     </style>
 
     <style name="CustomCalenderStyle" parent="android:Widget.Material.DatePicker">

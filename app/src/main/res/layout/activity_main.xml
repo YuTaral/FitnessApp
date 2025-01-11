@@ -38,15 +38,23 @@
                 android:background="@color/backgroundStart"
                 app:layout_constraintBottom_toBottomOf="parent">
 
+                <View
+                    android:id="@+id/separator"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/colorAccent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
                 <ImageView
                     android:id="@+id/profile_img"
                     android:layout_width="38dp"
                     android:layout_height="38dp"
                     android:layout_marginStart="15dp"
+                    android:layout_marginTop="3dp"
                     android:importantForAccessibility="no"
                     android:background="@drawable/icon_profile"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    app:layout_constraintTop_toBottomOf="@+id/separator"/>
 
                 <TextView
                     android:id="@+id/account_lbl"
@@ -62,12 +70,12 @@
                     android:id="@+id/notifications_img"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:layout_marginEnd="5dp"
+                    android:layout_marginTop="3dp"
                     android:importantForAccessibility="no"
                     android:background="@drawable/icon_notification"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    app:layout_constraintTop_toBottomOf="@+id/separator"/>
 
                 <ImageView
                     android:id="@+id/notifications_circle_img"
@@ -93,10 +101,11 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_marginEnd="15dp"
+                    android:layout_marginTop="3dp"
                     android:importantForAccessibility="no"
                     android:background="@drawable/icon_menu"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    app:layout_constraintTop_toBottomOf="@+id/separator"/>
 
                 <TextView
                     android:id="@+id/more_lbl"

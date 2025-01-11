@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.example.fitnessapp.interfaces.ITemporaryPanel
+import com.example.fitnessapp.managers.AppStateManager
 import com.example.fitnessapp.models.WorkoutModel
 import com.example.fitnessapp.panels.BaseExercisePanel
 import com.example.fitnessapp.panels.BasePanel
@@ -15,7 +16,6 @@ import com.example.fitnessapp.panels.ManageExercisesPanel
 import com.example.fitnessapp.panels.ManageTeamsPanel
 import com.example.fitnessapp.panels.NotificationsPanel
 import com.example.fitnessapp.panels.SelectedWorkoutPanel
-import com.example.fitnessapp.managers.AppStateManager
 import com.example.fitnessapp.utils.Constants
 
 /** FragmentStateAdapter used to manage the panels */
@@ -270,6 +270,17 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
             0 -> { getMainPanel().getTitle() }
             1 -> { getWorkoutPanel().getTitle() }
             else -> { getTemporaryPanel(position).getTitle() }
+        }
+    }
+
+    /** Return the panel icon to be displayed in the tab layout
+     * @param position the panel position
+     */
+    fun getPanelIcon(position: Int): Int {
+        return when (position) {
+            0 -> { getMainPanel().getIcon() }
+            1 -> { getWorkoutPanel().getIcon() }
+            else -> { getTemporaryPanel(position).getIcon() }
         }
     }
 
