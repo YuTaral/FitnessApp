@@ -49,7 +49,7 @@ class MainActivity : BaseActivity() {
     private lateinit var tabLayout: TabLayout
 
     /** The ActivityResultHandler class instance to handle permissions / intents */
-    lateinit var perrmissionHandler: PermissionResultManager
+    lateinit var permissionHandler: PermissionResultManager
 
     /** The PanelAdapter class instance to manage the panels */
     lateinit var panelAdapter: PanelAdapter
@@ -58,7 +58,7 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
 
         // Initialize the launchers
-        perrmissionHandler = PermissionResultManager()
+        permissionHandler = PermissionResultManager()
     }
 
     override fun findViews() {
