@@ -23,6 +23,7 @@ class AddTeamPanel: BaseTeamPanel() {
 
         val layoutParams = saveBtn.layoutParams as ConstraintLayout.LayoutParams
         layoutParams.startToStart = ConstraintLayout.LayoutParams.PARENT_ID
+        layoutParams.width = (200 * requireContext().resources.displayMetrics.density).toInt()
         saveBtn.layoutParams = layoutParams
     }
 
