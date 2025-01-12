@@ -9,7 +9,7 @@
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/icon_profile"
+        android:src="@drawable/icon_profile_default_picture"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

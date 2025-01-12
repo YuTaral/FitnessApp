@@ -86,7 +86,7 @@ class EditProfileDialog(ctx: Context): BaseDialog(ctx), IImagePicker {
     /** Remove picture button handler to clear the profile picture and return to the default one */
     private fun removePicture() {
         profileImage.setImageBitmap(null)
-        profileImage.setBackgroundResource(R.drawable.icon_profile)
+        profileImage.setBackgroundResource(R.drawable.icon_profile_default_picture)
     }
 
     /** Execute the callback when image capture is successful */

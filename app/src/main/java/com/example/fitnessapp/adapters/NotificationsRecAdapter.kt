@@ -56,7 +56,7 @@ class NotificationsRecAdapter(data: List<NotificationModel>, callback: (Notifica
             if (item.image.isNotEmpty()) {
                 image.setImageBitmap(Utils.convertStringToBitmap(item.image))
             } else {
-                image.setBackgroundResource(R.drawable.icon_profile)
+                image.setBackgroundResource(R.drawable.icon_profile_default_picture)
             }
 
             text.setTextColor(Utils.getActivity().getColor(R.color.white))

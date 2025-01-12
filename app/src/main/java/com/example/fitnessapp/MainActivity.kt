@@ -275,7 +275,7 @@ class MainActivity : BaseActivity() {
             profileImage.setImageBitmap(Utils.convertStringToBitmap(AppStateManager.user!!.profileImage))
         } else {
             profileImage.setImageBitmap(null)
-            profileImage.setBackgroundResource(R.drawable.icon_profile)
+            profileImage.setBackgroundResource(R.drawable.icon_profile_default_picture)
         }
 
         // Set username to email or full name
