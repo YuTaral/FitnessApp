@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
+import com.example.fitnessapp.MainActivity
 import com.example.fitnessapp.interfaces.ITemporaryPanel
 import com.example.fitnessapp.managers.AppStateManager
 import com.example.fitnessapp.models.WorkoutModel
@@ -17,6 +18,7 @@ import com.example.fitnessapp.panels.NotificationsPanel
 import com.example.fitnessapp.panels.SelectedWorkoutPanel
 import com.example.fitnessapp.panels.WorkoutsPanel
 import com.example.fitnessapp.utils.Constants
+import com.example.fitnessapp.utils.Utils
 
 /** FragmentStateAdapter used to manage the panels */
 class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, count: Int) : FragmentStateAdapter(fragmentActivity) {
@@ -143,6 +145,11 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
     fun removeTemporaryPanels(position: Int) {
         if (temporaryPanels.isEmpty()) {
             return
+        }
+
+        if (getNotificationsPanel() != null) {
+            // Set notification button at the top header as inactive if it is being removed
+            (Utils.getActivity() as MainActivity).setNotificationButtonInactive()
         }
 
         if (position == -1) {

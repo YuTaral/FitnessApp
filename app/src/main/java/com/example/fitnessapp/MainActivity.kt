@@ -43,9 +43,12 @@ class MainActivity : BaseActivity() {
     private lateinit var navProfileView: NavigationView
     private lateinit var navActionView: NavigationView
     private lateinit var profileIcon: ImageView
+    private lateinit var accountLbl: TextView
     private lateinit var notificationIcon: ImageView
+    private lateinit var notificationsLbl: TextView
     private lateinit var activeNotificationIcon: ImageView
     private lateinit var menuIcon: ImageView
+    private lateinit var moreLbl: TextView
     private lateinit var viewPager: ViewPager2
     private lateinit var tabLayout: TabLayout
 
@@ -54,6 +57,22 @@ class MainActivity : BaseActivity() {
 
     /** The PanelAdapter class instance to manage the panels */
     lateinit var panelAdapter: PanelAdapter
+
+    /** Track the active tab in the top header */
+    enum class ActiveHeaderTab {
+        NONE,
+        PROFILE,
+        NOTIFICATIONS,
+        MENU,
+    }
+
+    private var _activeTab: ActiveHeaderTab = ActiveHeaderTab.NONE
+    private var activeTab: ActiveHeaderTab
+        get() = _activeTab
+        set(value) {
+            _activeTab = value
+            updateActiveButton()
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,9 +89,12 @@ class MainActivity : BaseActivity() {
         viewPager = findViewById(R.id.viewPager)
         tabLayout = findViewById(R.id.tabLayout)
         profileIcon = findViewById(R.id.profile_img)
+        accountLbl = findViewById(R.id.account_lbl)
         notificationIcon = findViewById(R.id.notifications_img)
+        notificationsLbl = findViewById(R.id.notifications_lbl)
         activeNotificationIcon = findViewById(R.id.notifications_circle_img)
         menuIcon = findViewById(R.id.menu_img)
+        moreLbl = findViewById(R.id.more_lbl)
     }
 
     override fun addClickListeners() {
@@ -121,12 +143,27 @@ class MainActivity : BaseActivity() {
     /** Add click listeners for selecting item from the drawer and back button pressed */
     private fun initialiseDrawerLogic() {
         profileIcon.setOnClickListener {
+            activeTab = ActiveHeaderTab.PROFILE
             drawerLayout.openDrawer(navProfileView)
         }
 
         menuIcon.setOnClickListener {
+            activeTab = ActiveHeaderTab.MENU
             drawerLayout.openDrawer(navActionView)
         }
+
+        // When user clicks outside the drawer or close it, update the active tab
+        drawerLayout.addDrawerListener(object : DrawerLayout.DrawerListener {
+            override fun onDrawerSlide(drawerView: View, slideOffset: Float) { }
+
+            override fun onDrawerOpened(drawerView: View) {}
+
+            override fun onDrawerClosed(drawerView: View) {
+                activeTab = ActiveHeaderTab.NONE
+            }
+
+            override fun onDrawerStateChanged(newState: Int) { }
+        })
 
         navProfileView.setNavigationItemSelectedListener { menuItem ->
             leftDrawerSelected(menuItem)
@@ -171,6 +208,7 @@ class MainActivity : BaseActivity() {
         updateNotificationIcon()
 
         notificationIcon.setOnClickListener {
+            activeTab = ActiveHeaderTab.NOTIFICATIONS
             Utils.getPanelAdapter().displayTemporaryPanel(NotificationsPanel())
         }
     }
@@ -239,6 +277,35 @@ class MainActivity : BaseActivity() {
         }
     }
 
+    /** Update the active button to indicate the selected one in the header */
+    private fun updateActiveButton() {
+        // Default all to unselected
+        profileIcon.setBackgroundResource(R.drawable.icon_profile_inactive)
+        notificationIcon.setBackgroundResource(R.drawable.icon_notification_inactive)
+        menuIcon.setBackgroundResource(R.drawable.icon_menu_inactive)
+
+        accountLbl.setTextColor(getColor(R.color.white))
+        notificationsLbl.setTextColor(getColor(R.color.white))
+        moreLbl.setTextColor(getColor(R.color.white))
+
+        when (activeTab) {
+            ActiveHeaderTab.PROFILE -> {
+                profileIcon.setBackgroundResource(R.drawable.icon_profile_active)
+                accountLbl.setTextColor(getColor(R.color.colorAccent))
+            }
+            ActiveHeaderTab.NOTIFICATIONS -> {
+                notificationIcon.setBackgroundResource(R.drawable.icon_notification_active)
+                notificationsLbl.setTextColor(getColor(R.color.colorAccent))
+            }
+            ActiveHeaderTab.MENU -> {
+                menuIcon.setBackgroundResource(R.drawable.icon_menu_active)
+                moreLbl.setTextColor(getColor(R.color.colorAccent))
+            } else -> {
+                // Noting to do
+            }
+        }
+    }
+
     /** Update the selected actions in the right drawer based on whether there is selected workout */
     fun updateActions() {
         if (AppStateManager.workout == null) {
@@ -298,5 +365,10 @@ class MainActivity : BaseActivity() {
         if (Utils.getPanelAdapter().getNotificationsPanel() != null) {
             Utils.getPanelAdapter().getNotificationsPanel()!!.populatePanel()
         }
+    }
+
+    /** Set the active tab (Notifications) to null */
+    fun setNotificationButtonInactive() {
+        activeTab = ActiveHeaderTab.NONE
     }
 }
