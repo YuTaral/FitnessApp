@@ -26,7 +26,7 @@ import com.example.fitnessapp.panels.BaseExercisePanel
 import com.example.fitnessapp.panels.ManageExercisesPanel
 import com.example.fitnessapp.panels.ManageTeamsPanel
 import com.example.fitnessapp.panels.NotificationsPanel
-import com.example.fitnessapp.panels.TemplatesPanel
+import com.example.fitnessapp.panels.ManageTemplatesPanel
 import com.example.fitnessapp.utils.Utils
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayout
@@ -228,7 +228,7 @@ class MainActivity : BaseActivity() {
             }
             R.id.nav_manage_templates -> {
                 // Display the Templates as temporary panel
-                panelAdapter.displayTemporaryPanel(TemplatesPanel())
+                panelAdapter.displayTemporaryPanel(ManageTemplatesPanel())
             }
             R.id.nav_manage_exercises -> {
                 // Display the Muscle Groups and Exercises as temporary panel
