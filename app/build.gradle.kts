@@ -65,13 +65,6 @@ android {
 }
 
 dependencies {
-    implementation ("androidx.security:security-crypto:1.1.0-alpha06")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation("androidx.constraintlayout:constraintlayout-compose-android:1.1.0-alpha13")
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation("androidx.compose.material3:material3:1.3.1")
-    implementation ("com.mikhaellopez:circularprogressbar:3.1.0")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -84,6 +77,13 @@ dependencies {
     implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.core)
     implementation(libs.androidx.swiperefreshlayout)
+
+    implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.constraintlayout.compose)
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.gson)
+    implementation(libs.androidx.security.crypto)
+    implementation(libs.circularprogressbar)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
