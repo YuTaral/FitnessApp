@@ -11,7 +11,6 @@
         android:layout_width="38dp"
         android:layout_height="38dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/icon_team_default_picture"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:shapeAppearanceOverlay="@style/RoundedCorners"/>

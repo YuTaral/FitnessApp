@@ -97,7 +97,11 @@ class TeamMembersRecAdapter(data: List<TeamMemberModel>,
          * @param onClickCallback callback to execute on click
          */
         fun bind(member: TeamMemberModel, adapterType: AdapterType, onClickCallback: (member: TeamMemberModel) -> Unit) {
-            image.setImageBitmap(Utils.convertStringToBitmap(member.image))
+            if (member.image.isNotEmpty()) {
+                image.setImageBitmap(Utils.convertStringToBitmap(member.image))
+            } else {
+                image.setBackgroundResource(R.drawable.icon_profile_default_picture)
+            }
             name.text = member.fullName
 
             when (adapterType) {
