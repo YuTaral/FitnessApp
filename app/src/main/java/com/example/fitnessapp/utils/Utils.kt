@@ -36,6 +36,7 @@ import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import java.util.TimeZone
 
 /** Object with common methods */
 object Utils {
@@ -349,5 +350,14 @@ object Utils {
         val imageBytes = Base64.decode(image, Base64.DEFAULT)
 
         return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+    }
+
+    /** Return ISO08601 formatted date from the Date object
+     * @param date the date
+     */
+    fun formatDateToISO8601(date: Date): String {
+        val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault())
+        sdf.timeZone = TimeZone.getTimeZone("UTC")
+        return sdf.format(date)
     }
 }

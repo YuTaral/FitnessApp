@@ -54,7 +54,7 @@ interface IAPIService {
     /** WORKOUT GET REQUESTS
      * -------------------------------------------------------------------------------- */
     @GET(Constants.RequestEndPoints.GET_WORKOUTS)
-    fun getWorkouts(@Query("filterBy") filterBy: String): Call<CustomResponse>
+    fun getWorkouts(@Query("startDate") startDate: String): Call<CustomResponse>
 
     @GET(Constants.RequestEndPoints.GET_WORKOUT)
     fun getWorkout(@Query("workoutId") workoutId: Long): Call<CustomResponse>

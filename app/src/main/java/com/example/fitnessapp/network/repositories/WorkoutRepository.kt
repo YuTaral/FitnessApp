@@ -5,6 +5,7 @@ import com.example.fitnessapp.models.WorkoutModel
 import com.example.fitnessapp.network.APIService
 import com.example.fitnessapp.network.NetworkManager
 import com.example.fitnessapp.utils.Utils
+import java.util.Date
 
 /** WorkoutRepository class, used to execute all requests related to workouts */
 class WorkoutRepository {
@@ -48,12 +49,12 @@ class WorkoutRepository {
     }
 
     /** Fetch the workouts
-     * @param filterBy the filter value - ALL, IN_PROGRESS or COMPLETED
+     * @param startDate the start date
      * @param onSuccess callback to execute if request is successful
      */
-    fun getWorkouts(filterBy: String, onSuccess: (List<String>) -> Unit) {
+    fun getWorkouts(startDate: Date, onSuccess: (List<String>) -> Unit) {
         NetworkManager.sendRequest(
-            request = { APIService.getInstance().getWorkouts(filterBy) },
+            request = { APIService.getInstance().getWorkouts(Utils.formatDateToISO8601(startDate)) },
             onSuccessCallback = { response ->
                 onSuccess(response.data)
             }
