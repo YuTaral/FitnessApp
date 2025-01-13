@@ -14,13 +14,35 @@
         android:text="@string/my_teams_lbl"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <com.example.fitnessapp.views.CustomSwitchView
+        android:id="@+id/coach_member_selector"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        app:leftText="@string/coach_switch"
+        app:rightText="@string/member_switch"
+        app:layout_constraintTop_toBottomOf="@+id/my_teams_lbl"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/no_teams_lbl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:textSize="18sp"
+        android:textAlignment="center"
+        android:textColor="@color/colorTextSecondary"
+        app:layout_constraintTop_toBottomOf="@+id/coach_member_selector"
+        android:visibility="gone"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/teams_recycler"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="10dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintTop_toBottomOf="@+id/my_teams_lbl"
+        app:layout_constraintTop_toBottomOf="@+id/coach_member_selector"
         app:layout_constraintBottom_toTopOf="@+id/add_team_btn"/>
 
     <Button

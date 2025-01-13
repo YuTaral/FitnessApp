@@ -105,7 +105,7 @@
     <string name="weight_unit_lbl">Weight unit</string>
     <string name="weight_unit_lb_lbl">Lb</string>
     <string name="weight_unit_kg_lbl">Kg</string>
-    <string name="no_workouts">You don\'t have any workouts from the selected type</string>
+    <string name="no_workouts">You don\'t have any workouts in the selected time period</string>
     <string name="completed_def_value_lbl">Completed</string>
     <string name="question_delete_workout_title">Delete Workout</string>
     <string name="question_delete_workout_text">Are you sure you want to delete workout \"%s\" ?</string>
@@ -164,7 +164,8 @@
     <string name="question_delete_team_text">Are you sure you want to delete team \"%s\" ?</string>
     <string name="invite_members_dialog_title">Team members</string>
     <string name="search_member_lbl">Invite member</string>
-    <string name="team_members_lbl">Team members</string>
+    <string name="team_members_lbl">Team members (%s)</string>
+    <string name="other_members_lbl">Other members (%s)</string>
     <string name="search_results_lbl">Search results</string>
     <string name="enter_user_email_or_name_lbl">Please enter user email / name</string>
     <string name="no_users_found">There are no user with name \"%s\" valid for invitation (user does not exist or invitation already send)</string>
@@ -200,5 +201,13 @@
     <string name="start_timer_btn">Start timer</string>
     <string name="timer_title_lbl">Timer</string>
     <string name="error_select_duration">Select timer duration</string>
+    <string name="coach_switch">As coach</string>
+    <string name="member_switch">As member</string>
+    <string name="details_btn">Details</string>
+    <string name="team_details_lbl">Team details</string>
+    <string name="leave_team_btn">Leave team</string>
+    <string name="coach_s_lbl">Coach %s</string>
+    <string name="no_my_teams_lbl">You don\'t have any teams. Click Add Team to create your first team</string>
+    <string name="no_joined_teams_lbl">You are not a member of any team</string>
 
 </resources>

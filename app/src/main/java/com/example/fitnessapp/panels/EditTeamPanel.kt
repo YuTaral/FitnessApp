@@ -30,7 +30,7 @@ class EditTeamPanel(t: TeamModel): BaseTeamPanel() {
 
         membersRecycler.visibility = View.VISIBLE
 
-        TeamRepository().getTeamMembers(team.id, onSuccess = { teamMembers ->
+        TeamRepository().getMyTeamMembers(team.id, onSuccess = { teamMembers ->
             members = teamMembers
             membersRecycler.adapter = TeamMembersRecAdapter(members, TeamMembersRecAdapter.AdapterType.DISPLAY, callback = {})
         })

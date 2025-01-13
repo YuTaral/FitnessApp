@@ -1,5 +1,6 @@
 package com.example.fitnessapp.models
 
+import com.example.fitnessapp.utils.Constants
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 
@@ -21,6 +22,9 @@ class TeamModel: BaseModel {
     @SerializedName("PrivateNote")
     var privateNote: String
 
+    @SerializedName("ViewTeamAs")
+    var viewTeamAs: String
+
     var selectedInPanel: Boolean
 
     /** Constructor to accept serialized object
@@ -35,6 +39,7 @@ class TeamModel: BaseModel {
         description = model.description
         privateNote = model.privateNote
         selectedInPanel = model.selectedInPanel
+        viewTeamAs = model.viewTeamAs
     }
 
     /** Constructor used when new TeamModel object is created */
@@ -43,6 +48,7 @@ class TeamModel: BaseModel {
         name = nameVal
         description = descriptionVal
         privateNote = privateNoteVal
+        viewTeamAs = Constants.ViewTeamAs.COACH.toString()
         selectedInPanel = false
     }
 }

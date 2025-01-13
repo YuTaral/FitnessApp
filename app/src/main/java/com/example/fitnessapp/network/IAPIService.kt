@@ -137,13 +137,16 @@ interface IAPIService {
     /** TEAM GET REQUESTS
      * -------------------------------------------------------------------------------- */
     @GET(Constants.RequestEndPoints.GET_MY_TEAMS)
-    fun getMyTeams(): Call<CustomResponse>
+    fun getMyTeams(@Query("teamType") teamType: String): Call<CustomResponse>
 
     @GET(Constants.RequestEndPoints.GET_USERS_TO_INVITE)
     fun getUsersToInvite(@Query("name") name: String, @Query("teamId") teamId: Long): Call<CustomResponse>
 
-    @GET(Constants.RequestEndPoints.GET_TEAM_MEMBERS)
+    @GET(Constants.RequestEndPoints.GET_MY_TEAM_MEMBERS)
     fun getTeamMembers(@Query("teamId") teamId: Long): Call<CustomResponse>
+
+    @GET(Constants.RequestEndPoints.GET_JOINED_TEAM_MEMBERS)
+    fun getJoinedTeamMembers(@Query("teamId") teamId: Long): Call<CustomResponse>
 
     /** NOTIFICATION POST REQUESTS
      * -------------------------------------------------------------------------------- */

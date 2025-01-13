@@ -118,11 +118,12 @@ class TeamRepository {
     }
 
     /** Get the teams created by the user
+     * @param teamType the team type - as coach or as member
      * @param onSuccess callback to execute if request is successful
      */
-    fun getMyTeams(onSuccess: (List<TeamModel>) -> Unit) {
+    fun getMyTeams(teamType: String, onSuccess: (List<TeamModel>) -> Unit) {
         NetworkManager.sendRequest(
-            request = { APIService.getInstance().getMyTeams() },
+            request = { APIService.getInstance().getMyTeams(teamType) },
             onSuccessCallback = { response -> onSuccess(response.data.map { TeamModel(it) } )},
         )
     }
@@ -147,11 +148,11 @@ class TeamRepository {
         )
     }
 
-    /** Get team members
+    /** Get team members when logged in user is coach
      * @param teamId the team id
      * @param onSuccess callback to execute if request is successful
      */
-    fun getTeamMembers(teamId: Long, onSuccess: (List<TeamMemberModel>) -> Unit) {
+    fun getMyTeamMembers(teamId: Long, onSuccess: (List<TeamMemberModel>) -> Unit) {
         NetworkManager.sendRequest(
             request = { APIService.getInstance().getTeamMembers(teamId) },
             onSuccessCallback = { response ->
@@ -162,6 +163,19 @@ class TeamRepository {
                 }
 
                 onSuccess(members)
+            },
+        )
+    }
+
+    /** Get team members when logged in user is member
+     * @param teamId the team id
+     * @param onSuccess callback to execute if request is successful
+     */
+    fun getJoinedTeamMembers(teamId: Long, onSuccess: (List<String>) -> Unit) {
+        NetworkManager.sendRequest(
+            request = { APIService.getInstance().getJoinedTeamMembers(teamId) },
+            onSuccessCallback = { response ->
+                onSuccess(response.data)
             },
         )
     }

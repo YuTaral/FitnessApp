@@ -29,6 +29,7 @@ class ManageTeamMembersDialog(ctx: Context, team: TeamModel, teamMembers: List<T
     private lateinit var searchIcon: ImageView
     private lateinit var searchResultLbl: TextView
     private lateinit var searchResultRecycler: RecyclerView
+    private lateinit var teamMembersCount: TextView
     private lateinit var membersRecycler: RecyclerView
 
     override fun findViews() {
@@ -40,6 +41,7 @@ class ManageTeamMembersDialog(ctx: Context, team: TeamModel, teamMembers: List<T
         searchResultLbl = dialog.findViewById(R.id.results_lbl)
         searchResultRecycler = dialog.findViewById(R.id.members_search_recycler)
         membersRecycler = dialog.findViewById(R.id.invited_members_recycler)
+        teamMembersCount = dialog.findViewById(R.id.invited_members_lbl)
     }
 
     override fun populateDialog() {
@@ -48,6 +50,8 @@ class ManageTeamMembersDialog(ctx: Context, team: TeamModel, teamMembers: List<T
         membersRecycler.adapter = TeamMembersRecAdapter(members, TeamMembersRecAdapter.AdapterType.REMOVE, callback = {
                 member -> onRemove(member)
         })
+
+        teamMembersCount.text = String.format(Utils.getActivity().getString(R.string.team_members_lbl), members.size)
     }
 
     override fun addClickListeners() {
@@ -114,8 +118,9 @@ class ManageTeamMembersDialog(ctx: Context, team: TeamModel, teamMembers: List<T
         getSearchAdapter().addRemoveMember(member, false)
 
         // Send invite request, on success updated list will be returned
-        TeamRepository().inviteMember(member.userId, selectedTeam.id, onSuccess = { members ->
-            getMembersAdapter().update(members)
+        TeamRepository().inviteMember(member.userId, selectedTeam.id, onSuccess = { teamMembers ->
+            members = teamMembers
+            updateMembersRecyclerAndCount()
         })
     }
 
@@ -124,9 +129,16 @@ class ManageTeamMembersDialog(ctx: Context, team: TeamModel, teamMembers: List<T
      */
     private fun onRemove(member: TeamMemberModel) {
         // Send remove request, on success updated list will be returned
-        TeamRepository().removeMember(member, onSuccess = { members ->
-            getMembersAdapter().update(members)
+        TeamRepository().removeMember(member, onSuccess = { teamMemebrs ->
+            members = teamMemebrs
+            updateMembersRecyclerAndCount()
         })
+    }
+
+    /** Update the members recycler and count */
+    private fun updateMembersRecyclerAndCount() {
+        getMembersAdapter().update(members)
+        teamMembersCount.text = String.format(Utils.getActivity().getString(R.string.team_members_lbl), members.size)
     }
 
     /** Return the adapter of the search recycler */

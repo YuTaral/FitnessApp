@@ -27,7 +27,8 @@ object Constants {
         MANAGE_TEAMS,
         ADD_TEAM,
         EDIT_TEAM,
-        NOTIFICATIONS
+        NOTIFICATIONS,
+        TEAM_DETAILS
     }
 
     /** Enum with the position of the panel in the fragment state adapter  */
@@ -44,6 +45,12 @@ object Constants {
         JOINED_TEAM,
         REMOVED_FROM_TEAM,
         DECLINED_TEAM_INVITATION
+    }
+
+    /** Enum with team types when fetching teams */
+    enum class ViewTeamAs {
+        COACH,
+        MEMBER
     }
 
     /** Object containing request end point values */
@@ -99,7 +106,8 @@ object Constants {
         const val DECLINE_TEAM_INVITE  = "$TEAM/decline-invite"
         const val GET_MY_TEAMS  = "$TEAM/my-teams"
         const val GET_USERS_TO_INVITE  = "$TEAM/get-users-to-invite"
-        const val GET_TEAM_MEMBERS  = "$TEAM/get-team-members"
+        const val GET_MY_TEAM_MEMBERS  = "$TEAM/get-my-team-members"
+        const val GET_JOINED_TEAM_MEMBERS  = "$TEAM/get-joined-team-members"
 
         const val NOTIFICATION_REVIEWED  = "$NOTIFICATION/reviewed"
         const val DELETE_NOTIFICATION  = "$NOTIFICATION/delete"

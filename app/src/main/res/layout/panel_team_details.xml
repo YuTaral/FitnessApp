@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/team_image"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:padding="3dp"
+        app:strokeWidth="3dp"
+        app:strokeColor="@color/colorAccent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/icon_team_default_picture"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:shapeAppearanceOverlay="@style/RoundedCorners"/>
+
+    <TextView
+        android:id="@+id/team_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        app:layout_constraintStart_toStartOf="@+id/team_image"
+        app:layout_constraintEnd_toEndOf="@+id/team_image"
+        app:layout_constraintTop_toBottomOf="@+id/team_image"
+        tools:text="Team name"/>
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/coach_image"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:padding="3dp"
+        app:strokeWidth="3dp"
+        app:strokeColor="@color/colorAccent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/icon_team_default_picture"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:shapeAppearanceOverlay="@style/RoundedCorners"/>
+
+    <TextView
+        android:id="@+id/coach_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:text="@string/coach_s_lbl"
+        app:layout_constraintStart_toStartOf="@+id/coach_image"
+        app:layout_constraintEnd_toEndOf="@+id/coach_image"
+        app:layout_constraintTop_toBottomOf="@+id/coach_image"/>
+
+    <TextView
+        android:id="@+id/team_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:textColor="@color/colorTextSecondary"
+        app:layout_constraintStart_toStartOf="@+id/team_image"
+        app:layout_constraintEnd_toEndOf="@+id/team_image"
+        app:layout_constraintTop_toBottomOf="@+id/team_name"
+        tools:text="Team description goes here"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/members_section_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/team_description"
+        app:layout_constraintBottom_toTopOf="@+id/leave_btn">
+
+        <View
+            android:id="@+id/separator"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/colorAccent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/other_members_lbl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="@string/other_members_lbl"
+            android:textSize="16sp"
+            android:textColor="@color/colorTextSecondary"
+            android:textAlignment="center"
+            app:layout_constraintTop_toBottomOf="@+id/separator"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/members_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="5dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintTop_toBottomOf="@+id/other_members_lbl"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/leave_btn"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/leave_team_btn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
