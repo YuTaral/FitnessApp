@@ -3,7 +3,7 @@ package com.example.fitnessapp.models
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 
-/**  TeamCoachModel class representing team coach.
+/** TeamCoachModel class representing team coach.
  *  Must correspond with server-side TeamCoachModel class
  */
 class TeamCoachModel: BaseModel {
