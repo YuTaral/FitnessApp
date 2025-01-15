@@ -38,6 +38,7 @@ class ManageTeamsPanel: BasePanel(), ITemporaryPanel {
 
     private var refreshTeams = false
     private var autoSelectTeamId = 0L
+    private var selectTeamFrom: Constants.ViewTeamAs? = null
 
     override fun findViews() {
         switch = panel.findViewById(R.id.coach_member_selector)
@@ -48,11 +49,16 @@ class ManageTeamsPanel: BasePanel(), ITemporaryPanel {
     }
 
     override fun populatePanel() {
-        // Set the initially selected team type (usually COACH)
-        teamType = if (switch.getSelected() == CustomSwitchView.Selected.LEFT) {
-            Constants.ViewTeamAs.COACH
+        teamType = if (selectTeamFrom != null) {
+            // Use the provided value
+            selectTeamFrom!!
         } else {
-            Constants.ViewTeamAs.MEMBER
+            // Set the initially selected team type (usually COACH)
+            if (switch.getSelected() == CustomSwitchView.Selected.LEFT) {
+                Constants.ViewTeamAs.COACH
+            } else {
+                Constants.ViewTeamAs.MEMBER
+            }
         }
 
         TeamRepository().getMyTeams(teamType.toString(), onSuccess = { teams ->
@@ -147,7 +153,7 @@ class ManageTeamsPanel: BasePanel(), ITemporaryPanel {
             if (teamsRecycler.adapter == null) {
                 teamsRecycler.adapter = TeamsRecAdapter(teams, callback = { enableDisableEdit() })
             } else {
-                (teamsRecycler.adapter as TeamsRecAdapter).updateTeams(teams)
+                getAdapter()!!.updateTeams(teams)
             }
 
             // Check if we need to auto select team
@@ -193,7 +199,8 @@ class ManageTeamsPanel: BasePanel(), ITemporaryPanel {
     /** Automatically set the variable to auto select team after populating teams
      * @param teamId the team id
      */
-    fun setAutoSelectTeam(teamId: Long) {
+    fun setAutoSelectTeam(teamId: Long, teamType: Constants.ViewTeamAs) {
         autoSelectTeamId = teamId
+        selectTeamFrom = teamType
     }
 }

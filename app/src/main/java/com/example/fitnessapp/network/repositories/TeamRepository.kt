@@ -77,10 +77,10 @@ class TeamRepository {
      * @param teamId the team id
      * @param onSuccess callback to execute if request is successful
      */
-    fun acceptInvite(userId: String, teamId: Long, onSuccess: (List<NotificationModel>) -> Unit) {
+    fun acceptInvite(userId: String, teamId: Long, onSuccess: () -> Unit) {
         NetworkManager.sendRequest(
             request = { APIService.getInstance().acceptInvite(userId, teamId) },
-            onSuccessCallback = { response -> onSuccess(response.data.map { NotificationModel(it) })},
+            onSuccessCallback = { onSuccess()},
         )
     }
 

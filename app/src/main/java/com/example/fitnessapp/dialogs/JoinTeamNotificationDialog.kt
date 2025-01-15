@@ -5,9 +5,10 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.fitnessapp.R
+import com.example.fitnessapp.managers.AppStateManager
 import com.example.fitnessapp.models.JoinTeamNotificationModel
 import com.example.fitnessapp.network.repositories.TeamRepository
-import com.example.fitnessapp.managers.AppStateManager
+import com.example.fitnessapp.panels.ManageTeamsPanel
 import com.example.fitnessapp.utils.Constants
 import com.example.fitnessapp.utils.Utils
 
@@ -59,9 +60,9 @@ class JoinTeamNotificationDialog(ctx: Context, model: JoinTeamNotificationModel)
 
     /** Send request to accept team invitation */
     private fun acceptInvite() {
-        TeamRepository().acceptInvite(AppStateManager.user!!.id, notification.teamId, onSuccess = { notifications ->
+        TeamRepository().acceptInvite(AppStateManager.user!!.id, notification.teamId, onSuccess = {
             dismiss()
-            Utils.getPanelAdapter().getNotificationsPanel()!!.populateNotifications(notifications)
+            redirectToTeamDetails(notification.teamId)
         })
     }
 
@@ -71,5 +72,16 @@ class JoinTeamNotificationDialog(ctx: Context, model: JoinTeamNotificationModel)
             dismiss()
             Utils.getPanelAdapter().getNotificationsPanel()!!.populateNotifications(notifications)
         })
+    }
+
+    /** Automatically select team after clicking on JOINED_TEAM / DECLINED_TEAM_INVITATION notification
+     * @param teamId the team id to select
+     */
+    private fun redirectToTeamDetails(teamId: Long) {
+        // First create the Manage teams panel
+        Utils.getPanelAdapter().displayTemporaryPanel(ManageTeamsPanel())
+
+        // After that preselect the team and redirect to team details
+        Utils.getPanelAdapter().getManageTeamsPanel()!!.setAutoSelectTeam(teamId, Constants.ViewTeamAs.MEMBER)
     }
 }

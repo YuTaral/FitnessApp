@@ -68,21 +68,29 @@ class TeamsRecAdapter(data: List<TeamModel>, callback: () -> Unit) : RecyclerVie
         return teams[selectedPosition]
     }
 
-    /** Programmatically set the selected team
+    /** Programmatically set the selected team, return true on success, false otherwise
      * @param teamId the team id if selecting team, 0 if removing the selected team
      */
     @SuppressLint("NotifyDataSetChanged")
-    fun changeSelectedTeam(teamId: Long) {
+    fun changeSelectedTeam(teamId: Long): Boolean {
+        val result: Boolean
+
         if (teamId == 0L) {
             selectedPosition = RecyclerView.NO_POSITION
             notifyDataSetChanged()
+            result = true
         } else {
             val position = teams.indexOfFirst { it.id == teamId }
 
-            if (position > -1) {
+            result = if (position > -1) {
                 changeSelectionState(position)
+                true
+            } else {
+                false
             }
         }
+
+        return result
     }
 
     /** Update the teams list

@@ -70,7 +70,7 @@ class NotificationsPanel: BasePanel(), ITemporaryPanel {
         Utils.getPanelAdapter().displayTemporaryPanel(ManageTeamsPanel())
 
         // After that preselect the team and redirect to edit team
-        Utils.getPanelAdapter().getManageTeamsPanel()!!.setAutoSelectTeam(teamId)
+        Utils.getPanelAdapter().getManageTeamsPanel()!!.setAutoSelectTeam(teamId, Constants.ViewTeamAs.COACH)
     }
 
     /** Send request to delete notification

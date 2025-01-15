@@ -25,8 +25,8 @@ import com.example.fitnessapp.network.repositories.WorkoutRepository
 import com.example.fitnessapp.panels.BaseExercisePanel
 import com.example.fitnessapp.panels.ManageExercisesPanel
 import com.example.fitnessapp.panels.ManageTeamsPanel
-import com.example.fitnessapp.panels.NotificationsPanel
 import com.example.fitnessapp.panels.ManageTemplatesPanel
+import com.example.fitnessapp.panels.NotificationsPanel
 import com.example.fitnessapp.utils.Utils
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayout

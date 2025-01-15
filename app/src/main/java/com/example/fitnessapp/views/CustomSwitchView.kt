@@ -58,8 +58,6 @@ class CustomSwitchView @JvmOverloads constructor(ctx: Context, attrs: AttributeS
 
     /** Set the text appearance based on the selected text */
     private fun setSelectedIndicator() {
-        // Adjust the duration as needed (milliseconds)
-
         if (selected == Selected.LEFT) {
             changeTextView(rightText)
             changeTextView(leftText, R.drawable.background_select_view_left)
