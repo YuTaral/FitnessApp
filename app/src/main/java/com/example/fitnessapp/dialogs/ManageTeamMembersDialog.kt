@@ -52,6 +52,8 @@ class ManageTeamMembersDialog(ctx: Context, team: TeamModel, teamMembers: List<T
         })
 
         teamMembersCount.text = String.format(Utils.getActivity().getString(R.string.team_members_lbl), members.size)
+
+        searchResultLbl.text = String.format(Utils.getActivity().getString(R.string.search_results_lbl), 0)
     }
 
     override fun addClickListeners() {
@@ -95,7 +97,7 @@ class ManageTeamMembersDialog(ctx: Context, team: TeamModel, teamMembers: List<T
                 searchResultLbl.text = String.format(Utils.getActivity().getString(R.string.no_users_found), search.text)
                 searchResultRecycler.visibility = View.GONE
             } else {
-                searchResultLbl.text = Utils.getActivity().getString(R.string.search_results_lbl)
+                searchResultLbl.text = String.format(Utils.getActivity().getString(R.string.search_results_lbl), members.size)
                 searchResultRecycler.visibility = View.VISIBLE
 
                 if (searchResultRecycler.adapter == null) {
