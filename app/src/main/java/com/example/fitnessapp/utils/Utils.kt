@@ -69,7 +69,16 @@ object Utils {
      * @param duration duration - short / long, long by default
      */
     fun showMessage(message: String, duration: Int = BaseTransientBottomBar.LENGTH_LONG) {
-        val snackBarContainer = Snackbar.make(getActivity().findViewById(R.id.user_message), message, duration)
+        // Show the message inside the dialog if there is active dialog, if not show it in the activity
+        // The message is displayed in the top part of the screen and we don't want to hide it
+        // in case there is active dialog and keyboard is opened
+        val snackBarContainer = if (getActivity().activeDialogs.isNotEmpty()) {
+            val activeDialog = getActivity().activeDialogs[0]
+            Snackbar.make(activeDialog.findViewById(R.id.user_message), message, duration)
+        } else {
+            Snackbar.make(getActivity().findViewById(R.id.user_message), message, duration)
+        }
+
         val textView = snackBarContainer.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
 
         // Customizing position for top positioning

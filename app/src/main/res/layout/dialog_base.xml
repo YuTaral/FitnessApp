@@ -5,6 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <include
+        android:id="@+id/user_message"
+        layout="@layout/user_message_layout"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone" />
+
     <TextView
         android:id="@+id/dialog_title"
         android:layout_width="0dp"
