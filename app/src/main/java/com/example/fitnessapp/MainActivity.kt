@@ -104,8 +104,11 @@ class MainActivity : BaseActivity() {
         addRefreshSwipeUp()
     }
 
-    /** Add listener for swipe up to refresh the notifications */
+    /** Add listener for swipe up to refresh the notifications and set the style of the spinner */
     private fun addRefreshSwipeUp() {
+        swipeRefreshLayout.setColorSchemeColors(getColor(R.color.colorAccent))
+        swipeRefreshLayout.setSize(SwipeRefreshLayout.LARGE)
+
         swipeRefreshLayout.setOnRefreshListener {
             NotificationRepository().refreshNotifications(
                 onResponse = {
@@ -362,9 +365,7 @@ class MainActivity : BaseActivity() {
         }
 
         // If the notifications panel is currently active, update the data
-        if (Utils.getPanelAdapter().getNotificationsPanel() != null) {
-            Utils.getPanelAdapter().getNotificationsPanel()!!.populatePanel()
-        }
+        Utils.getPanelAdapter().getNotificationsPanel()?.populatePanel()
     }
 
     /** Set the active tab (Notifications) to null */
