@@ -23,7 +23,6 @@ class WorkoutTemplateRepository {
 
     /** Fetch workout templates which has been added by the user
      * @param onSuccess callback to execute if request is successful
-     * @param onError callback to execute if request failed
      */
     fun getWorkoutTemplates(onSuccess: (List<String>) -> Unit) {
         NetworkManager.sendRequest(

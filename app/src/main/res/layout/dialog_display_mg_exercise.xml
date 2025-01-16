@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:layout_margin="15dp"
-        app:layout_constraintTop_toBottomOf="@+id/exercise_original_name">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/mg_exercise_description"
