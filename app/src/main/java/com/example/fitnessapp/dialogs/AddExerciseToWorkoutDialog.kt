@@ -20,35 +20,33 @@ import com.google.android.material.textfield.TextInputLayout
 @SuppressLint("InflateParams")
 class AddExerciseToWorkoutDialog(ctx: Context, exercise: MGExerciseModel, values: UserDefaultValuesModel): BaseDialog(ctx) {
     override var layoutId = R.layout.dialog_add_exercise
-    override var dialogTitleId = R.string.add_exercise_lbl
+    override var dialogTitleId = 0
 
     private var exerciseToAdd = exercise
     private var defaultValues = values
 
-    private lateinit var name: EditText
     private lateinit var notes: EditText
     private lateinit var sets: EditText
     private lateinit var reps: EditText
     private lateinit var weight: EditText
     private lateinit var rest: EditText
     private lateinit var exerciseCompleted: CheckBox
-    private lateinit var saveBtn: Button
+    private lateinit var addBtn: Button
 
     override fun findViews() {
         super.findViews()
 
-        name = dialog.findViewById<TextInputLayout>(R.id.exercise_name).editText!!
         notes = dialog.findViewById<TextInputLayout>(R.id.notes).editText!!
         sets = dialog.findViewById<TextInputLayout>(R.id.exercise_sets).editText!!
         reps = dialog.findViewById<TextInputLayout>(R.id.set_reps).editText!!
         weight = dialog.findViewById<TextInputLayout>(R.id.exercise_weight).editText!!
         rest = dialog.findViewById<TextInputLayout>(R.id.rest_txt).editText!!
         exerciseCompleted = dialog.findViewById(R.id.complete_exercise)
-        saveBtn = dialog.findViewById(R.id.save_btn)
+        addBtn = dialog.findViewById(R.id.add_btn)
     }
 
     override fun populateDialog() {
-        name.setText(exerciseToAdd.name)
+        title.text = exerciseToAdd.name
 
         if (defaultValues.sets > 0) {
             sets.setText(defaultValues.sets.toString())
@@ -72,7 +70,7 @@ class AddExerciseToWorkoutDialog(ctx: Context, exercise: MGExerciseModel, values
     override fun addClickListeners() {
         super.addClickListeners()
 
-        saveBtn.setOnClickListener { save() }
+        addBtn.setOnClickListener { save() }
     }
 
     /** Executed on Save button click */
@@ -85,8 +83,8 @@ class AddExerciseToWorkoutDialog(ctx: Context, exercise: MGExerciseModel, values
     }
 
     /** Validate the data in the dialog when save is clicked and exercise is being added to the workout */
-    private fun validateExercise(): ExerciseModel? {
-        val exerciseName = name.text.toString()
+    private fun createExerciseModel(): ExerciseModel {
+        val exerciseName = title.text.toString()
         var exerciseSets = 0
         var setReps = 0
         var setRest = 0
@@ -104,12 +102,6 @@ class AddExerciseToWorkoutDialog(ctx: Context, exercise: MGExerciseModel, values
 
         if (rest.text.toString().isNotEmpty()) {
             setRest = rest.text.toString().toInt()
-        }
-
-        // Validate Name
-        if (exerciseName.isEmpty()) {
-            Utils.validationFailed(name, R.string.error_msg_enter_ex_name)
-            return null
         }
 
         val model = MuscleGroupModel(exerciseToAdd.muscleGroupId)

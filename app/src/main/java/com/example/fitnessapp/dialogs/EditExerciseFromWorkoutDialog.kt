@@ -24,14 +24,13 @@ import com.google.android.material.textfield.TextInputLayout
 @SuppressLint("InflateParams")
 class EditExerciseFromWorkoutDialog(ctx: Context, exerciseModel: ExerciseModel): BaseDialog(ctx) {
     override var layoutId = R.layout.dialog_edit_exercise
-    override var dialogTitleId = R.string.edit_exercise_lbl
+    override var dialogTitleId = 0
 
     private var exercise = exerciseModel
     private var deletingSets = false
 
-    private lateinit var name: EditText
     private lateinit var notes: EditText
-    private lateinit var questionMark: ImageView
+    private lateinit var informationImg: ImageView
     private lateinit var weightLbl: TextView
     private lateinit var setsScroller: ScrollView
     private lateinit var setsContainer: LinearLayout
@@ -45,9 +44,8 @@ class EditExerciseFromWorkoutDialog(ctx: Context, exerciseModel: ExerciseModel):
     override fun findViews() {
         super.findViews()
 
-        name = dialog.findViewById<TextInputLayout>(R.id.exercise_name).editText!!
         notes = dialog.findViewById<TextInputLayout>(R.id.notes).editText!!
-        questionMark = dialog.findViewById(R.id.question_mark)
+        informationImg = dialog.findViewById(R.id.question_mark)
         weightLbl = dialog.findViewById(R.id.weight_lbl)
         setsScroller = dialog.findViewById(R.id.sets_scroller)
         setsContainer = dialog.findViewById(R.id.sets_linear_container)
@@ -59,12 +57,12 @@ class EditExerciseFromWorkoutDialog(ctx: Context, exerciseModel: ExerciseModel):
     }
 
     override fun populateDialog() {
-        name.setText(exercise.name)
+        title.text = exercise.name
 
         notes.setText(exercise.notes)
 
         if (exercise.mGExerciseId == null) {
-            questionMark.visibility = View.GONE
+            informationImg.visibility = View.GONE
         }
 
         weightLbl.text = String.format(Utils.getActivity().getString(R.string.weight_in_unit_lbl),
@@ -85,7 +83,7 @@ class EditExerciseFromWorkoutDialog(ctx: Context, exerciseModel: ExerciseModel):
         }
 
         if (exercise.mGExerciseId != null) {
-            questionMark.setOnClickListener {
+            informationImg.setOnClickListener {
                 showExerciseDescription()
             }
         }
@@ -121,14 +119,8 @@ class EditExerciseFromWorkoutDialog(ctx: Context, exerciseModel: ExerciseModel):
 
     /** Executed on Save button click */
     private fun save(){
-        // Validate exercise name
-        if (name.text.isEmpty()) {
-            Utils.validationFailed(name, R.string.error_msg_enter_exercise_name)
-            return
-        }
-
         // Edit the exercise, passing empty MuscleGroup object, it is not needed server side
-        val exerciseModel = ExerciseModel(exercise.id, name.text.toString(), MuscleGroupModel(),
+        val exerciseModel = ExerciseModel(exercise.id, title.text.toString(), MuscleGroupModel(),
                             setsAdapter.getSetsData(), exercise.mGExerciseId, notes.text.toString())
 
         ExerciseRepository().updateExerciseFromWorkout(exerciseModel, onSuccess = { workout ->

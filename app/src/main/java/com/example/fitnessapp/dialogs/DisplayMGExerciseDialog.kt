@@ -14,21 +14,16 @@ class DisplayMGExerciseDialog(ctx: Context, exName: String, data: MGExerciseMode
     private var exerciseName = exName
     private var model = data
 
-    private lateinit var originalName: TextView
     private lateinit var description: TextView
 
     override fun findViews() {
         super.findViews()
 
-        originalName = dialog.findViewById(R.id.exercise_original_name)
         description = dialog.findViewById(R.id.mg_exercise_description)
     }
 
     override fun populateDialog() {
         title.text = exerciseName
-
-        originalName.text = String.format(Utils.getActivity().getString(R.string.original_name_lbl),
-                                            model.name)
 
         if (model.description.isEmpty()) {
             description.text = Utils.getActivity().getString(R.string.no_description_for_ex_lbl)

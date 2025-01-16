@@ -5,45 +5,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/exercise_name"
+        android:id="@+id/notes"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
-        android:hint="@string/exercise_name_lbl"
+        android:hint="@string/additional_notes_lbl"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/question_mark">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textCapSentences"
-            android:autofillHints=""
-            android:imeOptions="actionNext"
-            android:nextFocusDown="@+id/exercise_sets"/>
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <ImageView
-        android:id="@+id/question_mark"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginEnd="15dp"
-        android:importantForAccessibility="no"
-        android:background="@drawable/icon_question_mark"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/exercise_name"
-        app:layout_constraintBottom_toBottomOf="@+id/exercise_name"/>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/notes"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:hint="@string/additional_notes_lbl"
-        app:layout_constraintTop_toBottomOf="@+id/exercise_name">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -56,6 +26,17 @@
             android:autofillHints="" />
 
     </com.google.android.material.textfield.TextInputLayout>
+
+    <ImageView
+        android:id="@+id/question_mark"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="10dp"
+        android:importantForAccessibility="no"
+        android:background="@drawable/icon_information"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/notes"
+        app:layout_constraintBottom_toBottomOf="@id/notes"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/sets_container"

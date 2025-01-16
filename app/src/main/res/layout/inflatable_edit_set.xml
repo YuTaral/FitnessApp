@@ -9,7 +9,6 @@
         android:id="@+id/remove_set"
         android:layout_width="35dp"
         android:layout_height="35dp"
-        android:layout_marginStart="10dp"
         android:importantForAccessibility="no"
         android:background="@drawable/icon_delete_set"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,7 +18,7 @@
 
     <CheckBox
         android:id="@+id/completed"
-        android:layout_width="60dp"
+        android:layout_width="30dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -30,6 +29,7 @@
         android:id="@+id/reps_number_txt"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
         app:layout_constraintStart_toEndOf="@+id/completed"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -46,7 +46,7 @@
         android:id="@+id/weight_txt"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="22dp"
         app:layout_constraintStart_toEndOf="@+id/reps_number_txt"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -71,8 +71,8 @@
             style="@style/InputLessPadding"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="numberDecimal"
-            android:importantForAutofill="no"/>
+            android:importantForAutofill="no"
+            android:inputType="numberDecimal" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
