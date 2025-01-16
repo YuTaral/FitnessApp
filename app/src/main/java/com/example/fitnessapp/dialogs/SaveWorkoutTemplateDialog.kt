@@ -63,6 +63,7 @@ class SaveWorkoutTemplateDialog(ctx: Context): BaseDialog(ctx) {
 
         WorkoutTemplateRepository().addWorkoutTemplate(template, onSuccess =  {
             dismiss()
+            Utils.getPanelAdapter().getManageTemplatesPanel()?.populateTemplates()
         })
     }
 }

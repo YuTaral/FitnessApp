@@ -14,6 +14,7 @@ import com.example.fitnessapp.panels.BasePanel
 import com.example.fitnessapp.panels.BaseTeamPanel
 import com.example.fitnessapp.panels.ManageExercisesPanel
 import com.example.fitnessapp.panels.ManageTeamsPanel
+import com.example.fitnessapp.panels.ManageTemplatesPanel
 import com.example.fitnessapp.panels.NotificationsPanel
 import com.example.fitnessapp.panels.SelectedWorkoutPanel
 import com.example.fitnessapp.panels.WorkoutsPanel
@@ -126,6 +127,9 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
 
     /** Return the temporary panel instance as ManageTeamsPanel */
     fun getManageTeamsPanel(): ManageTeamsPanel? = getTemporaryPanelAs(Constants.PanelIndices.TEMPORARY.ordinal)
+
+    /** Return the temporary panel instance as ManageTemplatesPanel */
+    fun getManageTemplatesPanel(): ManageTemplatesPanel? = getTemporaryPanelAs(Constants.PanelIndices.TEMPORARY.ordinal)
 
     /** Return the temporary panel instance as NotificationsPanel */
     fun getNotificationsPanel(): NotificationsPanel? = getTemporaryPanelAs(Constants.PanelIndices.TEMPORARY.ordinal)

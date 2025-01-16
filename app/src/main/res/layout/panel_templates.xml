@@ -16,6 +16,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
+    <TextView
+        android:id="@+id/no_templates_lbl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:text="@string/no_templates"
+        android:textColor="@color/colorTextSecondary"
+        android:background="@drawable/background_rounded_transparent"
+        app:layout_constraintTop_toBottomOf="@+id/template_list_action_spinner"
+        android:visibility="gone" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/templates_recycler"
         android:layout_width="match_parent"

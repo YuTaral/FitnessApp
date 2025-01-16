@@ -106,6 +106,7 @@
     <string name="weight_unit_lb_lbl">Lb</string>
     <string name="weight_unit_kg_lbl">Kg</string>
     <string name="no_workouts">You don\'t have any workouts in the selected time period</string>
+    <string name="no_templates">You don\'t have any workout templates. To create your first template, select workout and select \"Save workout as template\" option from the right menu</string>
     <string name="completed_def_value_lbl">Completed</string>
     <string name="question_delete_workout_title">Delete Workout</string>
     <string name="question_delete_workout_text">Are you sure you want to delete workout \"%s\" ?</string>
@@ -167,7 +168,7 @@
     <string name="team_members_lbl">Team members (%s)</string>
     <string name="other_members_lbl">Other members (%s)</string>
     <string name="search_results_lbl">Search results (%s)</string>
-    <string name="enter_user_email_or_name_lbl">Please enter user email / name</string>
+    <string name="enter_user_email_or_name_lbl">Please enter user member name</string>
     <string name="no_users_found">There are no user with name \"%s\" valid for invitation (user does not exist or invitation already send)</string>
     <string name="invited_lbl">Invited</string>
     <string name="in_team_lbl">Joined</string>

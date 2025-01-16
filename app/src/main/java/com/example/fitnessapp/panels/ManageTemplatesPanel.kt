@@ -1,7 +1,9 @@
 package com.example.fitnessapp.panels
 
+import android.view.View
 import android.widget.Button
 import android.widget.Spinner
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fitnessapp.R
 import com.example.fitnessapp.adapters.CustomSpinnerAdapter
@@ -24,12 +26,14 @@ class ManageTemplatesPanel: BasePanel(), ITemporaryPanel {
     override val removePreviousTemporary = true
 
     private lateinit var actionSpinner: Spinner
+    private lateinit var noTemplatesLbl: TextView
     private lateinit var templatesRecycler: RecyclerView
     private lateinit var closeBtn: Button
     private val startWorkoutIndex = 0
 
     override fun findViews() {
         actionSpinner = panel.findViewById(R.id.template_list_action_spinner)
+        noTemplatesLbl = panel.findViewById(R.id.no_templates_lbl)
         templatesRecycler = panel.findViewById(R.id.templates_recycler)
         closeBtn = panel.findViewById(R.id.cancel_btn)
     }
@@ -46,36 +50,48 @@ class ManageTemplatesPanel: BasePanel(), ITemporaryPanel {
         // Pre-select 'Start workout'
         actionSpinner.setSelection(startWorkoutIndex)
 
-        // Get the templates and populate the recycler
-        WorkoutTemplateRepository().getWorkoutTemplates(onSuccess = { serializedTemplates ->
-            val templates: MutableList<WorkoutModel> = serializedTemplates.map { WorkoutModel(it) }.toMutableList()
-
-            templatesRecycler.adapter = WorkoutsRecAdapter(templates, onClick = { template ->
-
-                if (actionSpinner.selectedItemPosition == startWorkoutIndex) {
-                    // Start workout is at index 1
-                    AddEditWorkoutDialog(requireContext(), AddEditWorkoutDialog.Mode.ADD, template).show()
-
-                } else  {
-                    // Delete the question otherwise
-                    val dialog = AskQuestionDialog(requireContext(), AskQuestionDialog.Question.DELETE_TEMPLATE, template)
-
-                    dialog.setConfirmButtonCallback(callback = {
-                        WorkoutTemplateRepository().deleteWorkoutTemplate(template.id, onSuccess = {
-                            (templatesRecycler.adapter as WorkoutsRecAdapter).removeTemplate(template)
-                            dialog.dismiss()
-                        })
-                    })
-
-                    dialog.show()
-                }
-            })
-        }, onError = {
-            Utils.getPanelAdapter().refreshWorkoutPanel(null)
-        })
+        populateTemplates()
     }
 
     override fun addClickListeners() {
         closeBtn.setOnClickListener { Utils.getPanelAdapter().refreshWorkoutPanel(null) }
+    }
+
+    /** Populate templates recycler */
+     fun populateTemplates() {
+        // Get the templates and populate the recycler
+        WorkoutTemplateRepository().getWorkoutTemplates(onSuccess = { serializedTemplates ->
+            if (serializedTemplates.isEmpty()) {
+                templatesRecycler.visibility = View.GONE
+                noTemplatesLbl.visibility = View.VISIBLE
+
+            } else {
+                noTemplatesLbl.visibility = View.GONE
+                templatesRecycler.visibility = View.VISIBLE
+
+                val templates: MutableList<WorkoutModel> = serializedTemplates.map { WorkoutModel(it) }.toMutableList()
+
+                templatesRecycler.adapter = WorkoutsRecAdapter(templates, onClick = { template ->
+
+                    if (actionSpinner.selectedItemPosition == startWorkoutIndex) {
+                        // Start workout is at index 1
+                        AddEditWorkoutDialog(requireContext(), AddEditWorkoutDialog.Mode.ADD, template).show()
+
+                    } else  {
+                        // Delete the question otherwise
+                        val dialog = AskQuestionDialog(requireContext(), AskQuestionDialog.Question.DELETE_TEMPLATE, template)
+
+                        dialog.setConfirmButtonCallback(callback = {
+                            WorkoutTemplateRepository().deleteWorkoutTemplate(template.id, onSuccess = {
+                                dialog.dismiss()
+                                populateTemplates()
+                            })
+                        })
+
+                        dialog.show()
+                    }
+                })
+            }
+        })
     }
 }

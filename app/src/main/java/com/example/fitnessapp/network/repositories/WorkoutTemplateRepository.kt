@@ -25,11 +25,10 @@ class WorkoutTemplateRepository {
      * @param onSuccess callback to execute if request is successful
      * @param onError callback to execute if request failed
      */
-    fun getWorkoutTemplates(onSuccess: (List<String>) -> Unit, onError: () -> Unit) {
+    fun getWorkoutTemplates(onSuccess: (List<String>) -> Unit) {
         NetworkManager.sendRequest(
             request = { APIService.getInstance().getWorkoutTemplates() },
-            onSuccessCallback = { response -> onSuccess(response.data) },
-            onErrorCallback = { onError() }
+            onSuccessCallback = { response -> onSuccess(response.data) }
         )
     }
 

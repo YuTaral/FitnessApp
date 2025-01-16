@@ -46,13 +46,6 @@ class WorkoutsRecAdapter (data: List<WorkoutModel>, onClick: (WorkoutModel) -> U
         }
     }
 
-    /** Remove the specified template and re-populates the recycler */
-    @SuppressLint("NotifyDataSetChanged")
-    fun removeTemplate(template: WorkoutModel) {
-        workouts.remove(template)
-        notifyDataSetChanged()
-    }
-
     /** Class to represent workout item view holder - each workout */
     class ViewHolder(view: View): RecyclerView.ViewHolder(view)  {
         private var workoutContainer: ConstraintLayout = itemView.findViewById(R.id.workout_container)
