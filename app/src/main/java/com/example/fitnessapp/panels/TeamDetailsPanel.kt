@@ -5,6 +5,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fitnessapp.R
 import com.example.fitnessapp.adapters.TeamMembersRecAdapter
+import com.example.fitnessapp.dialogs.AskQuestionDialog
 import com.example.fitnessapp.interfaces.ITemporaryPanel
 import com.example.fitnessapp.models.TeamCoachModel
 import com.example.fitnessapp.models.TeamMemberModel
@@ -76,5 +77,27 @@ class TeamDetailsPanel(t: TeamModel): BasePanel(), ITemporaryPanel {
     }
 
     override fun addClickListeners() {
+        leaveBtn.setOnClickListener {
+            leaveTeam()
+        }
+    }
+
+    /** Send leave team request */
+    private fun leaveTeam() {
+        val dialog = AskQuestionDialog(requireContext(), AskQuestionDialog.Question.LEAVE_TEAM, team)
+
+        dialog.setConfirmButtonCallback {
+            TeamRepository().leaveTeam(team.id, onSuccess = {
+                dialog.dismiss()
+
+                // Set refresh the teams variable
+                Utils.getPanelAdapter().getManageTeamsPanel()!!.setRefreshTeams(true)
+
+                // Remove the current panel
+                Utils.getPanelAdapter().removeTemporaryPanels(Constants.PanelIndices.ANOTHER_TEMPORARY.ordinal)
+            })
+        }
+
+        dialog.show()
     }
 }

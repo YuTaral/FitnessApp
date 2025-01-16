@@ -209,5 +209,7 @@
     <string name="coach_s_lbl">Coach %s</string>
     <string name="no_my_teams_lbl">You don\'t have any teams. Click Add Team to create your first team</string>
     <string name="no_joined_teams_lbl">You are not a member of any team</string>
+    <string name="question_leave_team_title">Leave Team</string>
+    <string name="question_leave_team_text">Are you sure you want to leave team \"%s\" ?</string>
 
 </resources>

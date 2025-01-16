@@ -158,7 +158,7 @@ class ManageTeamsPanel: BasePanel(), ITemporaryPanel {
 
             // Check if we need to auto select team
             if (autoSelectTeamId > 0) {
-                (teamsRecycler.adapter as TeamsRecAdapter).changeSelectedTeam(autoSelectTeamId)
+                getAdapter()!!.changeSelectedTeam(autoSelectTeamId)
                 editTeamBtn.isEnabled = true
                 editTeamBtn.callOnClick()
                 autoSelectTeamId = 0

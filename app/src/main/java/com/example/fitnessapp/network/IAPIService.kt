@@ -122,6 +122,9 @@ interface IAPIService {
     @POST(Constants.RequestEndPoints.DELETE_TEAM)
     fun deleteTeam(@Query("teamId") teamId: Long): Call<CustomResponse>
 
+    @POST(Constants.RequestEndPoints.LEAVE_TEAM)
+    fun leaveTeam(@Query("teamId") teamId: Long): Call<CustomResponse>
+
     @POST(Constants.RequestEndPoints.INVITE_MEMBER)
     fun inviteMember(@Query("userId") userId: String, @Query("teamId") teamId: Long): Call<CustomResponse>
 

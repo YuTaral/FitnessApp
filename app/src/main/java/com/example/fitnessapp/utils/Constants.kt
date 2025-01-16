@@ -100,6 +100,7 @@ object Constants {
         const val ADD_TEAM  = "$TEAM/add"
         const val UPDATE_TEAM  = "$TEAM/update"
         const val DELETE_TEAM  = "$TEAM/delete"
+        const val LEAVE_TEAM  = "$TEAM/leave"
         const val INVITE_MEMBER  = "$TEAM/invite-member"
         const val REMOVE_MEMBER  = "$TEAM/remove-member"
         const val ACCEPT_TEAM_INVITE  = "$TEAM/accept-invite"

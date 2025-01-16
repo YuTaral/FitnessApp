@@ -52,6 +52,17 @@ class TeamRepository {
         )
     }
 
+    /** Leave the team
+     * @param teamId the team id
+     * @param onSuccess callback to execute if request is successful
+     */
+    fun leaveTeam(teamId: Long, onSuccess: () -> Unit) {
+        NetworkManager.sendRequest(
+            request = { APIService.getInstance().leaveTeam(teamId) },
+            onSuccessCallback = { onSuccess() }
+        )
+    }
+
     /** Invite member to team
      * @param userId the user id to invite
      * @param teamId the team id
