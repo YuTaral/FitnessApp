@@ -75,7 +75,7 @@ class AddExerciseToWorkoutDialog(ctx: Context, exercise: MGExerciseModel, values
 
     /** Executed on Save button click */
     private fun save() {
-        val exercise = validateExercise() ?: return
+        val exercise = createExerciseModel()
         ExerciseRepository().addExerciseToWorkout(exercise, onSuccess = { workout ->
             dismiss()
             Utils.getPanelAdapter().refreshWorkoutPanel(workout, true)
