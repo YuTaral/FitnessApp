@@ -121,8 +121,33 @@ class CustomSwitchView @JvmOverloads constructor(ctx: Context, attrs: AttributeS
         }
     }
 
+    /** Switch the selected value */
+    fun switch() {
+        if (selected == Selected.LEFT) {
+            rightText.performClick()
+        } else {
+            leftText.performClick()
+        }
+    }
+
     /** Return the selected text as LEFT / RIGHT */
     fun getSelected(): Selected {
         return selected
+    }
+
+    /** Return the selected text value */
+    fun getSelectedText(): String {
+        return if (selected == Selected.LEFT) {
+            leftText.text.toString()
+        } else {
+            rightText.text.toString()
+        }
+    }
+
+    /** Disable the switch */
+    fun disable() {
+        alpha = 0.5f
+        leftText.setOnClickListener(null)
+        rightText.setOnClickListener(null)
     }
 }

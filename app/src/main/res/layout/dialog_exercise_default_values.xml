@@ -90,38 +90,26 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
-        android:id="@+id/weight_unit_lbl"
-        android:layout_width="wrap_content"
+    <com.example.fitnessapp.views.CustomSwitchView
+        android:id="@+id/weigh_unit_selector"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:text="@string/weight_unit_lbl"
-        android:labelFor="@+id/exercise_weight"
-        app:layout_constraintTop_toTopOf="@id/weight_unit"
-        app:layout_constraintBottom_toBottomOf="@+id/weight_unit"
-        app:layout_constraintStart_toStartOf="parent"/>
-
-    <Spinner
-        android:id="@+id/weight_unit"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="15dp"
-        android:background="@drawable/background_spinner"
-        android:popupBackground="@drawable/background_spinner_window"
-        android:spinnerMode="dropdown"
-        app:layout_constraintStart_toEndOf="@+id/weight_unit_lbl"
-        app:layout_constraintTop_toBottomOf="@+id/exercise_weight"/>
+        android:layout_marginTop="10dp"
+        app:leftText="@string/weight_unit_kg_lbl"
+        app:rightText="@string/weight_unit_lb_lbl"
+        app:layout_constraintTop_toBottomOf="@+id/exercise_weight"
+        app:layout_constraintStart_toStartOf="@+id/exercise_weight"
+        app:layout_constraintEnd_toEndOf="@+id/exercise_weight"/>
 
     <CheckBox
         android:id="@+id/complete_exercise"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
         android:text="@string/completed_lbl"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/weight_unit_lbl"
-        app:layout_constraintBottom_toBottomOf="@+id/weight_unit_lbl"/>
+        app:layout_constraintEnd_toEndOf="@+id/rest_txt"
+        app:layout_constraintStart_toStartOf="@+id/rest_txt"
+        app:layout_constraintTop_toTopOf="@+id/weigh_unit_selector"
+        app:layout_constraintBottom_toBottomOf="@+id/weigh_unit_selector"/>
 
     <Button
         android:id="@+id/save_btn"
@@ -130,7 +118,7 @@
         android:layout_marginTop="15dp"
         android:text="@string/save_btn"
         android:background="@drawable/background_top_border"
-        app:layout_constraintTop_toBottomOf="@+id/weight_unit"
+        app:layout_constraintTop_toBottomOf="@+id/weigh_unit_selector"
         style="@style/DialogButtonStyle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

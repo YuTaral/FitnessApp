@@ -4,14 +4,13 @@ import android.content.Context
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
-import android.widget.Spinner
 import com.example.fitnessapp.R
-import com.example.fitnessapp.adapters.CustomSpinnerAdapter
 import com.example.fitnessapp.managers.AppStateManager
 import com.example.fitnessapp.models.UserDefaultValuesModel
 import com.example.fitnessapp.models.WeightUnitModel
 import com.example.fitnessapp.network.repositories.UserProfileRepository
 import com.example.fitnessapp.utils.Utils
+import com.example.fitnessapp.views.CustomSwitchView
 import com.google.android.material.textfield.TextInputLayout
 
 /** DefaultValuesDialog to enter user default values for exercise (sets, reps and weights) */
@@ -27,7 +26,7 @@ class DefaultValuesDialog(ctx: Context, values: UserDefaultValuesModel, weightUn
     private lateinit var weight: EditText
     private lateinit var rest: EditText
     private lateinit var completed: CheckBox
-    private lateinit var weightUnit: Spinner
+    private lateinit var weightUnitSwitch: CustomSwitchView
     private lateinit var saveBtn: Button
 
     override fun findViews() {
@@ -38,14 +37,11 @@ class DefaultValuesDialog(ctx: Context, values: UserDefaultValuesModel, weightUn
         weight = dialog.findViewById<TextInputLayout>(R.id.exercise_weight).editText!!
         rest = dialog.findViewById<TextInputLayout>(R.id.rest_txt).editText!!
         completed = dialog.findViewById(R.id.complete_exercise)
-        weightUnit = dialog.findViewById(R.id.weight_unit)
+        weightUnitSwitch = dialog.findViewById(R.id.weigh_unit_selector)
         saveBtn = dialog.findViewById(R.id.save_btn)
     }
 
     override fun populateDialog() {
-        val ctx = Utils.getActivity()
-        var spinnerDefaultIndex: Int
-
         if (defaultValues.sets > 0) {
             sets.setText(defaultValues.sets.toString())
         }
@@ -64,31 +60,15 @@ class DefaultValuesDialog(ctx: Context, values: UserDefaultValuesModel, weightUn
             weight.setText(Utils.formatDouble(defaultValues.weight))
         }
 
-        // Create the units displayed in the spinner
-        // If we are editing non-exercise specific values, display the data from the weightUnitsData
-        // If we are editing values for specific exercise, just display the user default weight unit,
-        // as we cannot change it - the spinner must be disabled.
-        val units: MutableList<String> = mutableListOf()
-
-        if (defaultValues.mGExerciseId == 0L) {
-            units.addAll(weightUnitsData!!.map { it.text })
-        } else {
-            units.add(AppStateManager.user!!.defaultValues.weightUnit.text)
-
-            // Add opacity to make sure the spinner looks like it's disabled
-            weightUnit.alpha = 0.5f
-            weightUnit.isEnabled = false
+        if (defaultValues.mGExerciseId > 0L) {
+            // Disable switch if we are editing exercise default values
+            weightUnitSwitch.disable()
         }
 
-        weightUnit.adapter = CustomSpinnerAdapter(ctx, false, units)
-
-        spinnerDefaultIndex = (weightUnit.adapter as CustomSpinnerAdapter).getItemIndex(defaultValues.weightUnit.text)
-
-        if (spinnerDefaultIndex < 0) {
-            spinnerDefaultIndex = 0
+        if (defaultValues.weightUnit.text != weightUnitSwitch.getSelectedText()) {
+            // Switch the selected value if it's not the correct one
+            weightUnitSwitch.switch()
         }
-
-        weightUnit.setSelection(spinnerDefaultIndex)
     }
 
     override fun addClickListeners() {
@@ -124,7 +104,7 @@ class DefaultValuesDialog(ctx: Context, values: UserDefaultValuesModel, weightUn
         if (defaultValues.mGExerciseId == 0L) {
             // If we are editing non-exercise specific values,
             // get the selected weight unit as it can be changed
-            selectedWeightUnit = weightUnitsData!!.find { it.text == weightUnit.selectedItem.toString() }
+            selectedWeightUnit = weightUnitsData!!.find { it.text == weightUnitSwitch.getSelectedText() }
         }
 
         val model = UserDefaultValuesModel(defaultValues.id, exerciseSets, setReps, exerciseWeight,
