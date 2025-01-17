@@ -44,11 +44,8 @@ class ManageExercisesPanel(mode: Mode): BaseExercisePanel(mode) {
 
     override fun populatePanel() {
         super.populatePanel()
-        actionSpinner.adapter = CustomSpinnerAdapter(panel.context, false, listOf(
-            SpinnerActions.UPDATE_EXERCISE.toString(),
-            SpinnerActions.DELETE_EXERCISE.toString(),
-            SpinnerActions.CHANGE_EXERCISE_DEFAULT_VALUES.toString()),
-        )
+        actionSpinner.adapter = CustomSpinnerAdapter(panel.context, false,
+                                                        SpinnerActions.entries.map { it.toString() })
     }
 
     override fun addClickListeners() {
