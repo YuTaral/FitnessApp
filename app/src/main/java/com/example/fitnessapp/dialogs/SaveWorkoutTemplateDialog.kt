@@ -6,7 +6,6 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import com.example.fitnessapp.R
-import com.example.fitnessapp.managers.AppStateManager
 import com.example.fitnessapp.models.WorkoutModel
 import com.example.fitnessapp.network.repositories.WorkoutTemplateRepository
 import com.example.fitnessapp.utils.Utils
@@ -14,7 +13,7 @@ import com.google.android.material.textfield.TextInputLayout
 
 /** Save workout template dialog to implement the logic to save the current workout as template */
 @SuppressLint("InflateParams")
-class SaveWorkoutTemplateDialog(ctx: Context): BaseDialog(ctx) {
+class SaveWorkoutTemplateDialog(ctx: Context, w: WorkoutModel): BaseDialog(ctx) {
     override var layoutId = R.layout.dialog_save_workout_template
     override var dialogTitleId = R.string.save_template_lbl
 
@@ -22,6 +21,8 @@ class SaveWorkoutTemplateDialog(ctx: Context): BaseDialog(ctx) {
     private lateinit var notes: EditText
     private lateinit var exercises: TextView
     private lateinit var saveBtn: Button
+
+    private var workout = w
 
     override fun findViews() {
         super.findViews()
@@ -33,9 +34,9 @@ class SaveWorkoutTemplateDialog(ctx: Context): BaseDialog(ctx) {
     }
 
     override fun populateDialog() {
-        templateName.setText(AppStateManager.workout!!.name)
-        notes.setText(AppStateManager.workout!!.notes)
-        exercises.text = AppStateManager.workout!!.exercises.joinToString (separator = ", ") { it.name }
+        templateName.setText(workout.name)
+        notes.setText(workout.notes)
+        exercises.text = workout.exercises.joinToString (separator = ", ") { it.name }
     }
 
     override fun addClickListeners() {
@@ -54,7 +55,7 @@ class SaveWorkoutTemplateDialog(ctx: Context): BaseDialog(ctx) {
 
         // Create template, changing the name and adding only the selected Muscle Groups
         val template = WorkoutModel(0, templateName.text.toString(), true,
-                                    AppStateManager.workout!!.exercises, notes.text.toString())
+                                    workout.exercises, notes.text.toString())
 
         // Mark all sets as uncompleted
         template.exercises.map { e ->

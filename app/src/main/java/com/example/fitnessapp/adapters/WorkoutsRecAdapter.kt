@@ -9,19 +9,21 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fitnessapp.R
+import com.example.fitnessapp.managers.AppStateManager
 import com.example.fitnessapp.models.ExerciseModel
 import com.example.fitnessapp.models.SetModel
 import com.example.fitnessapp.models.WorkoutModel
-import com.example.fitnessapp.managers.AppStateManager
 import com.example.fitnessapp.utils.Utils
 
 /** Recycler adapter to control the workouts data shown in the main panel */
 class WorkoutsRecAdapter (data: List<WorkoutModel>, onClick: (WorkoutModel) -> Unit) : RecyclerView.Adapter<WorkoutsRecAdapter.ViewHolder>() {
     private var workouts: MutableList<WorkoutModel> = mutableListOf()
+    private var filteredWorkouts: MutableList<WorkoutModel>
     private var onClickCallback: (WorkoutModel) -> Unit
 
     init {
         workouts.addAll(data)
+        filteredWorkouts = workouts
         onClickCallback = onClick
     }
 
@@ -33,11 +35,11 @@ class WorkoutsRecAdapter (data: List<WorkoutModel>, onClick: (WorkoutModel) -> U
     }
 
     override fun getItemCount(): Int {
-        return workouts.size
+        return filteredWorkouts.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val workout = workouts[position]
+        val workout = filteredWorkouts[position]
 
         if (workout.template) {
             holder.bindTemplate(workout, onClickCallback)
@@ -46,13 +48,26 @@ class WorkoutsRecAdapter (data: List<WorkoutModel>, onClick: (WorkoutModel) -> U
         }
     }
 
+    /** Filter the workouts by the provided text */
+    @SuppressLint("NotifyDataSetChanged")
+    fun filter(text: String) {
+        filteredWorkouts = if (text.isEmpty()) {
+            workouts
+        } else {
+            filteredWorkouts.filter { it.name.lowercase().contains(text) }.toMutableList()
+        }
+
+        notifyDataSetChanged()
+    }
+
     /** Class to represent workout item view holder - each workout */
     class ViewHolder(view: View): RecyclerView.ViewHolder(view)  {
         private var workoutContainer: ConstraintLayout = itemView.findViewById(R.id.workout_container)
         private var templateContainer: ConstraintLayout = itemView.findViewById(R.id.template_container)
         private var templateExercisesContainer: LinearLayout = itemView.findViewById(R.id.template_exercises_container)
         private var name: TextView = itemView.findViewById(R.id.workout_name_txt)
-        private var date: TextView = itemView.findViewById(R.id.workout_date_txt)
+        private var startedTime: TextView = itemView.findViewById(R.id.workout_date_txt)
+        private var finishedTime: TextView = itemView.findViewById(R.id.workout_finished_date_txt)
         private var statusValue: TextView = itemView.findViewById(R.id.current_workout_status_value_lbl)
         private var exercisesLlb: TextView = itemView.findViewById(R.id.exercises_lbl)
         private var exercises: TextView = itemView.findViewById(R.id.workout_exercises_summary_txt)
@@ -102,7 +117,14 @@ class WorkoutsRecAdapter (data: List<WorkoutModel>, onClick: (WorkoutModel) -> U
             statusValue.text = Utils.getActivity().getString(statusStringId)
             statusValue.setTextColor(Utils.getActivity().getColor(statusColorId))
 
-            date.text = Utils.defaultFormatDate(item.startDateTime!!)
+            startedTime.text = Utils.defaultFormatDateTime(item.startDateTime!!)
+
+            if (item.finishDateTime != null) {
+                finishedTime.visibility = View.VISIBLE
+                finishedTime.text = Utils.defaultFormatDateTime(item.finishDateTime!!)
+            } else {
+                finishedTime.visibility = View.INVISIBLE
+            }
 
             if (exercisesText.length > 2) {
                 exercisesLlb.visibility = View.VISIBLE

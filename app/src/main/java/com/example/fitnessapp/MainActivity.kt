@@ -227,7 +227,7 @@ class MainActivity : BaseActivity() {
             }
             R.id.nav_save_workout_template -> {
                 // Open the dialog to save the workout as template
-                SaveWorkoutTemplateDialog(this).show()
+                SaveWorkoutTemplateDialog(this, AppStateManager.workout!!).show()
             }
             R.id.nav_manage_templates -> {
                 // Display the Templates as temporary panel

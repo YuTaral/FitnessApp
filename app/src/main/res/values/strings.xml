@@ -75,6 +75,7 @@
     <string name="template_deleted">Template successfully deleted</string>
     <string name="action_start_workout_from_template">Start workout</string>
     <string name="action_delete_template">Delete template</string>
+    <string name="action_add_template">Add template</string>
     <string name="error_select_action">Please select template action from the dropdown</string>
     <string name="error_select_exercise_action">Please select exercise action from the dropdown</string>
     <string name="back_btn">Back</string>
@@ -106,7 +107,7 @@
     <string name="weight_unit_lb_lbl">Lb</string>
     <string name="weight_unit_kg_lbl">Kg</string>
     <string name="no_workouts">You don\'t have any workouts in the selected time period</string>
-    <string name="no_templates">You don\'t have any workout templates. To create your first template, select workout and select \"Save workout as template\" option from the right menu</string>
+    <string name="no_templates">You don\'t have any workout templates. To create your first template, select action \"Add template\" from the dropdown</string>
     <string name="completed_def_value_lbl">Completed</string>
     <string name="question_delete_workout_title">Delete Workout</string>
     <string name="question_delete_workout_text">Are you sure you want to delete workout \"%s\" ?</string>
