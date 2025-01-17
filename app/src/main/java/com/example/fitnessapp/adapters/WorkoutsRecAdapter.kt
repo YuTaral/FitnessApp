@@ -120,10 +120,9 @@ class WorkoutsRecAdapter (data: List<WorkoutModel>, onClick: (WorkoutModel) -> U
             startedTime.text = Utils.defaultFormatDateTime(item.startDateTime!!)
 
             if (item.finishDateTime != null) {
-                finishedTime.visibility = View.VISIBLE
                 finishedTime.text = Utils.defaultFormatDateTime(item.finishDateTime!!)
             } else {
-                finishedTime.visibility = View.INVISIBLE
+                finishedTime.text = ""
             }
 
             if (exercisesText.length > 2) {
