@@ -21,6 +21,19 @@ class WorkoutTemplateRepository {
         )
     }
 
+    /** Update the workout template
+     * @param workout the workout template data
+     * @param onSuccess callback to execute if request is successful
+     */
+    fun updateWorkoutTemplate(workout: WorkoutModel, onSuccess: () -> Unit) {
+        val params = mapOf("workout" to Utils.serializeObject(workout))
+
+        NetworkManager.sendRequest(
+            request = { APIService.getInstance().updateWorkoutTemplate(params) },
+            onSuccessCallback = { onSuccess() }
+        )
+    }
+
     /** Fetch workout templates which has been added by the user
      * @param onSuccess callback to execute if request is successful
      */

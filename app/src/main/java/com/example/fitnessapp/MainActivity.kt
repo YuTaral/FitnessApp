@@ -10,12 +10,12 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewpager2.widget.ViewPager2
 import com.example.fitnessapp.adapters.PanelAdapter
+import com.example.fitnessapp.dialogs.AddEditTemplateDialog
 import com.example.fitnessapp.dialogs.AskQuestionDialog
 import com.example.fitnessapp.dialogs.ChangePasswordDialog
 import com.example.fitnessapp.dialogs.DefaultValuesDialog
 import com.example.fitnessapp.dialogs.EditProfileDialog
 import com.example.fitnessapp.dialogs.FinishWorkoutDialog
-import com.example.fitnessapp.dialogs.SaveWorkoutTemplateDialog
 import com.example.fitnessapp.dialogs.SelectTimerDurationDialog
 import com.example.fitnessapp.managers.AppStateManager
 import com.example.fitnessapp.managers.PermissionResultManager
@@ -227,7 +227,7 @@ class MainActivity : BaseActivity() {
             }
             R.id.nav_save_workout_template -> {
                 // Open the dialog to save the workout as template
-                SaveWorkoutTemplateDialog(this, AppStateManager.workout!!).show()
+                AddEditTemplateDialog(this, AppStateManager.workout!!, AddEditTemplateDialog.Mode.ADD).show()
             }
             R.id.nav_manage_templates -> {
                 // Display the Templates as temporary panel

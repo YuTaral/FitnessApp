@@ -93,6 +93,7 @@ object Constants {
         const val GET_USER_DEFAULT_VALUES = "$USER_PROFILE/get-default-values"
 
         const val ADD_WORKOUT_TEMPLATE  = "$WORKOUT_TEMPLATE/add"
+        const val UPDATE_WORKOUT_TEMPLATE  = "$WORKOUT_TEMPLATE/update"
         const val DELETE_WORKOUT_TEMPLATE  = "$WORKOUT_TEMPLATE/delete"
         const val GET_WORKOUT_TEMPLATES  = "$WORKOUT_TEMPLATE/get-templates"
 

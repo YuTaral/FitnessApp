@@ -64,6 +64,7 @@
     <string name="actions_lbl">Actions</string>
     <string name="save_workout_as_template_lbl">Save workout as template</string>
     <string name="save_template_lbl">Save template</string>
+    <string name="update_template_lbl">Update template</string>
     <string name="template_name_lbl">Template Name</string>
     <string name="error_msg_no_workout_selected">No workout selected</string>
     <string name="error_msg_enter_template_name">Please enter workout template name</string>
@@ -76,6 +77,7 @@
     <string name="action_start_workout_from_template">Start workout</string>
     <string name="action_delete_template">Delete template</string>
     <string name="action_add_template">Add template</string>
+    <string name="action_update_template">Update template</string>
     <string name="error_select_action">Please select template action from the dropdown</string>
     <string name="error_select_exercise_action">Please select exercise action from the dropdown</string>
     <string name="back_btn">Back</string>

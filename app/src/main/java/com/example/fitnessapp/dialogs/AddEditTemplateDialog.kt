@@ -11,11 +11,13 @@ import com.example.fitnessapp.network.repositories.WorkoutTemplateRepository
 import com.example.fitnessapp.utils.Utils
 import com.google.android.material.textfield.TextInputLayout
 
-/** Save workout template dialog to implement the logic to save the current workout as template */
+/** Add / edit workout template dialog to implement the logic to save the workout as template
+ * or edit existing template
+ * */
 @SuppressLint("InflateParams")
-class SaveWorkoutTemplateDialog(ctx: Context, w: WorkoutModel): BaseDialog(ctx) {
+class AddEditTemplateDialog(ctx: Context, w: WorkoutModel, m: Mode): BaseDialog(ctx) {
     override var layoutId = R.layout.dialog_save_workout_template
-    override var dialogTitleId = R.string.save_template_lbl
+    override var dialogTitleId = 0
 
     private lateinit var templateName: EditText
     private lateinit var notes: EditText
@@ -23,6 +25,14 @@ class SaveWorkoutTemplateDialog(ctx: Context, w: WorkoutModel): BaseDialog(ctx) 
     private lateinit var saveBtn: Button
 
     private var workout = w
+
+    /** The dialog mode */
+    enum class Mode {
+        ADD,
+        UPDATE
+    }
+
+    private var mode = m
 
     override fun findViews() {
         super.findViews()
@@ -34,6 +44,14 @@ class SaveWorkoutTemplateDialog(ctx: Context, w: WorkoutModel): BaseDialog(ctx) 
     }
 
     override fun populateDialog() {
+        dialogTitleId = if (mode == Mode.ADD) {
+            R.string.save_template_lbl
+        } else {
+            R.string.update_template_lbl
+        }
+
+        title.setText(dialogTitleId)
+
         templateName.setText(workout.name)
         notes.setText(workout.notes)
         exercises.text = workout.exercises.joinToString (separator = ", ") { it.name }
@@ -53,18 +71,29 @@ class SaveWorkoutTemplateDialog(ctx: Context, w: WorkoutModel): BaseDialog(ctx) 
             return
         }
 
-        // Create template, changing the name and adding only the selected Muscle Groups
-        val template = WorkoutModel(0, templateName.text.toString(), true,
-                                    workout.exercises, notes.text.toString())
+        if (mode == Mode.ADD) {
+            // Create template, changing the name and notes
+            val template = WorkoutModel(0, templateName.text.toString(), true,
+                workout.exercises, notes.text.toString())
 
-        // Mark all sets as uncompleted
-        template.exercises.map { e ->
-            e.sets.map { it.completed = false }
+            // Mark all sets as uncompleted
+            template.exercises.map { e ->
+                e.sets.map { it.completed = false }
+            }
+
+            WorkoutTemplateRepository().addWorkoutTemplate(template, onSuccess =  {
+                dismiss()
+                Utils.getPanelAdapter().getManageTemplatesPanel()?.populateTemplates(true)
+            })
+        } else {
+            // Edit the template, changing the name and notes
+            val template = WorkoutModel(workout.id, templateName.text.toString(), true,
+                workout.exercises, notes.text.toString())
+
+            WorkoutTemplateRepository().updateWorkoutTemplate(template, onSuccess =  {
+                dismiss()
+                Utils.getPanelAdapter().getManageTemplatesPanel()?.populateTemplates(false)
+            })
         }
-
-        WorkoutTemplateRepository().addWorkoutTemplate(template, onSuccess =  {
-            dismiss()
-            Utils.getPanelAdapter().getManageTemplatesPanel()?.populateTemplates()
-        })
     }
 }

@@ -13,10 +13,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.fitnessapp.R
 import com.example.fitnessapp.adapters.CustomSpinnerAdapter
 import com.example.fitnessapp.adapters.WorkoutsRecAdapter
+import com.example.fitnessapp.dialogs.AddEditTemplateDialog
 import com.example.fitnessapp.dialogs.AddEditWorkoutDialog
 import com.example.fitnessapp.dialogs.AskQuestionDialog
 import com.example.fitnessapp.dialogs.DateTimePickerDialog
-import com.example.fitnessapp.dialogs.SaveWorkoutTemplateDialog
 import com.example.fitnessapp.interfaces.ITemporaryPanel
 import com.example.fitnessapp.models.WorkoutModel
 import com.example.fitnessapp.network.repositories.WorkoutRepository
@@ -67,6 +67,7 @@ class ManageTemplatesPanel: BasePanel(), ITemporaryPanel {
     private enum class SpinnerActions(private val stringId: Int) {
         START_WORKOUT(R.string.action_start_workout_from_template),
         ADD_TEMPLATE(R.string.action_add_template),
+        EDIT_TEMPLATE(R.string.action_update_template),
         DELETE_TEMPLATE(R.string.action_delete_template);
 
         override fun toString(): String {
@@ -90,11 +91,8 @@ class ManageTemplatesPanel: BasePanel(), ITemporaryPanel {
         actionSpinner.isSaveEnabled = false
 
         // Create the adapter
-        actionSpinner.adapter = CustomSpinnerAdapter(panel.context, false, listOf(
-            SpinnerActions.START_WORKOUT.toString(),
-            SpinnerActions.ADD_TEMPLATE.toString(),
-            SpinnerActions.DELETE_TEMPLATE.toString()),
-        )
+        actionSpinner.adapter = CustomSpinnerAdapter(panel.context, false,
+                                                        SpinnerActions.entries.map { it.toString() })
 
         // Default start date for workouts fetch to -1 month backwards
         val calendar = Calendar.getInstance()
@@ -105,10 +103,9 @@ class ManageTemplatesPanel: BasePanel(), ITemporaryPanel {
 
         // Pre-select 'Start workout'
         isSpinnerInitialized = false
-        selectedAction = SpinnerActions.START_WORKOUT
-        actionSpinner.setSelection(selectedAction.ordinal)
+        setDefaultAction()
 
-        populateTemplates()
+        populateTemplates(false)
     }
 
     override fun addClickListeners() {
@@ -137,7 +134,7 @@ class ManageTemplatesPanel: BasePanel(), ITemporaryPanel {
                 if (selectedAction == SpinnerActions.ADD_TEMPLATE) {
                     populateWorkouts()
                 } else {
-                    populateTemplates()
+                    populateTemplates(false)
                 }
             }
 
@@ -227,25 +224,36 @@ class ManageTemplatesPanel: BasePanel(), ITemporaryPanel {
                     dialog.setConfirmButtonCallback(callback = {
                         WorkoutTemplateRepository().deleteWorkoutTemplate(selected.id, onSuccess = {
                             dialog.dismiss()
-                            populateTemplates()
+                            populateTemplates(false)
                         })
                     })
 
                     dialog.show()
                 }
                 SpinnerActions.ADD_TEMPLATE -> {
-                    SaveWorkoutTemplateDialog(requireContext(), selected).show()
+                    AddEditTemplateDialog(requireContext(), selected, AddEditTemplateDialog.Mode.ADD).show()
+                }
+                SpinnerActions.EDIT_TEMPLATE -> {
+                    AddEditTemplateDialog(requireContext(), selected, AddEditTemplateDialog.Mode.UPDATE).show()
                 }
             }
         })
     }
 
-    /** Populate templates recycler */
-     fun populateTemplates() {
-         if (selectedAction == SpinnerActions.ADD_TEMPLATE) {
-             // populateTemplates may be called from SaveWorkoutTemplateDialog,
+    /** Set the spinner to the default value */
+    private fun setDefaultAction() {
+        selectedAction = SpinnerActions.START_WORKOUT
+        actionSpinner.setSelection(selectedAction.ordinal)
+    }
+
+    /** Populate templates recycler
+     * @param resetAction whether to set the selectionAction to the START_WORKOUT (default one)
+     */
+     fun populateTemplates(resetAction: Boolean) {
+         if (resetAction) {
+             // populateTemplates may be called from AddEditTemplateDialog,
              // make sure the correct selectedAction value is set
-             selectedAction = SpinnerActions.START_WORKOUT
+             setDefaultAction()
          }
 
         // Get the templates and populate the recycler

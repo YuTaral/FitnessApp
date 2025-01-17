@@ -153,6 +153,7 @@ class WorkoutsRecAdapter (data: List<WorkoutModel>, onClick: (WorkoutModel) -> U
         fun bindTemplate(item: WorkoutModel, onClickCallback: (WorkoutModel) -> Unit) {
             workoutContainer.visibility = View.GONE
             templateContainer.visibility = View.VISIBLE
+            templateExercisesContainer.removeAllViews()
 
             name.text = item.name
 

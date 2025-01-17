@@ -103,6 +103,9 @@ interface IAPIService {
     @POST(Constants.RequestEndPoints.ADD_WORKOUT_TEMPLATE)
     fun addWorkoutTemplate(@Body params: Map<String, String>): Call<CustomResponse>
 
+    @POST(Constants.RequestEndPoints.UPDATE_WORKOUT_TEMPLATE)
+    fun updateWorkoutTemplate(@Body params: Map<String, String>): Call<CustomResponse>
+
     @POST(Constants.RequestEndPoints.DELETE_WORKOUT_TEMPLATE)
     fun deleteWorkoutTemplate(@Query("templateId") teamId: Long): Call<CustomResponse>
 
