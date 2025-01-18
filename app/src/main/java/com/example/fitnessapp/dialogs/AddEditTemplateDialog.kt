@@ -74,7 +74,7 @@ class AddEditTemplateDialog(ctx: Context, w: WorkoutModel, m: Mode): BaseDialog(
         if (mode == Mode.ADD) {
             // Create template, changing the name and notes
             val template = WorkoutModel(0, templateName.text.toString(), true,
-                workout.exercises, notes.text.toString())
+                workout.exercises, notes.text.toString(), null, 0)
 
             // Mark all sets as uncompleted
             template.exercises.map { e ->
@@ -88,7 +88,7 @@ class AddEditTemplateDialog(ctx: Context, w: WorkoutModel, m: Mode): BaseDialog(
         } else {
             // Edit the template, changing the name and notes
             val template = WorkoutModel(workout.id, templateName.text.toString(), true,
-                workout.exercises, notes.text.toString())
+                workout.exercises, notes.text.toString(), null, 0)
 
             WorkoutTemplateRepository().updateWorkoutTemplate(template, onSuccess =  {
                 dismiss()

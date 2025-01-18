@@ -135,10 +135,10 @@ class AddEditWorkoutDialog(ctx: Context, mode: Mode, workoutModel: WorkoutModel?
         if (dialogMode == Mode.ADD) {
             val newWorkout: WorkoutModel = if (template == null) {
                 // Create new workout
-                WorkoutModel(0, name.text.toString(), false, mutableListOf(), notes.text.toString())
+                WorkoutModel(0, name.text.toString(), false, mutableListOf(), notes.text.toString(), null, 0)
             } else {
                 // Create new workout from the template
-                WorkoutModel(0, name.text.toString(), true, template!!.exercises, notes.text.toString())
+                WorkoutModel(0, name.text.toString(), true, template!!.exercises, notes.text.toString(), null, 0)
             }
 
             WorkoutRepository().addWorkout(newWorkout, onSuccess = { workout ->
@@ -147,7 +147,8 @@ class AddEditWorkoutDialog(ctx: Context, mode: Mode, workoutModel: WorkoutModel?
             })
         } else {
             WorkoutRepository().updateWorkout(WorkoutModel(AppStateManager.workout!!.id, name.text.toString(),
-                                                false, mutableListOf(), notes.text.toString()),
+                                                false, mutableListOf(), notes.text.toString(), AppStateManager.workout!!.finishDateTime,
+                                                AppStateManager.workout!!.durationSeconds),
                 onSuccess = { workout ->
                     dismiss()
                     Utils.getPanelAdapter().refreshWorkoutPanel(workout, true)

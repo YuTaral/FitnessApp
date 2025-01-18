@@ -45,14 +45,9 @@ class WorkoutModel: BaseModel {
         notes = model.notes
     }
 
-    /** Constructor used when new workout is created
-     * @param idVal the id
-     * @param nameVal the name
-     * @param templateVal "Y" if the workout is template, "N" otherwise
-     * @param exercisesVal the exercises for this workout
-     * @param notesVal the workot notes
-     */
-    constructor(idVal: Long, nameVal: String, templateVal: Boolean, exercisesVal: MutableList<ExerciseModel>, notesVal: String) : super (idVal) {
+    /** Constructor used when new workout is created / or workout is being edited */
+    constructor(idVal: Long, nameVal: String, templateVal: Boolean, exercisesVal: MutableList<ExerciseModel>, notesVal: String,
+                finishDateTimeVal: Date?, durationVal: Int?) : super (idVal) {
         name = nameVal
 
         startDateTime = if (templateVal) {
@@ -61,10 +56,10 @@ class WorkoutModel: BaseModel {
             Date()
         }
 
-        finishDateTime = null
+        finishDateTime = finishDateTimeVal
         template = templateVal
         exercises = exercisesVal
-        durationSeconds = 0
+        durationSeconds = durationVal
         notes = notesVal
     }
 }
