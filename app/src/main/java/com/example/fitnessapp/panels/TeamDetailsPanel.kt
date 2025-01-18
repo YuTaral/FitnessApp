@@ -21,7 +21,7 @@ import com.google.android.material.imageview.ShapeableImageView
  */
 class TeamDetailsPanel(t: TeamModel): BasePanel(), ITemporaryPanel {
     override var id = Constants.PanelUniqueId.TEAM_DETAILS.ordinal.toLong()
-    override var panelIndex = Constants.PanelIndices.ANOTHER_TEMPORARY.ordinal
+    override var panelIndex = Constants.PanelIndices.SECOND_TEMPORARY.ordinal
     override var titleId = R.string.team_details_lbl
     override var iconId = R.drawable.icon_tab_team_details
     override var layoutId = R.layout.panel_team_details
@@ -94,7 +94,7 @@ class TeamDetailsPanel(t: TeamModel): BasePanel(), ITemporaryPanel {
                 Utils.getPanelAdapter().getManageTeamsPanel()!!.setRefreshTeams(true)
 
                 // Remove the current panel
-                Utils.getPanelAdapter().removeTemporaryPanels(Constants.PanelIndices.ANOTHER_TEMPORARY.ordinal)
+                Utils.getPanelAdapter().removeTemporaryPanels(Constants.PanelIndices.SECOND_TEMPORARY.ordinal)
             })
         }
 

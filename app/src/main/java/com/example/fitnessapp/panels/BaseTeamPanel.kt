@@ -15,7 +15,7 @@ import com.google.android.material.textfield.TextInputLayout
 
 /** Base Team Panel class to implement the logic add / edit single team */
 abstract class BaseTeamPanel: BasePanel(), IImagePicker, ITemporaryPanel {
-    override var panelIndex = Constants.PanelIndices.ANOTHER_TEMPORARY.ordinal
+    override var panelIndex = Constants.PanelIndices.SECOND_TEMPORARY.ordinal
     override val removePreviousTemporary = false
 
     private lateinit var removePictureBtn: Button

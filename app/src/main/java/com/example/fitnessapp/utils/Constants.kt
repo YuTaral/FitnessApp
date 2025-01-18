@@ -35,8 +35,8 @@ object Constants {
     enum class PanelIndices {
         MAIN,
         WORKOUT,
-        TEMPORARY,
-        ANOTHER_TEMPORARY
+        FIRST_TEMPORARY,
+        SECOND_TEMPORARY
     }
 
     /** Enum with notification types */

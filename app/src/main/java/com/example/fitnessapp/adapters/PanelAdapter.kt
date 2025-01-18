@@ -117,26 +117,26 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
     }
 
     /** Return the temporary panel instance as ManageTeamsPanel */
-    private fun getTeamsPanel(): ManageTeamsPanel? = getTemporaryPanelAs(Constants.PanelIndices.TEMPORARY.ordinal)
+    private fun getTeamsPanel(): ManageTeamsPanel? = getTemporaryPanelAs(Constants.PanelIndices.FIRST_TEMPORARY.ordinal)
 
     /** Return the temporary panel instance as BaseExercisePanel */
-    fun getBaseExercisePanel(): BaseExercisePanel? = getTemporaryPanelAs(Constants.PanelIndices.TEMPORARY.ordinal)
+    fun getBaseExercisePanel(): BaseExercisePanel? = getTemporaryPanelAs(Constants.PanelIndices.FIRST_TEMPORARY.ordinal)
 
     /** Return the temporary panel instance as AddEditTeamPanel */
-    fun getTeamPanel(): BaseTeamPanel? = getTemporaryPanelAs(Constants.PanelIndices.ANOTHER_TEMPORARY.ordinal)
+    fun getTeamPanel(): BaseTeamPanel? = getTemporaryPanelAs(Constants.PanelIndices.SECOND_TEMPORARY.ordinal)
 
     /** Return the temporary panel instance as ManageTeamsPanel */
-    fun getManageTeamsPanel(): ManageTeamsPanel? = getTemporaryPanelAs(Constants.PanelIndices.TEMPORARY.ordinal)
+    fun getManageTeamsPanel(): ManageTeamsPanel? = getTemporaryPanelAs(Constants.PanelIndices.FIRST_TEMPORARY.ordinal)
 
     /** Return the temporary panel instance as ManageTemplatesPanel */
-    fun getManageTemplatesPanel(): ManageTemplatesPanel? = getTemporaryPanelAs(Constants.PanelIndices.TEMPORARY.ordinal)
+    fun getManageTemplatesPanel(): ManageTemplatesPanel? = getTemporaryPanelAs(Constants.PanelIndices.FIRST_TEMPORARY.ordinal)
 
     /** Return the temporary panel instance as NotificationsPanel */
-    fun getNotificationsPanel(): NotificationsPanel? = getTemporaryPanelAs(Constants.PanelIndices.TEMPORARY.ordinal)
+    fun getNotificationsPanel(): NotificationsPanel? = getTemporaryPanelAs(Constants.PanelIndices.FIRST_TEMPORARY.ordinal)
 
     /** Return true if the current active panel is Manage Exercise, false otherwise */
     fun isManageExerciseActive(): Boolean {
-        val panel: ManageExercisesPanel? = getTemporaryPanelAs(Constants.PanelIndices.TEMPORARY.ordinal)
+        val panel: ManageExercisesPanel? = getTemporaryPanelAs(Constants.PanelIndices.FIRST_TEMPORARY.ordinal)
 
         return panel != null
     }
@@ -237,7 +237,7 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
         } else if (temporaryPanels.size == 2 && panel is BaseTeamPanel) {
             // The second temporary panel must be removed in case we are adding Add or Edit Team panel
             // and there is already active second temporary panel
-            removeTemporaryPanels(Constants.PanelIndices.ANOTHER_TEMPORARY.ordinal)
+            removeTemporaryPanels(Constants.PanelIndices.SECOND_TEMPORARY.ordinal)
         }
 
         // Set the temporary panel
@@ -256,10 +256,10 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
         getTeamsPanel()!!.setRefreshTeams(true)
 
         // Remove the 2nd temporary panel if there is
-        removeTemporaryPanels(Constants.PanelIndices.ANOTHER_TEMPORARY.ordinal)
+        removeTemporaryPanels(Constants.PanelIndices.SECOND_TEMPORARY.ordinal)
 
         // Set the current item
-        pager.currentItem = temporaryPanels[getTempPanelPosition(Constants.PanelIndices.TEMPORARY.ordinal)].getIndex()
+        pager.currentItem = temporaryPanels[getTempPanelPosition(Constants.PanelIndices.FIRST_TEMPORARY.ordinal)].getIndex()
     }
 
     /** Callback to be executed when Panel selection changes

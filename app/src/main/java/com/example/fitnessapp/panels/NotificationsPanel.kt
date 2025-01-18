@@ -16,7 +16,7 @@ import com.example.fitnessapp.utils.Utils
 class NotificationsPanel: BasePanel(), ITemporaryPanel {
     override var id: Long = Constants.PanelUniqueId.NOTIFICATIONS.ordinal.toLong()
     override var layoutId: Int = R.layout.panel_notifications
-    override var panelIndex: Int = Constants.PanelIndices.TEMPORARY.ordinal
+    override var panelIndex: Int = Constants.PanelIndices.FIRST_TEMPORARY.ordinal
     override var titleId: Int = R.string.notifications_lbl
     override var iconId = R.drawable.icon_tab_notifications
     override val removePreviousTemporary = true

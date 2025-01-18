@@ -16,7 +16,7 @@ import com.example.fitnessapp.views.CustomSwitchView
 /** Manage Teams Panel class to implement the logic for managing teams */
 class ManageTeamsPanel: BasePanel(), ITemporaryPanel {
     override var id = Constants.PanelUniqueId.MANAGE_TEAMS.ordinal.toLong()
-    override var panelIndex = Constants.PanelIndices.TEMPORARY.ordinal
+    override var panelIndex = Constants.PanelIndices.FIRST_TEMPORARY.ordinal
     override var titleId = R.string.teams_lbl
     override var iconId = R.drawable.icon_tab_manage_teams
     override var layoutId = R.layout.panel_manage_teams
@@ -124,7 +124,7 @@ class ManageTeamsPanel: BasePanel(), ITemporaryPanel {
     private fun removeFourthPanel() {
         if (Utils.getPanelAdapter().itemCount == Constants.PanelIndices.entries.size) {
             // If selection changes and we have active second temporary panel (add / edit team), remove it
-            Utils.getPanelAdapter().removeTemporaryPanels(Constants.PanelIndices.ANOTHER_TEMPORARY.ordinal)
+            Utils.getPanelAdapter().removeTemporaryPanels(Constants.PanelIndices.SECOND_TEMPORARY.ordinal)
         }
     }
 

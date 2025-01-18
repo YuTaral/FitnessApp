@@ -36,7 +36,7 @@ import java.util.Date
 class ManageTemplatesPanel: BasePanel(), ITemporaryPanel {
     override var id: Long = Constants.PanelUniqueId.TEMPLATES.ordinal.toLong()
     override var layoutId: Int = R.layout.panel_templates
-    override var panelIndex: Int = Constants.PanelIndices.TEMPORARY.ordinal
+    override var panelIndex: Int = Constants.PanelIndices.FIRST_TEMPORARY.ordinal
     override var titleId: Int = R.string.manage_templates_lbl
     override var iconId = R.drawable.icon_tab_manage_templates
     override val removePreviousTemporary = true

@@ -31,7 +31,7 @@ import kotlinx.coroutines.launch
  * - ManageExercisesPanel, where exercises can be edited
  */
 abstract class BaseExercisePanel(mode: Mode): BasePanel(), ITemporaryPanel {
-    override var panelIndex: Int = Constants.PanelIndices.TEMPORARY.ordinal
+    override var panelIndex: Int = Constants.PanelIndices.FIRST_TEMPORARY.ordinal
 
     /** Parameter value which is send when fetching the exercises for muscle group */
     protected open lateinit var onlyForUser: String
