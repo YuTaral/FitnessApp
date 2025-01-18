@@ -337,7 +337,10 @@ class MainActivity : BaseActivity() {
         }
 
         val profileImage = navProfileView.getHeaderView(0).findViewById<ImageView>(R.id.team_image)
+        val email = navProfileView.getHeaderView(0).findViewById<TextView>(R.id.txt_email)
         val username = navProfileView.getHeaderView(0).findViewById<TextView>(R.id.txt_username)
+
+        email.text = AppStateManager.user!!.email
 
         // Set profile image if there is
         if (AppStateManager.user!!.profileImage.isNotEmpty()) {
