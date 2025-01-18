@@ -171,7 +171,7 @@
     <string name="team_members_lbl">Team members (%s)</string>
     <string name="other_members_lbl">Other members (%s)</string>
     <string name="search_results_lbl">Search results (%s)</string>
-    <string name="enter_user_email_or_name_lbl">Please enter user member name</string>
+    <string name="enter_user_email_or_name_lbl">Please enter user name</string>
     <string name="no_users_found">There are no user with name \"%s\" valid for invitation (user does not exist or invitation already send)</string>
     <string name="invited_lbl">Invited</string>
     <string name="in_team_lbl">Joined</string>

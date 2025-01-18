@@ -53,7 +53,7 @@ class ManageTeamMembersDialog(ctx: Context, team: TeamModel, teamMembers: List<T
 
         teamMembersCount.text = String.format(Utils.getActivity().getString(R.string.team_members_lbl), members.size)
 
-        searchResultLbl.text = String.format(Utils.getActivity().getString(R.string.search_results_lbl), 0)
+        updateSearchCount(0)
     }
 
     override fun addClickListeners() {
@@ -97,7 +97,7 @@ class ManageTeamMembersDialog(ctx: Context, team: TeamModel, teamMembers: List<T
                 searchResultLbl.text = String.format(Utils.getActivity().getString(R.string.no_users_found), search.text)
                 searchResultRecycler.visibility = View.GONE
             } else {
-                searchResultLbl.text = String.format(Utils.getActivity().getString(R.string.search_results_lbl), members.size)
+                updateSearchCount(members.size)
                 searchResultRecycler.visibility = View.VISIBLE
 
                 if (searchResultRecycler.adapter == null) {
@@ -116,13 +116,14 @@ class ManageTeamMembersDialog(ctx: Context, team: TeamModel, teamMembers: List<T
      * @param member the member to invite
      */
     private fun onInvite(member: TeamMemberModel) {
-        // Remove the member from th search result
-        getSearchAdapter().addRemoveMember(member, false)
-
         // Send invite request, on success updated list will be returned
         TeamRepository().inviteMember(member.userId, selectedTeam.id, onSuccess = { teamMembers ->
             members = teamMembers
             updateMembersRecyclerAndCount()
+
+            // Remove the member from the search result
+            getSearchAdapter().addRemoveMember(member, false)
+            updateSearchCount(getSearchAdapter().itemCount)
         })
     }
 
@@ -131,8 +132,8 @@ class ManageTeamMembersDialog(ctx: Context, team: TeamModel, teamMembers: List<T
      */
     private fun onRemove(member: TeamMemberModel) {
         // Send remove request, on success updated list will be returned
-        TeamRepository().removeMember(member, onSuccess = { teamMemebrs ->
-            members = teamMemebrs
+        TeamRepository().removeMember(member, onSuccess = { teamMembers ->
+            members = teamMembers
             updateMembersRecyclerAndCount()
         })
     }
@@ -141,6 +142,11 @@ class ManageTeamMembersDialog(ctx: Context, team: TeamModel, teamMembers: List<T
     private fun updateMembersRecyclerAndCount() {
         getMembersAdapter().update(members)
         teamMembersCount.text = String.format(Utils.getActivity().getString(R.string.team_members_lbl), members.size)
+    }
+
+    /** Update the search results count */
+    private fun updateSearchCount(count: Int) {
+        searchResultLbl.text = String.format(Utils.getActivity().getString(R.string.search_results_lbl), count)
     }
 
     /** Return the adapter of the search recycler */
