@@ -15,7 +15,7 @@ import com.example.fitnessapp.utils.Utils
 class EditTeamPanel(t: TeamModel): BaseTeamPanel() {
     override var id = Constants.PanelUniqueId.EDIT_TEAM.ordinal.toLong()
     override var titleId = R.string.edit_team_panel_title
-    override var iconId = R.drawable.icon_tab_add_team
+    override var iconId = R.drawable.icon_tab_edit_team
     override var layoutId = R.layout.panel_add_edit_team
 
     private var team = t
