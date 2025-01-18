@@ -26,7 +26,6 @@ class EditTeamPanel(t: TeamModel): BaseTeamPanel() {
         teamImage.setImageBitmap(Utils.convertStringToBitmap(team.image))
         name.setText(team.name)
         description.setText(team.description)
-        privateNote.setText(team.privateNote)
 
         membersRecycler.visibility = View.VISIBLE
 
@@ -57,7 +56,7 @@ class EditTeamPanel(t: TeamModel): BaseTeamPanel() {
         }
 
         val updateTeam = TeamModel(team.id, Utils.encodeImageToString(teamImage), name.text.toString(),
-            description.text.toString(), privateNote.text.toString())
+            description.text.toString())
 
         TeamRepository().updateTeam(updateTeam, onSuccess = {
             Utils.getPanelAdapter().refreshTeamsPanel()

@@ -19,9 +19,6 @@ class TeamModel: BaseModel {
     @SerializedName("Description")
     var description: String
 
-    @SerializedName("PrivateNote")
-    var privateNote: String
-
     @SerializedName("ViewTeamAs")
     var viewTeamAs: String
 
@@ -37,17 +34,15 @@ class TeamModel: BaseModel {
         image = model.image
         name = model.name
         description = model.description
-        privateNote = model.privateNote
         selectedInPanel = model.selectedInPanel
         viewTeamAs = model.viewTeamAs
     }
 
     /** Constructor used when new TeamModel object is created */
-    constructor(idVal: Long, imageVal: String, nameVal: String, descriptionVal: String, privateNoteVal: String) : super(idVal) {
+    constructor(idVal: Long, imageVal: String, nameVal: String, descriptionVal: String) : super(idVal) {
         image = imageVal
         name = nameVal
         description = descriptionVal
-        privateNote = privateNoteVal
         viewTeamAs = Constants.ViewTeamAs.COACH.toString()
         selectedInPanel = false
     }

@@ -36,7 +36,7 @@ class AddTeamPanel: BaseTeamPanel() {
         }
 
         val team = TeamModel(0, Utils.encodeImageToString(teamImage), name.text.toString(),
-            description.text.toString(), privateNote.text.toString())
+            description.text.toString())
 
         TeamRepository().addTeam(team, onSuccess = {
             Utils.getPanelAdapter().refreshTeamsPanel()

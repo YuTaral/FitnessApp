@@ -23,7 +23,6 @@ abstract class BaseTeamPanel: BasePanel(), IImagePicker, ITemporaryPanel {
     protected lateinit var teamImage: ImageView
     protected lateinit var name: EditText
     protected lateinit var description: EditText
-    protected lateinit var privateNote: EditText
     protected lateinit var saveBtn: Button
     protected lateinit var deleteBtn: Button
     protected lateinit var membersSectionContainer: ConstraintLayout
@@ -35,7 +34,6 @@ abstract class BaseTeamPanel: BasePanel(), IImagePicker, ITemporaryPanel {
         removePictureBtn = panel.findViewById(R.id.remove_pic_btn)
         name = panel.findViewById<TextInputLayout>(R.id.team_name).editText!!
         description = panel.findViewById<TextInputLayout>(R.id.team_description).editText!!
-        privateNote = panel.findViewById<TextInputLayout>(R.id.team_private_note).editText!!
         deleteBtn = panel.findViewById(R.id.delete_btn)
         saveBtn = panel.findViewById(R.id.save_btn)
         membersSectionContainer = panel.findViewById(R.id.members_section_container)
