@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fitnessapp.R
@@ -13,7 +12,7 @@ import com.example.fitnessapp.models.TeamModel
 import com.example.fitnessapp.utils.Utils
 
 /** Recycler adapter to control and show the teams */
-class TeamsRecAdapter(data: List<TeamModel>, callback: () -> Unit) : RecyclerView.Adapter<TeamsRecAdapter.ViewHolder>() {
+class TeamsRecAdapter(data: List<TeamModel>, callback: (TeamModel) -> Unit) : RecyclerView.Adapter<TeamsRecAdapter.ViewHolder>() {
     private var teams = data.toMutableList()
     private var onClickCallback = callback
     private var selectedPosition: Int = RecyclerView.NO_POSITION
@@ -28,9 +27,9 @@ class TeamsRecAdapter(data: List<TeamModel>, callback: () -> Unit) : RecyclerVie
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(teams[position], selectUnselectTeamCallback = {
+        holder.bind(teams[position], selectUnselectTeamCallback = { team ->
             changeSelectionState(position)
-            onClickCallback()
+            onClickCallback(team)
         })
     }
 
@@ -108,8 +107,6 @@ class TeamsRecAdapter(data: List<TeamModel>, callback: () -> Unit) : RecyclerVie
         private var image: ImageView = itemView.findViewById(R.id.image)
         private var name: TextView = itemView.findViewById(R.id.name)
         private var description: TextView = itemView.findViewById(R.id.description)
-        private var expandSymbol: ImageView = itemView.findViewById(R.id.expand_collapse_symbol)
-        private var membersContainer: LinearLayout = itemView.findViewById(R.id.members_container)
 
         /** Set the data for each team and adds click listener to expand / collapse the exercise
          * @param team the team
@@ -129,24 +126,6 @@ class TeamsRecAdapter(data: List<TeamModel>, callback: () -> Unit) : RecyclerVie
 
             itemView.setOnClickListener {
                 selectUnselectTeamCallback(team)
-            }
-
-            if (true) { // Replace with teams.membersCount == 0
-                expandSymbol.visibility = View.GONE
-
-            } else {
-                expandSymbol.visibility = View.VISIBLE
-
-                // Add expand mechanism
-                expandSymbol.setOnClickListener {
-                    if (membersContainer.visibility == View.VISIBLE) {
-                        Utils.collapseView(membersContainer)
-                        expandSymbol.animate().rotation(180f).setDuration(300).start()
-                    } else {
-                        Utils.expandView(membersContainer)
-                        expandSymbol.animate().rotation(360f).setDuration(300).start()
-                    }
-                }
             }
         }
     }
