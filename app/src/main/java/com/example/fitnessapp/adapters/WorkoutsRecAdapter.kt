@@ -54,7 +54,7 @@ class WorkoutsRecAdapter (data: List<WorkoutModel>, onClick: (WorkoutModel) -> U
         filteredWorkouts = if (text.isEmpty()) {
             workouts
         } else {
-            filteredWorkouts.filter { it.name.lowercase().contains(text) }.toMutableList()
+            workouts.filter { it.name.lowercase().contains(text) }.toMutableList()
         }
 
         notifyDataSetChanged()
