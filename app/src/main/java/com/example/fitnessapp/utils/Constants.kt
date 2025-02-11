@@ -28,7 +28,8 @@ object Constants {
         ADD_TEAM,
         EDIT_TEAM,
         NOTIFICATIONS,
-        TEAM_DETAILS
+        TEAM_DETAILS,
+        ASSIGN_WORKOUT
     }
 
     /** Enum with the position of the panel in the fragment state adapter  */
@@ -106,6 +107,7 @@ object Constants {
         const val ACCEPT_TEAM_INVITE  = "$TEAM/accept-invite"
         const val DECLINE_TEAM_INVITE  = "$TEAM/decline-invite"
         const val GET_MY_TEAMS  = "$TEAM/my-teams"
+        const val GET_MY_TEAMS_WITH_MEMBERS  = "$TEAM/my-teams-with-members"
         const val GET_USERS_TO_INVITE  = "$TEAM/get-users-to-invite"
         const val GET_MY_TEAM_MEMBERS  = "$TEAM/get-my-team-members"
         const val GET_JOINED_TEAM_MEMBERS  = "$TEAM/get-joined-team-members"

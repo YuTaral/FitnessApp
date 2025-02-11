@@ -30,4 +30,9 @@
         android:title="@string/start_timer_lbl"
         android:icon="@drawable/icon_start_timer"/>
 
+    <item
+        android:id="@+id/assign_workout"
+        android:title="@string/assign_workout_lbl"
+        android:icon="@drawable/icon_assign_workout"/>
+
 </menu>

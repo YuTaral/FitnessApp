@@ -179,7 +179,11 @@ class ManageTeamsPanel: BasePanel(), ITemporaryPanel {
     private fun updatePanel() {
         // Clear the selected team
         val adapter = getAdapter() ?: return
-        adapter.changeSelectedTeam(0)
+        val selectedTeam = adapter.getSelectedTeam()
+
+        if (selectedTeam != null) {
+            adapter.changeSelectedTeam(selectedTeam.id)
+        }
 
         // Remove fourth panel (add / edit / details team) if there is
         removeFourthPanel()

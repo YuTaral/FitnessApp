@@ -9,6 +9,7 @@ import com.example.fitnessapp.R
 import com.example.fitnessapp.models.BaseModel
 import com.example.fitnessapp.models.ExerciseModel
 import com.example.fitnessapp.models.MGExerciseModel
+import com.example.fitnessapp.models.QAssignWorkoutModel
 import com.example.fitnessapp.models.TeamModel
 import com.example.fitnessapp.models.WorkoutModel
 import com.example.fitnessapp.utils.Utils
@@ -32,7 +33,8 @@ class AskQuestionDialog(ctx: Context, q: Question, d: BaseModel? = null): BaseDi
         ALLOW_CAMERA_PERMISSION(R.string.question_go_to_settings_title, R.string.question_go_to_settings_text, R.string.go_to_settings_btn, R.string.no_btn),
         DELETE_TEAM(R.string.question_delete_team_title, R.string.question_delete_team_text, R.string.yes_btn, R.string.no_btn),
         GRANT_PERMISSIONS(R.string.question_grant_permissions, R.string.question_grant_permissions_text, R.string.view_permissions_btn, R.string.maybe_later_btn),
-        LEAVE_TEAM(R.string.question_leave_team_title, R.string.question_leave_team_text, R.string.yes_btn, R.string.no_btn);
+        LEAVE_TEAM(R.string.question_leave_team_title, R.string.question_leave_team_text, R.string.yes_btn, R.string.no_btn),
+        ASSIGN_WORKOUT(R.string.question_assign_workout_title, R.string.question_assign_workout_text, R.string.yes_btn, R.string.no_btn);
 
         /** Returns the question title */
         fun getTitle(): String {
@@ -120,6 +122,14 @@ class AskQuestionDialog(ctx: Context, q: Question, d: BaseModel? = null): BaseDi
             Question.DELETE_TEAM,
             Question.LEAVE_TEAM -> {
                 formatName = (data as TeamModel).name
+            }
+
+            Question.ASSIGN_WORKOUT -> {
+                val model = data as QAssignWorkoutModel
+
+                formatName = model.teamName
+                questionAdditionalInfo.visibility = View.VISIBLE
+                questionAdditionalInfo.text = model.members
             }
 
             else -> {

@@ -201,6 +201,7 @@
     <string name="add_sets_lbl">Add set</string>
     <string name="error_msg_no_internet">Please check your Internet connection</string>
     <string name="start_timer_lbl">Start timer</string>
+    <string name="assign_workout_lbl">Assign workout</string>
     <string name="select_duration_lbl">Select timer duration</string>
     <string name="start_timer_btn">Start timer</string>
     <string name="timer_title_lbl">Timer</string>
@@ -215,5 +216,17 @@
     <string name="no_joined_teams_lbl">You are not a member of any team</string>
     <string name="question_leave_team_title">Leave Team</string>
     <string name="question_leave_team_text">Are you sure you want to leave team \"%s\" ?</string>
+    <string name="question_assign_workout_title">Assign workout</string>
+    <string name="question_assign_workout_text">Are you sure you want to assign \n\"%s\"</string>
+    <string name="select_team_lbl">Select team</string>
+    <string name="select_members_lbl">Select members</string>
+    <string name="select_workout_lbl">Select workout</string>
+    <string name="select_team_btn">Select team</string>
+    <string name="select_workout_btn">Select workout</string>
+    <string name="select_members_btn">Select members</string>
+    <string name="assign_workout_btn">Assign</string>
+    <string name="no_joined_members_lbl">To assign workout to team members, make sure there are members, who have already joined your teams</string>
+    <string name="select_members_error_lbl">Select members first</string>
+    <string name="selected_members_lbl">Members:\n</string>
 
 </resources>

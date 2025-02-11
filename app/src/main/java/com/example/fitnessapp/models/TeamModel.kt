@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName
  *  Must correspond with server-side TeamModel, excluding
  *  SelectedInPanel property
  */
-class TeamModel: BaseModel {
+open class TeamModel: BaseModel {
 
     @SerializedName("Image")
     var image: String

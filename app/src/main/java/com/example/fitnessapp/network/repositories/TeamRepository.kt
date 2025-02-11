@@ -3,6 +3,7 @@ package com.example.fitnessapp.network.repositories
 import com.example.fitnessapp.models.NotificationModel
 import com.example.fitnessapp.models.TeamMemberModel
 import com.example.fitnessapp.models.TeamModel
+import com.example.fitnessapp.models.TeamWithMembersModel
 import com.example.fitnessapp.network.APIService
 import com.example.fitnessapp.network.NetworkManager
 import com.example.fitnessapp.utils.Utils
@@ -136,6 +137,16 @@ class TeamRepository {
         NetworkManager.sendRequest(
             request = { APIService.getInstance().getMyTeams(teamType) },
             onSuccessCallback = { response -> onSuccess(response.data.map { TeamModel(it) } )},
+        )
+    }
+
+    /** Get the teams created by the user, which have 1 or more members
+     * @param onSuccess callback to execute if request is successful
+     */
+    fun getMyTeamsWithMembers(onSuccess: (List<TeamWithMembersModel>) -> Unit) {
+        NetworkManager.sendRequest(
+            request = { APIService.getInstance().getMyTeamsWithMembers() },
+            onSuccessCallback = { response -> onSuccess(response.data.map { TeamWithMembersModel(it) } )},
         )
     }
 

@@ -22,6 +22,7 @@ import com.example.fitnessapp.managers.PermissionResultManager
 import com.example.fitnessapp.network.repositories.NotificationRepository
 import com.example.fitnessapp.network.repositories.UserRepository
 import com.example.fitnessapp.network.repositories.WorkoutRepository
+import com.example.fitnessapp.panels.AssignWorkoutPanel
 import com.example.fitnessapp.panels.BaseExercisePanel
 import com.example.fitnessapp.panels.ManageExercisesPanel
 import com.example.fitnessapp.panels.ManageTeamsPanel
@@ -244,6 +245,10 @@ class MainActivity : BaseActivity() {
             R.id.start_timer -> {
                 // Show dialog to start timer
                 SelectTimerDurationDialog(this).show()
+            }
+            R.id.assign_workout -> {
+                // Show panel to assign workout to team members
+                panelAdapter.displayTemporaryPanel(AssignWorkoutPanel())
             }
         }
     }

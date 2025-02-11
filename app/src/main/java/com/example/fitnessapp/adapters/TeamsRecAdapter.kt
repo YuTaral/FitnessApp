@@ -14,6 +14,7 @@ import com.example.fitnessapp.utils.Utils
 /** Recycler adapter to control and show the teams */
 class TeamsRecAdapter(data: List<TeamModel>, callback: (TeamModel) -> Unit) : RecyclerView.Adapter<TeamsRecAdapter.ViewHolder>() {
     private var teams = data.toMutableList()
+    private var filteredTeams = teams
     private var onClickCallback = callback
     private var selectedPosition: Int = RecyclerView.NO_POSITION
 
@@ -23,14 +24,28 @@ class TeamsRecAdapter(data: List<TeamModel>, callback: (TeamModel) -> Unit) : Re
     }
 
     override fun getItemCount(): Int {
-        return teams.size
+        return filteredTeams.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(teams[position], selectUnselectTeamCallback = { team ->
+        holder.bind(filteredTeams[position], selectUnselectTeamCallback = { team ->
             changeSelectionState(position)
             onClickCallback(team)
         })
+    }
+
+    /** Filter the teams by name
+     * @param name the name
+     */
+    @SuppressLint("NotifyDataSetChanged")
+    fun filter(name: String) {
+        filteredTeams = if (name.isEmpty()) {
+            teams
+        } else {
+            teams.filter { it.name.lowercase().contains(name) }.toMutableList()
+        }
+
+        notifyDataSetChanged()
     }
 
     /** Change item selection state
@@ -39,7 +54,7 @@ class TeamsRecAdapter(data: List<TeamModel>, callback: (TeamModel) -> Unit) : Re
     private fun changeSelectionState(position: Int) {
         if (position == selectedPosition) {
             // Deselect the currently selected item
-            teams[position].selectedInPanel = false
+            filteredTeams[position].selectedInPanel = false
             notifyItemChanged(position)
             selectedPosition = RecyclerView.NO_POSITION
 
@@ -49,12 +64,12 @@ class TeamsRecAdapter(data: List<TeamModel>, callback: (TeamModel) -> Unit) : Re
             selectedPosition = position
 
             if (previousSelectedPosition != RecyclerView.NO_POSITION) {
-                teams[previousSelectedPosition].selectedInPanel = false
+                filteredTeams[previousSelectedPosition].selectedInPanel = false
                 notifyItemChanged(previousSelectedPosition)
             }
 
             // Select the new team
-            teams[position].selectedInPanel = true
+            filteredTeams[position].selectedInPanel = true
             notifyItemChanged(position)
         }
     }
@@ -64,32 +79,21 @@ class TeamsRecAdapter(data: List<TeamModel>, callback: (TeamModel) -> Unit) : Re
         if (selectedPosition == RecyclerView.NO_POSITION) {
             return null
         }
-        return teams[selectedPosition]
+        return filteredTeams[selectedPosition]
     }
 
-    /** Programmatically set the selected team, return true on success, false otherwise
-     * @param teamId the team id if selecting team, 0 if removing the selected team
+    /** Programmatically set / unset the selected team
+     * @param teamId the team id
      */
     @SuppressLint("NotifyDataSetChanged")
-    fun changeSelectedTeam(teamId: Long): Boolean {
-        val result: Boolean
+    fun changeSelectedTeam(teamId: Long){
+        val position = filteredTeams.indexOfFirst { it.id == teamId }
 
-        if (teamId == 0L) {
-            selectedPosition = RecyclerView.NO_POSITION
-            notifyDataSetChanged()
-            result = true
-        } else {
-            val position = teams.indexOfFirst { it.id == teamId }
-
-            result = if (position > -1) {
-                changeSelectionState(position)
-                true
-            } else {
-                false
-            }
+        if (position == -1) {
+            return
         }
 
-        return result
+        changeSelectionState(position)
     }
 
     /** Update the teams list
@@ -98,6 +102,7 @@ class TeamsRecAdapter(data: List<TeamModel>, callback: (TeamModel) -> Unit) : Re
     @SuppressLint("NotifyDataSetChanged")
     fun updateTeams(newTeams: List<TeamModel>) {
         teams = newTeams.toMutableList()
+        filteredTeams = teams
         selectedPosition = RecyclerView.NO_POSITION
         notifyDataSetChanged()
     }

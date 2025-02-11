@@ -145,6 +145,9 @@ interface IAPIService {
     @GET(Constants.RequestEndPoints.GET_MY_TEAMS)
     fun getMyTeams(@Query("teamType") teamType: String): Call<CustomResponse>
 
+    @GET(Constants.RequestEndPoints.GET_MY_TEAMS_WITH_MEMBERS)
+    fun getMyTeamsWithMembers(): Call<CustomResponse>
+
     @GET(Constants.RequestEndPoints.GET_USERS_TO_INVITE)
     fun getUsersToInvite(@Query("name") name: String, @Query("teamId") teamId: Long): Call<CustomResponse>
 

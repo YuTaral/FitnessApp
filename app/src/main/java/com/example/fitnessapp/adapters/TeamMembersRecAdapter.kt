@@ -24,10 +24,12 @@ class TeamMembersRecAdapter(data: List<TeamMemberModel>,
     enum class AdapterType {
         INVITE,
         REMOVE,
-        DISPLAY
+        DISPLAY,
+        ASSIGN_WORKOUT
     }
 
     private var members = data.toMutableList()
+    private var filteredMembers = members
     private var type = adapterType
     private var onClickCallback = callback
 
@@ -37,11 +39,11 @@ class TeamMembersRecAdapter(data: List<TeamMemberModel>,
     }
 
     override fun getItemCount(): Int {
-        return members.size
+        return filteredMembers.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(members[position], type, onClickCallback)
+        holder.bind(filteredMembers[position], type, onClickCallback)
     }
 
     /** Update the data in the adapter
@@ -49,7 +51,7 @@ class TeamMembersRecAdapter(data: List<TeamMemberModel>,
      */
     @SuppressLint("NotifyDataSetChanged")
     fun update(newMembers: List<TeamMemberModel>) {
-        members = newMembers.toMutableList()
+        filteredMembers = newMembers.toMutableList()
         notifyDataSetChanged()
     }
 
@@ -58,14 +60,50 @@ class TeamMembersRecAdapter(data: List<TeamMemberModel>,
      */
     fun addRemoveMember(member: TeamMemberModel, add: Boolean) {
         if (add) {
-            members.add(member)
+            filteredMembers.add(member)
             notifyItemInserted(members.size - 1)
 
         } else {
             val index = members.indexOf(member)
-            members.removeAt(index)
+            filteredMembers.removeAt(index)
             notifyItemRemoved(index)
         }
+    }
+
+    /** Select / unselect member for workout assign
+     * @param member the member
+     */
+    fun selectUnselectForAssign(member: TeamMemberModel) {
+        // Change the selected for assign property and notify the adapter
+        val index = filteredMembers.indexOf(member)
+        filteredMembers[index].selectedForAssign = !member.selectedForAssign
+        notifyItemChanged(index)
+    }
+
+    /** Unselect all members */
+    @SuppressLint("NotifyDataSetChanged")
+    fun unSelectAll() {
+        filteredMembers.map{it.selectedForAssign = false}
+        notifyDataSetChanged()
+    }
+
+    /** Return the members which are selected for assign workout */
+    fun getAssignWorkoutMembers(): List<TeamMemberModel> {
+        return filteredMembers.filter { it.selectedForAssign }
+    }
+
+    /** Filter the members by name
+     * @param name the name
+     */
+    @SuppressLint("NotifyDataSetChanged")
+    fun filter(name: String) {
+        filteredMembers = if (name.isEmpty()) {
+            members
+        } else {
+            members.filter { it.fullName.lowercase().contains(name) }.toMutableList()
+        }
+
+        notifyDataSetChanged()
     }
 
     /** Class to represent team member item view holder - each team member */
@@ -98,8 +136,10 @@ class TeamMembersRecAdapter(data: List<TeamMemberModel>,
          */
         fun bind(member: TeamMemberModel, adapterType: AdapterType, onClickCallback: (member: TeamMemberModel) -> Unit) {
             if (member.image.isNotEmpty()) {
+                image.setBackgroundResource(0)
                 image.setImageBitmap(Utils.convertStringToBitmap(member.image))
             } else {
+                image.setImageBitmap(null)
                 image.setBackgroundResource(R.drawable.icon_profile_default_picture)
             }
             name.text = member.fullName
@@ -123,6 +163,20 @@ class TeamMembersRecAdapter(data: List<TeamMemberModel>,
                         onClickCallback(member)
                     }
                 }
+                AdapterType.ASSIGN_WORKOUT -> {
+                    inviteRemoveSymbol.visibility = View.GONE
+
+                    if (member.selectedForAssign) {
+                        itemView.setBackgroundResource(R.drawable.background_selected_member)
+                    } else {
+                        itemView.setBackgroundResource(0)
+                    }
+
+                    // Execute the callback on row click to mark the member as selected / unselected
+                    itemView.setOnClickListener {
+                        onClickCallback(member)
+                    }
+                }
                 else -> {
                     setState(member)
                     inviteRemoveSymbol.visibility = View.GONE
@@ -130,7 +184,7 @@ class TeamMembersRecAdapter(data: List<TeamMemberModel>,
             }
         }
 
-        /** Set the text and color of th state view depending on the current member.teamState value*/
+        /** Set the text and color of the state view depending on the current member.teamState value */
         private fun setState(member: TeamMemberModel) {
             val state = MemberTeamState.valueOf(member.teamState)
 
