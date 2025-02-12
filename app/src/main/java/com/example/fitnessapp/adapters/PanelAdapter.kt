@@ -234,9 +234,8 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
         if ((panel as ITemporaryPanel).removePreviousTemporary) {
             removeTemporaryPanels(-1)
 
-        } else if (temporaryPanels.size == 2 && panel is BaseTeamPanel) {
-            // The second temporary panel must be removed in case we are adding Add or Edit Team panel
-            // and there is already active second temporary panel
+        } else if (temporaryPanels.size == 2) {
+            // The second temporary panel must be removed in case there is already active second temporary panel
             removeTemporaryPanels(Constants.PanelIndices.SECOND_TEMPORARY.ordinal)
         }
 
