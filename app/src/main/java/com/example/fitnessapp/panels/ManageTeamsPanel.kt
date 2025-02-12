@@ -177,14 +177,6 @@ class ManageTeamsPanel: BasePanel(), ITemporaryPanel {
 
     /** Update the views in the panel based on the selected team type */
     private fun updatePanel() {
-        // Clear the selected team
-        val adapter = getAdapter() ?: return
-        val selectedTeam = adapter.getSelectedTeam()
-
-        if (selectedTeam != null) {
-            adapter.changeSelectedTeam(selectedTeam.id)
-        }
-
         // Remove fourth panel (add / edit / details team) if there is
         removeFourthPanel()
 
@@ -192,6 +184,14 @@ class ManageTeamsPanel: BasePanel(), ITemporaryPanel {
             editTeamBtn.text = requireContext().getString(R.string.edit_btn_lbl)
         } else {
             editTeamBtn.text = requireContext().getString(R.string.details_btn)
+        }
+
+        // Clear the selected team
+        val adapter = getAdapter() ?: return
+        val selectedTeam = adapter.getSelectedTeam()
+
+        if (selectedTeam != null) {
+            adapter.changeSelectedTeam(selectedTeam.id)
         }
     }
 
