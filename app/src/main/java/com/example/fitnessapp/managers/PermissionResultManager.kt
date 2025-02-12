@@ -37,7 +37,12 @@ class PermissionResultManager {
         cameraPermLauncher = initializeRequestPermissionLaunchers(android.Manifest.permission.CAMERA)
         readMediaImagesPermLauncher = initializeRequestPermissionLaunchers(getMediaPermissionString())
         readExternalStoragePermLauncher = initializeRequestPermissionLaunchers(android.Manifest.permission.READ_EXTERNAL_STORAGE)
-        notificationPermLauncher = initializeRequestPermissionLaunchers(android.Manifest.permission.ACCESS_NOTIFICATION_POLICY)
+
+        notificationPermLauncher = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            initializeRequestPermissionLaunchers(android.Manifest.permission.POST_NOTIFICATIONS)
+        } else {
+            initializeRequestPermissionLaunchers(android.Manifest.permission.ACCESS_NOTIFICATION_POLICY)
+        }
 
         if (activity !is LoginActivity) {
             // Initialize the activity result launchers only if the permission handler is not used
@@ -72,7 +77,11 @@ class PermissionResultManager {
 
             (android.Manifest.permission.READ_EXTERNAL_STORAGE) -> {
                 // Ask for next permission
-                notificationPermLauncher.launch(android.Manifest.permission.ACCESS_NOTIFICATION_POLICY)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    notificationPermLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+                } else {
+                    notificationPermLauncher.launch(android.Manifest.permission.ACCESS_NOTIFICATION_POLICY)
+                }
             }
 
             (android.Manifest.permission.ACCESS_NOTIFICATION_POLICY) -> {
