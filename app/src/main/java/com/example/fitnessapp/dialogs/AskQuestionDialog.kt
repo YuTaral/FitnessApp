@@ -2,9 +2,13 @@ package com.example.fitnessapp.dialogs
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.fitnessapp.R
 import com.example.fitnessapp.models.BaseModel
 import com.example.fitnessapp.models.ExerciseModel
@@ -13,10 +17,11 @@ import com.example.fitnessapp.models.QAssignWorkoutModel
 import com.example.fitnessapp.models.TeamModel
 import com.example.fitnessapp.models.WorkoutModel
 import com.example.fitnessapp.utils.Utils
+import com.google.android.material.bottomsheet.BottomSheetDialog
 
 /** Dialog used to ask a question and execute a callback on confirm */
 @SuppressLint("InflateParams")
-class AskQuestionDialog(ctx: Context, q: Question, d: BaseModel? = null): BaseDialog(ctx) {
+class AskQuestionDialog(ctx: Context, q: Question, d: BaseModel? = null): BottomSheetDialog(ctx) {
     /** Enum with all questions */
     enum class Question(private val titleId: Int, private val questionId: Int,
                         private val confirmButtonTextId: Int, private val cancelBtnTextId: Int) {
@@ -57,8 +62,11 @@ class AskQuestionDialog(ctx: Context, q: Question, d: BaseModel? = null): BaseDi
         }
     }
 
-    override var layoutId = R.layout.dialog_ask_question
+    //override var layoutId = R.layout.dialog_ask_question
 
+    private lateinit var dialog: ConstraintLayout
+    private lateinit var title: TextView
+    private lateinit var closeIcon: ImageView
     private var question = q
     private var data = d
 
@@ -79,16 +87,29 @@ class AskQuestionDialog(ctx: Context, q: Question, d: BaseModel? = null): BaseDi
         onCancelButtonClickCallback = callback
     }
 
-    override fun findViews() {
-        super.findViews()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
+        dialog = LayoutInflater.from(Utils.getActivity()).inflate(R.layout.dialog_ask_question, null) as ConstraintLayout
+
+        setContentView(dialog)
+
+        findViews()
+        populateDialog()
+        addClickListeners()
+        setCancelable(false)
+    }
+
+    fun findViews() {
+        title = dialog.findViewById(R.id.dialog_title)
+        closeIcon = dialog.findViewById(R.id.dialog_close)
         questionText = dialog.findViewById(R.id.question_lbl)
         questionAdditionalInfo = dialog.findViewById(R.id.question_additional_info)
         confirmBtn = dialog.findViewById(R.id.yes_btn)
         cancelBtn = dialog.findViewById(R.id.no_btn)
     }
 
-    override fun populateDialog() {
+    fun populateDialog() {
         var formatName = ""
 
         title.text = question.getTitle()
@@ -144,8 +165,8 @@ class AskQuestionDialog(ctx: Context, q: Question, d: BaseModel? = null): BaseDi
         cancelBtn.text = question.getCancelButtonText()
     }
 
-    override fun addClickListeners() {
-        super.addClickListeners()
+    fun addClickListeners() {
+        closeIcon.setOnClickListener { dismiss() }
 
         confirmBtn.setOnClickListener { onConfirmButtonClickCallback() }
 
