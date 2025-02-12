@@ -9,6 +9,7 @@ import com.example.fitnessapp.R
 import com.example.fitnessapp.interfaces.IImagePicker
 import com.example.fitnessapp.managers.AppStateManager
 import com.example.fitnessapp.managers.ImageUploadManager
+import com.example.fitnessapp.models.UserModel
 import com.example.fitnessapp.network.repositories.UserProfileRepository
 import com.example.fitnessapp.utils.Utils
 import com.google.android.material.textfield.TextInputLayout
@@ -72,9 +73,15 @@ class EditProfileDialog(ctx: Context): BaseDialog(ctx), IImagePicker {
         val image = Utils.encodeImageToString(profileImage)
         val fullNameText = fullName.text.toString()
 
-        val updatedUser = AppStateManager.user!!
-        updatedUser.fullName = fullNameText
-        updatedUser.profileImage = image
+        if (fullNameText.isEmpty()) {
+            Utils.validationFailed(fullName, R.string.error_msg_username_cannot_be_blank)
+            saveBtn.isEnabled = true
+            return
+        }
+
+        // Copy the logged in user, changing the image and full name
+        val updatedUser = UserModel(AppStateManager.user!!.id, AppStateManager.user!!.email, fullNameText,
+                                    image, AppStateManager.user!!.defaultValues)
 
         UserProfileRepository().updateUserProfile(updatedUser, onSuccess = { newUser ->
             dismiss()

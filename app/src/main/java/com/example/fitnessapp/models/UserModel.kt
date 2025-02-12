@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName
  * Must correspond with server-side UserModel
  * Do not inherit BaseModel, userId is string in ASP .NET by default
  */
-class UserModel(data: String) {
+class UserModel {
     @SerializedName("Id")
     val id: String
 
@@ -23,8 +23,7 @@ class UserModel(data: String) {
     @SerializedName("DefaultValues")
     var defaultValues: UserDefaultValuesModel
 
-    /** Init method, deserializes data into UserModel object */
-    init {
+    constructor(data: String) {
         val gson = Gson()
         val model: UserModel = gson.fromJson(data, UserModel::class.java)
 
@@ -33,5 +32,13 @@ class UserModel(data: String) {
         fullName = model.fullName
         profileImage = model.profileImage
         defaultValues = model.defaultValues
+    }
+
+    constructor(idVal: String, emailVal: String, fullNameVal: String, profileImageVal: String, defaultValuesVal: UserDefaultValuesModel) {
+        id = idVal
+        email = emailVal
+        fullName = fullNameVal
+        profileImage = profileImageVal
+        defaultValues = defaultValuesVal
     }
 }

@@ -230,5 +230,6 @@
     <string name="no_joined_members_lbl">To assign workout to team members, make sure there are members, who have already joined your teams</string>
     <string name="select_members_error_lbl">Select members first</string>
     <string name="selected_members_lbl">Members:\n</string>
+    <string name="error_msg_username_cannot_be_blank">User full name cannot be blank</string>
 
 </resources>
