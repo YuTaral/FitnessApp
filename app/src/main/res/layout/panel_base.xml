@@ -15,22 +15,4 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <FrameLayout
-        android:id="@+id/loading_container"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:background="@color/semiTransparent"
-        android:visibility="gone"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <ProgressBar
-            android:id="@+id/loading_spinner"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center" />
-    </FrameLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

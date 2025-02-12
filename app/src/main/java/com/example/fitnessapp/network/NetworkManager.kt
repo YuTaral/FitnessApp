@@ -71,7 +71,6 @@ object NetworkManager {
         call.enqueue(object : Callback<CustomResponse> {
             override fun onResponse(call: Call<CustomResponse>, response: Response<CustomResponse>) {
                 try {
-                    progressDialog.dismiss()
                     responseBody = response.body()!!
 
                     // Process the response
@@ -121,10 +120,8 @@ object NetworkManager {
                         }
                     }
 
-                    // Make sure to remove the progress dialog
-                    if (progressDialog.isShowing) {
-                        progressDialog.dismiss()
-                    }
+                    // Remove the progress dialog
+                    progressDialog.dismiss()
 
                 } catch (ex: Exception) {
                     onException(response.message(), ex)

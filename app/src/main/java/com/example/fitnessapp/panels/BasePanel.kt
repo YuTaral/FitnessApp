@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.example.fitnessapp.R
@@ -32,23 +31,16 @@ abstract class BasePanel: Fragment() {
     /** The panel layout id */
     protected abstract var layoutId: Int
 
-    /** The loading spinner */
-    private lateinit var loadingSpinner: FrameLayout
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         panel = inflater.inflate(R.layout.panel_base, container, false)
 
         // Inflate the child layout (the one specific to the panel)
         setMainContent()
 
-        handleLoadingSpinner(true)
-
         // Execute the logic to find views, populate the data and add click listeners
         findViews()
         populatePanel()
         addClickListeners()
-
-        handleLoadingSpinner(false)
 
         return panel
     }
@@ -69,18 +61,6 @@ abstract class BasePanel: Fragment() {
 
         // Set the main content
         dialogMainContent.addView(contentView, layoutParams)
-    }
-
-    /** Display the loading spinner until the dialog is populated and event listeners are added
-     * @param display true to display it, false to hide it
-     */
-    private fun handleLoadingSpinner(display: Boolean) {
-        if (display)  {
-            loadingSpinner = panel.findViewById(R.id.loading_container)
-            loadingSpinner.visibility = View.VISIBLE
-        } else {
-            loadingSpinner.visibility = View.GONE
-        }
     }
 
     /** Find the views in the panel. No need to call the method when the panel is being created,

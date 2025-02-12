@@ -5,8 +5,6 @@ import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
-import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -30,9 +28,6 @@ abstract class BaseDialog(ctx: Context): Dialog(ctx, R.style.Theme_FitnessApp_Di
     /** The close icon displayed at the top right */
     protected lateinit var closeIcon: ImageView
 
-    /** The loading spinner */
-    private lateinit var loadingSpinner: FrameLayout
-
     @SuppressLint("InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,9 +37,6 @@ abstract class BaseDialog(ctx: Context): Dialog(ctx, R.style.Theme_FitnessApp_Di
 
         // Set the dialog main content layout
         setMainContent()
-
-        // Display loading spinner until th dialog is being initialized
-        handleLoadingSpinner(true)
 
         // Find the views
         findViews()
@@ -67,9 +59,6 @@ abstract class BaseDialog(ctx: Context): Dialog(ctx, R.style.Theme_FitnessApp_Di
         setCancelable(false)
 
         Utils.getActivity().activeDialogs.add(this)
-
-        // Remove the loading spinner after the dialog is initialized
-        handleLoadingSpinner(false)
     }
 
     override fun dismiss() {
@@ -93,18 +82,6 @@ abstract class BaseDialog(ctx: Context): Dialog(ctx, R.style.Theme_FitnessApp_Di
 
         // Set the main content
         dialogMainContent.addView(contentView, layoutParams)
-    }
-
-    /** Display the loading spinner until the dialog is populated and event listeners are added
-     * @param display true to display it, false to hide it
-     */
-    private fun handleLoadingSpinner(display: Boolean) {
-        if (display)  {
-            loadingSpinner = dialog.findViewById(R.id.loading_container)
-            loadingSpinner.visibility = View.VISIBLE
-        } else {
-            loadingSpinner.visibility = View.GONE
-        }
     }
 
     /** Find the views in the dialog */
