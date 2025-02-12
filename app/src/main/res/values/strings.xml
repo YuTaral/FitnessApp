@@ -23,6 +23,7 @@
     <string name="confirm_btn">Confirm</string>
     <string name="yes_btn">Yes</string>
     <string name="no_btn">No</string>
+    <string name="assign_btn">Assign</string>
     <string name="create_new_btn">Create new</string>
     <string name="override_btn">Override</string>
     <string name="workout_name_lbl">Workout name</string>
