@@ -1,5 +1,6 @@
 package com.example.fitnessapp.adapters
 
+import android.animation.LayoutTransition
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
@@ -91,13 +92,17 @@ class ExercisesRecAdapter(data: List<ExerciseModel>) : RecyclerView.Adapter<Exer
                 editBtnWarning.visibility = View.VISIBLE
             }
 
+            (itemView as ConstraintLayout).layoutTransition = LayoutTransition()
+            (itemView as ConstraintLayout).layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
+
             // Add expand mechanism
             expandSymbol.setOnClickListener {
                 if (setsContainer.visibility == View.VISIBLE) {
-                    Utils.collapseView(setsContainer)
+                    setsContainer.visibility = View.GONE
                     expandSymbol.animate().rotation(180f).setDuration(300).start()
                 } else {
-                    Utils.expandView(setsContainer)
+                    setsContainer.visibility = View.VISIBLE
+
                     expandSymbol.animate().rotation(360f).setDuration(300).start()
                 }
             }

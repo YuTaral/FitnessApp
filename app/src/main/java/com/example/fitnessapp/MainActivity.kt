@@ -83,7 +83,7 @@ class MainActivity : BaseActivity() {
     }
 
     override fun findViews() {
-        swipeRefreshLayout = findViewById(R.id.swipe_refresh_view)
+        swipeRefreshLayout = findViewById(R.id.activity_root)
         drawerLayout = findViewById(R.id.drawer_layout)
         navProfileView = findViewById(R.id.nav_profile_view)
         navActionView = findViewById(R.id.nav_action_view)

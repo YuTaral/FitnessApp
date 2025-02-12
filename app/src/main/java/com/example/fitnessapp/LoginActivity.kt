@@ -121,24 +121,28 @@ class LoginActivity : BaseActivity() {
     /** Display Register page */
     private fun displayRegister() {
         welcomeLbl.visibility = View.GONE
-        Utils.hideViewWithFade(loginContainer)
+        //Utils.hideViewWithFade(loginContainer)
+        loginContainer.visibility = View.GONE
 
         email.setText("")
         password.setText("")
 
-        Utils.displayViewWithFade(registerContainer)
+        registerContainer.visibility = View.VISIBLE
+        //Utils.displayViewWithFade(registerContainer)
     }
 
     /** Display Login page */
     private fun displayLogin() {
         welcomeLbl.visibility = View.GONE
-        Utils.hideViewWithFade(registerContainer)
+        //Utils.hideViewWithFade(registerContainer)
+        registerContainer.visibility = View.GONE
 
         emailReg.setText("")
         passwordReg.setText("")
         passwordConfirm.setText("")
 
-        Utils.displayViewWithFade(loginContainer)
+        loginContainer.visibility = View.VISIBLE
+        //Utils.displayViewWithFade(loginContainer)
     }
 
     /** Register a new user */

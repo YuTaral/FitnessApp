@@ -1,11 +1,13 @@
 package com.example.fitnessapp.adapters
 
+import android.animation.LayoutTransition
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fitnessapp.R
 import com.example.fitnessapp.models.MGExerciseModel
@@ -82,13 +84,16 @@ class MGExercisesRecAdapter(data: List<MGExerciseModel>, callback: (MGExerciseMo
             name.setOnClickListener { onClickCallback(item) }
             description.setOnClickListener { onClickCallback(item) }
 
+            (itemView as ConstraintLayout).layoutTransition = LayoutTransition()
+            (itemView as ConstraintLayout).layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
+
             // Add expand mechanism
             expandCollapse.setOnClickListener {
                 if (description.visibility == View.VISIBLE) {
-                    Utils.collapseView(description)
+                    description.visibility = View.GONE
                     expandCollapse.animate().rotation(180f).setDuration(350).start()
                 } else {
-                    Utils.expandView(description)
+                    description.visibility = View.VISIBLE
                     expandCollapse.animate().rotation(360f).setDuration(350).start()
                 }
             }

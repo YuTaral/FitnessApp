@@ -1,7 +1,9 @@
 package com.example.fitnessapp
 
+import android.animation.LayoutTransition
 import android.content.Intent
 import android.os.Bundle
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import com.example.fitnessapp.dialogs.BaseDialog
 import com.example.fitnessapp.interfaces.INeedResumeDialog
@@ -29,6 +31,11 @@ abstract class BaseActivity : AppCompatActivity()  {
 
         findViews()
         addClickListeners()
+
+        // Enable animations
+        val rootLayout = findViewById<ViewGroup>(R.id.activity_root)
+        rootLayout.layoutTransition = LayoutTransition()
+        rootLayout.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
     }
 
     override fun onRestart() {

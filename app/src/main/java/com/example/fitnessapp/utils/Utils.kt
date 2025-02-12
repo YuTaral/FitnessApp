@@ -1,8 +1,5 @@
 package com.example.fitnessapp.utils
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
-import android.animation.ValueAnimator
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -10,7 +7,6 @@ import android.graphics.BitmapFactory
 import android.util.Base64
 import android.view.Gravity
 import android.view.View
-import android.view.animation.DecelerateInterpolator
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.FrameLayout
@@ -206,74 +202,6 @@ object Utils {
         }
     }
 
-    /** Used to smoothly expand view
-     * @param view the view to expand
-     */
-    fun expandView(view: View) {
-        view.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
-        val targetHeight = view.measuredHeight
-
-        // Set the height to 0 and make it visible
-        view.layoutParams.height = 0
-        view.visibility = View.VISIBLE
-
-        val animator = ValueAnimator.ofInt(0, targetHeight)
-        animator.addUpdateListener { valueAnimator ->
-            val animatedValue = valueAnimator.animatedValue as Int
-            view.layoutParams.height = animatedValue
-            view.requestLayout()
-        }
-        animator.interpolator = DecelerateInterpolator()
-        animator.duration = 350
-        animator.start()
-    }
-
-    /** Used to smoothly collapse view
-     * @param view the view to collapse
-     */
-    fun collapseView(view: View) {
-        val initialHeight = view.measuredHeight
-
-        val animator = ValueAnimator.ofInt(initialHeight, 0)
-        animator.addUpdateListener { valueAnimator ->
-            val animatedValue = valueAnimator.animatedValue as Int
-            view.layoutParams.height = animatedValue
-            view.requestLayout()
-        }
-        animator.addListener(object : AnimatorListenerAdapter() {
-            override fun onAnimationEnd(animation: Animator) {
-                super.onAnimationEnd(animation)
-                view.visibility = View.GONE
-            }
-        })
-        animator.interpolator = DecelerateInterpolator()
-        animator.duration = 350
-        animator.start()
-    }
-
-    /** Used to smoothly hide the view with fade
-     * @param view the view to hide
-     */
-    fun hideViewWithFade(view: View) {
-        view.animate().translationX(-view.width.toFloat()).alpha(0f).setDuration(350)
-            .withEndAction {
-                view.visibility = View.GONE
-                view.translationX = 0f
-                view.alpha = 1f
-            }.start()
-    }
-
-    /** Used to smoothly display the view with fade
-     * @param view the view to display
-     */
-    fun displayViewWithFade(view: View) {
-        view.translationX = view.width.toFloat()
-        view.alpha = 0f
-        view.visibility = View.VISIBLE
-
-        view.animate().translationX(0f).alpha(1f).setDuration(350).start()
-    }
-
     /** Format a double value depending on the value after the decimal point.
      * @param value the value
      */
@@ -284,7 +212,6 @@ object Utils {
             String.format("%.3f", value)
         }
     }
-
 
     /** Execute the callback when user logout */
     fun onLogout() {

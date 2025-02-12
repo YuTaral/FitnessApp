@@ -1,5 +1,6 @@
 package com.example.fitnessapp.panels
 
+import android.animation.LayoutTransition
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -118,6 +119,10 @@ class AssignWorkoutPanel: BasePanel(), ITemporaryPanel {
         selectMembersBtn.setOnClickListener {
             state = DialogState.SELECT_MEMBERS
         }
+
+        val root = panel.findViewById<ConstraintLayout>(R.id.root_view)
+        root.layoutTransition = LayoutTransition()
+        root.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
     }
 
     /** Populate the team members
@@ -179,7 +184,7 @@ class AssignWorkoutPanel: BasePanel(), ITemporaryPanel {
                 selectMembersContainer.visibility = View.GONE
                 selectWorkoutContainer.visibility = View.GONE
 
-                Utils.displayViewWithFade(selectTeamContainer)
+                selectTeamContainer.visibility = View.VISIBLE
                 titleId = R.string.select_team_lbl
             }
 
@@ -187,7 +192,7 @@ class AssignWorkoutPanel: BasePanel(), ITemporaryPanel {
                 selectTeamContainer.visibility = View.GONE
                 selectWorkoutContainer.visibility = View.GONE
 
-                Utils.displayViewWithFade(selectMembersContainer)
+                selectMembersContainer.visibility = View.VISIBLE
                 titleId = R.string.select_members_lbl
             }
 
@@ -195,7 +200,7 @@ class AssignWorkoutPanel: BasePanel(), ITemporaryPanel {
                 selectTeamContainer.visibility = View.GONE
                 selectMembersContainer.visibility = View.GONE
 
-                Utils.displayViewWithFade(selectWorkoutContainer)
+                selectWorkoutContainer.visibility = View.VISIBLE
                 titleId = R.string.select_workout_lbl
             }
         }

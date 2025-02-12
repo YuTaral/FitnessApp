@@ -1,5 +1,6 @@
 package com.example.fitnessapp.dialogs
 
+import android.animation.LayoutTransition
 import android.content.Context
 import android.view.View
 import android.widget.Button
@@ -92,6 +93,10 @@ class DateTimePickerDialog(ctx: Context): BaseDialog(ctx) {
 
             onSaveCallback(date)
         }
+
+        val root = dialog.findViewById<ConstraintLayout>(R.id.root_view)
+        root.layoutTransition = LayoutTransition()
+        root.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
     }
 
     /** Setter for the on save callback */
