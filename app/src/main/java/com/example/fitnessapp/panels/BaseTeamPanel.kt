@@ -18,7 +18,7 @@ abstract class BaseTeamPanel: BasePanel(), IImagePicker, ITemporaryPanel {
     override var panelIndex = Constants.PanelIndices.SECOND_TEMPORARY.ordinal
     override val removePreviousTemporary = false
 
-    private lateinit var removePictureBtn: Button
+    private lateinit var removePictureBtn: ImageView
 
     protected lateinit var teamImage: ImageView
     protected lateinit var name: EditText

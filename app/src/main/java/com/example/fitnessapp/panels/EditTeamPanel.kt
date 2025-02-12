@@ -23,7 +23,10 @@ class EditTeamPanel(t: TeamModel): BaseTeamPanel() {
     private lateinit var members: List<TeamMemberModel>
 
     override fun populatePanel() {
-        teamImage.setImageBitmap(Utils.convertStringToBitmap(team.image))
+        if (team.image.isNotEmpty()) {
+            teamImage.setImageBitmap(Utils.convertStringToBitmap(team.image))
+        }
+
         name.setText(team.name)
         description.setText(team.description)
 

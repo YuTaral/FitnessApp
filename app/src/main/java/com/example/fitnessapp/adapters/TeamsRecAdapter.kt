@@ -118,7 +118,10 @@ class TeamsRecAdapter(data: List<TeamModel>, callback: (TeamModel) -> Unit) : Re
          * @param selectUnselectTeamCallback the callback to execute on click
          */
         fun bind(team: TeamModel, selectUnselectTeamCallback: (TeamModel) -> Unit) {
-            image.setImageBitmap(Utils.convertStringToBitmap(team.image))
+            if (team.image.isNotEmpty()) {
+                image.setImageBitmap(Utils.convertStringToBitmap(team.image))
+            }
+
             name.text = team.name
             description.text = team.description
 
