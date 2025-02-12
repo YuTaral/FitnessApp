@@ -85,15 +85,6 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
         return workoutsPanel
     }
 
-    /** Initialize the workout panel if it's not and return the instance */
-    private fun getWorkoutPanel(): BasePanel {
-        if (!::workoutPanel.isInitialized) {
-            workoutPanel = SelectedWorkoutPanel()
-        }
-
-        return workoutPanel
-    }
-
     /** Return the temporary panel instance at the specified position
      * @param position the position of the panel in the adapter
      */
@@ -133,6 +124,15 @@ class PanelAdapter(pagerView: ViewPager2, fragmentActivity: FragmentActivity, co
 
     /** Return the temporary panel instance as NotificationsPanel */
     fun getNotificationsPanel(): NotificationsPanel? = getTemporaryPanelAs(Constants.PanelIndices.FIRST_TEMPORARY.ordinal)
+
+    /** Initialize the workout panel if it's not and return the instance */
+    fun getWorkoutPanel(): BasePanel {
+        if (!::workoutPanel.isInitialized) {
+            workoutPanel = SelectedWorkoutPanel()
+        }
+
+        return workoutPanel
+    }
 
     /** Return true if the current active panel is Manage Exercise, false otherwise */
     fun isManageExerciseActive(): Boolean {

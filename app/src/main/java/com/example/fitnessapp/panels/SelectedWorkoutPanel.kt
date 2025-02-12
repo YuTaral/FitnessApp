@@ -107,6 +107,10 @@ class SelectedWorkoutPanel : BasePanel() {
         } else {
             mainContent.visibility = View.GONE
             noWorkoutContent.visibility = View.VISIBLE
+
+            if (timerJob != null) {
+                timerJob!!.cancel()
+            }
         }
 
         if (exerciseRecycler.adapter == null) {
@@ -143,8 +147,8 @@ class SelectedWorkoutPanel : BasePanel() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onPause() {
+        super.onPause()
 
         if (timerJob != null) {
             timerJob!!.cancel()
@@ -213,6 +217,13 @@ class SelectedWorkoutPanel : BasePanel() {
                     secondsElapsed = Duration.between(
                                         AppStateManager.workout!!.startDateTime!!.toInstant(), Date().toInstant())
                                         .seconds.toInt()
+
+                    // If for any reason this returns negative number, set it to zero
+                    // (could happen if AppStateManager.workout!!.startDateTime is in different timezone
+                    // from Date()
+                    if (secondsElapsed < 0) {
+                        secondsElapsed = 0
+                    }
                 } else {
                     // Do not show the timer on older Android versions
                     workoutDuration.visibility = View.GONE
