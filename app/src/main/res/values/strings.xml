@@ -82,6 +82,7 @@
     <string name="error_select_exercise_action">Please select exercise action from the dropdown</string>
     <string name="back_btn">Back</string>
     <string name="add_btn">Add</string>
+    <string name="new_exercise_btn">New exercise</string>
     <string name="describe_the_exercise_lbl">Describe the exercise</string>
     <string name="mg_exercise_description">Description: %s</string>
     <string name="add_exercise_to_current_workout_lbl">Add exercise to current workout</string>

@@ -35,9 +35,10 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/exercise_sets"
-            android:layout_width="140dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="@string/sets_lbl"
+            app:layout_constraintWidth_percent="0.4"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
@@ -53,9 +54,10 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/set_reps"
-            android:layout_width="140dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="@string/reps_lbl"
+            app:layout_constraintWidth_percent="0.4"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
@@ -71,10 +73,11 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/exercise_weight"
-            android:layout_width="140dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:hint="@string/weight_lbl"
+            app:layout_constraintWidth_percent="0.4"
             app:layout_constraintTop_toBottomOf="@+id/exercise_sets"
             app:layout_constraintStart_toStartOf="parent">
 
@@ -88,10 +91,11 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/rest_txt"
-            android:layout_width="140dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:hint="@string/rest_time_lbl"
+            app:layout_constraintWidth_percent="0.4"
             app:layout_constraintTop_toBottomOf="@+id/set_reps"
             app:layout_constraintEnd_toEndOf="parent">
 

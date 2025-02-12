@@ -49,35 +49,39 @@
 
         <TextView
             android:id="@+id/empty_lbl"
-            android:layout_width="60dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="3dp"
+            android:layout_marginStart="10dp"
+            app:layout_constraintWidth_percent="0.12"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
             android:id="@+id/reps_number_lbl"
-            android:layout_width="80dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/reps_number_lbl"
+            app:layout_constraintWidth_percent="0.24"
             app:layout_constraintStart_toEndOf="@+id/empty_lbl"
             app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
             android:id="@+id/weight_lbl"
-            android:layout_width="80dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:text="@string/weight_in_unit_lbl"
+            app:layout_constraintWidth_percent="0.24"
             app:layout_constraintStart_toEndOf="@+id/reps_number_lbl"
             app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
             android:id="@+id/rest_lbl"
-            android:layout_width="80dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:text="@string/rest_time_lbl"
+            app:layout_constraintWidth_percent="0.24"
             app:layout_constraintStart_toEndOf="@+id/weight_lbl"
             app:layout_constraintTop_toTopOf="parent"/>
 

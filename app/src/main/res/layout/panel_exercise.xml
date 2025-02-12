@@ -104,17 +104,19 @@
 
         <Button
             android:id="@+id/back_btn"
-            android:layout_width="150dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/back_btn"
+            app:layout_constraintWidth_percent="0.4"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
         <Button
             android:id="@+id/add_btn"
-            android:layout_width="150dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/add_btn"
+            android:text="@string/new_exercise_btn"
+            app:layout_constraintWidth_percent="0.4"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>

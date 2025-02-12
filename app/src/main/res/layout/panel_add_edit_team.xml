@@ -121,23 +121,25 @@
         android:layout_height="2dp"
         android:layout_marginBottom="5dp"
         android:background="@color/colorAccent"
-        app:layout_constraintBottom_toTopOf="@+id/delete_btn"/>
+        app:layout_constraintBottom_toTopOf="@+id/save_btn"/>
 
     <Button
         android:id="@+id/delete_btn"
-        android:layout_width="130dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:text="@string/delete_btn"
+        app:layout_constraintWidth_percent="0.4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
 
     <Button
         android:id="@+id/save_btn"
-        android:layout_width="130dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:text="@string/save_btn"
+        app:layout_constraintWidth_percent="0.4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
 

@@ -83,20 +83,22 @@
 
         <Button
             android:id="@+id/select_team_btn"
-            android:layout_width="150dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:text="@string/back_btn"
+            app:layout_constraintWidth_percent="0.4"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
         <Button
             android:id="@+id/select_workout_btn"
-            android:layout_width="150dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
             android:enabled="false"
             android:text="@string/select_workout_btn"
+            app:layout_constraintWidth_percent="0.4"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
@@ -121,10 +123,11 @@
 
         <Button
             android:id="@+id/select_members_btn"
-            android:layout_width="200dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="@string/back_btn"
+            app:layout_constraintWidth_percent="0.4"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>

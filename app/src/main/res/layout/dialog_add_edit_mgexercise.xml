@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:autofillHints=""
             android:imeOptions="actionNext"
-            android:nextFocusDown="@+id/exercise_sets"
+            android:nextFocusDown="@+id/exercise_description"
             android:maxLength="50"
             android:inputType="textCapSentences" />
 
