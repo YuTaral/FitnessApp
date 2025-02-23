@@ -4,7 +4,6 @@ import com.example.fitnessapp.models.JoinTeamNotificationModel
 import com.example.fitnessapp.models.NotificationModel
 import com.example.fitnessapp.network.APIService
 import com.example.fitnessapp.network.NetworkManager
-import com.example.fitnessapp.utils.Utils
 
 /** NotificationRepository class, used to execute all requests related to notifications */
 class NotificationRepository {
@@ -20,12 +19,12 @@ class NotificationRepository {
     }
 
     /** Get the notification details
-     * @param id the notification id
+     * @param notificationId the notification id
      * @param onSuccess callback to execute if request is successful
      */
-    fun getNotificationDetails(id: Long, onSuccess: (JoinTeamNotificationModel) -> Unit) {
+    fun getNotificationDetails(notificationId: Long, onSuccess: (JoinTeamNotificationModel) -> Unit) {
         NetworkManager.sendRequest(
-            request = { APIService.getInstance().getJoinTeamNotificationDetails(id) },
+            request = { APIService.getInstance().getJoinTeamNotificationDetails(notificationId) },
             onSuccessCallback = { response -> onSuccess(JoinTeamNotificationModel(response.data[0]))},
         )
     }
@@ -35,21 +34,21 @@ class NotificationRepository {
      * @param onSuccess callback to execute if request is successful
      */
     fun notificationReviewed(id: Long, onSuccess: () -> Unit) {
+        val params = mapOf("id" to id.toString())
+
         NetworkManager.sendRequest(
-            request = { APIService.getInstance().notificationReviewed(id) },
+            request = { APIService.getInstance().notificationReviewed(params) },
             onSuccessCallback = { onSuccess() },
         )
     }
 
     /** Delete the notification
-     * @param notification the notification to remove
+     * @param notificationId the notification id to remove
      * @param onSuccess callback to execute if request is successful
      */
-    fun deleteNotification(notification: NotificationModel, onSuccess: (List<NotificationModel>) -> Unit) {
-        val params = mapOf("notification" to Utils.serializeObject(notification))
-
+    fun deleteNotification(notificationId: Long, onSuccess: (List<NotificationModel>) -> Unit) {
         NetworkManager.sendRequest(
-            request = { APIService.getInstance().deleteNotification(params) },
+            request = { APIService.getInstance().deleteNotification(notificationId) },
             onSuccessCallback = { response -> onSuccess(response.data.map { NotificationModel(it) }) },
         )
     }

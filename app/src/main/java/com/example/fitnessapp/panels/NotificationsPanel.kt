@@ -74,10 +74,10 @@ class NotificationsPanel: BasePanel(), ITemporaryPanel {
     }
 
     /** Send request to delete notification
-     * @param notification the notification to remove
+     * @param notificationId the notification id to remove
      */
-    private fun deleteNotification(notification: NotificationModel) {
-        NotificationRepository().deleteNotification(notification, onSuccess = { notifications ->
+    private fun deleteNotification(notificationId: Long) {
+        NotificationRepository().deleteNotification(notificationId, onSuccess = { notifications ->
             // Update the list on success
             populateNotifications(notifications)
         })
@@ -98,7 +98,7 @@ class NotificationsPanel: BasePanel(), ITemporaryPanel {
             if (notificationsRecycler.adapter == null) {
                 notificationsRecycler.adapter = NotificationsRecAdapter(notifications,
                     callback = { notification -> onNotificationClick(notification) },
-                    removeCallback = { notification -> deleteNotification(notification) })
+                    removeCallback = { notification -> deleteNotification(notification.id) })
             } else {
                 (notificationsRecycler.adapter as NotificationsRecAdapter).updateData(notifications)
             }

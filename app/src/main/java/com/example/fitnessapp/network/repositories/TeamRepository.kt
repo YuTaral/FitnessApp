@@ -58,8 +58,10 @@ class TeamRepository {
      * @param onSuccess callback to execute if request is successful
      */
     fun leaveTeam(teamId: Long, onSuccess: () -> Unit) {
+        val params = mapOf("teamId" to teamId.toString())
+
         NetworkManager.sendRequest(
-            request = { APIService.getInstance().leaveTeam(teamId) },
+            request = { APIService.getInstance().leaveTeam(params) },
             onSuccessCallback = { onSuccess() }
         )
     }
@@ -70,8 +72,10 @@ class TeamRepository {
      * @param onSuccess callback to execute if request is successful
      */
     fun inviteMember(userId: String, teamId: Long, onSuccess: (List<TeamMemberModel>) -> Unit) {
+        val params = mapOf("userId" to userId, "teamId" to teamId.toString())
+
         NetworkManager.sendRequest(
-            request = { APIService.getInstance().inviteMember(userId, teamId) },
+            request = { APIService.getInstance().inviteMember(params) },
             onSuccessCallback = { response ->
                 val members: MutableList<TeamMemberModel> = mutableListOf()
 
@@ -90,8 +94,10 @@ class TeamRepository {
      * @param onSuccess callback to execute if request is successful
      */
     fun acceptInvite(userId: String, teamId: Long, onSuccess: () -> Unit) {
+        val params = mapOf("userId" to userId, "teamId" to teamId.toString())
+
         NetworkManager.sendRequest(
-            request = { APIService.getInstance().acceptInvite(userId, teamId) },
+            request = { APIService.getInstance().acceptInvite(params) },
             onSuccessCallback = { onSuccess()},
         )
     }
@@ -102,8 +108,10 @@ class TeamRepository {
      * @param onSuccess callback to execute if request is successful
      */
     fun declineInvite(userId: String, teamId: Long, onSuccess: (List<NotificationModel>) -> Unit) {
+        val params = mapOf("userId" to userId, "teamId" to teamId.toString())
+
         NetworkManager.sendRequest(
-            request = { APIService.getInstance().declineInvite(userId, teamId) },
+            request = { APIService.getInstance().declineInvite(params) },
             onSuccessCallback = { response -> onSuccess(response.data.map {NotificationModel(it)})},
         )
     }

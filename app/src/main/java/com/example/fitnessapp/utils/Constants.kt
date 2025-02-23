@@ -7,14 +7,9 @@ import com.example.fitnessapp.BuildConfig
 object Constants {
     const val URL: String = BuildConfig.BASE_URL
 
-    /** Enum with all response codes defined server-side */
-    enum class ResponseCode {
-        SUCCESS,
-        FAIL,
-        UNEXPECTED_ERROR,
-        EXERCISE_ALREADY_EXISTS,
-        TOKEN_EXPIRED,
-        REFRESH_TOKEN
+    /** Object with all custom HTTP status codes defined server-side */
+    object CustomHttpStatusCode {
+        val EXERCISE_ALREADY_EXISTS = 499
     }
 
     /** Enum with panel unique ids */
@@ -55,67 +50,44 @@ object Constants {
 
     /** Object containing request end point values */
     object RequestEndPoints {
-        private const val USER = "user"
-        private const val WORKOUT = "workout"
-        private const val EXERCISE = "exercise"
-        private const val MUSCLE_GROUP = "muscle-group"
-        private const val USER_PROFILE = "user-profile"
-        private const val WORKOUT_TEMPLATE = "workout-template"
-        private const val TEAM = "team"
-        private const val NOTIFICATION = "notification"
+        private const val USERS = "users"
 
-        const val REGISTER = "$USER/register"
-        const val LOGIN = "$USER/login"
-        const val LOGOUT = "$USER/logout"
-        const val CHANGE_PASSWORD = "$USER/change-password"
-        const val VALIDATE_TOKEN = "$USER/validate-token"
+        const val USER_PROFILES = "user-profiles"
+        const val WORKOUTS = "workouts"
+        const val EXERCISES = "exercises"
+        const val MUSCLE_GROUPS = "muscle-groups"
+        const val WORKOUT_TEMPLATES = "workout-templates"
+        const val TEAMS = "teams"
+        const val NOTIFICATIONS = "notifications"
 
-        const val ADD_WORKOUT = "$WORKOUT/add"
-        const val UPDATE_WORKOUT = "$WORKOUT/update"
-        const val DELETE_WORKOUT = "$WORKOUT/delete"
-        const val GET_WORKOUTS = "$WORKOUT/get-workouts"
-        const val GET_WORKOUT = "$WORKOUT/get-workout"
-        const val GET_WEIGHT_UNITS  = "$WORKOUT/get-weight-units"
+        const val REGISTER = "$USERS/register"
+        const val LOGIN = "$USERS/login"
+        const val LOGOUT = "$USERS/logout"
+        const val CHANGE_PASSWORD = "$USERS/change-password"
+        const val VALIDATE_TOKEN = "$USERS/validate-token"
 
-        const val ADD_EXERCISE_TO_WORKOUT = "$EXERCISE/add-to-workout"
-        const val UPDATE_EXERCISE_FROM_WORKOUT = "$EXERCISE/update-exercise-from-workout"
-        const val DELETE_EXERCISE_FROM_WORKOUT = "$EXERCISE/delete-exercise-from-workout"
-        const val ADD_EXERCISE = "$EXERCISE/add"
-        const val UPDATE_EXERCISE = "$EXERCISE/update"
-        const val DELETE_EXERCISE = "$EXERCISE/delete"
-        const val COMPLETE_SET = "$EXERCISE/complete-set"
-        const val GET_EXERCISES_FOR_MG = "$EXERCISE/get-by-mg-id"
-        const val GET_MG_EXERCISE = "$EXERCISE/get-mg-exercise"
+        const val WEIGHT_UNITS  = "$WORKOUTS/weight-units"
 
-        const val GET_MUSCLE_GROUPS_FOR_USER = "$MUSCLE_GROUP/get-by-user"
+        const val TO_WORKOUT = "$EXERCISES/to-workout"
+        const val EXERCISE_FROM_WORKOUT = "$EXERCISES/exercise-from-workout"
+        const val COMPLETE_SET = "$EXERCISES/complete-set"
+        const val EXERCISES_FOR_MG = "$EXERCISES/by-mg-id"
+        const val MG_EXERCISE = "$EXERCISES/mg-exercise"
 
-        const val UPDATE_USER_DEFAULT_VALUES = "$USER_PROFILE/update-default-values"
-        const val UPDATE_USER_PROFILE = "$USER_PROFILE/update-profile"
-        const val GET_USER_DEFAULT_VALUES = "$USER_PROFILE/get-default-values"
+        const val DEFAULT_VALUES = "$USER_PROFILES/default-values"
 
-        const val ADD_WORKOUT_TEMPLATE  = "$WORKOUT_TEMPLATE/add"
-        const val UPDATE_WORKOUT_TEMPLATE  = "$WORKOUT_TEMPLATE/update"
-        const val DELETE_WORKOUT_TEMPLATE  = "$WORKOUT_TEMPLATE/delete"
-        const val GET_WORKOUT_TEMPLATES  = "$WORKOUT_TEMPLATE/get-templates"
+        const val LEAVE_TEAM  = "$TEAMS/leave"
+        const val INVITE_MEMBER  = "$TEAMS/invite-member"
+        const val REMOVE_MEMBER  = "$TEAMS/remove-member"
+        const val ACCEPT_TEAM_INVITE  = "$TEAMS/accept-invite"
+        const val DECLINE_TEAM_INVITE  = "$TEAMS/decline-invite"
+        const val MY_TEAMS  = "$TEAMS/my-teams"
+        const val MY_TEAMS_WITH_MEMBERS  = "$TEAMS/my-teams-with-members"
+        const val USERS_TO_INVITE  = "$TEAMS/users-to-invite"
+        const val MY_TEAM_MEMBERS  = "$TEAMS/my-team-members"
+        const val JOINED_TEAM_MEMBERS  = "$TEAMS/joined-team-members"
 
-        const val ADD_TEAM  = "$TEAM/add"
-        const val UPDATE_TEAM  = "$TEAM/update"
-        const val DELETE_TEAM  = "$TEAM/delete"
-        const val LEAVE_TEAM  = "$TEAM/leave"
-        const val INVITE_MEMBER  = "$TEAM/invite-member"
-        const val REMOVE_MEMBER  = "$TEAM/remove-member"
-        const val ACCEPT_TEAM_INVITE  = "$TEAM/accept-invite"
-        const val DECLINE_TEAM_INVITE  = "$TEAM/decline-invite"
-        const val GET_MY_TEAMS  = "$TEAM/my-teams"
-        const val GET_MY_TEAMS_WITH_MEMBERS  = "$TEAM/my-teams-with-members"
-        const val GET_USERS_TO_INVITE  = "$TEAM/get-users-to-invite"
-        const val GET_MY_TEAM_MEMBERS  = "$TEAM/get-my-team-members"
-        const val GET_JOINED_TEAM_MEMBERS  = "$TEAM/get-joined-team-members"
-
-        const val NOTIFICATION_REVIEWED  = "$NOTIFICATION/reviewed"
-        const val DELETE_NOTIFICATION  = "$NOTIFICATION/delete"
-        const val GET_NOTIFICATIONS  = "$NOTIFICATION/get-notifications"
-        const val GET_JOIN_TEAM_NOTIFICATION_DETAILS  = "$NOTIFICATION/get-join-team-notification-details"
-        const val REFRESH_NOTIFICATIONS = "$NOTIFICATION/refresh-notifications"
+        const val JOIN_TEAM_NOTIFICATION_DETAILS  = "$NOTIFICATIONS/join-team-notification-details"
+        const val REFRESH_NOTIFICATIONS = "$NOTIFICATIONS/refresh-notifications"
     }
 }

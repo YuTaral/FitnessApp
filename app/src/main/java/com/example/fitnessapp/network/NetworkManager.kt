@@ -10,21 +10,18 @@ import com.example.fitnessapp.LoginActivity
 import com.example.fitnessapp.R
 import com.example.fitnessapp.managers.AppStateManager
 import com.example.fitnessapp.network.repositories.UserRepository
-import com.example.fitnessapp.utils.Constants
 import com.example.fitnessapp.utils.Utils
+import com.google.gson.Gson
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.net.HttpURLConnection
 
 /** NetworkManager Object to implement the logic for sending a request and
  * executing the common logic for all requests
  */
 object NetworkManager {
-    private lateinit var progressDialog: AlertDialog
-
-    @Volatile
-    private var responseBody: CustomResponse? = null
-
     /** Use Factory pattern to create the call object. This is needed, because when
      * we need to refresh the token, the new token is returned as response from the server.
      * We must update it and execute the original request. We need a new instance of the
@@ -66,107 +63,116 @@ object NetworkManager {
      */
     private  fun executeCall(call: Call<CustomResponse>, onSuccessCallback: (CustomResponse) -> Unit, onErrorCallback: (CustomResponse) -> Unit) {
         // Show progress dialog
-        showRequestInProgressDialog()
+        val progressDialog = showRequestInProgressDialog()
 
         call.enqueue(object : Callback<CustomResponse> {
             override fun onResponse(call: Call<CustomResponse>, response: Response<CustomResponse>) {
+                var responseContent: CustomResponse? = null
+
                 try {
-                    responseBody = response.body()!!
+                    if (response.isSuccessful) {
+                        responseContent = response.body()
 
-                    // Process the response
-                    if (responseBody != null && response.isSuccessful) {
+                        if (responseContent == null) {
+                            // Response code is 2xx, but the body contains no data,
+                            // this is unexpected error
+                            Utils.showMessageWithVibration(R.string.error_msg_unexpected)
+                            onErrorCallback(getEmptyResponse())
+                            return
+                        }
 
-                        updateNotification()
+                        onSuccessCallback(responseContent)
 
-                        try {
+                        if (responseContent.message != "Success") {
+                            Utils.showMessage(responseContent.message)
+                        }
 
-                            if (Utils.isSuccessResponse(responseBody!!.code)) {
-                                // Execute the callback and show the message if it's different from success
-                                onSuccessCallback(responseBody!!)
-                                if (responseBody!!.message != "Success") {
-                                    Utils.showMessage(responseBody!!.message)
-                                }
+                    } else {
+                        // Extract the error body which must contain CustomResponse and set the
+                        // responseBody which will be processed in onError(onErrorCallback)
+                        val errorBody = JSONObject(response.errorBody()!!.string())
 
-                            } else if (Utils.istTokenExpiredResponse(responseBody!!.code)) {
-                                if (AppStateManager.user != null) {
-                                    // Token expired, logout
-                                    UserRepository().logout(onSuccess = { Utils.onLogout() })
-                                } else {
-                                    // If user is not logged in, execute the onError which will display
-                                    // the login page
-                                    onError(onErrorCallback)
-                                }
+                        responseContent = if (errorBody.optJSONObject("value") != null) {
+                            Gson().fromJson(errorBody.getJSONObject("value").toString(), CustomResponse::class.java)
+                        } else {
+                            Gson().fromJson(errorBody.toString(), CustomResponse::class.java)
+                        }
 
-                            } else if (Utils.isTokenRefreshResponse(responseBody!!.code) && responseBody!!.data.isNotEmpty()) {
+                        if (responseContent == null || responseContent.code == 0) {
+                            // Something went wrong, show unexpected error and try to execute
+                            // on error callback
+                            Utils.showMessageWithVibration(R.string.error_msg_unexpected)
+                            onErrorCallback(getEmptyResponse())
+                            return
+                        }
+
+                        // Execute on error callback
+                        if (responseContent.code == HttpURLConnection.HTTP_UNAUTHORIZED) {
+
+                            if (responseContent.data.size == 1) {
                                 // Update the token using the returned token
-                                APIService.updateToken(responseBody!!.data[0])
+                                APIService.updateToken(responseContent.data[0])
+
+                                // Remove the progress dialog from the "first" request before
+                                // resending it
+                                progressDialog.dismiss()
 
                                 // Resend the original request by recreating the Call<CustomResponse> object
                                 executeCall(requestFactory(), onSuccessCallback, onErrorCallback)
 
-                            } else if (Utils.isFail(responseBody!!.code)) {
-                                // Execute on error callback
-                                onError(onErrorCallback)
+                            } else {
+                                if (AppStateManager.user != null) {
+                                    // Token expired, logout
+                                    UserRepository().logout(onSuccess = { Utils.onLogout() })
+                                    Utils.showMessageWithVibration(responseContent.message)
+                                } else {
+                                    // If user is not logged in, execute the onError which will display
+                                    // the login page
+                                    onError(responseContent, onErrorCallback)
+                                }
                             }
-
-                        } catch (ex: Exception) {
-                            onException(Utils.getActivity().getString(R.string.error_msg_unexpected), ex)
-                        }
-                    } else {
-                        try {
-                            onError(onErrorCallback)
-                        } catch (ex: Exception) {
-                            onException(Utils.getActivity().getString(R.string.error_msg_unexpected), ex)
+                        } else {
+                            // Execute the on error callback if the request failed for some reason
+                            // and show the error message
+                            onError(responseContent, onErrorCallback)
                         }
                     }
 
-                    // Remove the progress dialog
-                    progressDialog.dismiss()
-
                 } catch (ex: Exception) {
-                    onException(response.message(), ex)
+                    onError(getEmptyResponse(), onErrorCallback)
+                    ex.printStackTrace()
                 }
+
+                // Try to update the notification indication
+                if (responseContent != null && AppStateManager.activeActivity !is LoginActivity) {
+                    if (responseContent.notification != AppStateManager.notification) {
+                        AppStateManager.notification = responseContent.notification
+                    }
+                }
+
+                // Remove the progress dialog
+                progressDialog.dismiss()
             }
 
             override fun onFailure(call: Call<CustomResponse>, t: Throwable) {
                 // Display network problem error
-                onException(Utils.getActivity().getString(R.string.error_msg_unexpected_network_problem), t as Exception)
+                Utils.showMessageWithVibration(R.string.error_msg_unexpected_network_problem)
+                (t as Exception).printStackTrace()
+                onErrorCallback(getEmptyResponse())
 
-                try {
-                    if (responseBody == null) {
-                        responseBody = getEmptyResponse()
-                    }
-
-                    // Try to execute the on error callback
-                    onErrorCallback(responseBody!!)
-
-                } catch (exception: Exception) {
-                    exception.printStackTrace()
-                }
+                // Remove the progress dialog
+                progressDialog.dismiss()
             }
         })
     }
 
-    /** Update the notification property received from the request
-     * if it's different from the the value in AppStateManager
-     */
-    private fun updateNotification() {
-        if (responseBody == null || AppStateManager.activeActivity is LoginActivity) {
-            return
-        }
-
-        if (responseBody!!.notification != AppStateManager.notification) {
-            AppStateManager.notification = responseBody!!.notification
-        }
-    }
-
     /** Show request in progress dialog when the request is sent */
-    private fun showRequestInProgressDialog() {
+    private fun showRequestInProgressDialog(): AlertDialog {
         val dialogBuilder = AlertDialog.Builder(Utils.getActivity(), R.style.Theme_FitnessApp_Dialog)
                             .setView(R.layout.dialog_req_progress)
                             .setCancelable(false)
 
-        progressDialog = dialogBuilder.create()
+        val progressDialog = dialogBuilder.create()
         progressDialog.show()
 
         Handler(Looper.getMainLooper()).postDelayed({
@@ -174,46 +180,34 @@ object NetworkManager {
                 progressDialog.dismiss()
             }
         }, 10000)
+
+        return progressDialog
     }
 
     /** Executes the logic when request error occurs
+     * @param responseContent the response content
      * @param onErrorCallback the callback to execute
      */
-    private fun onError(onErrorCallback: (CustomResponse) -> Unit) {
+    private fun onError(responseContent: CustomResponse?, onErrorCallback: (CustomResponse) -> Unit) {
         var message = Utils.getActivity().getString(R.string.error_msg_unexpected)
 
-        updateNotification()
-
-        if (responseBody != null) {
+        if (responseContent != null) {
             // Execute the callback
-            onErrorCallback(responseBody!!)
+            onErrorCallback(responseContent)
 
-            if (responseBody!!.message.isNotEmpty()) {
-                message = responseBody!!.message
+            if (responseContent.message.isNotEmpty()) {
+                message = responseContent.message
             }
+        } else {
+            onErrorCallback(getEmptyResponse())
         }
 
         Utils.showMessageWithVibration(message)
     }
 
-    /** Execute the logic if exception occurs
-     * @param message the message to show
-     * @param exception the exception
-     */
-    private fun onException(message: String, exception: Exception) {
-        // Dismiss the dialog
-        progressDialog.dismiss()
-
-        updateNotification()
-
-        // Show the message and log the error
-        Utils.showMessageWithVibration(message)
-        exception.printStackTrace()
-    }
-
     /** Create CustomResponse object with fail code when CustomResponse is not available */
     private fun getEmptyResponse(): CustomResponse {
-        return CustomResponse(Constants.ResponseCode.FAIL.ordinal, "", listOf(), AppStateManager.notification)
+        return CustomResponse(HttpURLConnection.HTTP_BAD_REQUEST, "", listOf(), AppStateManager.notification)
     }
 
     /**

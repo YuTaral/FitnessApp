@@ -11,6 +11,9 @@ class TeamMemberModel(data: String) : BaseModel(data) {
     @SerializedName("UserId")
     var userId: String
 
+    @SerializedName("TeamId")
+    var teamId: Long
+
     @SerializedName("FullName")
     var fullName: String
 
@@ -27,6 +30,7 @@ class TeamMemberModel(data: String) : BaseModel(data) {
         val model: TeamMemberModel = gson.fromJson(data, TeamMemberModel::class.java)
 
         id = model.id
+        teamId = model.teamId
         userId = model.userId
         fullName = model.fullName
         image = model.image

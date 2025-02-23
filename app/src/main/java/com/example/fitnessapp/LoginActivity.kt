@@ -121,20 +121,17 @@ class LoginActivity : BaseActivity() {
     /** Display Register page */
     private fun displayRegister() {
         welcomeLbl.visibility = View.GONE
-        //Utils.hideViewWithFade(loginContainer)
         loginContainer.visibility = View.GONE
 
         email.setText("")
         password.setText("")
 
         registerContainer.visibility = View.VISIBLE
-        //Utils.displayViewWithFade(registerContainer)
     }
 
     /** Display Login page */
     private fun displayLogin() {
         welcomeLbl.visibility = View.GONE
-        //Utils.hideViewWithFade(registerContainer)
         registerContainer.visibility = View.GONE
 
         emailReg.setText("")
@@ -142,7 +139,6 @@ class LoginActivity : BaseActivity() {
         passwordConfirm.setText("")
 
         loginContainer.visibility = View.VISIBLE
-        //Utils.displayViewWithFade(loginContainer)
     }
 
     /** Register a new user */
@@ -190,7 +186,7 @@ class LoginActivity : BaseActivity() {
             return
         }
 
-        // Client-side validation passed, send the register request
+        // Client-side validation passed, send the login request
         UserRepository().login(emailValue, passwordValue, onSuccess = { response ->
             // Set the logged in user and start the Main Activity
             AppStateManager.user = UserModel(response.data[0])

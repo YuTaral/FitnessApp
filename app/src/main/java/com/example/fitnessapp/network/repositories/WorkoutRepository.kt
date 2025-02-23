@@ -61,19 +61,6 @@ class WorkoutRepository {
         )
     }
 
-    /** Fetch the workout
-     * @param workoutId the workout id
-     * @param onSuccess callback to execute if request is successful
-     */
-    fun getWorkout(workoutId: Long, onSuccess: (WorkoutModel) -> Unit) {
-        NetworkManager.sendRequest(
-            request = { APIService.getInstance().getWorkout(workoutId) },
-            onSuccessCallback = { response ->
-                onSuccess(WorkoutModel(response.data[0]))
-            }
-        )
-    }
-
     /** Send a request to fetch the weight units
      * @param onSuccess callback to execute if request is successful
      */

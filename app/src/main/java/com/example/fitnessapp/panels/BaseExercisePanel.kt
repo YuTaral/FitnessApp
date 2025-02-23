@@ -32,14 +32,16 @@ import kotlinx.coroutines.launch
  */
 abstract class BaseExercisePanel(mode: Mode): BasePanel(), ITemporaryPanel {
     override var panelIndex: Int = Constants.PanelIndices.FIRST_TEMPORARY.ordinal
+    override val removePreviousTemporary = true
 
-    /** Parameter value which is send when fetching the exercises for muscle group */
-    protected open lateinit var onlyForUser: String
+    /** Parameter value which is send when fetching the exercises for muscle group,
+     * if "N" the request will return all user and default exercises for the muscle group,
+     * if "Y" the request will return only user created exercises for the muscle group
+     */
+    protected abstract var onlyForUser: String
 
     /** The string id to show when no exercises for the selected muscle group are found */
-    protected open var noExercisesStringId: Int = 0
-
-    override val removePreviousTemporary = true
+    protected abstract var noExercisesStringId: Int
 
     /** Enum with different states of the panel */
     enum class Mode {
@@ -95,6 +97,15 @@ abstract class BaseExercisePanel(mode: Mode): BasePanel(), ITemporaryPanel {
                 muscleGroupRecycler.adapter = MuscleGroupsRecAdapter(muscleGroups,
                     callback = { muscleGroup ->
                         selectedMuscleGroup = muscleGroup
+
+                        // Copy the value to a local variable:
+                        // In Kotlin, when using lambdas, class properties are accessed
+                        // through the instance of the class - this will show NoSuchFieldException
+                        // instead of accessing the overridden value, because the property in the class
+                        // is declared as abstract. Copying the variable will access
+                        // the reference to the value, which is the child class and the value
+                        // we actually need
+                        val onlyForUser = onlyForUser
 
                         ExerciseRepository().getMuscleGroupExercises(selectedMuscleGroup!!.id, onlyForUser, onSuccess = { exercises ->
                             populateExercises(exercises, true)

@@ -133,7 +133,7 @@ class AddEditMGExerciseDialog(ctx: Context, mGroupId: Long, exercise: MGExercise
      * @param response the response returned by the server
      */
     private fun onFailureCallback(response: CustomResponse) {
-        if (response.code == Constants.ResponseCode.EXERCISE_ALREADY_EXISTS.ordinal) {
+        if (response.code == Constants.CustomHttpStatusCode.EXERCISE_ALREADY_EXISTS) {
             // Display dialog asking the user whether to override the existing exercise
             val dialog = AskQuestionDialog(Utils.getActivity(),
                                             AskQuestionDialog.Question.OVERRIDE_EXISTING_EXERCISE,

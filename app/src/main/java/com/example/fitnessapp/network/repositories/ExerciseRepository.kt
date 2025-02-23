@@ -121,8 +121,10 @@ class ExerciseRepository {
      * @param onSuccess callback to execute if request is successful
      */
     fun completeSet(id: Long, workoutId: Long,onSuccess: (WorkoutModel) -> Unit) {
+        val params = mapOf("id" to id.toString(), "workoutId" to workoutId.toString())
+
         NetworkManager.sendRequest(
-            request = { APIService.getInstance().completeSet(id, workoutId) },
+            request = { APIService.getInstance().completeSet(params) },
             onSuccessCallback = { response ->
                 onSuccess(WorkoutModel(response.data[0]))
             }
