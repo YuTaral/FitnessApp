@@ -12,7 +12,7 @@ import com.example.fitnessapp.panels.ManageTeamsPanel
 import com.example.fitnessapp.utils.Constants
 import com.example.fitnessapp.utils.Utils
 
-/** Dialog to ask the user to join team or warn the team team owner when user accepts/decline invite */
+/** Dialog to ask the user to join team or warn the team owner when user accepts/decline invite */
 class JoinTeamNotificationDialog(ctx: Context, model: JoinTeamNotificationModel): BaseDialog(ctx) {
     override var layoutId = R.layout.dialog_join_team
     override var dialogTitleId = 0
