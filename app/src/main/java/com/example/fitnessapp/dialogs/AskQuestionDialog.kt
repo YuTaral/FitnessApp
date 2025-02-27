@@ -62,8 +62,6 @@ class AskQuestionDialog(ctx: Context, q: Question, d: BaseModel? = null): Bottom
         }
     }
 
-    //override var layoutId = R.layout.dialog_ask_question
-
     private lateinit var dialog: ConstraintLayout
     private lateinit var title: TextView
     private lateinit var closeIcon: ImageView
@@ -151,6 +149,12 @@ class AskQuestionDialog(ctx: Context, q: Question, d: BaseModel? = null): Bottom
                 formatName = model.teamName
                 questionAdditionalInfo.visibility = View.VISIBLE
                 questionAdditionalInfo.text = model.members
+            }
+
+            Question.GRANT_PERMISSIONS -> {
+                // Decrease the tex size, the bottom sheets dialog has some limitations
+                // and the buttons become cut on some devices
+                questionText.textSize = 18f
             }
 
             else -> {
