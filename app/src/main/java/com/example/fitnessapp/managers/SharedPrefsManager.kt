@@ -69,8 +69,30 @@ object SharedPrefsManager {
         getSharedPref().edit().putString(FIRST_START_KEY, "N").apply()
     }
 
-    /** Create and return SharedPreferences object using encryption */
+    /**
+     * Create and return EncryptedSharedPreferences, retrying
+     * creation if something goes wrong
+     */
     private fun getSharedPref(): SharedPreferences {
+        val context = Utils.getActivity()
+
+        return try {
+            createSharedPrefs()
+
+        } catch (e: Exception) {
+            // If error occurs, retry, the error may be due to "Signature/MAC verification failed",
+            // which occurs when MasterKey or EncryptedSharedPreferences not working correctly
+            // on this specific device or something goes wrong with
+
+            // Delete the corrupted file and try to recreate shared prefs
+            context.deleteSharedPreferences(SECURE_PREFS_FILE_NAME)
+            createSharedPrefs()
+        }
+    }
+
+    /** Create and return EncryptedSharedPreferences */
+    private fun createSharedPrefs(): SharedPreferences
+    {
         val masterKey = MasterKey.Builder(Utils.getActivity())
             .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
             .build()
