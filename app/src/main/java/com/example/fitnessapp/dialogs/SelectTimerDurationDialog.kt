@@ -47,7 +47,7 @@ class SelectTimerDurationDialog(ctx: Context): BaseDialog(ctx) {
     /** Start the timer on button click */
     private fun startTimer() {
         // Calculate the seconds and start the timer
-        val seconds = (hours.value * 3600) + (minutes.value * 60) + seconds.value + 1
+        val seconds = (hours.value * 3600) + (minutes.value * 60) + seconds.value
 
         if (seconds == 0) {
             Utils.showMessageWithVibration(R.string.error_select_duration)

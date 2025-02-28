@@ -39,7 +39,8 @@ class AskQuestionDialog(ctx: Context, q: Question, d: BaseModel? = null): Bottom
         DELETE_TEAM(R.string.question_delete_team_title, R.string.question_delete_team_text, R.string.yes_btn, R.string.no_btn),
         GRANT_PERMISSIONS(R.string.question_grant_permissions, R.string.question_grant_permissions_text, R.string.view_permissions_btn, R.string.maybe_later_btn),
         LEAVE_TEAM(R.string.question_leave_team_title, R.string.question_leave_team_text, R.string.yes_btn, R.string.no_btn),
-        ASSIGN_WORKOUT(R.string.question_assign_workout_title, R.string.question_assign_workout_text, R.string.assign_btn, R.string.cancel_btn);
+        ASSIGN_WORKOUT(R.string.question_assign_workout_title, R.string.question_assign_workout_text, R.string.assign_btn, R.string.cancel_btn),
+        NOTIFICATION_PERMISSION(R.string.question_notification_permission_title, R.string.question_notification_permission_text, R.string.settings_btn, R.string.do_not_ask_btn);
 
         /** Returns the question title */
         fun getTitle(): String {
@@ -98,7 +99,7 @@ class AskQuestionDialog(ctx: Context, q: Question, d: BaseModel? = null): Bottom
         setCancelable(false)
     }
 
-    fun findViews() {
+    private fun findViews() {
         title = dialog.findViewById(R.id.dialog_title)
         closeIcon = dialog.findViewById(R.id.dialog_close)
         questionText = dialog.findViewById(R.id.question_lbl)
@@ -107,7 +108,7 @@ class AskQuestionDialog(ctx: Context, q: Question, d: BaseModel? = null): Bottom
         cancelBtn = dialog.findViewById(R.id.no_btn)
     }
 
-    fun populateDialog() {
+    private fun populateDialog() {
         var formatName = ""
 
         title.text = question.getTitle()
@@ -169,7 +170,7 @@ class AskQuestionDialog(ctx: Context, q: Question, d: BaseModel? = null): Bottom
         cancelBtn.text = question.getCancelButtonText()
     }
 
-    fun addClickListeners() {
+    private fun addClickListeners() {
         closeIcon.setOnClickListener { dismiss() }
 
         confirmBtn.setOnClickListener { onConfirmButtonClickCallback() }

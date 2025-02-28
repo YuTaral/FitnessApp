@@ -81,18 +81,18 @@ class AddEditTemplateDialog(ctx: Context, w: WorkoutModel, m: Mode): BaseDialog(
                 e.sets.map { it.completed = false }
             }
 
-            WorkoutTemplateRepository().addWorkoutTemplate(template, onSuccess =  {
+            WorkoutTemplateRepository().addWorkoutTemplate(template, onSuccess =  { templates ->
                 dismiss()
-                Utils.getPanelAdapter().getManageTemplatesPanel()?.populateTemplates(true)
+                Utils.getPanelAdapter().getManageTemplatesPanel()?.displayTemplates(true, templates)
             })
         } else {
             // Edit the template, changing the name and notes
             val template = WorkoutModel(workout.id, templateName.text.toString(), true,
                 workout.exercises, notes.text.toString(), null, 0)
 
-            WorkoutTemplateRepository().updateWorkoutTemplate(template, onSuccess =  {
+            WorkoutTemplateRepository().updateWorkoutTemplate(template, onSuccess =  { templates ->
                 dismiss()
-                Utils.getPanelAdapter().getManageTemplatesPanel()?.populateTemplates(false)
+                Utils.getPanelAdapter().getManageTemplatesPanel()?.displayTemplates(false, templates)
             })
         }
     }

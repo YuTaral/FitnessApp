@@ -65,7 +65,7 @@ class PermissionResultManager {
     }
 
     /** Execute the logic to ask for all permission one after another when the asking for permissions
-     * in logic activity (app first start)
+     * in login activity (app first start)
      * @param permission the permission
      */
     private fun onResultInActivity(permission: String) {
@@ -267,5 +267,15 @@ class PermissionResultManager {
      */
     fun checkPermissionGranted(permission: String): Boolean {
        return ContextCompat.checkSelfPermission(activity, permission) == PackageManager.PERMISSION_GRANTED
+    }
+
+    /** Open app notification settings */
+    fun openNotificationSettings() {
+        val intent = Intent().apply {
+            action = android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+            data = Uri.fromParts("package", activity.packageName, null)
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        }
+        activity.startActivity(intent)
     }
 }

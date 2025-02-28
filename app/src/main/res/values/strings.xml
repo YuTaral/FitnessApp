@@ -22,6 +22,8 @@
     <string name="save_btn">Save</string>
     <string name="confirm_btn">Confirm</string>
     <string name="yes_btn">Yes</string>
+    <string name="settings_btn">Settings</string>
+    <string name="do_not_ask_btn">Do not ask again</string>
     <string name="no_btn">No</string>
     <string name="assign_btn">Assign</string>
     <string name="create_new_btn">Create new</string>
@@ -220,6 +222,8 @@
     <string name="question_leave_team_text">Are you sure you want to leave team \"%s\" ?</string>
     <string name="question_assign_workout_title">Assign workout</string>
     <string name="question_assign_workout_text">Are you sure you want to assign \n\"%s\"</string>
+    <string name="question_notification_permission_title">Notifications permission</string>
+    <string name="question_notification_permission_text">You have not granted permissions to the app to send notifications and you may not be notified when the time is over. Go to settings to enable the notifications</string>
     <string name="select_team_lbl">Select team</string>
     <string name="select_members_lbl">Select members</string>
     <string name="select_workout_lbl">Select workout</string>

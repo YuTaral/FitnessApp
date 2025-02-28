@@ -8,7 +8,7 @@ import android.os.VibratorManager
 /** Class handle vibrations logic to warn the users when needed */
 object VibratorWarningManager {
 
-    /** Make vibration with the specified patter */
+    /** Make vibration with the specified pattern */
     fun makeVibration(context: Context, pattern: LongArray) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             val vibrator = (context.getSystemService(Context.VIBRATOR_MANAGER_SERVICE)

@@ -18,7 +18,6 @@ import com.example.fitnessapp.interfaces.ITemporaryPanel
 import com.example.fitnessapp.models.QAssignWorkoutModel
 import com.example.fitnessapp.models.TeamMemberModel
 import com.example.fitnessapp.models.TeamWithMembersModel
-import com.example.fitnessapp.models.WorkoutModel
 import com.example.fitnessapp.network.repositories.TeamRepository
 import com.example.fitnessapp.network.repositories.WorkoutTemplateRepository
 import com.example.fitnessapp.utils.Constants
