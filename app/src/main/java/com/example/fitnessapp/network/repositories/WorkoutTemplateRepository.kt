@@ -12,35 +12,12 @@ class WorkoutTemplateRepository {
      * @param workout the workout template data
      * @param onSuccess callback to execute if request is successful
      */
-    fun addWorkoutTemplate(workout: WorkoutModel, onSuccess: () -> Unit) {
+    fun addWorkoutTemplate(workout: WorkoutModel, onSuccess: (List<WorkoutModel>) -> Unit) {
         val params = mapOf("workout" to Utils.serializeObject(workout))
 
         NetworkManager.sendRequest(
             request = { APIService.getInstance().addWorkoutTemplate(params) },
-            onSuccessCallback = { onSuccess() }
-        )
-    }
-
-    /** Update the workout template
-     * @param workout the workout template data
-     * @param onSuccess callback to execute if request is successful
-     */
-    fun updateWorkoutTemplate(workout: WorkoutModel, onSuccess: () -> Unit) {
-        val params = mapOf("workout" to Utils.serializeObject(workout))
-
-        NetworkManager.sendRequest(
-            request = { APIService.getInstance().updateWorkoutTemplate(params) },
-            onSuccessCallback = { onSuccess() }
-        )
-    }
-
-    /** Fetch workout templates which has been added by the user
-     * @param onSuccess callback to execute if request is successful
-     */
-    fun getWorkoutTemplates(onSuccess: (List<String>) -> Unit) {
-        NetworkManager.sendRequest(
-            request = { APIService.getInstance().getWorkoutTemplates() },
-            onSuccessCallback = { response -> onSuccess(response.data) }
+            onSuccessCallback = { response -> onSuccess(response.data.map { WorkoutModel(it) }) }
         )
     }
 
@@ -48,10 +25,33 @@ class WorkoutTemplateRepository {
      * @param id the template id
      * @param onSuccess callback to execute if request is successful
      */
-    fun deleteWorkoutTemplate(id: Long, onSuccess: () -> Unit) {
+    fun deleteWorkoutTemplate(id: Long, onSuccess: (List<WorkoutModel>) -> Unit) {
         NetworkManager.sendRequest(
             request = { APIService.getInstance().deleteWorkoutTemplate(id) },
-            onSuccessCallback = { onSuccess() }
+            onSuccessCallback = { response -> onSuccess(response.data.map { WorkoutModel(it) }) }
+        )
+    }
+
+    /** Update the workout template
+     * @param workout the workout template data
+     * @param onSuccess callback to execute if request is successful
+     */
+    fun updateWorkoutTemplate(workout: WorkoutModel, onSuccess: (List<WorkoutModel>) -> Unit) {
+        val params = mapOf("workout" to Utils.serializeObject(workout))
+
+        NetworkManager.sendRequest(
+            request = { APIService.getInstance().updateWorkoutTemplate(params) },
+            onSuccessCallback = { response -> onSuccess(response.data.map { WorkoutModel(it) }) }
+        )
+    }
+
+    /** Fetch workout templates which has been added by the user
+     * @param onSuccess callback to execute if request is successful
+     */
+    fun getWorkoutTemplates(onSuccess: (List<WorkoutModel>) -> Unit) {
+        NetworkManager.sendRequest(
+            request = { APIService.getInstance().getWorkoutTemplates() },
+            onSuccessCallback = { response -> onSuccess(response.data.map { WorkoutModel(it) }) }
         )
     }
 }

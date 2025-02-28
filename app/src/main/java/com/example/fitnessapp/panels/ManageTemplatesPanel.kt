@@ -105,7 +105,7 @@ class ManageTemplatesPanel: BasePanel(), ITemporaryPanel {
         isSpinnerInitialized = false
         setDefaultAction()
 
-        populateTemplates(false)
+        populateTemplates()
     }
 
     override fun addClickListeners() {
@@ -134,7 +134,7 @@ class ManageTemplatesPanel: BasePanel(), ITemporaryPanel {
                 if (selectedAction == SpinnerActions.ADD_TEMPLATE) {
                     populateWorkouts()
                 } else {
-                    populateTemplates(false)
+                    populateTemplates()
                 }
             }
 
@@ -222,9 +222,9 @@ class ManageTemplatesPanel: BasePanel(), ITemporaryPanel {
                     val dialog = AskQuestionDialog(requireContext(), AskQuestionDialog.Question.DELETE_TEMPLATE, selected)
 
                     dialog.setConfirmButtonCallback(callback = {
-                        WorkoutTemplateRepository().deleteWorkoutTemplate(selected.id, onSuccess = {
+                        WorkoutTemplateRepository().deleteWorkoutTemplate(selected.id, onSuccess = { templates ->
                             dialog.dismiss()
-                            populateTemplates(false)
+                            displayTemplates(false, templates)
                         })
                     })
 
@@ -246,28 +246,33 @@ class ManageTemplatesPanel: BasePanel(), ITemporaryPanel {
         actionSpinner.setSelection(selectedAction.ordinal)
     }
 
-    /** Populate templates recycler
-     * @param resetAction whether to set the selectionAction to the START_WORKOUT (default one)
-     */
-     fun populateTemplates(resetAction: Boolean) {
-         if (resetAction) {
-             // populateTemplates may be called from AddEditTemplateDialog,
-             // make sure the correct selectedAction value is set
-             setDefaultAction()
-         }
-
+    /** Get templates and populate templates recycler */
+     fun populateTemplates() {
         // Get the templates and populate the recycler
-        WorkoutTemplateRepository().getWorkoutTemplates(onSuccess = { serializedTemplates ->
-            if (serializedTemplates.isEmpty()) {
-                templatesRecycler.visibility = View.GONE
-                noTemplatesLbl.visibility = View.VISIBLE
-                noTemplatesLbl.text = requireContext().getString(R.string.no_templates)
-
-            } else {
-                noTemplatesLbl.visibility = View.GONE
-                templatesRecycler.visibility = View.VISIBLE
-                setAdapter(serializedTemplates.map { WorkoutModel(it) }.toMutableList())
-            }
+        WorkoutTemplateRepository().getWorkoutTemplates(onSuccess = { templates ->
+            displayTemplates(false, templates)
         })
+    }
+
+    /** Populate templates recycler
+     * @param templates the templates
+     */
+    fun displayTemplates(resetAction: Boolean, templates: List<WorkoutModel>) {
+        if (resetAction) {
+            // populateTemplates may be called from AddEditTemplateDialog,
+            // make sure the correct selectedAction value is set
+            setDefaultAction()
+        }
+
+        if (templates.isEmpty()) {
+            templatesRecycler.visibility = View.GONE
+            noTemplatesLbl.visibility = View.VISIBLE
+            noTemplatesLbl.text = requireContext().getString(R.string.no_templates)
+
+        } else {
+            noTemplatesLbl.visibility = View.GONE
+            templatesRecycler.visibility = View.VISIBLE
+            setAdapter(templates.toMutableList())
+        }
     }
 }

@@ -145,10 +145,10 @@ class AssignWorkoutPanel: BasePanel(), ITemporaryPanel {
             return
         }
 
-        WorkoutTemplateRepository().getWorkoutTemplates(onSuccess = { serialized ->
+        WorkoutTemplateRepository().getWorkoutTemplates(onSuccess = { templates ->
             state = DialogState.SELECT_WORKOUT
 
-            workoutsRecycler.adapter = WorkoutsRecAdapter(serialized.map { WorkoutModel(it) }, onClick = { workout ->
+            workoutsRecycler.adapter = WorkoutsRecAdapter(templates, onClick = { workout ->
                 val members = getMembersAdapter().getAssignWorkoutMembers()
                 var membersText = requireContext().getString(R.string.selected_members_lbl)
                 membersText += members.joinToString(separator = "\n") { it.fullName }
