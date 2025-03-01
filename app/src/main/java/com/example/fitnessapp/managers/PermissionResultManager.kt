@@ -23,11 +23,9 @@ import com.example.fitnessapp.utils.Utils
 class PermissionResultManager {
     private var activity: BaseActivity = Utils.getActivity()
 
-    private var notificationPermLauncher: ActivityResultLauncher<String>
-
+    var notificationPermLauncher: ActivityResultLauncher<String>
     var cameraPermLauncher: ActivityResultLauncher<String>
     var readMediaImagesPermLauncher: ActivityResultLauncher<String>
-    var readExternalStoragePermLauncher: ActivityResultLauncher<String>
     lateinit var cameraLauncher: ActivityResultLauncher<Intent>
     lateinit var galleryLauncher: ActivityResultLauncher<Intent>
     lateinit var photoPickerLauncher: ActivityResultLauncher<PickVisualMediaRequest>
@@ -36,13 +34,7 @@ class PermissionResultManager {
         // Initialize the permission launchers
         cameraPermLauncher = initializeRequestPermissionLaunchers(android.Manifest.permission.CAMERA)
         readMediaImagesPermLauncher = initializeRequestPermissionLaunchers(getMediaPermissionString())
-        readExternalStoragePermLauncher = initializeRequestPermissionLaunchers(android.Manifest.permission.READ_EXTERNAL_STORAGE)
-
-        notificationPermLauncher = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            initializeRequestPermissionLaunchers(android.Manifest.permission.POST_NOTIFICATIONS)
-        } else {
-            initializeRequestPermissionLaunchers(android.Manifest.permission.ACCESS_NOTIFICATION_POLICY)
-        }
+        notificationPermLauncher = initializeRequestPermissionLaunchers(getNotificationsPermString())
 
         if (activity !is LoginActivity) {
             // Initialize the activity result launchers only if the permission handler is not used
@@ -72,21 +64,10 @@ class PermissionResultManager {
         when (permission) {
             (android.Manifest.permission.CAMERA) -> {
                 // Ask for next permission
-                readExternalStoragePermLauncher.launch(android.Manifest.permission.READ_EXTERNAL_STORAGE)
-            }
-
-            (android.Manifest.permission.READ_EXTERNAL_STORAGE) -> {
-                // Ask for next permission
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    notificationPermLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
-                } else {
-                    notificationPermLauncher.launch(android.Manifest.permission.ACCESS_NOTIFICATION_POLICY)
-                }
-            }
-
-            (android.Manifest.permission.ACCESS_NOTIFICATION_POLICY) -> {
-                // Ask for next permission
                 readMediaImagesPermLauncher.launch(getMediaPermissionString())
+            }
+            (getMediaPermissionString()) -> {
+                notificationPermLauncher.launch(getNotificationsPermString())
             }
         }
     }
@@ -103,13 +84,16 @@ class PermissionResultManager {
                     cameraLauncher.launch(Intent(MediaStore.ACTION_IMAGE_CAPTURE))
                 }
 
-                (android.Manifest.permission.READ_MEDIA_IMAGES),
-                (android.Manifest.permission.READ_EXTERNAL_STORAGE) -> {
+                (getMediaPermissionString()) -> {
                     galleryLauncher.launch(Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI))
                 }
 
             }
         } else {
+            if (permission != android.Manifest.permission.CAMERA) {
+                return
+            }
+
             // Handle permission denial
             // When the camera permission is set to "Do not ask again" or being set to that option,
             // the BaseActivity onPause is triggered, but onRestart/onResume are not, so manually set the activity
@@ -118,7 +102,7 @@ class PermissionResultManager {
 
             if (!shouldShowRequestPermissionRationale(activity, permission)) {
                 // Permission set to "Don't ask again" or permanently denied, open the settings
-                showSettingsDialog()
+                showSettingsDialogForCamera()
             } else {
                 // Permission denied
                 Utils.showMessageWithVibration(R.string.permission_denied_message)
@@ -224,7 +208,7 @@ class PermissionResultManager {
     }
 
     /** Ask the user to open settings and change the permission */
-    private fun showSettingsDialog() {
+    private fun showSettingsDialogForCamera() {
         val dialog = AskQuestionDialog(activity, AskQuestionDialog.Question.ALLOW_CAMERA_PERMISSION)
 
         dialog.setConfirmButtonCallback {
@@ -253,12 +237,21 @@ class PermissionResultManager {
         return dialogs[0]
     }
 
-    /** Return the read media permission string based on the build version*/
-    private fun getMediaPermissionString(): String {
+    /** Return the read media permission string based on the build version */
+    fun getMediaPermissionString(): String {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             android.Manifest.permission.READ_MEDIA_IMAGES
         } else {
             android.Manifest.permission.READ_EXTERNAL_STORAGE
+        }
+    }
+
+    /** Return the notifications permission string based on the build version */
+    fun getNotificationsPermString(): String {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            android.Manifest.permission.POST_NOTIFICATIONS
+        } else {
+            android.Manifest.permission.ACCESS_NOTIFICATION_POLICY
         }
     }
 
@@ -267,15 +260,5 @@ class PermissionResultManager {
      */
     fun checkPermissionGranted(permission: String): Boolean {
        return ContextCompat.checkSelfPermission(activity, permission) == PackageManager.PERMISSION_GRANTED
-    }
-
-    /** Open app notification settings */
-    fun openNotificationSettings() {
-        val intent = Intent().apply {
-            action = android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-            data = Uri.fromParts("package", activity.packageName, null)
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK
-        }
-        activity.startActivity(intent)
     }
 }

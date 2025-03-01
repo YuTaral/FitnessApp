@@ -12,7 +12,6 @@ object SharedPrefsManager {
     private const val AUTH_TOKEN_KEY = "auth_token"
     private const val SERIALIZED_USER_KEY = "serialized_user"
     private const val FIRST_START_KEY = "first_start"
-    private const val DISABLE_NOTIFICATIONS_ASK = "disable_notifications_ask"
 
     /** Return authorization token stored in the shared prefs, if it does not exist return empty string */
     fun getStoredToken(): String {
@@ -29,15 +28,6 @@ object SharedPrefsManager {
         }
 
         return UserModel(serializedUser)
-    }
-
-    /**
-     * Check whether the user have disabled the ask for notifications when starting the timer via
-     * "Do not ask again" button. Return true if user disabled the ask, false otherwise
-     */
-    fun askForNotificationsDisabled(): Boolean {
-        val value = getSharedPref().getString(DISABLE_NOTIFICATIONS_ASK, "") ?: ""
-        return value.isNotEmpty()
     }
 
     /** Save / Remove the authorization token in shared prefs
@@ -76,11 +66,6 @@ object SharedPrefsManager {
     /** Set the variable to indicate that the app was already started once on the device */
     fun setFirstStartApp() {
         getSharedPref().edit().putString(FIRST_START_KEY, "N").apply()
-    }
-
-    /** Set the variable to indicate that the user don't want to be asked to allow send of notifications */
-    fun setDisableNotificationsAsk() {
-        getSharedPref().edit().putString(DISABLE_NOTIFICATIONS_ASK, "Y").apply()
     }
 
     /**

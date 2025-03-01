@@ -3,12 +3,10 @@ package com.example.fitnessapp.dialogs
 import android.os.CountDownTimer
 import android.widget.Button
 import android.widget.TextView
-import androidx.core.app.NotificationManagerCompat
 import com.example.fitnessapp.BaseActivity
 import com.example.fitnessapp.R
 import com.example.fitnessapp.interfaces.INeedResumeDialog
 import com.example.fitnessapp.managers.CustomNotificationManager
-import com.example.fitnessapp.managers.SharedPrefsManager
 import com.example.fitnessapp.managers.VibratorWarningManager
 import com.example.fitnessapp.utils.Utils
 import com.mikhaellopez.circularprogressbar.CircularProgressBar
@@ -77,29 +75,11 @@ class TimerDialog(ctx: BaseActivity, titleId: Int, time: Int, auto: Boolean): Ba
     override fun show() {
         super.show()
 
-        // If the user have not clicked 'Don't ask again' for Question.NOTIFICATION_PERMISSION and
-        // notifications permission is not granted, warn the user (that's the permission on system level)
-        if (!SharedPrefsManager.askForNotificationsDisabled() && !NotificationManagerCompat.from(context).areNotificationsEnabled()) {
-            val dialog = AskQuestionDialog(Utils.getActivity(), AskQuestionDialog.Question.NOTIFICATION_PERMISSION)
+        val permission = Utils.getActivityResultHandler().getNotificationsPermString()
 
-            dialog.setConfirmButtonCallback {
-                dialog.dismiss()
-                Utils.getActivityResultHandler().openNotificationSettings()
-            }
-
-            dialog.setCancelButtonCallback {
-                dialog.dismiss()
-
-                // Disable the ask for the notification next time the dialog is opened
-                SharedPrefsManager.setDisableNotificationsAsk()
-
-                if (autoStart) {
-                    startStopTimer()
-                }
-            }
-
-            dialog.show()
-
+        // Ask for permission to send notifications
+        if (!Utils.getActivityResultHandler().checkPermissionGranted(permission)) {
+            Utils.getActivityResultHandler().notificationPermLauncher.launch(permission)
         } else if (autoStart) {
             startStopTimer()
         }

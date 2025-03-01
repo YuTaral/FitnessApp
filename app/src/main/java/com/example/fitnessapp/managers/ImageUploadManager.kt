@@ -56,22 +56,12 @@ object ImageUploadManager {
     /** Open the gallery to allow image selection */
     private fun openGallery() {
         var permissionGranted = false
+        val readMediaPermString = Utils.getActivityResultHandler().getMediaPermissionString()
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) { // Android 13+
-            if (Utils.getActivityResultHandler().checkPermissionGranted(android.Manifest.permission.READ_MEDIA_IMAGES)) {
-                permissionGranted = true
-            } else {
-                // Ask for the permission
-                Utils.getActivityResultHandler().readMediaImagesPermLauncher.launch(android.Manifest.permission.READ_MEDIA_IMAGES)
-            }
-
-        } else { // Below Android 13
-            if (Utils.getActivityResultHandler().checkPermissionGranted(android.Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                permissionGranted = true
-            } else {
-                // Ask for the permission
-                Utils.getActivityResultHandler().readExternalStoragePermLauncher.launch(android.Manifest.permission.READ_EXTERNAL_STORAGE)
-            }
+        if (Utils.getActivityResultHandler().checkPermissionGranted(readMediaPermString)) {
+            permissionGranted = true
+        } else {
+            Utils.getActivityResultHandler().readMediaImagesPermLauncher.launch(readMediaPermString)
         }
 
         if (permissionGranted) {
